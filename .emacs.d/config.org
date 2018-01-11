@@ -1,0 +1,292 @@
+* General layout and config
+** Disable menu, toolbar and scroll
+   #+BEGIN_SRC emacs-lisp
+     (tool-bar-mode -1)
+     (menu-bar-mode -1)
+     (scroll-bar-mode -1)
+   #+END_SRC
+** Fullscreen window
+  #+BEGIN_SRC emacs-lisp
+  (toggle-frame-fullscreen)
+  #+END_SRC
+** Scroll conservatively
+   #+BEGIN_SRC emacs-lisp
+     (setq scroll-conservatively 100)
+   #+END_SRC
+** Disable ring alert
+   #+BEGIN_SRC emacs-lisp
+     (setq ring-bell-function 'ignore)
+   #+END_SRC
+** Startup message
+   #+BEGIN_SRC emacs-lisp
+     (setq inhibit-startup-message t)
+   #+END_SRC
+** Clock
+#+BEGIN_SRC emacs-lisp
+  (setq display-time-24hr-format t)
+  (setq display-time-default-load-average nil)
+  (display-time-mode t)
+#+END_SRC
+** Backup tweaks
+   #+BEGIN_SRC emacs-lisp
+  (setq backup-directory-alist '(("." . "~/.saves")))
+  (setq backup-by-copying t)
+  (setq delete-old-versions t
+  kept-new-versions 6
+  kept-old-versions 2
+  version-control t)
+  #+END_SRC
+
+** Line numbers config
+#+BEGIN_SRC emacs-lisp
+  (global-linum-mode t)
+  (add-to-list 'load-path "~/.emacs.d/lisp/")
+  (require 'evil-relative-linum)
+#+END_SRC
+* Utils
+** Org
+*** basic config
+#+BEGIN_SRC emacs-lisp
+  (setq org-src-window-setup 'current-window)
+  (add-to-list 'org-structure-template-alist
+               '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+#+END_SRC
+*** Org bullets
+#+BEGIN_SRC emacs-lisp 
+    (use-package org-bullets
+       :ensure t
+       :config
+       (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+#+END_SRC
+** Parenthesis
+*** Prettify mode
+    #+BEGIN_SRC emacs-lisp
+      (when window-system (global-prettify-symbols-mode t))
+    #+END_SRC
+*** Electric parenthesis
+#+BEGIN_SRC emacs-lisp
+ ;; (setq electric-pair-preserve balance nil)
+ ;; (setq electric-pair-delete-adjacent-pairs nil)
+  (electric-pair-mode 1)
+#+END_SRC
+*** rainbow-delimiters
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-delimiters
+    :ensure t
+    :init
+    (rainbow-delimiters-mode 1))
+#+END_SRC
+*** show-paren
+#+BEGIN_SRC emacs-lisp
+  (show-paren-mode t)
+#+END_SRC
+** Buffers
+*** ibuffer
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+#+END_SRC
+*** config edit/reload
+**** edit
+#+BEGIN_SRC emacs-lisp
+  (defun config-visit ()
+    (interactive)
+    (find-file "~/.emacs.d/config.org"))
+#+END_SRC
+**** reload
+#+BEGIN_SRC emacs-lisp
+  (defun config-reload ()
+    (interactive)
+    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+#+END_SRC
+** IDO
+*** Enable IDO mode
+#+BEGIN_SRC emacs-lisp
+  (setq ido-create-new-buffer 'always)
+  (setq ido-everywhere t)
+  (ido-mode t)
+#+END_SRC
+*** Smex
+#+BEGIN_SRC emacs-lisp
+  (use-package smex
+    :ensure t
+    :init (smex-initialize)
+    :bind
+    ("M-x" . smex))
+#+END_SRC
+*** IDO-yes-or-no
+#+BEGIN_SRC emacs-lisp
+  (use-package ido-yes-or-no
+    :ensure t
+    :init
+    (ido-yes-or-no-mode t))
+#+END_SRC
+*** Grid
+#+BEGIN_SRC emacs-lisp
+  (use-package ido-grid-mode
+    :ensure t
+    :init
+    (ido-grid-mode t))
+#+END_SRC
+** Dashboard
+#+BEGIN_SRC emacs-lisp
+  (use-package dashboard
+    :ensure t
+    :config
+    (dashboard-setup-startup-hook)
+    (setq dashboard-items '((recents . 10))))
+#+END_SRC
+** which-key
+   #+BEGIN_SRC emacs-lisp
+     (use-package which-key
+       :ensure t
+       :init
+       (which-key-mode)
+       :delight)
+   #+END_SRC
+** rainbow-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-mode
+    :ensure t
+    :init (rainbow-mode t))
+#+END_SRC
+** Ace window
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-window
+    :ensure t)
+  (defvar aw-dispatch-alist
+    '((?x aw-delete-window " Ace - Delete Window")
+      (?s aw-swap-window " Ace - Swap Window")
+      (?n aw-flip-window)
+      (?c aw-split-window-fair " Ace - Split Fair Window")
+      (?v aw-split-window-vert " Ace - Split Vert Window")
+      (?h aw-split-window-horz " Ace - Split Horz Window")
+      (?i delete-other-windows " Ace - Maximize Window")
+      (?o delete-other-windows))
+    "List of actions for `aw-dispatch-default'.")
+#+END_SRC
+** Avy
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-avy
+    :ensure t
+    :init (evil-avy-mode t))
+#+END_SRC
+** Company
+#+BEGIN_SRC emacs-lisp
+    (use-package company
+      :ensure t
+      :init
+      (add-hook 'after-init-hook 'global-company-mode))
+#+END_SRC
+** Delight
+#+BEGIN_SRC emacs-lisp
+  (use-package delight
+    :ensure t
+    :init
+    (delight '((company-mode)
+               (which-key-mode)
+               (rainbow-mode)
+               (evil-commentary-mode)
+               (flycheck-mode)
+               (undo-tree-mode))))
+#+END_SRC
+** Fancy battery
+#+BEGIN_SRC emacs-lisp
+  (use-package fancy-battery
+    :ensure t
+    :init
+    (fancy-battery-mode t))
+#+END_SRC
+** Flycheck
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :ensure t
+    :init (global-flycheck-mode)
+    :delight)
+#+END_SRC
+** Undo-tree
+#+BEGIN_SRC emacs-lisp
+  (use-package undo-tree
+    :ensure t
+    :delight)
+#+END_SRC
+** Web mode
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+    :ensure t
+    :init
+    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+    :config
+    (setq web-mode-markup-indent-offset 2))
+#+END_SRC
+* Evil
+** Start evil mode
+#+BEGIN_SRC emacs-lisp
+  (use-package evil
+    :ensure t
+    :init (evil-mode 1))
+#+END_SRC
+** Spaceline
+#+BEGIN_SRC emacs-lisp
+  (use-package spaceline
+    :ensure t
+    :config
+    (require 'spaceline-config)
+    (setq powerline-default-separator (quote wave))
+    (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+    (spaceline-spacemacs-theme))
+#+END_SRC
+** Cursor colors
+#+BEGIN_SRC emacs-lisp
+  (setq evil-emacs-state-cursor '("red" bar))
+  (setq evil-normal-state-cursor '("orange" box))
+  (setq evil-visual-state-cursor '("gray" box))
+  (setq evil-insert-state-cursor '("green" bar))
+  (setq evil-replace-state-cursor '("red" hollow))
+  (setq evil-operator-state-cursor '("red" hollow))
+#+END_SRC
+** Leader mode
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-leader
+    :ensure t
+    :init
+    (setq evil-leader/in-all-states 1)
+    (global-evil-leader-mode)
+    :config
+    (evil-leader/set-leader "<SPC>")
+    (evil-leader/set-key
+     "<SPC>" 'avy-goto-char'
+     "TAB" 'mode-line-other-buffer'
+     "f" 'find-file
+     "k" 'kill-this-buffer
+     "w" 'save-buffer
+     "b" 'ido-switch-buffer
+     "c" 'config-visit
+     "r" 'config-reload
+     "o" 'ace-window
+     "0" 'delete-window
+     "1" 'delete-other-windows
+     "2" 'split-window-vertically
+     "3" 'split-window-horizontally))
+#+END_SRC
+** Evil-commentary
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-commentary
+    :ensure t
+    :init
+    (evil-commentary-mode t)
+    :delight)
+#+END_SRC
+** Surround
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-surround
+    :ensure t
+    :init
+    (global-evil-surround-mode t))
+#+END_SRC
