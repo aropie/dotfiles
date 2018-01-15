@@ -22,9 +22,10 @@ kept-new-versions 6
 kept-old-versions 2
 version-control t)
 
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(require 'evil-relative-linum)
+
 (global-hl-line-mode t)
-;; (add-to-list 'load-path "~/.emacs.d/lisp/")
-;; (require 'evil-relative-linum)
 
 (global-set-key (kbd "<C-up>") 'shrink-window)
 (global-set-key (kbd "<C-down>") 'enlarge-window)
@@ -46,6 +47,9 @@ version-control t)
    :ensure t
    :config
    (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+
+(use-package org-pomodoro
+  :ensure t)
 
 (when window-system (global-prettify-symbols-mode t))
 
@@ -223,3 +227,12 @@ version-control t)
   :ensure t
   :init
   (global-evil-surround-mode t))
+
+(use-package evil-org
+  :ensure t
+  :after org
+  :config
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (add-hook 'evil-org-mode-hook
+            (lambda ()
+              (evil-org-set-key-theme))))
