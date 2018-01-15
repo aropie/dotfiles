@@ -22,9 +22,21 @@ kept-new-versions 6
 kept-old-versions 2
 version-control t)
 
-(global-linum-mode t)
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-(require 'evil-relative-linum)
+(global-hl-line-mode t)
+;; (add-to-list 'load-path "~/.emacs.d/lisp/")
+;; (require 'evil-relative-linum)
+
+(global-set-key (kbd "<C-up>") 'shrink-window)
+(global-set-key (kbd "<C-down>") 'enlarge-window)
+(global-set-key (kbd "<C-left>") 'shrink-window-horizontally)
+(global-set-key (kbd "<C-right>") 'enlarge-window-horizontally)
+
+(use-package disable-mouse
+  :ensure t
+  :init
+  (global-disable-mouse-mode t)
+  :config
+  (fset 'evil-mouse-drag-region 'ignore))
 
 (setq org-src-window-setup 'current-window)
 (add-to-list 'org-structure-template-alist
@@ -129,7 +141,6 @@ version-control t)
 (use-package fancy-battery
   :ensure t
   :init
-  (setq fancy-battery-show-percentage t)
   (fancy-battery-mode t))
 
 (use-package flycheck
@@ -153,11 +164,17 @@ version-control t)
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
   :config
-  (setq web-mode-markup-indent-offset 2))
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-enable-engine-detection t))
+
+(use-package pdf-tools
+  :ensure t)
 
 (use-package evil
   :ensure t
-  :init (evil-mode 1))
+  :init (evil-mode 1)
+  :config
+  (fset 'evil-mouse-drag-region 'ignore))
 
 (use-package spaceline
   :ensure t

@@ -39,10 +39,28 @@
 
 ** Line numbers config
 #+BEGIN_SRC emacs-lisp
-  (global-linum-mode t)
-  (add-to-list 'load-path "~/.emacs.d/lisp/")
-  (require 'evil-relative-linum)
+  (global-hl-line-mode t)
+  ;; (add-to-list 'load-path "~/.emacs.d/lisp/")
+  ;; (require 'evil-relative-linum)
 #+END_SRC
+** Window sizing
+    #+BEGIN_SRC emacs-lisp
+	(global-set-key (kbd "<C-up>") 'shrink-window)
+	(global-set-key (kbd "<C-down>") 'enlarge-window)
+	(global-set-key (kbd "<C-left>") 'shrink-window-horizontally)
+	(global-set-key (kbd "<C-right>") 'enlarge-window-horizontally)
+    #+END_SRC
+   
+** Disable mouse
+  #+BEGIN_SRC emacs-lisp
+    (use-package disable-mouse
+      :ensure t
+      :init
+      (global-disable-mouse-mode t)
+      :config
+      (fset 'evil-mouse-drag-region 'ignore))
+  #+END_SRC
+  
 * Utils
 ** Org
 *** basic config
@@ -211,26 +229,34 @@
 #+END_SRC
 ** Web mode
 #+BEGIN_SRC emacs-lisp
-  (use-package web-mode
-    :ensure t
-    :init
-    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-    :config
-    (setq web-mode-markup-indent-offset 2))
+    (use-package web-mode
+      :ensure t
+      :init
+      (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+      (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+      (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+      (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+      (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+      (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+      (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+      (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+      :config
+      (setq web-mode-markup-indent-offset 2)
+      (setq web-mode-enable-engine-detection t))
+#+END_SRC
+** PDF-tools
+#+BEGIN_SRC emacs-lisp
+  (use-package pdf-tools
+    :ensure t)
 #+END_SRC
 * Evil
 ** Start evil mode
 #+BEGIN_SRC emacs-lisp
-  (use-package evil
-    :ensure t
-    :init (evil-mode 1))
+    (use-package evil
+      :ensure t
+      :init (evil-mode 1)
+      :config
+      (fset 'evil-mouse-drag-region 'ignore))
 #+END_SRC
 ** Spaceline
 #+BEGIN_SRC emacs-lisp
