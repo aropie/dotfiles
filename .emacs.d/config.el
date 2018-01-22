@@ -49,7 +49,10 @@ version-control t)
    (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
 
 (use-package org-pomodoro
-  :ensure t)
+  :ensure t
+  :config
+  (setq org-pomodoro-ticking-sound-p t)
+  (setq org-pomodoro-ticking-sound-states '(:pomodoro)))
 
 (when window-system (global-prettify-symbols-mode t))
 

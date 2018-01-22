@@ -82,7 +82,10 @@
 *** Org-pomodoro
 #+BEGIN_SRC emacs-lisp
   (use-package org-pomodoro
-    :ensure t)
+    :ensure t
+    :config
+    (setq org-pomodoro-ticking-sound-p t)
+    (setq org-pomodoro-ticking-sound-states '(:pomodoro)))
 #+END_SRC
 ** Parenthesis
 *** Prettify mode
