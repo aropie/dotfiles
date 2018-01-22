@@ -257,6 +257,11 @@
   (use-package pdf-tools
     :ensure t)
 #+END_SRC
+** Magit
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :ensure t)
+#+END_SRC
 * Evil
 ** Start evil mode
 #+BEGIN_SRC emacs-lisp
@@ -304,6 +309,7 @@
      "c" 'config-visit
      "r" 'config-reload
      "o" 'ace-window
+     "g" 'magit-status
      "0" 'delete-window
      "1" 'delete-other-windows
      "2" 'split-window-vertically

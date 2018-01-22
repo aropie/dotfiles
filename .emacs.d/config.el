@@ -174,6 +174,9 @@ version-control t)
 (use-package pdf-tools
   :ensure t)
 
+(use-package magit
+  :ensure t)
+
 (use-package evil
   :ensure t
   :init (evil-mode 1)
@@ -212,6 +215,7 @@ version-control t)
    "c" 'config-visit
    "r" 'config-reload
    "o" 'ace-window
+   "g" 'magit-status
    "0" 'delete-window
    "1" 'delete-other-windows
    "2" 'split-window-vertically
