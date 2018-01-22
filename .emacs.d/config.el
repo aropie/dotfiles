@@ -40,8 +40,12 @@ version-control t)
   (fset 'evil-mouse-drag-region 'ignore))
 
 (setq org-src-window-setup 'current-window)
+(setq org-log-done t)
 (add-to-list 'org-structure-template-alist
              '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+
+(setq org-agenda-files (list "~/org/home.org"
+                             "~/org/work.org"))
 
 (use-package org-bullets
    :ensure t
@@ -98,6 +102,8 @@ version-control t)
   :ensure t
   :config
   (dashboard-setup-startup-hook)
+  (setq dashboard-startup-banner 'logo)
+  (add-to-list 'dashboard-items '(agenda) t)
   (setq dashboard-items '((recents . 10))))
 
 (use-package which-key
