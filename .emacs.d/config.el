@@ -57,6 +57,9 @@ version-control t)
   (setq org-pomodoro-ticking-sound-p t)
   (setq org-pomodoro-ticking-sound-states '(:pomodoro)))
 
+(use-package ox-twbs
+  :ensure t)
+
 (when window-system (global-prettify-symbols-mode t))
 
 ;; (setq electric-pair-preserve balance nil)
