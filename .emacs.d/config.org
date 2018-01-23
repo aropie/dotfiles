@@ -97,6 +97,26 @@
   (use-package ox-twbs
     :ensure t)
 #+END_SRC
+*** Org-capture
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c c") 'org-capture)
+  (setq org-default-notes-file "~/org/refile.org")
+#+END_SRC
+*** Refile
+#+BEGIN_SRC emacs-lisp
+  ; Targets include this file and any file contributing to the agenda - up to 9 levels deep
+  (setq org-refile-targets (quote ((nil :maxlevel . 9)
+                                   (org-agenda-files :maxlevel . 9))))
+
+  ; Use full outline paths for refile targets - we file directly with IDO
+  (setq org-refile-use-outline-path t)
+
+  ; Targets complete directly with IDO
+  (setq org-outline-path-complete-in-steps nil)
+
+  ; Allow refile to create parent tasks with confirmation
+  (setq org-refile-allow-creating-parent-nodes (quote confirm))
+#+END_SRC
 ** Parenthesis
 *** Prettify mode
     #+BEGIN_SRC emacs-lisp
@@ -323,8 +343,10 @@
      "w" 'save-buffer
      "b" 'ido-switch-buffer
      "c" 'config-visit
-     "r" 'config-reload
+     "r" 'org-capture
      "o" 'ace-window
+     "a" 'org-agenda
+     "p" 'org-pomodoro
      "g" 'magit-status
      "0" 'delete-window
      "1" 'delete-other-windows
