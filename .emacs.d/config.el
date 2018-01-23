@@ -44,8 +44,7 @@ version-control t)
 (add-to-list 'org-structure-template-alist
              '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
 
-(setq org-agenda-files (list "~/org/home.org"
-                             "~/org/work.org"))
+(setq org-agenda-files '("~/org"))
 
 (use-package org-bullets
    :ensure t
