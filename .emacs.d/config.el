@@ -105,8 +105,8 @@ version-control t)
   :config
   (dashboard-setup-startup-hook)
   (setq dashboard-startup-banner 'logo)
-  (add-to-list 'dashboard-items '(agenda) t)
-  (setq dashboard-items '((recents . 10))))
+  (setq dashboard-items '((recents . 10)))
+  (add-to-list 'dashboard-items '(agenda) t))
 
 (use-package which-key
   :ensure t
