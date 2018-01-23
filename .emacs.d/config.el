@@ -85,6 +85,7 @@ version-control t)
 
 (setq ido-create-new-buffer 'always)
 (setq ido-everywhere t)
+(setq org-completion-use-ido t)
 (ido-mode t)
 
 (use-package smex

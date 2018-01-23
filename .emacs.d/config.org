@@ -142,6 +142,7 @@
 #+BEGIN_SRC emacs-lisp
   (setq ido-create-new-buffer 'always)
   (setq ido-everywhere t)
+  (setq org-completion-use-ido t)
   (ido-mode t)
 #+END_SRC
 *** Smex
