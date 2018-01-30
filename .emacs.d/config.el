@@ -270,3 +270,7 @@ version-control t)
   (add-hook 'evil-org-mode-hook
             (lambda ()
               (evil-org-set-key-theme))))
+
+(use-package fireplace
+  :ensure t)
+(run-with-idle-timer 600 t 'fireplace ())

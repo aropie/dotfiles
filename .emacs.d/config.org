@@ -379,3 +379,12 @@
               (lambda ()
                 (evil-org-set-key-theme))))
 #+END_SRC
+* LOL
+** Fireplace
+#+BEGIN_SRC emacs-lisp
+  (use-package fireplace
+    :ensure t)
+  (run-with-idle-timer 600 t 'fireplace ())
+#+END_SRC
+   
+   
