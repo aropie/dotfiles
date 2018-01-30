@@ -70,6 +70,7 @@
 #+BEGIN_SRC emacs-lisp
   (setq org-src-window-setup 'current-window)
   (setq org-log-done t)
+  (setq org-enforce-todo-dependencies t)
   (add-to-list 'org-structure-template-alist
                '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
 #+END_SRC
@@ -178,7 +179,7 @@
   (use-package ido-yes-or-no
     :ensure t
     :init
-    (ido-yes-or-no-mode t))
+    (ido-yes-or-no-mode))
 #+END_SRC
 *** Grid
 #+BEGIN_SRC emacs-lisp
@@ -233,11 +234,29 @@
     :init (evil-avy-mode t))
 #+END_SRC
 ** Company
+*** General
 #+BEGIN_SRC emacs-lisp
-    (use-package company
-      :ensure t
-      :init
-      (add-hook 'after-init-hook 'global-company-mode))
+  (use-package company
+    :ensure t
+    :delight
+    :init
+    (add-hook 'after-init-hook 'global-company-mode)
+
+    (defun my/python-mode-hook ()
+      (add-to-list 'company-backends 'company-jedi))
+    (add-hook 'python-mode-hook 'my/python-mode-hook))
+#+END_SRC
+*** Company-jedi
+#+BEGIN_SRC emacs-lisp
+  (use-package company-jedi
+    :ensure t)
+#+END_SRC
+*** Company-quickhelp
+#+BEGIN_SRC emacs-lisp
+  (use-package company-quickhelp
+    :ensure t
+    :init
+    (company-quickhelp-mode 1))
 #+END_SRC
 ** Delight
 #+BEGIN_SRC emacs-lisp
@@ -373,6 +392,7 @@
   (use-package evil-org
     :ensure t
     :after org
+    :delight
     :config
     (add-hook 'org-mode-hook 'evil-org-mode)
     (add-hook 'evil-org-mode-hook

@@ -41,6 +41,7 @@ version-control t)
 
 (setq org-src-window-setup 'current-window)
 (setq org-log-done t)
+(setq org-enforce-todo-dependencies t)
 (add-to-list 'org-structure-template-alist
              '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
 
@@ -113,7 +114,7 @@ version-control t)
 (use-package ido-yes-or-no
   :ensure t
   :init
-  (ido-yes-or-no-mode t))
+  (ido-yes-or-no-mode))
 
 (use-package ido-grid-mode
   :ensure t
@@ -157,8 +158,21 @@ version-control t)
 
 (use-package company
   :ensure t
+  :delight
   :init
-  (add-hook 'after-init-hook 'global-company-mode))
+  (add-hook 'after-init-hook 'global-company-mode)
+
+  (defun my/python-mode-hook ()
+    (add-to-list 'company-backends 'company-jedi))
+  (add-hook 'python-mode-hook 'my/python-mode-hook))
+
+(use-package company-jedi
+  :ensure t)
+
+(use-package company-quickhelp
+  :ensure t
+  :init
+  (company-quickhelp-mode 1))
 
 (use-package delight
   :ensure t
@@ -265,6 +279,7 @@ version-control t)
 (use-package evil-org
   :ensure t
   :after org
+  :delight
   :config
   (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
