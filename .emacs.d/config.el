@@ -234,6 +234,7 @@ version-control t)
   (require 'spaceline-config)
   (setq powerline-default-separator (quote wave))
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+  (spaceline-toggle-buffer-size-off)
   (spaceline-spacemacs-theme))
 
 (setq evil-emacs-state-cursor '("red" bar))
