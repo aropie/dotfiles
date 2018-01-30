@@ -77,6 +77,9 @@ version-control t)
 ; Allow refile to create parent tasks with confirmation
 (setq org-refile-allow-creating-parent-nodes (quote confirm))
 
+(use-package try
+  :ensure t)
+
 (when window-system (global-prettify-symbols-mode t))
 
 ;; (setq electric-pair-preserve balance nil)

@@ -118,6 +118,11 @@
   ; Allow refile to create parent tasks with confirmation
   (setq org-refile-allow-creating-parent-nodes (quote confirm))
 #+END_SRC
+** Try
+#+BEGIN_SRC emacs-lisp
+  (use-package try
+    :ensure t)
+#+END_SRC
 ** Parenthesis
 *** Prettify mode
     #+BEGIN_SRC emacs-lisp
