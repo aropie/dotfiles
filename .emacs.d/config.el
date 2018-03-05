@@ -128,6 +128,7 @@ version-control t)
   :ensure t
   :config
   (dashboard-setup-startup-hook)
+  (setq dashboard-banner-logo-title (adafruit-wisdom-select))
   (setq dashboard-startup-banner 'logo)
   (setq dashboard-items '((recents . 10)))
   (add-to-list 'dashboard-items '(agenda) t))
@@ -293,3 +294,6 @@ version-control t)
 (use-package fireplace
   :ensure t)
 (run-with-idle-timer 600 t 'fireplace ())
+
+(use-package adafruit-wisdom
+  :ensure t)
