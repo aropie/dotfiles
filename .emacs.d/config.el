@@ -293,3 +293,50 @@ version-control t)
 (use-package fireplace
   :ensure t)
 (run-with-idle-timer 600 t 'fireplace ())
+
+(use-package emms
+  :ensure t
+  :config
+    (require 'emms-setup)
+    (require 'emms-player-mpd)
+    (emms-all)
+    (setq emms-seek-seconds 5)
+    (setq emms-player-list '(emms-player-mpd))
+    (setq emms-info-functions '(emms-info-mpd))
+    (setq emms-player-mpd-server-name "localhost")
+    (setq emms-player-mpd-server-port "6601")
+  :bind
+    ("s-m p" . emms)
+    ("s-m b" . emms-smart-browse)
+    ("s-m r" . emms-player-mpd-update-all-reset-cache)
+    ("<XF86AudioPrev>" . emms-previous)
+    ("<XF86AudioNext>" . emms-next)
+    ("<XF86AudioPlay>" . emms-pause)
+    ("<XF86AudioStop>" . emms-stop))
+
+(setq mpc-host "localhost:6601")
+
+(defun mpd/start-music-daemon ()
+  "Start MPD, connects to it and syncs the metadata cache."
+  (interactive)
+  (shell-command "mpd")
+  (mpd/update-database)
+  (emms-player-mpd-connect)
+  (emms-cache-set-from-mpd-all)
+  (message "MPD Started!"))
+(global-set-key (kbd "s-m c") 'mpd/start-music-daemon)
+
+(defun mpd/kill-music-daemon ()
+  "Stops playback and kill the music daemon."
+  (interactive)
+  (emms-stop)
+  (call-process "killall" nil nil nil "mpd")
+  (message "MPD Killed!"))
+(global-set-key (kbd "s-m k") 'mpd/kill-music-daemon)
+
+(defun mpd/update-database ()
+  "Updates the MPD database synchronously."
+  (interactive)
+  (call-process "mpc" nil nil nil "update")
+  (message "MPD Database Updated!"))
+(global-set-key (kbd "s-m u") 'mpd/update-database)

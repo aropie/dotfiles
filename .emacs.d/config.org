@@ -323,7 +323,7 @@
     :ensure t)
 #+END_SRC
 * Evil
-** Start evil mode
+*** Start evil mode
 #+BEGIN_SRC emacs-lisp
     (use-package evil
       :ensure t
@@ -331,7 +331,7 @@
       :config
       (fset 'evil-mouse-drag-region 'ignore))
 #+END_SRC
-** Spaceline
+*** Spaceline
 #+BEGIN_SRC emacs-lisp
   (use-package spaceline
     :ensure t
@@ -342,7 +342,7 @@
     (spaceline-toggle-buffer-size-off)
     (spaceline-spacemacs-theme))
 #+END_SRC
-** Cursor colors
+*** Cursor colors
 #+BEGIN_SRC emacs-lisp
   (setq evil-emacs-state-cursor '("red" bar))
   (setq evil-normal-state-cursor '("orange" box))
@@ -351,7 +351,7 @@
   (setq evil-replace-state-cursor '("red" hollow))
   (setq evil-operator-state-cursor '("red" hollow))
 #+END_SRC
-** Leader mode
+*** Leader mode
 #+BEGIN_SRC emacs-lisp
   (use-package evil-leader
     :ensure t
@@ -378,7 +378,7 @@
      "2" 'split-window-vertically
      "3" 'split-window-horizontally))
 #+END_SRC
-** Evil-commentary
+*** Evil-commentary
 #+BEGIN_SRC emacs-lisp
   (use-package evil-commentary
     :ensure t
@@ -386,14 +386,14 @@
     (evil-commentary-mode t)
     :delight)
 #+END_SRC
-** Surround
+*** Surround
 #+BEGIN_SRC emacs-lisp
   (use-package evil-surround
     :ensure t
     :init
     (global-evil-surround-mode t))
 #+END_SRC
-** Evil-org
+*** Evil-org
 #+BEGIN_SRC emacs-lisp
   (use-package evil-org
     :ensure t
