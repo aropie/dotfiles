@@ -199,6 +199,7 @@
     :ensure t
     :config
     (dashboard-setup-startup-hook)
+    (setq dashboard-banner-logo-title (adafruit-wisdom-select))
     (setq dashboard-startup-banner 'logo)
     (setq dashboard-items '((recents . 10)))
     (add-to-list 'dashboard-items '(agenda) t))
@@ -492,4 +493,8 @@ and only invoke it manually when needed.
   (global-set-key (kbd "s-m u") 'mpd/update-database)
 #+END_SRC
    
-   
+** Adafruit-wisdom
+#+BEGIN_SRC emacs-lisp
+  (use-package adafruit-wisdom
+    :ensure t)
+#+END_SRC

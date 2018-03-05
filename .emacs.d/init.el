@@ -25,7 +25,11 @@
     ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
+<<<<<<< HEAD
     (emms try magit diminish spaceline company rainbow-delimiters evil smex ido-vertical-mode org-bullets which-key use-package))))
+=======
+    (adafruit-wisdom try magit diminish spaceline company rainbow-delimiters evil smex ido-vertical-mode org-bullets which-key use-package))))
+>>>>>>> 22fbf985913463e20c5a38f524ca1cf645e5fe8d
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

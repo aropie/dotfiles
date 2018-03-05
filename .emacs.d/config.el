@@ -128,6 +128,7 @@ version-control t)
   :ensure t
   :config
   (dashboard-setup-startup-hook)
+  (setq dashboard-banner-logo-title (adafruit-wisdom-select))
   (setq dashboard-startup-banner 'logo)
   (setq dashboard-items '((recents . 10)))
   (add-to-list 'dashboard-items '(agenda) t))
@@ -294,6 +295,7 @@ version-control t)
   :ensure t)
 (run-with-idle-timer 600 t 'fireplace ())
 
+<<<<<<< HEAD
 (use-package emms
   :ensure t
   :config
@@ -340,3 +342,7 @@ version-control t)
   (call-process "mpc" nil nil nil "update")
   (message "MPD Database Updated!"))
 (global-set-key (kbd "s-m u") 'mpd/update-database)
+=======
+(use-package adafruit-wisdom
+  :ensure t)
+>>>>>>> 22fbf985913463e20c5a38f524ca1cf645e5fe8d
