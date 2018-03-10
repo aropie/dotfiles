@@ -80,7 +80,13 @@ version-control t)
 (use-package try
   :ensure t)
 
-(when window-system (global-prettify-symbols-mode t))
+(use-package pretty-mode
+  :ensure t
+  :init
+  (global-pretty-mode)
+  :config
+  (pretty-activate-groups
+   '(:sub-and-superscripts :greek :arithmetic-nary)))
 
 ;; (setq electric-pair-preserve balance nil)
 ;; (setq electric-pair-delete-adjacent-pairs nil)
@@ -163,8 +169,10 @@ version-control t)
 (use-package company
   :ensure t
   :delight
-  :init
-  (add-hook 'after-init-hook 'global-company-mode)
+  :config
+  (add-hook 'prog-mode-hook 'company-mode)
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 3)
 
   (defun my/python-mode-hook ()
     (add-to-list 'company-backends 'company-jedi))
@@ -190,8 +198,12 @@ version-control t)
 
 (use-package fancy-battery
   :ensure t
-  :init
-  (fancy-battery-mode t))
+  :config
+  (setq fancy-battery-show-percentage t)
+  (setq battery-update-interval 60)
+  (if window-system
+      (fancy-battery-mode)
+    (display-battery-mode)))
 
 (use-package flycheck
   :ensure t
@@ -341,5 +353,6 @@ version-control t)
   (call-process "mpc" nil nil nil "update")
   (message "MPD Database Updated!"))
 (global-set-key (kbd "s-m u") 'mpd/update-database)
+
 (use-package adafruit-wisdom
   :ensure t)
