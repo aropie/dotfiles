@@ -268,7 +268,7 @@ version-control t)
    "<SPC>" 'avy-goto-char'
    "TAB" 'mode-line-other-buffer'
    "f" 'find-file
-   "k" 'kill-this-buffer
+   "k" 'kill-buffer-and-window
    "w" 'save-buffer
    "b" 'ido-switch-buffer
    "c" 'config-visit
