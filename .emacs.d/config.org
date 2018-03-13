@@ -424,6 +424,11 @@
     :ensure t)
   (run-with-idle-timer 600 t 'fireplace ())
 #+END_SRC
+** Adafruit-wisdom
+#+BEGIN_SRC emacs-lisp
+  (use-package adafruit-wisdom
+    :ensure t)
+#+END_SRC
 * Media
 Why bother with an external media manager when emacs is a thing.
 EMMS is huge, incredibly powerful and luckily well documented.
@@ -502,10 +507,4 @@ and only invoke it manually when needed.
     (call-process "mpc" nil nil nil "update")
     (message "MPD Database Updated!"))
   (global-set-key (kbd "s-m u") 'mpd/update-database)
-#+END_SRC
-   
-** Adafruit-wisdom
-#+BEGIN_SRC emacs-lisp
-  (use-package adafruit-wisdom
-    :ensure t)
 #+END_SRC
