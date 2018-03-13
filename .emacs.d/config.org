@@ -136,8 +136,8 @@
 ** Parenthesis
 *** Electric parenthesis
 #+BEGIN_SRC emacs-lisp
- ;; (setq electric-pair-preserve balance nil)
- ;; (setq electric-pair-delete-adjacent-pairs nil)
+  (setq electric-pair-preserve balance nil)
+  (setq electric-pair-delete-adjacent-pairs nil)
   (electric-pair-mode 1)
 #+END_SRC
 *** rainbow-delimiters
@@ -145,7 +145,7 @@
   (use-package rainbow-delimiters
     :ensure t
     :init
-    (rainbow-delimiters-mode 1))
+    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
 *** show-paren
 #+BEGIN_SRC emacs-lisp
