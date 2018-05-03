@@ -56,7 +56,7 @@ modules-left =
 modules-center = mpd
 modules-right = volume xbacklight wlan eth battery date
 
-tray-position = right 
+tray-position =
 tray-padding = 0
 tray-transparent = true
 
