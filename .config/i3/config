@@ -44,7 +44,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec --no-startup-id rofi -show drun -show-icons
 
 # lock screen
-bindsym $mod+Shift+l exec betterlockscreen -l dimblur
+bindsym $mod+Shift+l exec --no-startup-id ~/.config/i3/scripts/lock.sh
 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
@@ -140,7 +140,6 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 
 # bind apps to workspaces
 assign [class="Vivaldi-stable"] $ws1
-assign [class="Emacs"] $ws2
 assign [class="Rambox"] $ws9
 
 # reload the configuration file
@@ -177,6 +176,19 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
+# launcher mode
+bindsym $mod+o mode "launch"
+
+mode "launch" {
+     bindsym w exec vivaldi-stable mode "default"
+     bindsym e exec "emacsclient -c -n" mode "default"
+
+     # back to normal: Enter or Escape or $mod+o
+     bindsym Return mode "default"
+     bindsym Escape mode "default"
+     bindsym $mod+o mode "default"
+}
+
 bindsym $mod+r mode "resize"
 
 # Make the currently focused window a scratchpad
@@ -209,5 +221,5 @@ exec_always --no-startup-id ~/.config/polybar/run_polybar.sh
 # Open apps on startup
 exec --no-startup-id compton -f
 exec --no-startup-id vivaldi-stable
-exec --no-startup-id emacs
+exec --no-startup-id emacsclient -c -n
 exec --no-startup-id guake
