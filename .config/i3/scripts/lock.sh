@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Take a screenshot:
-scrot /tmp/screen.png
+scrot /tmp/screen.png -z
 
 # Create a blur on the shot:
 mogrify -scale 10% -scale 1000% /tmp/screen.png 
