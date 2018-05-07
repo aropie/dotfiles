@@ -6,5 +6,10 @@ recentf
 *.bak
 elpa
 bookmarks
-.*
 config.el
+*.dat
+*.cache
+\#*\#
+.emacs.d/emms
+.emacs.d/url
+.emacs.d/themes
