@@ -9,7 +9,7 @@
 
 [colors]
 ;background = ${xrdb:color0}
-background = #00000000
+background = #99000000
 ; background = #222
 background-alt = #444
 foreground = ${xrdb:color7}
@@ -26,10 +26,10 @@ col = #00f
 [bar/topbar]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 25
+height = 21
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 6.0
+radius = 0
 fixed-center = true
 
 background = ${colors.background}
@@ -40,55 +40,43 @@ line-color = {$xrdb:color1}
 
 
 padding-left = 0
-padding-right = 2
+padding-right = 1
 
-module-margin-left = 5
+module-margin-left = 3
 
-font-0 = Fantasque Sans Mono:size=10:dpi=138;2
-font-1 = FontAwesome:size=11;2
-font-2 = SauceCodePro Nerd Font:size=11;2
-font-3 = DejaVu Sans:size=11;2
-font-4 = BitstreamVeraSansMono Nerd Font Mono:size=11;2
+font-0= SauceCodePro Nerd Font:size=10;0
 
-; label-active-font = 2
-
-modules-left =
+modules-left = i3
 modules-center = mpd
-modules-right = volume xbacklight wlan eth battery date
+modules-right = memory cpu volume wlan eth battery date
 
-tray-position =
+tray-position = right
 tray-padding = 0
 tray-transparent = true
 
 [bar/bottombar]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 20
+height = 25
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 6.0
+radius = 0
 fixed-center = false
 bottom = true
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-line-size = 3
+line-size = 2
 line-color = {$xrdb:color1}
 
 padding-left = 0
-padding-right = 2
+padding-right = 1
 
 module-margin-left = 1
-module-margin-right = 2
+module-margin-right = 0
 
-font-0 = Fantasque Sans Mono:size=10:dpi=138;2
-font-1 = FontAwesome:size=11;2
-font-2 = SauceCodePro Nerd Font:size=11;2
-font-3 = DejaVu Sans:size=11;2
-font-4 = BitstreamVeraSansMono Nerd Font Mono:size=11;2
-
-; label-active-font = 2
+font-0= SauceCodePro Nerd Font:size=10;0
 
 modules-left = i3
 modules-center =
@@ -152,17 +140,15 @@ index-sort = true
 wrapping-scroll = false
 
 ; Only show workspaces on the same output as the bar
-;pin-workspaces = true
+pin-workspaces = true
 
 ws-icon-0 = 1;
 ws-icon-1 = 2;
-ws-icon-2 = 3;
-ws-icon-3 = 4;
-ws-icon-4 = 9;
-ws-icon-5 = 10;
+ws-icon-2 = 9;
+ws-icon-3 = 10;
 icon-default = ♟
 
-label-mode-padding = 2
+label-mode-padding = 0
 label-mode-foreground = #000
 label-mode-background = ${colors.primary}
 
@@ -170,17 +156,17 @@ label-mode-background = ${colors.primary}
 label-focused = %icon%
 label-focused-background = ${module/bspwm.label-focused-background}
 label-focused-underline = ${module/bspwm.label-focused-underline}
-label-focused-padding = 2
+label-focused-padding = 1
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %icon%
-label-unfocused-padding = ${module/bspwm.label-occupied-padding}
+label-unfocused-padding = 1
 
 ; visible = Active workspace on unfocused monitor
 label-visible = %icon%
 label-visible-background = ${self.label-focused-background}
 label-visible-underline = ${self.label-focused-underline}
-label-visible-padding = ${self.label-focused-padding}
+label-visible-padding = 1
 
 ; urgent = Workspace with urgency hint set
 label-urgent = %icon%
@@ -206,11 +192,11 @@ type = internal/xbacklight
 format = <ramp>
 label = BL
 
-ramp-0 = 🌕
+ramp-0 = 
 ramp-1 = 🌔
 ramp-2 = 🌓
 ramp-3 = 🌒
-ramp-4 = 🌑
+ramp-4 = 
 bar-width = 10
 bar-indicator = |
 bar-indicator-foreground = #ff
@@ -231,16 +217,16 @@ card = intel_backlight
 type = internal/cpu
 interval = 2
 format-prefix = "  "
-format-prefix-foreground = ${colors.foreground-alt}
-; format-underline = #f900aa
+format-prefix-foreground = ${colors.foreground}
+format-underline = #e07416
 label = %percentage:2%%
 
 [module/memory]
 type = internal/memory
 interval = 2
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
-; format-underline = #4bffdc
+format-prefix = "  "
+format-prefix-foreground = ${colors.foreground}
+format-underline = #16a08b
 label = %percentage_used%%
 
 [module/wlan]
@@ -248,14 +234,15 @@ type = internal/network
 interface = wlp2s0
 interval = 3.0
 
-format-connected = <ramp-signal> <label-connected>
-; format-connected-underline = #9f78e1
+format-connected = <label-connected>
+format-connected-underline = #9f78e1
+format-connected-prefix = "  "
 label-connected = %essid%
 
 ;format-disconnected =
 format-disconnected = <label-disconnected>
 ; format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
+; label-disconnected = %ifname% disconnected
 label-disconnected = no wifi
 label-disconnected-foreground = ${colors.foreground}
 
@@ -270,7 +257,7 @@ interval = 3.0
 
 format-connected-underline = #55aa55
 format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.foreground-alt}
+format-connected-prefix-foreground = ${colors.foreground}
 label-connected = %local_ip%
 
 format-disconnected =
@@ -297,11 +284,15 @@ label = %date% %time%
 type = internal/volume
 
 format-volume = <label-volume>
-label-volume = "  %percentage%%"
+format-volume-prefix = "  "
+format-volume-prefix-foreground = ${colors.foreground}
+label-volume = "%percentage%%"
 label-volume-foreground = ${root.foreground}
+format-volume-underline = #8216a0
 
 format-muted-prefix = " "
 format-muted-foreground = ${colors.foreground-alt}
+format-muted-underline = ${colors.foreground-alt}
 label-muted = mute
 
 bar-volume-width = 10
@@ -323,15 +314,15 @@ warn-at = 25
 critical-at = 10
 
 format-charging = <animation-charging> <label-charging>
-; format-charging-underline = #ffb520
+format-charging-underline = #1ba016
 
 ; format-discharging = <ramp-capacity>
 ; format-discharging-alt = <ramp-capacity> <label-discharging>
 format-discharging = <ramp-capacity> <label-discharging>
-; format-discharging-underline = #ffb520
+format-discharging-underline = #ffb520
 
 format-full-prefix = "  "
-format-full-prefix-foreground = ${colors.foreground-alt}
+format-full-prefix-foreground = ${colors.foreground}
 ; format-full-underline = ${self.format-charging-underline}
 
 ramp-capacity-0 = "  "
@@ -339,8 +330,6 @@ ramp-capacity-1 = "  "
 ramp-capacity-2 = "  "
 ramp-capacity-3 = "  "
 ramp-capacity-foreground = ${colors.foreground}
-; ramp-capacity-0-foreground = #aaaaaa
-; ramp-capacity-1-underline = #ffb520
 
 animation-charging-0 = " "
 animation-charging-1 = " "
