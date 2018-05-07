@@ -13,20 +13,19 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango: SauceCodePro Nerd Font Black 9
+font pango: Knack Nerd Font 9
 
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
+set $bg-color 	         #2f343f
+set $inactive-bg-color   #2f343f
+set $text-color          #f3f4f5
+set $inactive-text-color #676E7D
+set $urgent-bg-color     #E53935
 
-exec --no-startup-id feh --bg-scale ~/Pictures/Walls/hd-wallpaper-lighting-nature.jpg  
+# Required for gaps
+# for_window [class="^.*"] border pixel 3
+# gaps inner 10
+# gaps outer 10
 
-# Before i3 v4.8, we used to recommend this one as the default:
-# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# The font above is very space-efficient, that is, it looks good, sharp and
-# clear in small sizes. However, its unicode glyph coverage is limited, the old
-# X core fonts rendering does not support right-to-left and this being a bitmap
-# font, it doesn’t scale on retina/hidpi displays.
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -37,11 +36,11 @@ hide_edge_borders both
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
-# kill focused window
+bindsym $mod+q kill
 bindsym $mod+Shift+q kill
 
 # start rofi (a program launcher)
-bindsym $mod+d exec --no-startup-id rofi -show drun -show-icons
+bindsym $mod+d exec --no-startup-id rofi -show drun -theme onedark
 
 # lock screen
 bindsym $mod+Shift+l exec --no-startup-id ~/.config/i3/scripts/lock.sh
@@ -52,10 +51,10 @@ bindsym $mod+Shift+l exec --no-startup-id ~/.config/i3/scripts/lock.sh
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+ntilde focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -76,7 +75,7 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
-bindsym $mod+h split h
+# bindsym $mod+h split h
 
 # split in vertical orientation
 bindsym $mod+v split v
@@ -90,7 +89,7 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+space floating toggle
 
 # change focus between tiling / floating windows
 # bindsym $mod+space focus mode_toggle
@@ -138,6 +137,9 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
+bindsym Print exec --no-startup-id scrot
+bindsym Shift+Print exec --no-startup-id scrot -u
+
 # bind apps to workspaces
 assign [class="Vivaldi-stable"] $ws1
 assign [class="Rambox"] $ws9
@@ -149,7 +151,6 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 # bindsym $mod+Shift+e exec --no-startup-id sh $HOME/.config/rofi/scripts/power.sh
 bindsym $mod+Shift+e exec i3-msg exit
-
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -180,7 +181,7 @@ mode "resize" {
 bindsym $mod+o mode "launch"
 
 mode "launch" {
-     bindsym w exec vivaldi-stable mode "default"
+     bindsym w exec "vivaldi-stable" mode "default"
      bindsym e exec "emacsclient -c -n" mode "default"
 
      # back to normal: Enter or Escape or $mod+o
@@ -197,8 +198,6 @@ bindsym $mod+Shift+minus move scratchpad
 # Show the first scratchpad window
 bindsym $mod+minus scratchpad show
 
-# Capslock -> Ctrl
-exec --no-startup-id setxkbmap -option 'ctrl:nocaps,shift:both_capslock'
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
@@ -215,11 +214,24 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
-#Launch Polybar where appropriate:
-exec_always --no-startup-id ~/.config/polybar/run_polybar.sh
 
-# Open apps on startup
+# START PROCESSES ON STARTUP 
+
+# Launch Polybar where appropriate:
+exec_always --no-startup-id ~/.config/polybar/run_polybar.sh
+# Capslock -> Ctrl
+exec --no-startup-id setxkbmap -option 'ctrl:nocaps,shift:both_capslock'
+# Start compton for transparency
 exec --no-startup-id compton -f
+# Eventd for notifications
+exec --no-startup-id eventd
+# xautolock for locking on idle
+exec --no-startup-id xautolock -time 10 -locker "~/.config/i3/scripts/lock.sh" -notify 30 -notifier "notify-send -u critical -t 10000 --icon='/usr/share/icons/gnome/48x48/actions/system-lock-screen.png' 'Screen Lock' 'Locking screen in 30 seconds'"
+# Turn numlock on
+exec --no-startup-id numlockx on
+# Set random background
+exec_always --no-startup-id feh --randomize --bg-scale ~/Pictures/Walls/*
+
 exec --no-startup-id vivaldi-stable
-exec --no-startup-id emacsclient -c -n
+exec --no-startup-id emacs --daemon
 exec --no-startup-id guake
