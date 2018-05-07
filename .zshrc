@@ -1,14 +1,14 @@
 # Path to your oh-my-zsh installation.
   export ZSH=/home/$USER/.oh-my-zsh
 
-# Show OS info when opening a new terminal
-neofetch
+
+if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+  exec startx
+fi
 
 # Aliases
 alias pacman-ghost="~/.pacman.sh"
 alias h="htop"
-
-pacman-ghost
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -73,12 +73,9 @@ HYPHEN_INSENSITIVE="true"
 COMPLETION_WAITING_DOTS="true"
 
 # Plugins
-plugins=(git sudo z zhs django)
+plugins=(git sudo z zhs django zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
-
-# Syntax highlighting
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Virtualenv wrapper
 source /usr/bin/virtualenvwrapper.sh
