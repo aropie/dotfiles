@@ -5,10 +5,11 @@
      (menu-bar-mode -1)
      (scroll-bar-mode -1)
    #+END_SRC
-** Fullscreen window
-  #+BEGIN_SRC emacs-lisp
-  (toggle-frame-fullscreen)
-  #+END_SRC
+** Transparency
+#+BEGIN_SRC emacs-lisp
+     (set-frame-parameter (selected-frame) 'alpha '(95 50))
+     (add-to-list 'default-frame-alist '(alpha 95 50))
+#+END_SRC
 ** Scroll conservatively
    #+BEGIN_SRC emacs-lisp
      (setq scroll-conservatively 100)
