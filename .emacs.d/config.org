@@ -22,12 +22,6 @@
    #+BEGIN_SRC emacs-lisp
      (setq inhibit-startup-message t)
    #+END_SRC
-** Clock
-#+BEGIN_SRC emacs-lisp
-  (setq display-time-24hr-format t)
-  (setq display-time-default-load-average nil)
-  (display-time-mode t)
-#+END_SRC
 ** Backup tweaks
    #+BEGIN_SRC emacs-lisp
   (setq backup-directory-alist '(("." . "~/.saves")))
@@ -137,8 +131,6 @@
 ** Parenthesis
 *** Electric parenthesis
 #+BEGIN_SRC emacs-lisp
-  (setq electric-pair-preserve-balance nil)
-  (setq electric-pair-delete-adjacent-pairs nil)
   (electric-pair-mode 1)
 #+END_SRC
 *** rainbow-delimiters
@@ -179,10 +171,10 @@
 #+END_SRC
 *** IDO-yes-or-no
 #+BEGIN_SRC emacs-lisp
-  (use-package ido-yes-or-no
-    :ensure t
-    :init
-    (ido-yes-or-no-mode))
+  ;; (use-package ido-yes-or-no
+  ;;   :ensure t
+  ;;   :init
+  ;;   (ido-yes-or-no-mode))
 #+END_SRC
 *** Smex
 #+BEGIN_SRC emacs-lisp
@@ -239,12 +231,6 @@
       (?o delete-other-windows))
     "List of actions for `aw-dispatch-default'.")
 #+END_SRC
-** Avy
-#+BEGIN_SRC emacs-lisp
-  (use-package evil-avy
-    :ensure t
-    :init (evil-avy-mode t))
-#+END_SRC
 ** Company
 *** General
 #+BEGIN_SRC emacs-lisp
@@ -283,17 +269,6 @@
                (evil-commentary-mode)
                (flycheck-mode)
                (undo-tree-mode))))
-#+END_SRC
-** Fancy battery
-#+BEGIN_SRC emacs-lisp
-  (use-package fancy-battery
-    :ensure t
-    :config
-    (setq fancy-battery-show-percentage t)
-    (setq battery-update-interval 60)
-    (if window-system
-        (fancy-battery-mode)
-      (display-battery-mode)))
 #+END_SRC
 ** Flycheck
 #+BEGIN_SRC emacs-lisp
@@ -421,9 +396,9 @@
 * LOL
 ** Fireplace
 #+BEGIN_SRC emacs-lisp
-  (use-package fireplace
-    :ensure t)
-  (run-with-idle-timer 600 t 'fireplace ())
+  ;; (use-package fireplace
+  ;;   :ensure t)
+  ;; (run-with-idle-timer 600 t 'fireplace ())
 #+END_SRC
 ** Adafruit-wisdom
 #+BEGIN_SRC emacs-lisp
