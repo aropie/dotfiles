@@ -1,4 +1,5 @@
 export TERM="xterm-256color"
+export PATH=$PATH:$HOME/.scripts
 
 # Start xorg on login
 if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
@@ -88,5 +89,4 @@ export MPD_HOST="localhost"
 export MPD_PORT="6601"
 
 # Aliases
-alias pacman-ghost="~/.pacman.sh"
 alias h="htop"
