@@ -20,16 +20,16 @@ elif [[ $EXTENSION != "tex" ]]; then
 fi
 
 # Create directory if it doesn't exist
-if [ ! -d "metafiles" ]; then
-  mkdir metafiles
+if [ ! -d ".metafiles" ]; then
+  mkdir .metafiles
 fi
 
 # Run pdflatex and biber with metafiles as in-/output directories
-pdflatex -output-directory=metafiles $NAME
-biber --input-directory=metafiles --output-directory=metafiles $NAME
-pdflatex -output-directory=metafiles $NAME
+pdflatex -output-directory=.metafiles $NAME
+biber --input-directory=.metafiles --output-directory=.metafiles $NAME
+pdflatex -output-directory=.metafiles $NAME
  
 # Create a softlink to the output PDF
 if [ ! -f $NAME.pdf ]; then
-    ln -s metafiles/$NAME.pdf
+    ln -s .metafiles/$NAME.pdf
 fi
