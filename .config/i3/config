@@ -10,6 +10,8 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
+set $term terminator
+set $editor emacsclient -c -n
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -22,10 +24,9 @@ set $inactive-text-color #676E7D
 set $urgent-bg-color     #E53935
 
 # Required for gaps
-# for_window [class="^.*"] border pixel 3
-# gaps inner 10
-# gaps outer 10
-
+for_window [class="^.*"] border pixel 3
+gaps inner 10
+gaps outer 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -40,15 +41,14 @@ bindsym $mod+q kill
 bindsym $mod+Shift+q kill
 
 # start rofi (a program launcher)
-bindsym $mod+d exec --no-startup-id rofi -show drun -theme onedark
+bindsym $mod+d exec --no-startup-id rofi -show drun 
 
 # lock screen
-bindsym $mod+Shift+l exec --no-startup-id ~/.config/i3/scripts/lock.sh
+bindsym $mod+Shift+x exec --no-startup-id lock
 
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
+# split in horizontal orientation
+# bindsym $mod+h split h
+
 
 # change focus
 bindsym $mod+h focus left
@@ -56,49 +56,44 @@ bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
-# move focused window
-# bindsym $mod+Shift+j move left
-# bindsym $mod+Shift+k move down
-# bindsym $mod+Shift+l move up
-# bindsym $mod+Shift+ntilde move right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
-
-# split in horizontal orientation
-# bindsym $mod+h split h
+bindsym $mod+Shift+y		resize shrink width 10 px or 10ppt
+bindsym $mod+Shift+u		resize shrink height 10 px or 10 ppt
+bindsym $mod+Shift+i		resize grow height 10 px or 10 ppt
+bindsym $mod+Shift+o		resize grow width 10 px or 10 ppt
 
 # split in vertical orientation
 bindsym $mod+v split v
 
-# enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
+bindsym $mod+r				exec $term -e ranger
 
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+f 				fullscreen toggle
 
-# toggle tiling / floating
-bindsym $mod+space floating toggle
+bindsym $mod+t 				layout toggle
+bindsym $mod+Shift+t			gaps inner current set 10; gaps outer current set 10
 
-# change focus between tiling / floating windows
-# bindsym $mod+space focus mode_toggle
+bindsym $mod+Shift+space 		floating toggle
+bindsym $mod+space 			focus mode_toggle
 
-# focus the parent container
-bindsym $mod+a focus parent
+bindsym $mod+m 				exec $term -e ncmpcpp
 
-# focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+Shift+Escape		exec power_menu
+bindsym $mod+Shift+r			restart
+
+bindsym $mod+s				gaps inner current plus 5
+bindsym $mod+Shift+s		     	gaps inner current minus 5
+
+bindsym $mod+z				gaps outer current plus 5
+bindsym $mod+Shift+z			gaps outer current minus 5
+
+bindsym $mod+Shift+d			gaps inner current set 0; gaps outer current set 0
+
+bindsym $mod+e				exec $EDITOR
+
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -113,84 +108,40 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-# switch to workspace
-bindsym $mod+1 workspace $ws1
-bindsym $mod+2 workspace $ws2
-bindsym $mod+3 workspace $ws3
-bindsym $mod+4 workspace $ws4
-bindsym $mod+5 workspace $ws5
-bindsym $mod+6 workspace $ws6
-bindsym $mod+7 workspace $ws7
-bindsym $mod+8 workspace $ws8
-bindsym $mod+9 workspace $ws9
-bindsym $mod+0 workspace $ws10
+bindsym $mod+1		    workspace $ws1
+bindsym $mod+2 		    workspace $ws2
+bindsym $mod+3 		    workspace $ws3
+bindsym $mod+4 		    workspace $ws4
+bindsym $mod+5 		    workspace $ws5
+bindsym $mod+6 		    workspace $ws6
+bindsym $mod+7 		    workspace $ws7
+bindsym $mod+8 		    workspace $ws8
+bindsym $mod+9 		    workspace $ws9
+bindsym $mod+0 		    workspace $ws10
+bindsym $mod+Tab	    workspace back_and_forth
 
-# move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace $ws1
-bindsym $mod+Shift+2 move container to workspace $ws2
-bindsym $mod+Shift+3 move container to workspace $ws3
-bindsym $mod+Shift+4 move container to workspace $ws4
-bindsym $mod+Shift+5 move container to workspace $ws5
-bindsym $mod+Shift+6 move container to workspace $ws6
-bindsym $mod+Shift+7 move container to workspace $ws7
-bindsym $mod+Shift+8 move container to workspace $ws8
-bindsym $mod+Shift+9 move container to workspace $ws9
-bindsym $mod+Shift+0 move container to workspace $ws10
+bindsym $mod+Shift+1 	    move container to workspace $ws1
+bindsym $mod+Shift+2 	    move container to workspace $ws2
+bindsym $mod+Shift+3 	    move container to workspace $ws3
+bindsym $mod+Shift+4 	    move container to workspace $ws4
+bindsym $mod+Shift+5 	    move container to workspace $ws5
+bindsym $mod+Shift+6 	    move container to workspace $ws6
+bindsym $mod+Shift+7 	    move container to workspace $ws7
+bindsym $mod+Shift+8 	    move container to workspace $ws8
+bindsym $mod+Shift+9 	    move container to workspace $ws9
+bindsym $mod+Shift+0 	    move container to workspace $ws10
 
-bindsym Print exec --no-startup-id scrot
-bindsym Shift+Print exec --no-startup-id scrot -u
+bindsym Print 		    exec --no-startup-id scrot
+bindsym Shift+Print 	    exec --no-startup-id scrot -u
 
 # bind apps to workspaces
 assign [class="Vivaldi-stable"] $ws1
 assign [class="Rambox"] $ws9
 
-# reload the configuration file
-bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 # bindsym $mod+Shift+e exec --no-startup-id sh $HOME/.config/rofi/scripts/power.sh
 bindsym $mod+Shift+e exec i3-msg exit
-
-# resize window (you can also use the mouse for that)
-mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
-
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym ntilde resize grow width 10 px or 10 ppt
-
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
-
-        # back to normal: Enter or Escape or $mod+r
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
-        bindsym $mod+r mode "default"
-}
-
-# launcher mode
-bindsym $mod+o mode "launch"
-
-mode "launch" {
-     bindsym w exec "vivaldi-stable" mode "default"
-     bindsym e exec "emacsclient -c -n" mode "default"
-
-     # back to normal: Enter or Escape or $mod+o
-     bindsym Return mode "default"
-     bindsym Escape mode "default"
-     bindsym $mod+o mode "default"
-}
-
-bindsym $mod+r mode "resize"
 
 # Make the currently focused window a scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -205,10 +156,9 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #d
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
 
 # Media player controls
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioPause exec playerctl pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioPlay exec mpc toggle
+bindsym XF86AudioNext exec mpc next
+bindsym XF86AudioPrev exec mpc prev
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
@@ -223,15 +173,17 @@ exec_always --no-startup-id ~/.config/polybar/run_polybar.sh
 exec --no-startup-id setxkbmap -option 'ctrl:nocaps,shift:both_capslock'
 # Start compton for transparency
 exec --no-startup-id compton -f
-# Eventd for notifications
-exec --no-startup-id eventd
+# Dunst for notifications
+exec --no-startup-id dunst
+# Start Music Player Daemon
+exec --no-startup-id mpd
+# Hide cursor after a biref period
+exec --no-startup-id unclutter
 # xautolock for locking on idle
-exec --no-startup-id xautolock -time 10 -locker "~/.config/i3/scripts/lock.sh" -notify 30 -notifier "notify-send -u critical -t 10000 --icon='/usr/share/icons/gnome/48x48/actions/system-lock-screen.png' 'Screen Lock' 'Locking screen in 30 seconds'"
+# exec --no-startup-id xautolock -time 10 -locker "~/.config/i3/scripts/lock.sh" -notify 30 -notifier "notify-send -u critical -t 10000 --icon='/usr/share/icons/gnome/48x48/actions/system-lock-screen.png' 'Screen Lock' 'Locking screen in 30 seconds'"
 # Turn numlock on
 exec --no-startup-id numlockx on
 # Set random background
-exec_always --no-startup-id feh --randomize --bg-scale ~/Pictures/Walls/*
-
-exec --no-startup-id vivaldi-stable
+exec --no-startup-id feh --randomize --bg-scale ~/Pictures/Walls/*
+# Start emacs daemonized
 exec --no-startup-id emacs --daemon
-exec --no-startup-id guake
