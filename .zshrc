@@ -1,3 +1,7 @@
+EDITOR="emacsclient -c -n"
+BROWSER="vivaldi-stable"
+TERMINAL="terminator"
+
 export TERM="xterm-256color"
 export PATH=$PATH:$HOME/.scripts
 
@@ -5,7 +9,6 @@ export PATH=$PATH:$HOME/.scripts
 if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   exec startx
 fi
-
 
 # Check for oh-my-zsh and if its missing, download it
 if [[ ! -d ~/.oh-my-zsh ]]; then
@@ -62,7 +65,7 @@ POWERLEVEL9K_STATUS_CROSS=true
 POWERLEVEL9K_TIME_FORMAT="%F{black}\uf017 %D{%I:%M}%f"
 
 # Prompt elements
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir dir_writable vcs newline virtualenv context)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir dir_writable vcs newline virtualenv rbenv context)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs command_execution_time time)
 
 # Adding interative prompt
@@ -77,16 +80,33 @@ HYPHEN_INSENSITIVE="true"
 COMPLETION_WAITING_DOTS="true"
 
 # Plugins
-plugins=(git sudo z django zsh-syntax-highlighting)
+plugins=(git sudo z django zsh-syntax-highlighting docker)
 
 source $ZSH/oh-my-zsh.sh
 
 # Virtualenv wrapper
 source /usr/bin/virtualenvwrapper.sh
 
-# MPD config
-export MPD_HOST="localhost"
-export MPD_PORT="6601"
+# Ruby
+# PATH="$PATH:$(ruby -e 'print Gem.user_dir')/bin"
 
 # Aliases
+alias music="ncmpcpp"
+alias p="sudo pacman"
 alias h="htop"
+alias starwars="telnet towel.blinkenlights.nl"
+
+# Music
+alias pause="mpc toggle"
+alias next="mpc next"
+alias prev="mpc prev"
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+# Android
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
