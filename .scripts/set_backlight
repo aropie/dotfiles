@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# set_backlight
+function send_notification {
+    # Really need to improve my bash scripting :(
+    backlight=$(xbacklight)
+    bl2=${backlight%.*}
+    bl3=$(($bl2 / 5))
+    current=$(seq -s "■" $bl3 | sed 's/[0-9]//g')
+    missing=$(seq -s "□" $((20 - $bl3)) | sed 's/[0-9]//g')
+    notify-send -u low -t 1000 -i "/usr/share/icons/gnome/32x32/status/weather-clear.png" " " "$current$missing"
+}
+
+action=$1
+case $action in
+    inc)
+	xbacklight -inc 10
+	;;
+    dec)
+	xbacklight -dec 10
+	;;
+esac
+send_notification

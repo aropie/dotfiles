@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# power_menu
+
+LINES=4
+ENTRIES=""
+if which xset > /dev/null 2>&1; then
+	ENTRIES+="1: Lock system\\n"
+	((++LINES))
+fi
+
+ENTRIES+="2: Suspend system\\n"
+ENTRIES+="3: Hibernate system\\n"
+ENTRIES+="4: Shutdown system\\n"
+ENTRIES+="5: Reboot system"
+
+LAUNCHER="rofi -dmenu -i -lines ${LINES} -hide-scrollbar -p >"
+
+option=$(echo -e "$ENTRIES" | $LAUNCHER | awk '{print $1}' | tr -d '\r\n:')
+if [ ${#option} -gt 0 ] ; then
+	case $option in
+	    1)
+		lock
+		;;
+	    2)
+		systemctl suspend
+		;;
+	    3)
+		systemctl hibernate
+		;;
+	    4)
+		systemctl poweroff
+		;;
+	    5)
+		systemctl reboot
+		;;
+	    *)
+		;;
+	esac
+fi
