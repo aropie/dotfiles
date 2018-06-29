@@ -95,6 +95,10 @@ alias music="ncmpcpp"
 alias p="sudo pacman"
 alias h="htop"
 alias starwars="telnet towel.blinkenlights.nl"
+alias dcrun="sudo docker-compose run --rm"
+alias dcup="sudo docker-compose up"
+alias dcdown="sudo docker-compose down"
+alias dcbuild="sudo docker-compose build"
 
 # Music
 alias pause="mpc toggle"
