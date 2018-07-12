@@ -155,6 +155,16 @@
     :ensure t
     :init
     (smart-tabs-insinuate 'c 'javascript 'python 'ruby))
+=======
+** Shell
+*** Don't ask for confirmation when killing shell
+#+BEGIN_SRC emacs-lisp
+  (defun set-no-process-query-on-exit ()
+    (let ((proc (get-buffer-process (current-buffer))))
+      (when (processp proc)
+        (set-process-query-on-exit-flag proc nil))))
+
+  (add-hook 'term-exec-hook 'set-no-process-query-on-exit)
 #+END_SRC
 ** Org
 *** Basic config
@@ -214,15 +224,9 @@
   (use-package try
     :ensure t)
 #+END_SRC
-** Pretty mode
+** Prettify Symbols
    #+BEGIN_SRC emacs-lisp
-     (use-package pretty-mode
-       :ensure t
-       :init
-       (global-pretty-mode)
-       :config
-       (pretty-activate-groups
-        '(:sub-and-superscripts :greek :arithmetic-nary)))
+
    #+END_SRC
 ** Parenthesis
 *** Electric parenthesis
