@@ -103,7 +103,8 @@
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/lisp/")
   (require 'evil-relative-linum)
-#+END_SRC** Evil-commentary
+#+END_SRC** 
+** Evil-commentary
 #+BEGIN_SRC emacs-lisp
   (use-package evil-commentary
     :ensure t
@@ -132,6 +133,29 @@
 #+END_SRC
    
 * Utils
+** PDF-tools
+#+BEGIN_SRC emacs-lisp
+  (use-package pdf-tools
+    :ensure t)
+#+END_SRC
+** Yasnippet
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :config
+    (setq yas-snippet-dirs (append yas-snippet-dirs
+                                   '("~/.emacs/snippets")))
+    (setq yas-triggers-in-field t)
+    :init
+    (yas-global-mode 1))
+#+END_SRC
+** Smart Tabs
+#+BEGIN_SRC emacs-lisp
+  (use-package smart-tabs-mode
+    :ensure t
+    :init
+    (smart-tabs-insinuate 'c 'javascript 'python 'ruby))
+#+END_SRC
 ** Org
 *** Basic config
 #+BEGIN_SRC emacs-lisp
