@@ -12,10 +12,9 @@
 background = #99000000
 ; background = #222
 background-alt = #444
-foreground = ${xrdb:color7}
-;foreground = #dfdfdf
+foreground = #a8a19f
 foreground-alt = #555
-primary = ${xrdb:color3}
+primary =  #d5911a
 ;primary = ${xrdb:color3}
 secondary = ${xrdb:color5}
 ;secondary = #e60053
@@ -267,7 +266,7 @@ ramp-signal-foreground = ${colors.foreground}
 
 [module/eth]
 type = internal/network
-interface = enp3s0
+interface = enp0s31f6
 interval = 3.0
 
 format-connected-underline = #55aa55

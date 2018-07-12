@@ -41,7 +41,7 @@ bindsym $mod+q kill
 bindsym $mod+Shift+q kill
 
 # start rofi (a program launcher)
-bindsym $mod+d exec --no-startup-id rofi -show drun 
+bindsym $mod+d exec --no-startup-id rofi -modi drun -show drun 
 
 # lock screen
 bindsym $mod+Shift+x exec --no-startup-id lock
@@ -67,7 +67,7 @@ bindsym $mod+Shift+i		resize grow height 10 px or 10 ppt
 bindsym $mod+Shift+o		resize grow width 10 px or 10 ppt
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+v split toggle
 
 bindsym $mod+r				exec $term -e ranger
 
@@ -172,7 +172,7 @@ exec_always --no-startup-id ~/.config/polybar/run_polybar.sh
 # Capslock -> Ctrl
 exec --no-startup-id setxkbmap -option 'ctrl:nocaps,shift:both_capslock'
 # Start compton for transparency
-exec --no-startup-id compton -f
+exec --no-startup-id compton -f -D 1
 # Dunst for notifications
 exec --no-startup-id dunst
 # Start Music Player Daemon
