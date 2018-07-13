@@ -94,6 +94,8 @@ bindsym $mod+Shift+d			gaps inner current set 0; gaps outer current set 0
 
 bindsym $mod+e				exec $EDITOR
 
+bindsym $mod+Shift+a			exec --no-startup-id audioswap
+
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
