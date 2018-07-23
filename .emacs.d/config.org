@@ -1,4 +1,9 @@
 * General layout and config
+** Mac alt fix
+#+BEGIN_SRC emacs-lisp
+  (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier nil)
+#+END_SRC
 ** Disable menu, toolbar and scroll
    #+BEGIN_SRC emacs-lisp
      (tool-bar-mode -1)
