@@ -398,7 +398,23 @@
   (use-package magit
     :ensure t)
 #+END_SRC
+** Indent guides
+#+BEGIN_SRC emacs-lisp
+  (use-package highlight-indent-guides
+    :ensure t
+    :config
+    (setq highlight-indent-guides-responsive 'top)
+    (setq highlight-indent-guides-method 'character)
+    (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+#+END_SRC
 * LOL
+** Nyan mode
+#+BEGIN_SRC emacs-lisp
+  (use-package nyan-mode
+    :ensure t
+    :init
+    (nyan-mode))
+#+END_SRC
 ** Fireplace
 #+BEGIN_SRC emacs-lisp
   ;; (use-package fireplace
