@@ -61,12 +61,14 @@
 #+BEGIN_SRC emacs-lisp
   (use-package spaceline
     :ensure t
+    :custom
+    (powerline-default-separator 'wave)
     :config
-    (require 'spaceline-config)
-    (setq powerline-default-separator (quote wave))
-    (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-    (spaceline-toggle-buffer-size-off)
-    (spaceline-spacemacs-theme))
+    ;; Fix rendering on MacOs
+    (if (eq window-system 'ns)
+	(setq powerline-image-apple-rgb t))
+    (spaceline-spacemacs-theme)
+    (spaceline-toggle-buffer-size-off))
 #+END_SRC
 ** Cursor colors
 #+BEGIN_SRC emacs-lisp
