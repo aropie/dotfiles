@@ -160,7 +160,7 @@
   (use-package smart-tabs-mode
     :ensure t
     :init
-    (smart-tabs-insinuate 'c 'javascript 'python 'ruby))
+    (smart-tabs-insinuate 'c 'javascript 'ruby))
 #+END_SRC
 ** Shell
 *** Don't ask for confirmation when killing shell
@@ -322,22 +322,27 @@
 ** Company
 *** General
 #+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure t
-    :delight
-    :config
-    (add-hook 'prog-mode-hook 'company-mode)
-    (setq company-idle-delay 0)
-    (setq company-minimum-prefix-length 3)
-
-    (defun my/python-mode-hook ()
-      (add-to-list 'company-backends 'company-jedi))
-    (add-hook 'python-mode-hook 'my/python-mode-hook))
+    (use-package company
+      :ensure t
+      :delight
+      :custom
+      (company-begin-commands '(self-insert-command))
+      (company-idle-delay .1)
+      (company-minimum-prefix-length 2)
+      (company-show-numbers t)
+      (company-tooltip-align-annotations t)
+      (global-company-mode t)
+      :config
+      (defun my/python-mode-hook ()
+	(add-to-list 'company-backends 'company-jedi))
+      (add-hook 'python-mode-hook 'my/python-mode-hook))
 #+END_SRC
 *** Company-jedi
 #+BEGIN_SRC emacs-lisp
   (use-package company-jedi
-    :ensure t)
+    :ensure t
+    :after (jedi-mode company)
+    :config (add-to-list 'company-backends 'company-jedi))
 #+END_SRC
 *** Company-quickhelp
 #+BEGIN_SRC emacs-lisp
