@@ -30,7 +30,9 @@
  '(global-company-mode t)
  '(package-selected-packages
    (quote
-    (spaceline perspective highlight-indent-guides smart-tabs-mode pdf-tools persp-mode markdown-mode adafruit-wisdom try magit diminish company rainbow-delimiters evil smex ido-vertical-mode org-bullets which-key use-package))))
+    (avy ## eyebrowse general spaceline highlight-indent-guides smart-tabs-mode pdf-tools persp-mode markdown-mode adafruit-wisdom try magit diminish company rainbow-delimiters evil smex ido-vertical-mode org-bullets which-key use-package)))
+ '(powerline-default-separator (quote wave))
+ '(spaceline-highlight-face-func (quote spaceline-highlight-face-evil-state) t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

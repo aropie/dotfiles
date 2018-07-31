@@ -63,6 +63,7 @@
     :ensure t
     :custom
     (powerline-default-separator 'wave)
+    (spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
     :config
     ;; Fix rendering on MacOs
     (if (eq window-system 'ns)
@@ -85,7 +86,6 @@
     :ensure t
     :init
     (setq evil-leader/in-all-states 1)
-    (global-evil-leader-mode)
     :config
     (evil-leader/set-leader "<SPC>")
     (evil-leader/set-key
@@ -141,6 +141,66 @@
 #+END_SRC
    
 * Utils
+** General.el
+   Manage all the keybindings through general and hydra à la spacemacs
+*** Leaders definitions
+#+BEGIN_SRC emacs-lisp
+  (use-package general
+    :ensure t
+    :config
+    (general-create-definer my-leader
+      ;; :prefix my-leader
+      :prefix "SPC")
+    (general-create-definer my-local-leader
+      ;; prefix local-leader
+      :prefix "SPC m"))
+#+END_SRC
+*** Overall bindings
+#+BEGIN_SRC emacs-lisp
+  (my-leader
+   :keymaps 'normal
+   "TAB" 'mode-line-other-buffer
+   "SPC" 'avy-goto-subword-1
+   "f" 'find-file
+   "s" 'save-buffer
+   "b" 'ido-switch-buffer
+   "k" 'kill-this-buffer
+   "K" 'kill-buffer-and-window
+   "o" 'ace-window
+   "g" 'magit-status
+   "c" 'config-visit)
+#+END_SRC
+** Eyebrowse
+#+BEGIN_SRC emacs-lisp
+  (use-package eyebrowse
+    :ensure t
+    :bind
+    ("C-TAB" . eyebrowse-last-window-config )
+    :config
+    (eyebrowse-mode t)
+    (eyebrowse-setup-opinionated-keys))
+#+END_SRC
+** Avy
+*** use-package
+#+BEGIN_SRC emacs-lisp
+  (use-package avy
+    :ensure t)
+#+END_SRC
+*** Bindings
+#+BEGIN_SRC emacs-lisp
+  (general-define-key
+   :keymaps 'override
+   :prefix "C-,"
+   "," '(avy-goto-subword-1 :which-key "Jump to subword")
+   "l" '(avy-goto-line :which-key "Jump to line")
+   "c" '(avy-goto-char :which-key "Jump to char")
+   "ml" '(avy-move-line :which-key "Move line")
+   "mr" '(avy-move-region :which-key "Move region")
+   "yl" '(avy-copy-line :which-key "Yank line")
+   "yr" '(avy-copy-region :which-key "Yank region")
+   "kr" '(avy-kill-region :which-key "Kill region between lines")
+   "kl" '(avy-kill-whole-line :which-key "Kill line"))
+#+END_SRC
 ** PDF-tools
 #+BEGIN_SRC emacs-lisp
   (use-package pdf-tools
@@ -300,26 +360,21 @@
        (which-key-mode)
        :delight)
    #+END_SRC
-** rainbow-mode
-#+BEGIN_SRC emacs-lisp
-  (use-package rainbow-mode
-    :ensure t
-    :init (rainbow-mode t))
-#+END_SRC
 ** Ace window
+*** use-package
 #+BEGIN_SRC emacs-lisp
-  (use-package ace-window
-    :ensure t)
-  (defvar aw-dispatch-alist
-    '((?x aw-delete-window " Ace - Delete Window")
-      (?s aw-swap-window " Ace - Swap Window")
-      (?n aw-flip-window)
-      (?c aw-split-window-fair " Ace - Split Fair Window")
-      (?v aw-split-window-vert " Ace - Split Vert Window")
-      (?h aw-split-window-horz " Ace - Split Horz Window")
-      (?i delete-other-windows " Ace - Maximize Window")
-      (?o delete-other-windows))
-    "List of actions for `aw-dispatch-default'.")
+    (use-package ace-window
+      :ensure t )
+#+END_SRC
+*** bindings
+#+BEGIN_SRC emacs-lisp
+  (my-leader
+    :keymaps 'normal
+    "ws" '(ace-swap-window :which-key "Swap windows")
+    "wo" '(delete-other-windows :which-key "Delete other windows")
+    "wx" '(ace-delete-window :which-key "Delete window")
+    "wh" '(split-window-vertically :which-key "Split window horizontally")
+    "wv" '(split-window-horizontally :which-key "Split window vertically"))
 #+END_SRC
 ** Company
 *** General
@@ -356,14 +411,7 @@
 ** Delight
 #+BEGIN_SRC emacs-lisp
   (use-package delight
-    :ensure t
-    :init
-    (delight '((company-mode)
-	       (which-key-mode)
-	       (rainbow-mode)
-	       (evil-commentary-mode)
-	       (flycheck-mode)
-	       (undo-tree-mode))))
+    :ensure t)
 #+END_SRC
 ** Flycheck
 #+BEGIN_SRC emacs-lisp
