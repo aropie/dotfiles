@@ -174,6 +174,9 @@
 #+BEGIN_SRC emacs-lisp
   (use-package eyebrowse
     :ensure t
+    :custom
+    (eyebrowse-wrap-around t)
+    (eyebrowse-new-workspace t)
     :bind
     ("C-TAB" . eyebrowse-last-window-config )
     :config
@@ -363,8 +366,10 @@
 ** Ace window
 *** use-package
 #+BEGIN_SRC emacs-lisp
-    (use-package ace-window
-      :ensure t )
+      (use-package ace-window
+	:ensure t 
+	:custom
+	(aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 #+END_SRC
 *** Bindings
 #+BEGIN_SRC emacs-lisp
