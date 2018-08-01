@@ -41,6 +41,13 @@
 #+BEGIN_SRC emacs-lisp
   (global-hl-line-mode t)
 #+END_SRC
+** Ediff
+   Ediff setings so it won' messup my beautiful tilling wm
+#+BEGIN_SRC emacs-lisp
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+  ;; Make ediff split horizontally instead of vertically
+  (setq ediff-split-window-function 'split-window-horizontally)
+#+END_SRC
 ** Window sizing
     #+BEGIN_SRC emacs-lisp
 	(global-set-key (kbd "<C-up>") 'shrink-window)
