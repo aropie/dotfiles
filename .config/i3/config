@@ -99,6 +99,8 @@ bindsym $mod+e				exec $EDITOR
 
 bindsym $mod+Shift+a			exec --no-startup-id audioswap
 
+bindsym $mod+Shift+p			exec --no-startup-id password
+
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.

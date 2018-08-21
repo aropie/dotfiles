@@ -1,6 +1,7 @@
 EDITOR="emacsclient -c -n"
 BROWSER="vivaldi-stable"
 TERMINAL="terminator"
+export LPASS_USERNAME="aropie@hotmail.com"
 
 export TERM="xterm-256color"
 export PATH=$PATH:$HOME/.scripts
