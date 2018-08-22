@@ -177,7 +177,7 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightne
 # START PROCESSES ON STARTUP 
 
 # Launch Polybar where appropriate:
-exec_always --no-startup-id run_polybar.sh
+exec_always --no-startup-id run_polybar
 # Capslock -> Ctrl
 exec --no-startup-id setxkbmap -option 'ctrl:nocaps,shift:both_capslock'
 # Start compton for transparency
@@ -193,6 +193,6 @@ exec --no-startup-id unclutter
 # Turn numlock on
 exec --no-startup-id numlockx on
 # Set random background
-exec --no-startup-id feh -bg-scale ~/Pictures/Walls/50iME9x.jpg
+exec --no-startup-id feh --bg-scale ~/Pictures/Walls/50iME9x.jpg
 # Start emacs daemonized
 exec --no-startup-id emacs --daemon
