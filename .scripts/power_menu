@@ -5,33 +5,34 @@
 LINES=4
 ENTRIES=""
 if which xset > /dev/null 2>&1; then
-	ENTRIES+="1: Lock system\\n"
+	ENTRIES+="Lock system\\n"
 	((++LINES))
 fi
 
-ENTRIES+="2: Suspend system\\n"
-ENTRIES+="3: Hibernate system\\n"
-ENTRIES+="4: Shutdown system\\n"
-ENTRIES+="5: Reboot system"
+ENTRIES+="Suspend system\\n"
+ENTRIES+="Hibernate system\\n"
+ENTRIES+="Reboot system\\n"
+ENTRIES+="Shutdown system"
 
-LAUNCHER="rofi -dmenu -i -lines ${LINES} -hide-scrollbar -p >"
+LAUNCHER="rofi -dmenu -i -hide-scrollbar -p > -u 4"
 
 option=$(echo -e "$ENTRIES" | $LAUNCHER | awk '{print $1}' | tr -d '\r\n:')
+echo $option
 if [ ${#option} -gt 0 ] ; then
 	case $option in
-	    1)
+	    Lock)
 		lock
 		;;
-	    2)
+	    Suspend)
 		systemctl suspend
 		;;
-	    3)
+	    Hibernate)
 		systemctl hibernate
 		;;
-	    4)
+	    Shutdown)
 		systemctl poweroff
 		;;
-	    5)
+	    Reboot)
 		systemctl reboot
 		;;
 	    *)
