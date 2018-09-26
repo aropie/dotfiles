@@ -494,10 +494,22 @@
 #+BEGIN_SRC emacs-lisp
   (use-package highlight-indent-guides
     :ensure t
+    :delight
     :config
     (setq highlight-indent-guides-responsive 'top)
     (setq highlight-indent-guides-method 'character)
     (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+#+END_SRC
+** Auto-update
+Self explanatory, I'd guess
+#+BEGIN_SRC emacs-lisp
+  (use-package auto-package-update
+    :ensure t
+    :config
+    (setq auto-package-update-prompt-before-update t)
+    (setq auto-package-update-delete-old-versions t)
+    (setq auto-package-update-hide-results t)
+    (auto-package-update-maybe))
 #+END_SRC
 * LOL
 ** Nyan mode
