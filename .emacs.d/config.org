@@ -382,13 +382,34 @@
 #+BEGIN_SRC emacs-lisp
   (my-leader
     :keymaps 'normal
-    "ws" '(ace-swap-window :which-key "Swap windows")
-    "wo" '(delete-other-windows :which-key "Delete other windows")
-    "wx" '(ace-delete-window :which-key "Delete window")
-    "wh" '(split-window-vertically :which-key "Split window horizontally")
-    "wv" '(split-window-horizontally :which-key "Split window vertically"))
+    :infix "w"
+    "" '(:ignore t :which-key "Windows")
+    "s" '(ace-swap-window :which-key "Swap windows")
+    "o" '(delete-other-windows :which-key "Delete other windows")
+    "x" '(ace-delete-window :which-key "Delete window")
+    "h" '(split-window-vertically :which-key "Split window horizontally")
+    "v" '(split-window-horizontally :which-key "Split window vertically"))
+#+END_SRC
+** Dumb-jump
+   Jump to definitions
+*** use-package 
+#+BEGIN_SRC emacs-lisp
+  (use-package dumb-jump
+    :ensure t)
+#+END_SRC
+*** Bindings
+#+BEGIN_SRC emacs-lisp
+  (my-leader
+    :keymaps 'normal
+    :infix "d"
+    "" '(:ignore t :which-key "Definition")
+    "g" '(dumb-jump-go :whick-key "Jump to definition")
+    "o" '(dumb-jump-go-other-window :which-key "Jump to definition on the other window")
+    "l" '(dumb-jump-quick-look :whick-key "Look at definition on tooltip")
+    "b" '(dumb-jump-back :which-key "Jump back to previous-to-jump position"))
 #+END_SRC
 ** Company
+   Auto-completion
 *** General
 #+BEGIN_SRC emacs-lisp
     (use-package company
