@@ -127,13 +127,6 @@
     (evil-commentary-mode t)
     :delight)
 #+END_SRC
-** Surround
-#+BEGIN_SRC emacs-lisp
-  (use-package evil-surround
-    :ensure t
-    :init
-    (global-evil-surround-mode t))
-#+END_SRC
 ** Evil-org
 #+BEGIN_SRC emacs-lisp
   (use-package evil-org
@@ -145,6 +138,13 @@
     (add-hook 'evil-org-mode-hook
               (lambda ()
                 (evil-org-set-key-theme))))
+#+END_SRC
+** Surround
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-surround
+    :ensure t
+    :init
+    (global-evil-surround-mode t))
 #+END_SRC
    
 * Utils
@@ -166,31 +166,19 @@
 #+BEGIN_SRC emacs-lisp
   (my-leader
    :keymaps 'normal
-   "TAB" 'mode-line-other-buffer
-   "SPC" 'avy-goto-subword-1
-   "f" 'find-file
-   "s" 'save-buffer
-   "b" 'ido-switch-buffer
-   "k" 'kill-this-buffer
-   "K" 'kill-buffer-and-window
-   "o" 'ace-window
-   "g" 'magit-status
-   "c" 'config-visit)
-#+END_SRC
-** Eyebrowse
-#+BEGIN_SRC emacs-lisp
-  (use-package eyebrowse
-    :ensure t
-    :custom
-    (eyebrowse-wrap-around t)
-    (eyebrowse-new-workspace t)
-    :bind
-    ("C-TAB" . eyebrowse-last-window-config )
-    :config
-    (eyebrowse-mode t)
-    (eyebrowse-setup-opinionated-keys))
+   "TAB" '(mode-line-other-buffer :which-key "Previous buffer")
+   "SPC" '(avy-goto-subword-1 :which-key "Jump to word")
+   "f" '(find-file :which-key "Find file")
+   "s" '(save-buffer :which-key "Save buffer")
+   "b" '(ido-switch-buffer :which-key "Switch buffer")
+   "k" '(kill-this-buffer :which-key "Kill this buffer")
+   "K" '(kill-buffer-and-window :which-key "Kill this buffer and window")
+   "o" '(ace-window :which-key "Change window")
+   "g" '(magit-status :which-key "Magit status")
+   "c" '(config-visit :which-key "Goto config"))
 #+END_SRC
 ** Avy
+   Jump around like there's no tomorrow
 *** use-package
 #+BEGIN_SRC emacs-lisp
   (use-package avy
@@ -198,20 +186,25 @@
 #+END_SRC
 *** Bindings
 #+BEGIN_SRC emacs-lisp
-  (general-define-key
-   :keymaps 'override
-   :prefix "C-,"
-   "," '(avy-goto-subword-1 :which-key "Jump to subword")
+  (my-leader
+   :keymaps 'normal
+   :infix ","
+   "" '(:ignore t :which-key "Jump")
+   "w" '(avy-goto-subword-1 :which-key "Jump to word")
    "l" '(avy-goto-line :which-key "Jump to line")
    "c" '(avy-goto-char :which-key "Jump to char")
+   "m" '(:ignore t :which-key "Move...")
    "ml" '(avy-move-line :which-key "Move line")
    "mr" '(avy-move-region :which-key "Move region")
+   "y" '(:ignore t :which-key "Yank...")
    "yl" '(avy-copy-line :which-key "Yank line")
    "yr" '(avy-copy-region :which-key "Yank region")
+   "k" '(:ignore t :which-key "Kill...")
    "kr" '(avy-kill-region :which-key "Kill region between lines")
    "kl" '(avy-kill-whole-line :which-key "Kill line"))
 #+END_SRC
 ** PDF-tools
+   Because Emacs' default PDF mode sucks hard
 #+BEGIN_SRC emacs-lisp
   (use-package pdf-tools
     :ensure t)
@@ -228,6 +221,7 @@
     (yas-global-mode 1))
 #+END_SRC
 ** Smart Tabs
+   Allegedly, the correct way to indent. Unfortunately PEP8, forbids it
 #+BEGIN_SRC emacs-lisp
   (use-package smart-tabs-mode
     :ensure t
@@ -235,6 +229,7 @@
     (smart-tabs-insinuate 'c 'javascript 'ruby))
 #+END_SRC
 ** Shell
+   Because someday I wish to start using the shell within Emacs. Someday...
 *** Don't ask for confirmation when killing shell
 #+BEGIN_SRC emacs-lisp
   (defun set-no-process-query-on-exit ()
@@ -245,6 +240,7 @@
   (add-hook 'term-exec-hook 'set-no-process-query-on-exit)
 #+END_SRC
 ** Try
+   For when you're not sure wether you want a package polluting your system
 #+BEGIN_SRC emacs-lisp
   (use-package try
     :ensure t)
@@ -317,44 +313,52 @@
 				(company-mode))))
 #+END_SRC
 ** Prettify Symbols
+   To be fixed...
    #+BEGIN_SRC emacs-lisp
-
+   
    #+END_SRC
 ** Parenthesis
+   I like my parenthesis like I like my waffles: with poor anaolgies
 *** Electric parenthesis
+    Force the parenthesis to come in pairs, unlike you, dear reader
 #+BEGIN_SRC emacs-lisp
   (electric-pair-mode 1)
 #+END_SRC
-*** rainbow-delimiters
+*** Rainbow-delimiters
+    Visual aid to know which parenthesis is paired to which
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
     :ensure t
     :config
     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 #+END_SRC
-*** show-paren
+*** Show-paren
+   Highlight matching parenthesis on selection 
 #+BEGIN_SRC emacs-lisp
   (show-paren-mode t)
 #+END_SRC
 ** Buffers
 *** ibuffer
+    LEGACY. Use ibuffer instead of the default buffer select screen
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+END_SRC
-*** config edit/reload
-**** edit
+** Config edit/reload
+   Custom functions to visit and reload config file
+*** Edit
 #+BEGIN_SRC emacs-lisp
   (defun config-visit ()
     (interactive)
     (find-file "~/.emacs.d/config.org"))
 #+END_SRC
-**** reload
+*** Reload
 #+BEGIN_SRC emacs-lisp
   (defun config-reload ()
     (interactive)
     (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
 #+END_SRC
 ** IDO
+   Because IDO's love (and Helm looks way too complicated)
 *** Enable IDO mode
 #+BEGIN_SRC emacs-lisp
   (ido-mode t)
@@ -362,6 +366,7 @@
   (setq ido-everywhere t)
 #+END_SRC
 *** Smex
+    IDO's replacement for M-x
 #+BEGIN_SRC emacs-lisp
   (use-package smex
     :ensure t
@@ -370,6 +375,7 @@
     ("M-x" . smex))
 #+END_SRC
 *** Grid
+    Semi-vertical view of IDO
 #+BEGIN_SRC emacs-lisp
   (use-package ido-grid-mode
     :ensure t
@@ -377,6 +383,7 @@
     (ido-grid-mode t))
 #+END_SRC
 ** which-key
+   Because Emacs is hard enough without visual aids
    #+BEGIN_SRC emacs-lisp
      (use-package which-key
        :ensure t
@@ -385,6 +392,7 @@
        :delight)
    #+END_SRC
 ** Ace window
+   Window managing made smart
 *** use-package
 #+BEGIN_SRC emacs-lisp
       (use-package ace-window
@@ -396,13 +404,34 @@
 #+BEGIN_SRC emacs-lisp
   (my-leader
     :keymaps 'normal
-    "ws" '(ace-swap-window :which-key "Swap windows")
-    "wo" '(delete-other-windows :which-key "Delete other windows")
-    "wx" '(ace-delete-window :which-key "Delete window")
-    "wh" '(split-window-vertically :which-key "Split window horizontally")
-    "wv" '(split-window-horizontally :which-key "Split window vertically"))
+    :infix "w"
+    "" '(:ignore t :which-key "Windows")
+    "s" '(ace-swap-window :which-key "Swap windows")
+    "o" '(delete-other-windows :which-key "Delete other windows")
+    "x" '(ace-delete-window :which-key "Delete window")
+    "h" '(split-window-vertically :which-key "Split window horizontally")
+    "v" '(split-window-horizontally :which-key "Split window vertically"))
+#+END_SRC
+** Dumb-jump
+   Jump to definitions
+*** use-package 
+#+BEGIN_SRC emacs-lisp
+  (use-package dumb-jump
+    :ensure t)
+#+END_SRC
+*** Bindings
+#+BEGIN_SRC emacs-lisp
+  (my-leader
+    :keymaps 'normal
+    :infix "d"
+    "" '(:ignore t :which-key "Definition")
+    "g" '(dumb-jump-go :whick-key "Jump to definition")
+    "o" '(dumb-jump-go-other-window :which-key "Jump to definition on the other window")
+    "l" '(dumb-jump-quick-look :whick-key "Look at definition on tooltip")
+    "b" '(dumb-jump-back :which-key "Jump back to previous-to-jump position"))
 #+END_SRC
 ** Company
+   Auto-completion
 *** General
 #+BEGIN_SRC emacs-lisp
     (use-package company
@@ -421,6 +450,7 @@
       (add-hook 'python-mode-hook 'my/python-mode-hook))
 #+END_SRC
 *** Company-jedi
+    Python autocompletion
 #+BEGIN_SRC emacs-lisp
   (use-package company-jedi
     :ensure t
@@ -469,11 +499,6 @@
       (setq web-mode-markup-indent-offset 2)
       (setq web-mode-enable-engine-detection t))
 #+END_SRC
-** PDF-tools
-#+BEGIN_SRC emacs-lisp
-  (use-package pdf-tools
-    :ensure t)
-#+END_SRC
 ** Magit
 #+BEGIN_SRC emacs-lisp
   (use-package magit
@@ -483,10 +508,22 @@
 #+BEGIN_SRC emacs-lisp
   (use-package highlight-indent-guides
     :ensure t
+    :delight
     :config
     (setq highlight-indent-guides-responsive 'top)
     (setq highlight-indent-guides-method 'character)
     (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+#+END_SRC
+** Auto-update
+Self explanatory, I'd guess
+#+BEGIN_SRC emacs-lisp
+  (use-package auto-package-update
+    :ensure t
+    :config
+    (setq auto-package-update-prompt-before-update t)
+    (setq auto-package-update-delete-old-versions t)
+    (setq auto-package-update-hide-results t)
+    (auto-package-update-maybe))
 #+END_SRC
 * LOL
 ** Nyan mode
