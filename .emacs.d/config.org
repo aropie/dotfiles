@@ -302,6 +302,20 @@
   ; Allow refile to create parent tasks with confirmation
   (setq org-refile-allow-creating-parent-nodes (quote confirm))
 #+END_SRC
+** Go
+#+BEGIN_SRC emacs-lisp
+  (use-package go-mode
+    :ensure t)
+#+END_SRC
+*** Go-company
+#+BEGIN_SRC emacs-lisp
+    (use-package company-go
+      :ensure t
+      :config
+      (add-hook 'go-mode-hook (lambda ()
+				(set (make-local-variable 'company-backends) '(company-go))
+				(company-mode))))
+#+END_SRC
 ** Prettify Symbols
    #+BEGIN_SRC emacs-lisp
 
@@ -403,7 +417,7 @@
       (global-company-mode t)
       :config
       (defun my/python-mode-hook ()
-	(add-to-list 'company-backends 'company-jedi))
+	(add-to-list 'company-backends 'company-jedi 'company-go))
       (add-hook 'python-mode-hook 'my/python-mode-hook))
 #+END_SRC
 *** Company-jedi
