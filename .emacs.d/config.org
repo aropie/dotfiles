@@ -318,7 +318,7 @@
    
    #+END_SRC
 ** Parenthesis
-   I like my parenthesis like I like my waffles: with poor anaolgies
+   I like my parenthesis like I like my waffles: with poor analogies
 *** Electric parenthesis
     Force the parenthesis to come in pairs, unlike you, dear reader
 #+BEGIN_SRC emacs-lisp
