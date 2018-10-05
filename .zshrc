@@ -4,7 +4,9 @@ TERMINAL="terminator"
 export LPASS_USERNAME="aropie@hotmail.com"
 
 export TERM="xterm-256color"
+export GOPATH=$HOME/go
 export PATH=$PATH:$HOME/.scripts
+export PATH=$PATH:$GOPATH/bin
 
 # Start xorg on login
 if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then

@@ -298,13 +298,27 @@
   ; Allow refile to create parent tasks with confirmation
   (setq org-refile-allow-creating-parent-nodes (quote confirm))
 #+END_SRC
+** Go
+#+BEGIN_SRC emacs-lisp
+  (use-package go-mode
+    :ensure t)
+#+END_SRC
+*** Go-company
+#+BEGIN_SRC emacs-lisp
+    (use-package company-go
+      :ensure t
+      :config
+      (add-hook 'go-mode-hook (lambda ()
+				(set (make-local-variable 'company-backends) '(company-go))
+				(company-mode))))
+#+END_SRC
 ** Prettify Symbols
    To be fixed...
    #+BEGIN_SRC emacs-lisp
    
    #+END_SRC
 ** Parenthesis
-   I like my parenthesis like I like my waffles: with poor anaolgies
+   I like my parenthesis like I like my waffles: with poor analogies
 *** Electric parenthesis
     Force the parenthesis to come in pairs, unlike you, dear reader
 #+BEGIN_SRC emacs-lisp
@@ -432,7 +446,7 @@
       (global-company-mode t)
       :config
       (defun my/python-mode-hook ()
-	(add-to-list 'company-backends 'company-jedi))
+	(add-to-list 'company-backends 'company-jedi 'company-go))
       (add-hook 'python-mode-hook 'my/python-mode-hook))
 #+END_SRC
 *** Company-jedi
@@ -511,6 +525,26 @@ Self explanatory, I'd guess
     (setq auto-package-update-hide-results t)
     (auto-package-update-maybe))
 #+END_SRC
+** All the fonts
+   We take advantage of running Emacs as a GUI, and get nice icons for it
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons
+    :ensure t)
+#+END_SRC
+** Neotree
+#+BEGIN_SRC emacs-lisp
+  (use-package neotree
+    :ensure t)
+#+END_SRC
+** Theme
+ I really like DOOM theme, and has some nice integration with neotree
+ #+BEGIN_SRC emacs-lisp
+   (use-package doom-themes
+     :ensure t
+     :config
+     (load-theme 'doom-one t)
+     (doom-themes-neotree-config))
+ #+END_SRC
 * LOL
 ** Nyan mode
 #+BEGIN_SRC emacs-lisp
