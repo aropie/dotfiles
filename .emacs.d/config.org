@@ -551,16 +551,20 @@ Self explanatory, I'd guess
   (use-package nyan-mode
     :ensure t
     :init
-    (nyan-mode))
+    (nyan-mode)
+    (nyan-start-animation))
 #+END_SRC
 ** Fireplace
 #+BEGIN_SRC emacs-lisp
-  ;; (use-package fireplace
-  ;;   :ensure t)
-  ;; (run-with-idle-timer 600 t 'fireplace ())
+  (use-package fireplace
+    :ensure t
+    :disabled
+    :init
+    (run-with-idle-timer 600 t 'fireplace ()))
 #+END_SRC
 ** Adafruit-wisdom
 #+BEGIN_SRC emacs-lisp
   (use-package adafruit-wisdom
-    :ensure t)
+    :ensure t
+    :disabled)
 #+END_SRC
