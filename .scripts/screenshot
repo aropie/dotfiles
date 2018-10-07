@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# screenshot
+
+launcher="rofi -dmenu -i -hide-scrollbar -p Screenshot"
+entries="Fullscreen\nFocused window\nSelection"
+
+selection=$(echo -e $entries | $launcher)
+
+if [ ${#selection} -gt 0 ]; then
+    case $selection in
+	Fullscreen)
+	    scrot -d 1 -e 'mv $f ~/Pictures/Screenshots/$f'
+	    ;;
+	Focused*)
+	    scrot -u -d 1 -e 'mv $f ~/Pictures/Screenshots/$f'
+	    ;;
+	Selection)
+	    scrot -s -e 'mv $f ~/Pictures/Screenshots/$f'
+	    ;;
+    esac
+fi
+# TODO Move the file to a sane position
