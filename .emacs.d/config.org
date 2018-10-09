@@ -275,20 +275,6 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
   ; Allow refile to create parent tasks with confirmation
   (setq org-refile-allow-creating-parent-nodes (quote confirm))
 #+END_SRC
-** Go
-#+BEGIN_SRC emacs-lisp
-  (use-package go-mode
-    :ensure t)
-#+END_SRC
-*** Go-company
-#+BEGIN_SRC emacs-lisp
-    (use-package company-go
-      :ensure t
-      :config
-      (add-hook 'go-mode-hook (lambda ()
-				(set (make-local-variable 'company-backends) '(company-go))
-				(company-mode))))
-#+END_SRC
 ** Prettify Symbols
    To be fixed...
    #+BEGIN_SRC emacs-lisp
