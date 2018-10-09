@@ -325,8 +325,17 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
 *** Enable IDO mode
 #+BEGIN_SRC emacs-lisp
   (ido-mode t)
-  (setq ido-enable-flex-matching t)
   (setq ido-everywhere t)
+#+END_SRC
+*** Flex-matching for IDO
+A package that improves greatly on the default IDO's flex matching engine
+#+BEGIN_SRC emacs-lisp
+  (use-package flx-ido
+    :ensure t
+    :config
+    (flx-ido-mode t)
+    (setq ido-enable-flex-matching t)
+    (setq ido-use-faces nil))
 #+END_SRC
 *** Smex
     IDO's replacement for M-x
