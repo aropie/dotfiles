@@ -498,7 +498,28 @@ Self explanatory, I'd guess
 ** Neotree
 #+BEGIN_SRC emacs-lisp
   (use-package neotree
-    :ensure t)
+    :ensure t
+    :config
+     (my-leader
+       :keymaps 'normal
+       :infix "n"
+       "" '(neotree-show :which-key "Neotree"))
+
+    (general-define-key
+     :states '(normal visual insert emacs)
+     :keymaps 'neotree-mode-map
+     "TAB" 'neotree-enter
+     "SPC" 'neotree-quick-look
+     "q" 'neotree-hide
+     "RET" 'neotree-enter
+     "g" 'neotree-refresh
+     "k" 'neotree-previous-line
+     "j" 'neotree-next-line
+     "h" 'neotree-select-up-node
+     "R" 'neotree-rename-node
+     "D" 'neotree-delete-node
+     "C" 'neotree-create-node
+     "H" 'neotree-hidden-file-toggle))
 #+END_SRC
 ** Theme
  I really like DOOM theme, and has some nice integration with neotree
