@@ -155,34 +155,30 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
    "k" '(kill-this-buffer :which-key "Kill this buffer")
    "K" '(kill-buffer-and-window :which-key "Kill this buffer and window")
    "o" '(ace-window :which-key "Change window")
-   "g" '(magit-status :which-key "Magit status")
    "c" '(config-visit :which-key "Goto config"))
 #+END_SRC
 ** Avy
    Jump around like there's no tomorrow
-*** use-package
 #+BEGIN_SRC emacs-lisp
   (use-package avy
-    :ensure t)
-#+END_SRC
-*** Bindings
-#+BEGIN_SRC emacs-lisp
-  (my-leader
-   :keymaps 'normal
-   :infix ","
-   "" '(:ignore t :which-key "Jump")
-   "w" '(avy-goto-subword-1 :which-key "Jump to word")
-   "l" '(avy-goto-line :which-key "Jump to line")
-   "c" '(avy-goto-char :which-key "Jump to char")
-   "m" '(:ignore t :which-key "Move...")
-   "ml" '(avy-move-line :which-key "Move line")
-   "mr" '(avy-move-region :which-key "Move region")
-   "y" '(:ignore t :which-key "Yank...")
-   "yl" '(avy-copy-line :which-key "Yank line")
-   "yr" '(avy-copy-region :which-key "Yank region")
-   "k" '(:ignore t :which-key "Kill...")
-   "kr" '(avy-kill-region :which-key "Kill region between lines")
-   "kl" '(avy-kill-whole-line :which-key "Kill line"))
+    :ensure t
+    :config
+    (my-leader
+      :keymaps 'normal
+      :infix ","
+      "" '(:ignore t :which-key "Jump")
+      "w" '(avy-goto-subword-1 :which-key "Jump to word")
+      "l" '(avy-goto-line :which-key "Jump to line")
+      "c" '(avy-goto-char :which-key "Jump to char")
+      "m" '(:ignore t :which-key "Move...")
+      "ml" '(avy-move-line :which-key "Move line")
+      "mr" '(avy-move-region :which-key "Move region")
+      "y" '(:ignore t :which-key "Yank...")
+      "yl" '(avy-copy-line :which-key "Yank line")
+      "yr" '(avy-copy-region :which-key "Yank region")
+      "k" '(:ignore t :which-key "Kill...")
+      "kr" '(avy-kill-region :which-key "Kill region between lines")
+      "kl" '(avy-kill-whole-line :which-key "Kill line")))
 #+END_SRC
 ** PDF-tools
    Because Emacs' default PDF mode sucks hard
@@ -463,27 +459,14 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
     :ensure t
     :delight)
 #+END_SRC
-** Web mode
-#+BEGIN_SRC emacs-lisp
-    (use-package web-mode
-      :ensure t
-      :init
-      (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-      (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-      (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-      (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-      (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-      (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-      (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-      (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-      :config
-      (setq web-mode-markup-indent-offset 2)
-      (setq web-mode-enable-engine-detection t))
-#+END_SRC
 ** Magit
 #+BEGIN_SRC emacs-lisp
   (use-package magit
-    :ensure t)
+    :ensure t
+    :config
+    (my-leader
+      :keymaps 'normal
+      "g" '(magit-status :which-key "Git status")))
 #+END_SRC
 ** Indent guides
 #+BEGIN_SRC emacs-lisp
@@ -525,6 +508,58 @@ Self explanatory, I'd guess
      :config
      (load-theme 'doom-one t)
      (doom-themes-neotree-config))
+ #+END_SRC
+** Projectile
+   Ok, I'll admit it: Projectile's really cool. Really nice project management
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :ensure t
+    :config
+    (my-leader
+    :keymaps 'normal
+    :infix "p"
+    "" '(:ignore t :which-key "Project")
+    "f" '(projectile-find-file :which-key "Find file")
+    "b" '(projectile-switch-to-buffer :which-key "Switch to buffer")
+    "k" '(projectile-kill-buffers :which-key "Kill all project buffers")
+    "p" '(projectile-switch-open-project :which-key "Switch to open project")
+    "r" '(projectile-replace :which-key "Replace in project")
+    "s" '(projectile-grep :which-key "Search in project")))
+#+END_SRC
+* Languages
+** Go
+ #+BEGIN_SRC emacs-lisp
+   (use-package go-mode
+     :ensure t)
+ #+END_SRC
+*** Go-company
+ #+BEGIN_SRC emacs-lisp
+     (use-package company-go
+       :ensure t
+       :config
+       (add-hook 'go-mode-hook (lambda ()
+				 (set (make-local-variable 'company-backends) '(company-go))
+				 (company-mode))))
+ #+END_SRC
+** Web
+ #+BEGIN_SRC emacs-lisp
+     (use-package web-mode
+       :ensure t
+       :init
+       (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+       (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+       (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+       (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+       (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+       (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+       (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+       (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+       (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
+       :config
+       (setq web-mode-markup-indent-offset 2)
+       (setq web-mode-enable-auto-pairing t)
+       (setq web-mode-enable-engine-detection t)
+       (setq web-mode-enable-css-colorization t))
  #+END_SRC
 * LOL
 ** Nyan mode
