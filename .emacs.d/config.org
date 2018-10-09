@@ -95,33 +95,6 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
   (setq evil-replace-state-cursor '("red" hollow))
   (setq evil-operator-state-cursor '("red" hollow))
 #+END_SRC
-** Leader mode
-#+BEGIN_SRC emacs-lisp
-  (use-package evil-leader
-    :ensure t
-    :init
-    (setq evil-leader/in-all-states 1)
-    :config
-    (evil-leader/set-leader "<SPC>")
-    (evil-leader/set-key
-     "<SPC>" 'avy-goto-char'
-     "TAB" 'mode-line-other-buffer'
-     "f" 'find-file
-     "k" 'kill-this-buffer
-     "K" 'kill-buffer-and-window
-     "w" 'save-buffer
-     "b" 'ido-switch-buffer
-     "c" 'config-visit
-     "r" 'org-capture
-     "o" 'ace-window
-     "a" 'org-agenda
-     "p" 'org-pomodoro
-     "g" 'magit-status
-     "0" 'delete-window
-     "1" 'delete-other-windows
-     "2" 'split-window-vertically
-     "3" 'split-window-horizontally))
-#+END_SRC
 ** Relative line number
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/lisp/")
