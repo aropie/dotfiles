@@ -55,6 +55,14 @@
 	(global-set-key (kbd "<C-left>") 'shrink-window-horizontally)
 	(global-set-key (kbd "<C-right>") 'enlarge-window-horizontally)
     #+END_SRC
+** Increase GC
+Emacs garbage collection is a fairly primitive stop-the-world type.
+This means, performance can benefit greatly by increasing the threshold
+of memory allocated before GC runs. By default, Emacs will initate GC every
+0.76 MB allocated. Since it's no longer 2002, we can bumb that a little.
+#+BEGIN_SRC emacs-lisp
+(setq gc-cons-threshold 20000000)
+#+END_SRC
 * Evil
 ** Start evil mode
 #+BEGIN_SRC emacs-lisp
