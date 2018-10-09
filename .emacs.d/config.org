@@ -351,6 +351,7 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
      (use-package which-key
        :ensure t
        :init
+       (setq which-key-idle-delay 0)
        (which-key-mode)
        :delight)
    #+END_SRC
