@@ -387,21 +387,18 @@ A package that improves greatly on the default IDO's flex matching engine
 #+END_SRC
 ** Dumb-jump
    Jump to definitions
-*** use-package 
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
-    :ensure t)
-#+END_SRC
-*** Bindings
-#+BEGIN_SRC emacs-lisp
-  (my-leader
-    :keymaps 'normal
-    :infix "d"
-    "" '(:ignore t :which-key "Definition")
-    "g" '(dumb-jump-go :whick-key "Jump to definition")
-    "o" '(dumb-jump-go-other-window :which-key "Jump to definition on the other window")
-    "l" '(dumb-jump-quick-look :whick-key "Look at definition on tooltip")
-    "b" '(dumb-jump-back :which-key "Jump back to previous-to-jump position"))
+    :ensure t
+    :config
+    (my-leader
+      :keymaps 'normal
+      :infix "d"
+      "" '(:ignore t :which-key "Definition")
+      "j" '(dumb-jump-go :which-key "Jump to definition")
+      "o" '(dumb-jump-go-other-window :which-key "Jump to definition on the other window")
+      "l" '(dumb-jump-quick-look :which-key "Look at definition on tooltip")
+      "b" '(dumb-jump-back :which-key "Jump back to previous-to-jump position")))
 #+END_SRC
 ** Company
    Auto-completion
