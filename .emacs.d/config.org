@@ -88,16 +88,22 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
     (if (eq window-system 'ns)
 	(setq powerline-image-apple-rgb t))
     (spaceline-spacemacs-theme)
-    (spaceline-toggle-buffer-size-off))
+    (spaceline-toggle-hud-off))
 #+END_SRC
 ** Cursor colors
 #+BEGIN_SRC emacs-lisp
   (setq evil-emacs-state-cursor '("red" bar))
-  (setq evil-normal-state-cursor '("orange" box))
+  (setq evil-normal-state-cursor '("skyblue2" box))
   (setq evil-visual-state-cursor '("gray" box))
   (setq evil-insert-state-cursor '("green" bar))
   (setq evil-replace-state-cursor '("red" hollow))
   (setq evil-operator-state-cursor '("red" hollow))
+  (set-face-attribute 'spaceline-evil-emacs nil :background "red")
+  (set-face-attribute 'spaceline-evil-insert nil :background "green")
+  (set-face-attribute 'spaceline-evil-motion nil :background "skyblue2")
+  (set-face-attribute 'spaceline-evil-normal nil :background "skyblue2")
+  (set-face-attribute 'spaceline-evil-replace nil :background "red")
+  (set-face-attribute 'spaceline-evil-visual nil :background "gray")
 #+END_SRC
 ** Relative line number
 #+BEGIN_SRC emacs-lisp
