@@ -10,11 +10,6 @@
      (menu-bar-mode -1)
      (scroll-bar-mode -1)
    #+END_SRC
-** Transparency
-#+BEGIN_SRC emacs-lisp
-     (set-frame-parameter (selected-frame) 'alpha '(95 95))
-     (add-to-list 'default-frame-alist '(alpha 95 95))
-#+END_SRC
 ** Scroll conservatively
    #+BEGIN_SRC emacs-lisp
      (setq scroll-conservatively 100)
@@ -36,11 +31,6 @@
   kept-old-versions 2
   version-control t)
   #+END_SRC
-
-** Line highlight
-#+BEGIN_SRC emacs-lisp
-  (global-hl-line-mode t)
-#+END_SRC
 ** Ediff
    Ediff setings so it won' messup my beautiful tilling wm
 #+BEGIN_SRC emacs-lisp
@@ -63,81 +53,21 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
 #+BEGIN_SRC emacs-lisp
 (setq gc-cons-threshold 20000000)
 #+END_SRC
+** Transparency
+#+BEGIN_SRC emacs-lisp
+     (set-frame-parameter (selected-frame) 'alpha '(95 95))
+     (add-to-list 'default-frame-alist '(alpha 95 95))
+#+END_SRC
 ** Disable cursors in other windows
 #+BEGIN_SRC emacs-lisp
 (setq cursor-in-non-selected-windows nil)
 #+END_SRC
-* Evil
-** Start evil mode
+** Help
+   When opening a help window, always select that window 
+   afterwards and move focus to it.
 #+BEGIN_SRC emacs-lisp
-    (use-package evil
-      :ensure t
-      :init (evil-mode 1)
-      :config
-      (fset 'evil-mouse-drag-region 'ignore))
+  (setq help-window-select t)
 #+END_SRC
-** Spaceline
-#+BEGIN_SRC emacs-lisp
-  (use-package spaceline
-    :ensure t
-    :custom
-    (powerline-default-separator 'wave)
-    (spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-    :config
-    ;; Fix rendering on MacOs
-    (if (eq window-system 'ns)
-	(setq powerline-image-apple-rgb t))
-    (spaceline-spacemacs-theme)
-    (spaceline-toggle-hud-off))
-#+END_SRC
-** Cursor colors
-#+BEGIN_SRC emacs-lisp
-  (setq evil-emacs-state-cursor '("red" bar))
-  (setq evil-normal-state-cursor '("skyblue2" box))
-  (setq evil-visual-state-cursor '("gray" box))
-  (setq evil-insert-state-cursor '("green" bar))
-  (setq evil-replace-state-cursor '("red" hollow))
-  (setq evil-operator-state-cursor '("red" hollow))
-  (set-face-attribute 'spaceline-evil-emacs nil :background "red")
-  (set-face-attribute 'spaceline-evil-insert nil :background "green")
-  (set-face-attribute 'spaceline-evil-motion nil :background "skyblue2")
-  (set-face-attribute 'spaceline-evil-normal nil :background "skyblue2")
-  (set-face-attribute 'spaceline-evil-replace nil :background "red")
-  (set-face-attribute 'spaceline-evil-visual nil :background "gray")
-#+END_SRC
-** Relative line number
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'load-path "~/.emacs.d/lisp/")
-  (require 'evil-relative-linum)
-#+END_SRC** 
-** Evil-commentary
-#+BEGIN_SRC emacs-lisp
-  (use-package evil-commentary
-    :ensure t
-    :init
-    (evil-commentary-mode t)
-    :delight)
-#+END_SRC
-** Evil-org
-#+BEGIN_SRC emacs-lisp
-  (use-package evil-org
-    :ensure t
-    :after org
-    :delight
-    :config
-    (add-hook 'org-mode-hook 'evil-org-mode)
-    (add-hook 'evil-org-mode-hook
-              (lambda ()
-                (evil-org-set-key-theme))))
-#+END_SRC
-** Surround
-#+BEGIN_SRC emacs-lisp
-  (use-package evil-surround
-    :ensure t
-    :init
-    (global-evil-surround-mode t))
-#+END_SRC
-   
 * Utils
 ** General.el
    Manage all the keybindings through general and hydra à la spacemacs
@@ -167,53 +97,11 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
    "o" '(ace-window :which-key "Change window")
    "c" '(config-visit :which-key "Goto config"))
 #+END_SRC
-** Avy
-   Jump around like there's no tomorrow
-#+BEGIN_SRC emacs-lisp
-  (use-package avy
-    :ensure t
-    :config
-    (my-leader
-      :keymaps 'normal
-      :infix ","
-      "" '(:ignore t :which-key "Jump")
-      "w" '(avy-goto-subword-1 :which-key "Jump to word")
-      "l" '(avy-goto-line :which-key "Jump to line")
-      "c" '(avy-goto-char :which-key "Jump to char")
-      "m" '(:ignore t :which-key "Move...")
-      "ml" '(avy-move-line :which-key "Move line")
-      "mr" '(avy-move-region :which-key "Move region")
-      "y" '(:ignore t :which-key "Yank...")
-      "yl" '(avy-copy-line :which-key "Yank line")
-      "yr" '(avy-copy-region :which-key "Yank region")
-      "k" '(:ignore t :which-key "Kill...")
-      "kr" '(avy-kill-region :which-key "Kill region between lines")
-      "kl" '(avy-kill-whole-line :which-key "Kill line")))
-#+END_SRC
 ** PDF-tools
    Because Emacs' default PDF mode sucks hard
 #+BEGIN_SRC emacs-lisp
   (use-package pdf-tools
     :ensure t)
-#+END_SRC
-** Yasnippet
-#+BEGIN_SRC emacs-lisp
-  (use-package yasnippet
-    :ensure t
-    :config
-    (setq yas-snippet-dirs (append yas-snippet-dirs
-                                   '("~/.emacs/snippets")))
-    (setq yas-triggers-in-field t)
-    :init
-    (yas-global-mode 1))
-#+END_SRC
-** Smart Tabs
-   Allegedly, the correct way to indent. Unfortunately PEP8, forbids it
-#+BEGIN_SRC emacs-lisp
-  (use-package smart-tabs-mode
-    :ensure t
-    :init
-    (smart-tabs-insinuate 'c 'javascript 'ruby))
 #+END_SRC
 ** Shell
    Because someday I wish to start using the shell within Emacs. Someday...
@@ -232,90 +120,6 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
   (use-package try
     :ensure t)
 #+END_SRC
-** Org
-*** Basic config
-#+BEGIN_SRC emacs-lisp
-  (setq org-src-window-setup 'current-window)
-  (setq org-log-done t)
-  (setq org-enforce-todo-dependencies t)
-  (add-to-list 'org-structure-template-alist
-	       '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
-#+END_SRC
-*** Agenda
-#+BEGIN_SRC emacs-lisp
-  (setq org-agenda-files '("~/org"))
-#+END_SRC
-*** Org bullets
-#+BEGIN_SRC emacs-lisp 
-    (use-package org-bullets
-       :ensure t
-       :config
-       (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
-#+END_SRC
-*** Org-pomodoro
-#+BEGIN_SRC emacs-lisp
-  (use-package org-pomodoro
-    :ensure t
-    :config
-    (setq org-pomodoro-ticking-sound-p t)
-    (setq org-pomodoro-ticking-sound-states '(:pomodoro)))
-#+END_SRC
-*** Twitter-bootstrap export
-#+BEGIN_SRC emacs-lisp
-  (use-package ox-twbs
-    :ensure t)
-#+END_SRC
-*** Org-capture
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c c") 'org-capture)
-  (setq org-default-notes-file "~/org/refile.org")
-#+END_SRC
-*** Refile
-#+BEGIN_SRC emacs-lisp
-  ; Targets include this file and any file contributing to the agenda - up to 9 levels deep
-  (setq org-refile-targets (quote ((nil :maxlevel . 9)
-				   (org-agenda-files :maxlevel . 9))))
-
-  ; Use full outline paths for refile targets - we file directly with IDO
-  (setq org-refile-use-outline-path t)
-
-  ; Targets complete directly with IDO
-  (setq org-outline-path-complete-in-steps nil)
-
-  ; Allow refile to create parent tasks with confirmation
-  (setq org-refile-allow-creating-parent-nodes (quote confirm))
-#+END_SRC
-** Prettify Symbols
-   To be fixed...
-   #+BEGIN_SRC emacs-lisp
-   
-   #+END_SRC
-** Parenthesis
-   I like my parenthesis like I like my waffles: with poor analogies
-*** Electric parenthesis
-    Force the parenthesis to come in pairs, unlike you, dear reader
-#+BEGIN_SRC emacs-lisp
-  (electric-pair-mode 1)
-#+END_SRC
-*** Rainbow-delimiters
-    Visual aid to know which parenthesis is paired to which
-#+BEGIN_SRC emacs-lisp
-  (use-package rainbow-delimiters
-    :ensure t
-    :config
-    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
-#+END_SRC
-*** Show-paren
-   Highlight matching parenthesis on selection 
-#+BEGIN_SRC emacs-lisp
-  (show-paren-mode t)
-#+END_SRC
-** Buffers
-*** ibuffer
-    LEGACY. Use ibuffer instead of the default buffer select screen
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x C-b") 'ibuffer)
-#+END_SRC
 ** Config edit/reload
    Custom functions to visit and reload config file
 *** Edit
@@ -330,40 +134,6 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
     (interactive)
     (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
 #+END_SRC
-** IDO
-   Because IDO's love (and Helm looks way too complicated)
-*** Enable IDO mode
-#+BEGIN_SRC emacs-lisp
-  (ido-mode t)
-  (setq ido-everywhere t)
-#+END_SRC
-*** Flex-matching for IDO
-A package that improves greatly on the default IDO's flex matching engine
-#+BEGIN_SRC emacs-lisp
-  (use-package flx-ido
-    :ensure t
-    :config
-    (flx-ido-mode t)
-    (setq ido-enable-flex-matching t)
-    (setq ido-use-faces nil))
-#+END_SRC
-*** Smex
-    IDO's replacement for M-x
-#+BEGIN_SRC emacs-lisp
-  (use-package smex
-    :ensure t
-    :init (smex-initialize)
-    :bind
-    ("M-x" . smex))
-#+END_SRC
-*** Grid
-    Semi-vertical view of IDO
-#+BEGIN_SRC emacs-lisp
-  (use-package ido-grid-mode
-    :ensure t
-    :init
-    (ido-grid-mode t))
-#+END_SRC
 ** which-key
    Because Emacs is hard enough without visual aids
    #+BEGIN_SRC emacs-lisp
@@ -374,87 +144,10 @@ A package that improves greatly on the default IDO's flex matching engine
        (which-key-mode)
        :delight)
    #+END_SRC
-** Ace window
-   Window managing made smart
-*** use-package
-#+BEGIN_SRC emacs-lisp
-      (use-package ace-window
-	:ensure t 
-	:custom
-	(aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
-#+END_SRC
-*** Bindings
-#+BEGIN_SRC emacs-lisp
-  (my-leader
-    :keymaps 'normal
-    :infix "w"
-    "" '(:ignore t :which-key "Windows")
-    "s" '(ace-swap-window :which-key "Swap windows")
-    "o" '(delete-other-windows :which-key "Delete other windows")
-    "x" '(ace-delete-window :which-key "Delete window")
-    "h" '(split-window-vertically :which-key "Split window horizontally")
-    "v" '(split-window-horizontally :which-key "Split window vertically"))
-#+END_SRC
-** Dumb-jump
-   Jump to definitions
-#+BEGIN_SRC emacs-lisp
-  (use-package dumb-jump
-    :ensure t
-    :config
-    (my-leader
-      :keymaps 'normal
-      :infix "d"
-      "" '(:ignore t :which-key "Definition")
-      "j" '(dumb-jump-go :which-key "Jump to definition")
-      "o" '(dumb-jump-go-other-window :which-key "Jump to definition on the other window")
-      "l" '(dumb-jump-quick-look :which-key "Look at definition on tooltip")
-      "b" '(dumb-jump-back :which-key "Jump back to previous-to-jump position")))
-#+END_SRC
-** Company
-   Auto-completion
-*** General
-#+BEGIN_SRC emacs-lisp
-    (use-package company
-      :ensure t
-      :delight
-      :custom
-      (company-begin-commands '(self-insert-command))
-      (company-idle-delay .1)
-      (company-minimum-prefix-length 2)
-      (company-show-numbers t)
-      (company-tooltip-align-annotations t)
-      (global-company-mode t)
-      :config
-      (defun my/python-mode-hook ()
-	(add-to-list 'company-backends 'company-jedi 'company-go))
-      (add-hook 'python-mode-hook 'my/python-mode-hook))
-#+END_SRC
-*** Company-jedi
-    Python autocompletion
-#+BEGIN_SRC emacs-lisp
-  (use-package company-jedi
-    :ensure t
-    :after (jedi-mode company)
-    :config (add-to-list 'company-backends 'company-jedi))
-#+END_SRC
-*** Company-quickhelp
-#+BEGIN_SRC emacs-lisp
-  (use-package company-quickhelp
-    :ensure t
-    :init
-    (company-quickhelp-mode 1))
-#+END_SRC
 ** Delight
 #+BEGIN_SRC emacs-lisp
   (use-package delight
     :ensure t)
-#+END_SRC
-** Flycheck
-#+BEGIN_SRC emacs-lisp
-  (use-package flycheck
-    :ensure t
-    :init (global-flycheck-mode)
-    :delight)
 #+END_SRC
 ** Undo-tree
 #+BEGIN_SRC emacs-lisp
@@ -462,50 +155,10 @@ A package that improves greatly on the default IDO's flex matching engine
     :ensure t
     :delight)
 #+END_SRC
-** Git
-*** Magit
- #+BEGIN_SRC emacs-lisp
-   (use-package magit
-     :ensure t
-     :config)
- #+END_SRC
-*** Timemachine
-    Take your code for a travel through time (that is incidentaly,
-    highly dependant on your commits)
+** Hydra
 #+BEGIN_SRC emacs-lisp
-  (use-package git-timemachine
+  (use-package hydra
     :ensure t)
-    
-  (defhydra hydra-timemachine (:color pink)
-    "Time machine"
-    ("n" git-timemachine-show-next-revision "next")
-    ("p" git-timemachine-show-previous-revision "previous")
-    ("c" git-timemachine-show-current-revision "current")
-    ("b" git-timemachine-blame "blame")
-    ("s" git-timemachine-switch-branch "switch branch")
-    ("q" (kill-matching-buffers "timemachine" t t) "quit" :color blue))
-    
-  (add-hook 'git-timemachine-mode-hook
-	    (lambda () (hydra-timemachine/body)))
-#+END_SRC
-*** Bindings
-#+BEGIN_SRC emacs-lisp
-(my-leader
-:keymaps 'normal
-:infix "g"
-"" '(:ignore t :which-key "Git")
-"s" '(magit-status :which-key "Status")
-"t" '(git-timemachine :which-key "Travel through time"))
-#+END_SRC
-** Indent guides
-#+BEGIN_SRC emacs-lisp
-  (use-package highlight-indent-guides
-    :ensure t
-    :delight
-    :config
-    (setq highlight-indent-guides-responsive 'top)
-    (setq highlight-indent-guides-method 'character)
-    (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
 #+END_SRC
 ** Auto-update
 Self explanatory, I'd guess
@@ -517,12 +170,6 @@ Self explanatory, I'd guess
     (setq auto-package-update-delete-old-versions t)
     (setq auto-package-update-hide-results t)
     (auto-package-update-maybe))
-#+END_SRC
-** All the fonts
-   We take advantage of running Emacs as a GUI, and get nice icons for it
-#+BEGIN_SRC emacs-lisp
-  (use-package all-the-icons
-    :ensure t)
 #+END_SRC
 ** Neotree
 #+BEGIN_SRC emacs-lisp
@@ -550,18 +197,6 @@ Self explanatory, I'd guess
      "C" 'neotree-create-node
      "H" 'neotree-hidden-file-toggle))
 #+END_SRC
-** Theme
- I really like DOOM theme, and has some nice integration with neotree
- #+BEGIN_SRC emacs-lisp
-   (use-package doom-themes
-     :ensure t
-     :custom
-     (doom-neotree-file-icons t)
-     :config
-     (load-theme 'doom-one t)
-     (doom-themes-neotree-config)
-     (doom-themes-org-config))
- #+END_SRC
 ** Projectile
    Ok, I'll admit it: Projectile's really cool. Really nice project management
 #+BEGIN_SRC emacs-lisp
@@ -579,37 +214,409 @@ Self explanatory, I'd guess
     "r" '(projectile-replace :which-key "Replace in project")
     "s" '(projectile-grep :which-key "Search in project")))
 #+END_SRC
-** Spaceline-all-the-icons
+* Completion
+** Company
+ #+BEGIN_SRC emacs-lisp
+   (use-package company
+     :ensure t
+     :delight
+     :custom
+     (company-begin-commands '(self-insert-command))
+     (company-idle-delay .1)
+     (company-minimum-prefix-length 2)
+     (company-show-numbers t)
+     (company--dabbrev-code-everywhere t)
+     (company-dabbrev-downcase nil)
+     (company-dabbrev-ignore-case t)
+     (company-tooltip-align-annotations t)
+     (global-company-mode t))
+ #+END_SRC
+** Company-jedi
+    Python autocompletion
 #+BEGIN_SRC emacs-lisp
-  (use-package spaceline-all-the-icons 
+  (use-package company-jedi
     :ensure t
-    :after spaceline
-    :custom
-    (spaceline-all-the-icons-icon-set-modified 'toggle)
-    (spaceline-all-the-icons-highlight-file-name t)
-    (spaceline-all-the-icons-separator-type 'arrow)
-    (spaceline-all-the-icons-icon-set-eyebrowse-slot 'solid)
-    (spaceline-all-the-icons-icon-set-vc-icon-git 'github-logo)
+    :after (jedi-mode company)
     :config 
-    (spaceline-all-the-icons-theme)
-    (spaceline-all-the-icons--setup-git-ahead)
-    (spaceline-all-the-icons--setup-paradox)
-    (spaceline-all-the-icons--setup-neotree))
+    (add-hook 'python-mode-hook
+	      (lambda ()
+		(add-to-list 'company-backends 'company-jedi))))
 #+END_SRC
+** Go-company
+ #+BEGIN_SRC emacs-lisp
+   (use-package company-go
+     :ensure t
+     :after company
+     :config
+     (add-hook 'go-mode-hook 
+	       (lambda ()
+		 (add-to-list 'company-backends 'company-go))))
+ #+END_SRC
+** Company-quickhelp
+#+BEGIN_SRC emacs-lisp
+  (use-package company-quickhelp
+    :ensure t
+    :init
+    (company-quickhelp-mode 1))
+#+END_SRC
+** IDO
+   Because IDO's love (and Helm looks way too complicated)
+*** Enable IDO mode
+ #+BEGIN_SRC emacs-lisp
+   (ido-mode t)
+   (setq ido-everywhere t)
+ #+END_SRC
+*** Flex-matching for IDO
+ A package that improves greatly on the default IDO's flex matching engine
+ #+BEGIN_SRC emacs-lisp
+   (use-package flx-ido
+     :ensure t
+     :config
+     (flx-ido-mode t)
+     (setq ido-enable-flex-matching t)
+     (setq ido-use-faces nil))
+ #+END_SRC
+*** Smex
+     IDO's replacement for M-x
+ #+BEGIN_SRC emacs-lisp
+   (use-package smex
+     :ensure t
+     :init (smex-initialize)
+     :bind
+     ("M-x" . smex))
+ #+END_SRC
+*** Grid
+     Semi-vertical view of IDO
+ #+BEGIN_SRC emacs-lisp
+   (use-package ido-grid-mode
+     :ensure t
+     :init
+     (ido-grid-mode t))
+ #+END_SRC
+* Editing
+** Evil
+ #+BEGIN_SRC emacs-lisp
+   (use-package evil
+     :ensure t
+     :init (evil-mode 1)
+     :config
+     (fset 'evil-mouse-drag-region 'ignore))
+ #+END_SRC
+** Evil-commentary
+ #+BEGIN_SRC emacs-lisp
+   (use-package evil-commentary
+     :ensure t
+     :init
+     (evil-commentary-mode t)
+     :delight)
+ #+END_SRC
+** Evil surround
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-surround
+    :ensure t
+    :init
+    (global-evil-surround-mode t))
+#+END_SRC
+** Relative line number
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'load-path "~/.emacs.d/lisp/")
+  (require 'evil-relative-linum)
+#+END_SRC** 
+** Electric parenthesis
+     Force the parenthesis to come in pairs, unlike you, dear reader
+ #+BEGIN_SRC emacs-lisp
+   (electric-pair-mode 1)
+ #+END_SRC
+** Flycheck
+ #+BEGIN_SRC emacs-lisp
+   (use-package flycheck
+     :ensure t
+     :init (global-flycheck-mode)
+     :delight)
+ #+END_SRC
+** Smart Tabs
+    Allegedly, the correct way to indent. Unfortunately PEP8, forbids it
+ #+BEGIN_SRC emacs-lisp
+   (use-package smart-tabs-mode
+     :ensure t
+     :init
+     (smart-tabs-insinuate 'c 'javascript 'ruby))
+ #+END_SRC
+** Yasnippet
+ #+BEGIN_SRC emacs-lisp
+   (use-package yasnippet
+     :ensure t
+     :config
+     (setq yas-snippet-dirs (append yas-snippet-dirs
+                                    '("~/.emacs/snippets")))
+     (setq yas-triggers-in-field t)
+     :init
+     (yas-global-mode 1))
+ #+END_SRC
+* UI
+** Theme
+   I really like DOOM theme, and has some nice integration with neotree
+ #+BEGIN_SRC emacs-lisp
+   (use-package doom-themes
+     :ensure t
+     :custom
+     (doom-neotree-file-icons t)
+     :config
+     (load-theme 'doom-one t)
+     (doom-themes-neotree-config)
+     (doom-themes-org-config))
+ #+END_SRC
+** Spaceline
+ #+BEGIN_SRC emacs-lisp
+   (use-package spaceline
+     :ensure t
+     :custom
+     (powerline-default-separator 'wave)
+     (spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+     :config
+     ;; Fix rendering on MacOs
+     (if (eq window-system 'ns)
+	 (setq powerline-image-apple-rgb t))
+     (spaceline-toggle-hud-off))
+ #+END_SRC
+** Spaceline-all-the-icons
+ #+BEGIN_SRC emacs-lisp
+   (use-package spaceline-all-the-icons 
+     :ensure t
+     :after spaceline
+     :custom
+     (spaceline-all-the-icons-icon-set-modified 'toggle)
+     (spaceline-all-the-icons-highlight-file-name t)
+     (spaceline-all-the-icons-separator-type 'arrow)
+     (spaceline-all-the-icons-icon-set-eyebrowse-slot 'solid)
+     (spaceline-all-the-icons-icon-set-vc-icon-git 'github-logo)
+     :config 
+     (spaceline-all-the-icons-theme)
+     (spaceline-all-the-icons--setup-git-ahead)
+     (spaceline-all-the-icons--setup-paradox)
+     (spaceline-all-the-icons--setup-neotree))
+ #+END_SRC
+** Cursor colors
+ #+BEGIN_SRC emacs-lisp
+   (setq evil-emacs-state-cursor '("red" bar))
+   (setq evil-normal-state-cursor '("skyblue2" box))
+   (setq evil-visual-state-cursor '("gray" box))
+   (setq evil-insert-state-cursor '("green" bar))
+   (setq evil-replace-state-cursor '("red" hollow))
+   (setq evil-operator-state-cursor '("red" hollow))
+   (set-face-attribute 'spaceline-evil-emacs nil :background "red")
+   (set-face-attribute 'spaceline-evil-insert nil :background "green")
+   (set-face-attribute 'spaceline-evil-motion nil :background "skyblue2")
+   (set-face-attribute 'spaceline-evil-normal nil :background "skyblue2")
+   (set-face-attribute 'spaceline-evil-replace nil :background "red")
+   (set-face-attribute 'spaceline-evil-visual nil :background "gray")
+ #+END_SRC
+** All the icons
+    We take advantage of running Emacs as a GUI, and get nice icons for it
+ #+BEGIN_SRC emacs-lisp
+   (use-package all-the-icons
+     :ensure t)
+ #+END_SRC
+** Rainbow-delimiters
+     Visual aid to know which parenthesis is paired to which
+ #+BEGIN_SRC emacs-lisp
+   (use-package rainbow-delimiters
+     :ensure t
+     :config
+     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+ #+END_SRC
+** Show-paren
+    Highlight matching parenthesis on selection 
+ #+BEGIN_SRC emacs-lisp
+   (show-paren-mode t)
+ #+END_SRC
+** Indent guides
+ #+BEGIN_SRC emacs-lisp
+   (use-package highlight-indent-guides
+     :ensure t
+     :delight
+     :config
+     (setq highlight-indent-guides-responsive 'top)
+     (setq highlight-indent-guides-method 'character)
+     (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+ #+END_SRC
+ 
+** Line highlight
+ #+BEGIN_SRC emacs-lisp
+   (global-hl-line-mode t)
+ #+END_SRC
+* Navigation
+** Avy
+    Jump around like there's no tomorrow
+ #+BEGIN_SRC emacs-lisp
+   (use-package avy
+     :ensure t
+     :config
+     (my-leader
+       :keymaps 'normal
+       :infix ","
+       "" '(:ignore t :which-key "Jump")
+       "w" '(avy-goto-subword-1 :which-key "Jump to word")
+       "l" '(avy-goto-line :which-key "Jump to line")
+       "c" '(avy-goto-char :which-key "Jump to char")
+       "m" '(:ignore t :which-key "Move...")
+       "ml" '(avy-move-line :which-key "Move line")
+       "mr" '(avy-move-region :which-key "Move region")
+       "y" '(:ignore t :which-key "Yank...")
+       "yl" '(avy-copy-line :which-key "Yank line")
+       "yr" '(avy-copy-region :which-key "Yank region")
+       "k" '(:ignore t :which-key "Kill...")
+       "kr" '(avy-kill-region :which-key "Kill region between lines")
+       "kl" '(avy-kill-whole-line :which-key "Kill line")))
+ #+END_SRC
+** Ace window
+   Window managing made smart
+*** use-package
+ #+BEGIN_SRC emacs-lisp
+   (use-package ace-window
+     :ensure t 
+     :custom
+     (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+     :config
+     (my-leader
+       :keymaps 'normal
+       :infix "w"
+       "" '(:ignore t :which-key "Windows")
+       "s" '(ace-swap-window :which-key "Swap windows")
+       "o" '(delete-other-windows :which-key "Delete other windows")
+       "x" '(ace-delete-window :which-key "Delete window")
+       "h" '(split-window-vertically :which-key "Split window horizontally")
+       "v" '(split-window-horizontally :which-key "Split window vertically")))
+ #+END_SRC
+*** Bindings
+ #+BEGIN_SRC emacs-lisp
+ #+END_SRC
+** Dumb-jump
+    Jump to definitions
+ #+BEGIN_SRC emacs-lisp
+   (use-package dumb-jump
+     :ensure t
+     :config
+     (my-leader
+       :keymaps 'normal
+       :infix "d"
+       "" '(:ignore t :which-key "Definition")
+       "j" '(dumb-jump-go :which-key "Jump to definition")
+       "o" '(dumb-jump-go-other-window :which-key "Jump to definition on the other window")
+       "l" '(dumb-jump-quick-look :which-key "Look at definition on tooltip")
+       "b" '(dumb-jump-back :which-key "Jump back to previous-to-jump position")))
+ #+END_SRC
+* Git
+** Magit
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :ensure t
+    :config)
+#+END_SRC
+** Timemachine
+    Take your code for a travel through time (that is incidentaly,
+    highly dependant on your commits)
+#+BEGIN_SRC emacs-lisp
+  (use-package git-timemachine
+    :ensure t)
+    
+  (defhydra hydra-timemachine (:color pink)
+    "Time machine"
+    ("n" git-timemachine-show-next-revision "next")
+    ("p" git-timemachine-show-previous-revision "previous")
+    ("c" git-timemachine-show-current-revision "current")
+    ("b" git-timemachine-blame "blame")
+    ("s" git-timemachine-switch-branch "switch branch")
+    ("q" (kill-matching-buffers "timemachine" t t) "quit" :color blue))
+    
+  (add-hook 'git-timemachine-mode-hook
+	    (lambda () (hydra-timemachine/body)))
+#+END_SRC
+** Evil magit
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-magit
+    :ensure t
+    :after magit)
+#+END_SRC
+** Bindings
+#+BEGIN_SRC emacs-lisp
+(my-leader
+:keymaps 'normal
+:infix "g"
+"" '(:ignore t :which-key "Git")
+"s" '(magit-status :which-key "Status")
+"t" '(git-timemachine :which-key "Travel through time"))
+#+END_SRC
+* Org
+** Basic config
+#+BEGIN_SRC emacs-lisp
+  (setq org-src-window-setup 'current-window)
+  (setq org-log-done t)
+  (setq org-enforce-todo-dependencies t)
+  (add-to-list 'org-structure-template-alist
+	       '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+#+END_SRC
+** Agenda
+#+BEGIN_SRC emacs-lisp
+  (setq org-agenda-files '("~/org"))
+#+END_SRC
+** Org bullets
+#+BEGIN_SRC emacs-lisp 
+    (use-package org-bullets
+       :ensure t
+       :config
+       (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+#+END_SRC
+** Org-pomodoro
+#+BEGIN_SRC emacs-lisp
+  (use-package org-pomodoro
+    :ensure t
+    :config
+    (setq org-pomodoro-ticking-sound-p t)
+    (setq org-pomodoro-ticking-sound-states '(:pomodoro)))
+#+END_SRC
+** Twitter-bootstrap export
+#+BEGIN_SRC emacs-lisp
+  (use-package ox-twbs
+    :ensure t)
+#+END_SRC
+** Org-capture
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c c") 'org-capture)
+  (setq org-default-notes-file "~/org/refile.org")
+#+END_SRC
+** Refile
+#+BEGIN_SRC emacs-lisp
+  ; Targets include this file and any file contributing to the agenda - up to 9 levels deep
+  (setq org-refile-targets (quote ((nil :maxlevel . 9)
+				   (org-agenda-files :maxlevel . 9))))
+
+  ; Use full outline paths for refile targets - we file directly with IDO
+  (setq org-refile-use-outline-path t)
+
+  ; Targets complete directly with IDO
+  (setq org-outline-path-complete-in-steps nil)
+
+  ; Allow refile to create parent tasks with confirmation
+  (setq org-refile-allow-creating-parent-nodes (quote confirm))
+#+END_SRC
+** Evil-org
+ #+BEGIN_SRC emacs-lisp
+   (use-package evil-org
+     :ensure t
+     :after org
+     :delight
+     :config
+     (add-hook 'org-mode-hook 'evil-org-mode)
+     (add-hook 'evil-org-mode-hook
+               (lambda ()
+                 (evil-org-set-key-theme))))
+ #+END_SRC
 * Languages
 ** Go
  #+BEGIN_SRC emacs-lisp
    (use-package go-mode
      :ensure t)
- #+END_SRC
-*** Go-company
- #+BEGIN_SRC emacs-lisp
-     (use-package company-go
-       :ensure t
-       :config
-       (add-hook 'go-mode-hook (lambda ()
-				 (set (make-local-variable 'company-backends) '(company-go))
-				 (company-mode))))
  #+END_SRC
 ** Web
  #+BEGIN_SRC emacs-lisp
