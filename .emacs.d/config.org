@@ -63,6 +63,10 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
 #+BEGIN_SRC emacs-lisp
 (setq gc-cons-threshold 20000000)
 #+END_SRC
+** Disable cursors in other windows
+#+BEGIN_SRC emacs-lisp
+(setq cursor-in-non-selected-windows nil)
+#+END_SRC
 * Evil
 ** Start evil mode
 #+BEGIN_SRC emacs-lisp
