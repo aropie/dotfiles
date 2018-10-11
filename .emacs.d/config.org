@@ -462,14 +462,40 @@ A package that improves greatly on the default IDO's flex matching engine
     :ensure t
     :delight)
 #+END_SRC
-** Magit
+** Git
+*** Magit
+ #+BEGIN_SRC emacs-lisp
+   (use-package magit
+     :ensure t
+     :config)
+ #+END_SRC
+*** Timemachine
+    Take your code for a travel through time (that is incidentaly,
+    highly dependant on your commits)
 #+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :ensure t
-    :config
-    (my-leader
-      :keymaps 'normal
-      "g" '(magit-status :which-key "Git status")))
+  (use-package git-timemachine
+    :ensure t)
+    
+  (defhydra hydra-timemachine (:color pink)
+    "Time machine"
+    ("n" git-timemachine-show-next-revision "next")
+    ("p" git-timemachine-show-previous-revision "previous")
+    ("c" git-timemachine-show-current-revision "current")
+    ("b" git-timemachine-blame "blame")
+    ("s" git-timemachine-switch-branch "switch branch")
+    ("q" (kill-matching-buffers "timemachine" t t) "quit" :color blue))
+    
+  (add-hook 'git-timemachine-mode-hook
+	    (lambda () (hydra-timemachine/body)))
+#+END_SRC
+*** Bindings
+#+BEGIN_SRC emacs-lisp
+(my-leader
+:keymaps 'normal
+:infix "g"
+"" '(:ignore t :which-key "Git")
+"s" '(magit-status :which-key "Status")
+"t" '(git-timemachine :which-key "Travel through time"))
 #+END_SRC
 ** Indent guides
 #+BEGIN_SRC emacs-lisp
