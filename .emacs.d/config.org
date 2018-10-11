@@ -555,9 +555,12 @@ Self explanatory, I'd guess
  #+BEGIN_SRC emacs-lisp
    (use-package doom-themes
      :ensure t
+     :custom
+     (doom-neotree-file-icons t)
      :config
      (load-theme 'doom-one t)
-     (doom-themes-neotree-config))
+     (doom-themes-neotree-config)
+     (doom-themes-org-config))
  #+END_SRC
 ** Projectile
    Ok, I'll admit it: Projectile's really cool. Really nice project management
