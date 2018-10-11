@@ -576,6 +576,23 @@ Self explanatory, I'd guess
     "r" '(projectile-replace :which-key "Replace in project")
     "s" '(projectile-grep :which-key "Search in project")))
 #+END_SRC
+** Spaceline-all-the-icons
+#+BEGIN_SRC emacs-lisp
+  (use-package spaceline-all-the-icons 
+    :ensure t
+    :after spaceline
+    :custom
+    (spaceline-all-the-icons-icon-set-modified 'toggle)
+    (spaceline-all-the-icons-highlight-file-name t)
+    (spaceline-all-the-icons-separator-type 'arrow)
+    (spaceline-all-the-icons-icon-set-eyebrowse-slot 'solid)
+    (spaceline-all-the-icons-icon-set-vc-icon-git 'github-logo)
+    :config 
+    (spaceline-all-the-icons-theme)
+    (spaceline-all-the-icons--setup-git-ahead)
+    (spaceline-all-the-icons--setup-paradox)
+    (spaceline-all-the-icons--setup-neotree))
+#+END_SRC
 * Languages
 ** Go
  #+BEGIN_SRC emacs-lisp
