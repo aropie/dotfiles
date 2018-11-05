@@ -168,8 +168,7 @@ Self explanatory, I'd guess
     :config
     (setq auto-package-update-prompt-before-update t)
     (setq auto-package-update-delete-old-versions t)
-    (setq auto-package-update-hide-results t)
-    (auto-package-update-maybe))
+    (setq auto-package-update-hide-results t))
 #+END_SRC
 ** Neotree
 #+BEGIN_SRC emacs-lisp
