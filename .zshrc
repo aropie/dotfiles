@@ -108,6 +108,9 @@ alias pause="mpc toggle"
 alias next="mpc next"
 alias prev="mpc prev"
 
+export MPD_HOST="localhost"
+export MPD_PORT="6601"
+
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 

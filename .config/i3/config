@@ -12,6 +12,8 @@
 set $mod Mod4
 set $term terminator
 set $editor emacsclient -cna ''
+set $mpd_port 6601
+set $mpd_host localhost
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -164,9 +166,9 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pamixer --allow-boost -d 5 #de
 bindsym XF86AudioMute exec --no-startup-id pamixer -t # mute sound
 
 # Media player controls
-bindsym XF86AudioPlay exec mpc toggle
-bindsym XF86AudioNext exec mpc next
-bindsym XF86AudioPrev exec mpc prev
+bindsym XF86AudioPlay exec mpc -p $mpd_port toggle
+bindsym XF86AudioNext exec mpc -p $mpd_port next
+bindsym XF86AudioPrev exec mpc -p $mpd_port prev
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
