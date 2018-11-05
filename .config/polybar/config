@@ -17,6 +17,6 @@ inherit = bar/master
 ; Use $ xrandr -q | grep " connected" | cut -d ' ' -f1
 monitor =
 
-modules-left   = i3
+modules-left   = i3 mpd
 modules-center = clock
 modules-right  = temperature backlight volume battery network
