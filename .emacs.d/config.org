@@ -68,6 +68,10 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
 #+BEGIN_SRC emacs-lisp
   (setq help-window-select t)
 #+END_SRC
+** Font
+#+BEGIN_SRC emacs-lisp
+(set-face-attribute 'default nil :height 100)
+#+END_SRC
 * Utils
 ** General.el
    Manage all the keybindings through general and hydra à la spacemacs
