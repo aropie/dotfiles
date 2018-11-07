@@ -29,6 +29,7 @@ default_border pixel 3
 # Required for gaps
 gaps inner 10
 gaps outer 10
+smart_gaps on
 
 focus_follows_mouse no
 
