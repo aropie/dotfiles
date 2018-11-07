@@ -1,0 +1,6 @@
+#!/bin/bash
+
+devices=$(cat ~/.bluetooth_devices.txt)
+launcher="rofi -dmenu -i -hide-scrollbar -p Account"
+device=$(echo -e "$devices" | $launcher | cut -f 2)
+echo -e "power on\nconnect $device\n" | bluetoothctl
