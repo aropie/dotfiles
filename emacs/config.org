@@ -358,17 +358,22 @@ Self explanatory, I'd guess
  #+END_SRC
 * UI
 ** Theme
-   I really like DOOM theme, and has some nice integration with neotree
+   I really like DOOM theme's neotree integration
  #+BEGIN_SRC emacs-lisp
    (use-package doom-themes
      :ensure t
      :custom
      (doom-neotree-file-icons t)
      :config
-     (load-theme 'doom-one t)
-     (doom-themes-neotree-config)
-     (doom-themes-org-config))
+     (doom-themes-neotree-config))
  #+END_SRC
+** Spacemacs-theme
+#+BEGIN_SRC emacs-lisp
+  (use-package spacemacs-theme
+    :defer t
+    :init
+    (load-theme 'spacemacs-dark t))
+#+END_SRC
 ** Spaceline
  #+BEGIN_SRC emacs-lisp
    (use-package spaceline
