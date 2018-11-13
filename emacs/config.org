@@ -454,6 +454,10 @@ Self explanatory, I'd guess
    (global-hl-line-mode t)
  #+END_SRC
 * Navigation
+** Follow symlinks
+#+BEGIN_SRC emacs-lisp
+(setq vc-follow-symlinks t)
+#+END_SRC
 ** Avy
     Jump around like there's no tomorrow
  #+BEGIN_SRC emacs-lisp
