@@ -92,7 +92,6 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
   (my-leader
    :keymaps 'normal
    "TAB" '(mode-line-other-buffer :which-key "Previous buffer")
-   "SPC" '(avy-goto-subword-1 :which-key "Jump to word")
    "f" '(find-file :which-key "Find file")
    "s" '(save-buffer :which-key "Save buffer")
    "b" '(ido-switch-buffer :which-key "Switch buffer")
@@ -461,25 +460,36 @@ Self explanatory, I'd guess
 ** Avy
     Jump around like there's no tomorrow
  #+BEGIN_SRC emacs-lisp
-   (use-package avy
-     :ensure t
-     :config
-     (my-leader
-       :keymaps 'normal
-       :infix ","
-       "" '(:ignore t :which-key "Jump")
-       "w" '(avy-goto-subword-1 :which-key "Jump to word")
-       "l" '(avy-goto-line :which-key "Jump to line")
-       "c" '(avy-goto-char :which-key "Jump to char")
-       "m" '(:ignore t :which-key "Move...")
-       "ml" '(avy-move-line :which-key "Move line")
-       "mr" '(avy-move-region :which-key "Move region")
-       "y" '(:ignore t :which-key "Yank...")
-       "yl" '(avy-copy-line :which-key "Yank line")
-       "yr" '(avy-copy-region :which-key "Yank region")
-       "k" '(:ignore t :which-key "Kill...")
-       "kr" '(avy-kill-region :which-key "Kill region between lines")
-       "kl" '(avy-kill-whole-line :which-key "Kill line")))
+    (use-package avy
+      :ensure t
+      :custom
+      (avy-background t)
+      (avy-all-windows nil)
+      :config
+      (defun aropie/avy-jump-to-char-in-one-window()
+	(interactive)
+	(setq current-prefix-arg '(4)) ; C-u
+	(call-interactively 'avy-goto-char)) 
+	
+      (my-leader 'normal
+      "SPC" '(aropie/avy-jump-to-char-in-one-window :which-key "Jump to char"))
+      
+      (my-leader
+	:keymaps 'normal
+	:infix "j"
+	"" '(:ignore t :which-key "Jump")
+	"w" '(avy-goto-subword-1 :which-key "Jump to word")
+	"l" '(avy-goto-line :which-key "Jump to line")
+	"c" '(avy-goto-char :which-key "Jump to char")
+	"m" '(:ignore t :which-key "Move...")
+	"ml" '(avy-move-line :which-key "Move line")
+	"mr" '(avy-move-region :which-key "Move region")
+	"y" '(:ignore t :which-key "Yank...")
+	"yl" '(avy-copy-line :which-key "Yank line")
+	"yr" '(avy-copy-region :which-key "Yank region")
+	"k" '(:ignore t :which-key "Kill...")
+	"kr" '(avy-kill-region :which-key "Kill region between lines")
+	"kl" '(avy-kill-whole-line :which-key "Kill line")))
  #+END_SRC
 ** Evil-avy
    Avy support for f, F, t, T in evil-mode
