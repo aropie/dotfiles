@@ -470,7 +470,7 @@ Self explanatory, I'd guess
       :ensure t
       :custom
       (avy-background t)
-      (avy-all-windows nil)
+      (avy-all-windows t)
       :config
       (defun aropie/avy-jump-to-char-in-one-window()
 	(interactive)
