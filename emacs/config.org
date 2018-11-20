@@ -101,10 +101,14 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
    "c" '(config-visit :which-key "Goto config"))
 #+END_SRC
 ** PDF-tools
-   Because Emacs' default PDF mode sucks hard
+   Because Emacs' default Doc-view mode sucks hard
 #+BEGIN_SRC emacs-lisp
   (use-package pdf-tools
-    :ensure t)
+    :ensure t
+    :custom
+    (pdf-view-display-size 'fit-page)
+    :config
+    (pdf-tools-install))
 #+END_SRC
 ** Shell
    Because someday I wish to start using the shell within Emacs. Someday...
