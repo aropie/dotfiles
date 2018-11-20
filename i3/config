@@ -104,6 +104,8 @@ bindsym $mod+Shift+a			exec --no-startup-id rofi_audioswap
 
 bindsym $mod+Shift+p			exec --no-startup-id rofi_password
 
+bindsym $mod+Shift+b			exec --no-stratup-id rofi_bluetooth
+
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -169,7 +171,7 @@ bindsym XF86AudioMute exec --no-startup-id pamixer -t # mute sound
 # Media player controls
 bindsym XF86AudioPlay exec mpc -p $mpd_port toggle
 bindsym XF86AudioNext exec mpc -p $mpd_port next
-bindsym XF86AudioPrev exec mpc -p $mpd_port prev
+bindsym XF86AudioPrev exec mpc -p $mpd_port cdprev
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
