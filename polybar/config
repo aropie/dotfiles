@@ -19,4 +19,4 @@ monitor =
 
 modules-left   = i3 mpd
 modules-center = clock
-modules-right  = temperature backlight volume battery network
+modules-right  = temperature backlight volume battery wireless-network wired-network
