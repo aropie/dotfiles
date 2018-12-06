@@ -92,6 +92,7 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
   (my-leader
    :keymaps 'normal
    "TAB" '(mode-line-other-buffer :which-key "Previous buffer")
+   "m" '(:ignore t :which-key "Major mode")
    "f" '(find-file :which-key "Find file")
    "s" '(save-buffer :which-key "Save buffer")
    "b" '(ido-switch-buffer :which-key "Switch buffer")
@@ -673,6 +674,16 @@ Self explanatory, I'd guess
        (setq web-mode-enable-engine-detection t)
        (setq web-mode-enable-css-colorization t))
  #+END_SRC
+** Python
+#+BEGIN_SRC emacs-lisp
+  (use-package sphinx-doc
+    :ensure t
+    :config
+    (my-local-leader
+      :states 'normal
+      :keymaps 'python-mode-map
+      "d" '(sphinx-doc :which-key "Generate doc")))
+#+END_SRC
 * LOL
 ** Nyan mode
 #+BEGIN_SRC emacs-lisp
