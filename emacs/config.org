@@ -389,14 +389,19 @@ Self explanatory, I'd guess
      :config
      ;; Fix rendering on MacOs
      (if (eq window-system 'ns)
-	 (setq powerline-image-apple-rgb t))
-     (spaceline-toggle-hud-off))
+	 (setq powerline-image-apple-rgb t)))
+ #+END_SRC
+** All the icons
+    We take advantage of running Emacs as a GUI, and get nice icons for it
+ #+BEGIN_SRC emacs-lisp
+   (use-package all-the-icons
+     :ensure t)
  #+END_SRC
 ** Spaceline-all-the-icons
  #+BEGIN_SRC emacs-lisp
    (use-package spaceline-all-the-icons 
      :ensure t
-     :after spaceline
+     :after spaceline all-the-icons
      :custom
      (spaceline-all-the-icons-icon-set-modified 'toggle)
      (spaceline-all-the-icons-highlight-file-name t)
@@ -423,12 +428,6 @@ Self explanatory, I'd guess
    (set-face-attribute 'spaceline-evil-normal nil :background "skyblue2")
    (set-face-attribute 'spaceline-evil-replace nil :background "red")
    (set-face-attribute 'spaceline-evil-visual nil :background "gray")
- #+END_SRC
-** All the icons
-    We take advantage of running Emacs as a GUI, and get nice icons for it
- #+BEGIN_SRC emacs-lisp
-   (use-package all-the-icons
-     :ensure t)
  #+END_SRC
 ** Rainbow-delimiters
      Visual aid to know which parenthesis is paired to which
