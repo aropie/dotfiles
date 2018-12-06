@@ -4,10 +4,19 @@
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier nil)
 #+END_SRC
+** Mac path fix
+   MacOs has problems with paths, so we need to add them manually
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :config
+    (when (memq window-system '(mac ns x))
+      (exec-path-from-shell-initialize)))
+#+END_SRC
 ** Disable menu, toolbar and scroll
    #+BEGIN_SRC emacs-lisp
-     (tool-bar-mode -1)
-     (menu-bar-mode -1)
+     (tool-bar-mode 1)
+     (menu-bar-mode 1)
      (scroll-bar-mode -1)
    #+END_SRC
 ** Scroll conservatively
@@ -431,7 +440,7 @@ Self explanatory, I'd guess
    (set-face-attribute 'spaceline-evil-visual nil :background "gray")
  #+END_SRC
 ** Rainbow-delimiters
-     Visual aid to know which parenthesis is paired to which
+   Visual aid to know which parenthesis is paired to which
  #+BEGIN_SRC emacs-lisp
    (use-package rainbow-delimiters
      :ensure t
@@ -678,6 +687,8 @@ Self explanatory, I'd guess
 #+BEGIN_SRC emacs-lisp
   (use-package sphinx-doc
     :ensure t
+    :custom
+    (flycheck-python-flake8-executable "flake8")
     :config
     (my-local-leader
       :states 'normal
