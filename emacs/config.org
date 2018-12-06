@@ -15,8 +15,8 @@
 #+END_SRC
 ** Disable menu, toolbar and scroll
    #+BEGIN_SRC emacs-lisp
-     (tool-bar-mode 1)
-     (menu-bar-mode 1)
+     (tool-bar-mode -1)
+     (menu-bar-mode -1)
      (scroll-bar-mode -1)
    #+END_SRC
 ** Scroll conservatively
@@ -254,11 +254,9 @@ Self explanatory, I'd guess
 #+BEGIN_SRC emacs-lisp
   (use-package company-jedi
     :ensure t
-    :after (jedi-mode company)
+    :after (company)
     :config 
-    (add-hook 'python-mode-hook
-	      (lambda ()
-		(add-to-list 'company-backends 'company-jedi))))
+    (add-to-list 'company-backends 'company-jedi))
 #+END_SRC
 ** Go-company
  #+BEGIN_SRC emacs-lisp
