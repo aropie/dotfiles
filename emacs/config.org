@@ -398,7 +398,7 @@ Self explanatory, I'd guess
      ;; Fix rendering on MacOs
      (if (eq window-system 'ns)
 	 (setq powerline-image-apple-rgb t)))
- #+END_SRC
+#+END_SRC
 ** All the icons
     We take advantage of running Emacs as a GUI, and get nice icons for it
  #+BEGIN_SRC emacs-lisp
