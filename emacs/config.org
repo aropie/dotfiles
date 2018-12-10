@@ -712,9 +712,37 @@ Self explanatory, I'd guess
     :init
     (run-with-idle-timer 600 t 'fireplace ()))
 #+END_SRC
-** Adafruit-wisdom
+** XKCD
+   Because sometimes, we all need a break. So why not enforce them?
 #+BEGIN_SRC emacs-lisp
-  (use-package adafruit-wisdom
+  (use-package xkcd
     :ensure t
-    :disabled)
+    :disabled
+    :config
+    (defun aropie/xkcd-rand-and-print-alt-text()
+      (interactive)
+      (call-interactively 'xkcd-rand)
+      (message xkcd-alt)
+      (evil-emacs-state))
+
+    (run-at-time (* 60 45) (* 60 45) #'aropie/xkcd-rand-and-print-alt-text))
+#+END_SRC
+* SQL
+#+BEGIN_SRC emacs-lisp
+  ;; (add-hook 'sql-interactive-mode-hook
+  ;;           (lambda ()
+  ;;             (toggle-truncate-lines t)))
+  ;; 	    (setq sql-connection-alist
+  ;;       '((server1 (sql-product 'postgres)
+  ;;                   (sql-port 5432)
+  ;;                   (sql-server "localhost")
+  ;;                   (sql-user "user")
+  ;;                   (sql-password "password")
+  ;;                   (sql-database "db1"))
+  ;;         (server2 (sql-product 'postgres)
+  ;;                   (sql-port 5432)
+  ;;                   (sql-server "localhost")
+  ;;                   (sql-user "user")
+  ;;                   (sql-password "password")
+  ;;                   (sql-database "db2"))))
 #+END_SRC
