@@ -663,23 +663,25 @@ Self explanatory, I'd guess
  #+END_SRC
 ** Web
  #+BEGIN_SRC emacs-lisp
-     (use-package web-mode
-       :ensure t
-       :init
-       (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-       (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-       (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-       (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-       (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-       (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-       (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-       (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-       (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
-       :config
-       (setq web-mode-markup-indent-offset 2)
-       (setq web-mode-enable-auto-pairing t)
-       (setq web-mode-enable-engine-detection t)
-       (setq web-mode-enable-css-colorization t))
+   (use-package web-mode
+     :ensure t
+     :init
+     (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+     (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+     (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+     (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+     (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+     (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+     (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+     (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+     (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
+     :config
+     (setq web-mode-markup-indent-offset 2)
+     (setq web-mode-enable-auto-pairing t)
+     (setq web-mode-enable-auto-quoting t)
+     (setq web-mode-enable-auto-closing t)
+     (setq web-mode-enable-engine-detection t)
+     (setq web-mode-enable-css-colorization t))
  #+END_SRC
 ** Python
 #+BEGIN_SRC emacs-lisp
