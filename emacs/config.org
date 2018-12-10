@@ -557,7 +557,7 @@ Self explanatory, I'd guess
     :config)
 #+END_SRC
 ** Timemachine
-    Take your code for a travel through time (that is incidentaly,
+    Take your code for a travel through time (that is incidentally,
     highly dependant on your commits)
 #+BEGIN_SRC emacs-lisp
   (use-package git-timemachine
