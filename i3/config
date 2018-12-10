@@ -25,7 +25,7 @@ set $text-color          #f3f4f5
 set $inactive-text-color #676E7D
 set $urgent-bg-color     #E53935
 
-default_border pixel 3
+default_border pixel 5
 # Required for gaps
 gaps inner 10
 gaps outer 10
