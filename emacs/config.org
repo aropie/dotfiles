@@ -532,9 +532,6 @@ Self explanatory, I'd guess
        "h" '(split-window-vertically :which-key "Split window horizontally")
        "v" '(split-window-horizontally :which-key "Split window vertically")))
  #+END_SRC
-*** Bindings
- #+BEGIN_SRC emacs-lisp
- #+END_SRC
 ** Dumb-jump
     Jump to definitions
  #+BEGIN_SRC emacs-lisp
