@@ -512,11 +512,10 @@ Self explanatory, I'd guess
   (use-package evil-avy
     :ensure t
     :config
-    (evil-mode t))
+    (evil-avy-mode t))
 #+END_SRC
 ** Ace window
    Window managing made smart
-*** use-package
  #+BEGIN_SRC emacs-lisp
    (use-package ace-window
      :ensure t 
