@@ -237,19 +237,25 @@ Self explanatory, I'd guess
 * Completion
 ** Company
  #+BEGIN_SRC emacs-lisp
-   (use-package company
-     :ensure t
-     :delight
-     :custom
-     (company-begin-commands '(self-insert-command))
-     (company-idle-delay .1)
-     (company-minimum-prefix-length 2)
-     (company-show-numbers t)
-     (company--dabbrev-code-everywhere t)
-     (company-dabbrev-downcase nil)
-     (company-dabbrev-ignore-case t)
-     (company-tooltip-align-annotations t)
-     (global-company-mode t))
+      (use-package company
+	:ensure t
+	:delight
+	:custom
+	(company-begin-commands '(self-insert-command))
+	(company-idle-delay 0)
+	(company-minimum-prefix-length 2)
+	(company-show-numbers t)
+	(company--dabbrev-code-everywhere t)
+	(company-dabbrev-downcase nil)
+	(company-dabbrev-ignore-case t)
+	(company-tooltip-align-annotations t)
+	(company-frontends
+	 '(company-tng-frontend
+	   company-pseudo-tooltip-frontend
+	   company-echo-metadata-frontend))
+	(global-company-mode t)
+	:config
+	(company-tng-configure-default))
  #+END_SRC
 ** Company-jedi
     Python autocompletion
