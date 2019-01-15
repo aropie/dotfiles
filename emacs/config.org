@@ -662,6 +662,7 @@ Self explanatory, I'd guess
 :infix "g"
 "" '(:ignore t :which-key "Git")
 "s" '(magit-status :which-key "Status")
+"b" '(magit-blame :which-key "Blame")
 "t" '(git-timemachine :which-key "Travel through time"))
 #+END_SRC
 * Org
