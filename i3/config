@@ -183,7 +183,9 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightne
 # Launch Polybar where appropriate:
 exec_always --no-startup-id run_polybar
 # Capslock -> Ctrl
-exec --no-startup-id setxkbmap -option 'ctrl:nocaps,shift:both_capslock'
+exec --no-startup-id setxkbmap -option 'caps:ctrl_modifier,shift:both_capslock' 
+# Capslock -> Esc (when tapped)
+exec --no-startup-id xcape -e 'Caps_Lock=Escape'
 # Start compton for transparency
 exec --no-startup-id compton -f -D 1
 # Dunst for notifications
