@@ -105,6 +105,7 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
    "TAB" '(mode-line-other-buffer :which-key "Previous buffer")
    "m" '(:ignore t :which-key "Major mode")
    "f" '(find-file :which-key "Find file")
+   "F" '(find-file-other-window :which-key "Find file (other window)")
    "s" '(save-buffer :which-key "Save buffer")
    "b" '(ido-switch-buffer :which-key "Switch buffer")
    "k" '(kill-this-buffer :which-key "Kill this buffer")
@@ -227,7 +228,9 @@ Self explanatory, I'd guess
     :infix "p"
     "" '(:ignore t :which-key "Project")
     "f" '(projectile-find-file :which-key "Find file")
+    "F" '(projectile-find-file-other-window :which-key "Find file (other window)")
     "b" '(projectile-switch-to-buffer :which-key "Switch to buffer")
+    "B" '(projectile-switch-to-buffer-other-window :which-key "Switch to buffer (other window)")
     "k" '(projectile-kill-buffers :which-key "Kill all project buffers")
     "p" '(projectile-switch-project :which-key "Switch to project")
     "a" '(projectile-add-known-project :which-key "Add bookmark to project")
@@ -657,13 +660,14 @@ Self explanatory, I'd guess
 #+END_SRC
 ** Bindings
 #+BEGIN_SRC emacs-lisp
-(my-leader
-:keymaps 'normal
-:infix "g"
-"" '(:ignore t :which-key "Git")
-"s" '(magit-status :which-key "Status")
-"b" '(magit-blame :which-key "Blame")
-"t" '(git-timemachine :which-key "Travel through time"))
+  (my-leader
+    :keymaps 'normal
+    :infix "g"
+    "" '(:ignore t :which-key "Git")
+    "s" '(magit-status :which-key "Status")
+    "m" '(magit-dispatch-popup :which-key "Menu")
+    "b" '(magit-blame :which-key "Blame")
+    "t" '(git-timemachine :which-key "Travel through time"))
 #+END_SRC
 * Org
 ** Basic config
