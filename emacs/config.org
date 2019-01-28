@@ -72,7 +72,7 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
 (setq cursor-in-non-selected-windows nil)
 #+END_SRC
 ** Help
-   When opening a help window, always select that window 
+   When opening a help window, always select that window
    afterwards and move focus to it.
 #+BEGIN_SRC emacs-lisp
   (setq help-window-select t)
@@ -266,7 +266,7 @@ Self explanatory, I'd guess
   (use-package company-jedi
     :ensure t
     :after (company)
-    :config 
+    :config
     (add-to-list 'company-backends 'company-jedi))
 #+END_SRC
 ** Go-company
@@ -275,7 +275,7 @@ Self explanatory, I'd guess
      :ensure t
      :after company
      :config
-     (add-hook 'go-mode-hook 
+     (add-hook 'go-mode-hook
 	       (lambda ()
 		 (add-to-list 'company-backends 'company-go))))
  #+END_SRC
@@ -348,7 +348,7 @@ Self explanatory, I'd guess
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'load-path "~/.emacs.d/lisp/")
   (require 'evil-relative-linum)
-#+END_SRC** 
+#+END_SRC**
 ** Electric parenthesis
      Force the parenthesis to come in pairs, unlike you, dear reader
  #+BEGIN_SRC emacs-lisp
@@ -380,6 +380,11 @@ Self explanatory, I'd guess
      :init
      (yas-global-mode 1))
  #+END_SRC
+** Remove whitespace
+This removes whitespace prior to saving
+#+BEGIN_SRC emacs-lisp
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+END_SRC
 * UI
 ** Theme
    I really like DOOM theme's neotree integration
@@ -419,14 +424,14 @@ Self explanatory, I'd guess
  #+END_SRC
 ** Spaceline-all-the-icons
  #+BEGIN_SRC emacs-lisp
-   (use-package spaceline-all-the-icons 
+   (use-package spaceline-all-the-icons
      :ensure t
      :after spaceline all-the-icons
      :custom
      (spaceline-all-the-icons-icon-set-modified 'toggle)
      (spaceline-all-the-icons-highlight-file-name t)
      (spaceline-all-the-icons-separator-type 'arrow)
-     :config 
+     :config
      (spaceline-all-the-icons--setup-git-ahead)
      (spaceline-all-the-icons--setup-paradox)
      (spaceline-all-the-icons--setup-neotree))
@@ -438,8 +443,8 @@ Self explanatory, I'd guess
    '(((all-the-icons-modified
        all-the-icons-window-number
        all-the-icons-eyebrowse-workspace
-       all-the-icons-buffer-size) 
-       :face highlight-face 
+       all-the-icons-buffer-size)
+       :face highlight-face
        :skip-alternate t
        :priority 100)
 
@@ -527,7 +532,7 @@ Self explanatory, I'd guess
      (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
  #+END_SRC
 ** Show-paren
-    Highlight matching parenthesis on selection 
+    Highlight matching parenthesis on selection
  #+BEGIN_SRC emacs-lisp
    (show-paren-mode t)
  #+END_SRC
@@ -541,7 +546,7 @@ Self explanatory, I'd guess
      (setq highlight-indent-guides-method 'character)
      (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
  #+END_SRC
- 
+
 ** Line highlight
  #+BEGIN_SRC emacs-lisp
    (global-hl-line-mode t)
@@ -563,11 +568,11 @@ Self explanatory, I'd guess
       (defun aropie/avy-jump-to-char-in-one-window()
 	(interactive)
 	(setq current-prefix-arg '(4)) ; C-u
-	(call-interactively 'avy-goto-char)) 
-	
+	(call-interactively 'avy-goto-char))
+
       (my-leader 'normal
       "SPC" '(aropie/avy-jump-to-char-in-one-window :which-key "Jump to char"))
-      
+
       (my-leader
 	:keymaps 'normal
 	:infix "j"
@@ -597,7 +602,7 @@ Self explanatory, I'd guess
    Window managing made smart
  #+BEGIN_SRC emacs-lisp
    (use-package ace-window
-     :ensure t 
+     :ensure t
      :custom
      (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
      :config
@@ -639,7 +644,7 @@ Self explanatory, I'd guess
 #+BEGIN_SRC emacs-lisp
   (use-package git-timemachine
     :ensure t)
-    
+
   (defhydra hydra-timemachine (:color pink)
     "Time machine"
     ("n" git-timemachine-show-next-revision "next")
@@ -648,7 +653,7 @@ Self explanatory, I'd guess
     ("b" git-timemachine-blame "blame")
     ("s" git-timemachine-switch-branch "switch branch")
     ("q" (kill-matching-buffers "timemachine" t t) "quit" :color blue))
-    
+
   (add-hook 'git-timemachine-mode-hook
 	    (lambda () (hydra-timemachine/body)))
 #+END_SRC
@@ -683,7 +688,7 @@ Self explanatory, I'd guess
   (setq org-agenda-files '("~/org"))
 #+END_SRC
 ** Org bullets
-#+BEGIN_SRC emacs-lisp 
+#+BEGIN_SRC emacs-lisp
     (use-package org-bullets
        :ensure t
        :config
