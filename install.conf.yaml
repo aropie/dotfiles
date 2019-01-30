@@ -1,0 +1,13 @@
+- defaults:
+    link:
+        create: true
+        relink: true
+
+- link:
+    ~/.scripts: scripts
+    ~/.config/i3: i3
+    ~/.config/rofi: rofi
+    ~/.config/qutebrowser: qutebrowser
+    ~/.config/polybar: polybar
+    ~/.config/dunst: dunst
+    ~/.emacs.d: emacs
