@@ -671,7 +671,9 @@ This removes whitespace prior to saving
     "" '(:ignore t :which-key "Git")
     "s" '(magit-status :which-key "Status")
     "m" '(magit-dispatch-popup :which-key "Menu")
-    "b" '(magit-blame :which-key "Blame")
+    "b" '(magit-branch-popup :which-key "Branch")
+    "l" '(magit-log-popup :which-key "Log")
+    "B" '(magit-blame :which-key "Blame")
     "t" '(git-timemachine :which-key "Travel through time"))
 #+END_SRC
 * Org
