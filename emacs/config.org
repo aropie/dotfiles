@@ -774,6 +774,9 @@ This removes whitespace prior to saving
     :custom
     (flycheck-python-flake8-executable "flake8")
     :config
+    (add-hook 'python-mode-hook (lambda ()
+                                  (require 'sphinx-doc)
+                                  (sphinx-doc-mode t)))
     (my-local-leader
       :states 'normal
       :keymaps 'python-mode-map
