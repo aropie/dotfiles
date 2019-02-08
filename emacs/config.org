@@ -221,7 +221,11 @@ Self explanatory, I'd guess
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :ensure t
+    :custom
+    (projectile-indexing-method 'native)
+    (projectile-enable-caching t)
     :config
+    (add-to-list 'projectile-globally-ignored-directories ".venv")
     (projectile-mode t)
     (my-leader
     :keymaps 'normal
