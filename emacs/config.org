@@ -107,6 +107,7 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
    "f" '(find-file :which-key "Find file")
    "F" '(find-file-other-window :which-key "Find file (other window)")
    "s" '(save-buffer :which-key "Save buffer")
+   "S" '(ido-write-file :which-key "Save as")
    "b" '(ido-switch-buffer :which-key "Switch buffer")
    "k" '(kill-this-buffer :which-key "Kill this buffer")
    "K" '(kill-buffer-and-window :which-key "Kill this buffer and window")
