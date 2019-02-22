@@ -49,6 +49,7 @@
 #+END_SRC
 ** Window sizing
     #+BEGIN_SRC emacs-lisp
+
 	(global-set-key (kbd "<C-up>") 'shrink-window)
 	(global-set-key (kbd "<C-down>") 'enlarge-window)
 	(global-set-key (kbd "<C-left>") 'shrink-window-horizontally)
@@ -603,24 +604,41 @@ This removes whitespace prior to saving
     :config
     (evil-avy-mode t))
 #+END_SRC
-** Ace window
-   Window managing made smart
- #+BEGIN_SRC emacs-lisp
-   (use-package ace-window
-     :ensure t
-     :custom
-     (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-     :config
-     (my-leader
-       :keymaps 'normal
-       :infix "w"
-       "" '(:ignore t :which-key "Windows")
-       "s" '(ace-swap-window :which-key "Swap windows")
-       "o" '(delete-other-windows :which-key "Delete other windows")
-       "x" '(ace-delete-window :which-key "Delete window")
-       "h" '(split-window-vertically :which-key "Split window horizontally")
-       "v" '(split-window-horizontally :which-key "Split window vertically")))
- #+END_SRC
+** Window management
+*** Ace window
+    Window managing made smart
+  #+BEGIN_SRC emacs-lisp
+    (use-package ace-window
+      :ensure t
+      :custom
+      (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+      (my-leader
+	:keymaps 'normal
+	:infix "w"
+	"" '(:ignore t :which-key "Windows")
+	"s" '(ace-swap-window :which-key "Swap windows")
+	"o" '(delete-other-windows :which-key "Delete other windows")
+	"x" '(ace-delete-window :which-key "Delete window")
+	"h" '(split-window-vertically :which-key "Split window horizontally")
+	"v" '(split-window-horizontally :which-key "Split window vertically")))
+  #+END_SRC
+*** Window resizing
+#+BEGIN_SRC emacs-lisp
+  (defhydra hydra-window-resize (:color pink)
+    "Resize window"
+    ("k" evil-window-increase-height "up")
+    ("j" evil-window-decrease-height "down")
+    ("h" evil-window-decrease-width "left")
+    ("l" evil-window-increase-width "right")
+    ("=" balance-windows "balance")
+    ("o" ace-window "change window")
+    ("q" nil "quit" :color blue))
+
+    (my-leader
+    :keymaps 'normal
+    :infix "w"
+    "r" '(hydra-window-resize/body :which-key "Resize windows"))
+#+END_SRC
 ** Dumb-jump
     Jump to definitions
  #+BEGIN_SRC emacs-lisp
@@ -648,19 +666,20 @@ This removes whitespace prior to saving
     highly dependant on your commits)
 #+BEGIN_SRC emacs-lisp
   (use-package git-timemachine
-    :ensure t)
+    :after hydra
+    :ensure t
+    :config
+    (defhydra hydra-timemachine (:color pink)
+      "Time machine"
+      ("n" git-timemachine-show-next-revision "next")
+      ("p" git-timemachine-show-previous-revision "previous")
+      ("c" git-timemachine-show-current-revision "current")
+      ("b" git-timemachine-blame "blame")
+      ("s" git-timemachine-switch-branch "switch branch")
+      ("q" (kill-matching-buffers "timemachine" t t) "quit" :color blue))
 
-  (defhydra hydra-timemachine (:color pink)
-    "Time machine"
-    ("n" git-timemachine-show-next-revision "next")
-    ("p" git-timemachine-show-previous-revision "previous")
-    ("c" git-timemachine-show-current-revision "current")
-    ("b" git-timemachine-blame "blame")
-    ("s" git-timemachine-switch-branch "switch branch")
-    ("q" (kill-matching-buffers "timemachine" t t) "quit" :color blue))
-
-  (add-hook 'git-timemachine-mode-hook
-	    (lambda () (hydra-timemachine/body)))
+    (add-hook 'git-timemachine-mode-hook
+	      (lambda () (hydra-timemachine/body))))
 #+END_SRC
 ** Evil magit
 #+BEGIN_SRC emacs-lisp
@@ -741,11 +760,11 @@ This removes whitespace prior to saving
      :ensure t
      :after org
      :delight
+     :init
+     (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))
      :config
      (add-hook 'org-mode-hook 'evil-org-mode)
-     (add-hook 'evil-org-mode-hook
-               (lambda ()
-                 (evil-org-set-key-theme))))
+     (evil-org-agenda-set-keys))
  #+END_SRC
 * Languages
 ** Go
