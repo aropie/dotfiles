@@ -198,7 +198,9 @@ exec --no-startup-id unclutter
 # exec --no-startup-id xautolock -time 10 -locker "~/.config/i3/scripts/lock.sh" -notify 30 -notifier "notify-send -u critical -t 10000 --icon='/usr/share/icons/gnome/48x48/actions/system-lock-screen.png' 'Screen Lock' 'Locking screen in 30 seconds'"
 # Turn numlock on
 exec --no-startup-id numlockx on
-# Set random background
-exec --no-startup-id feh --bg-scale ~/Pictures/Walls/50iME9x.jpg
+# Set background
+exec --no-startup-id nitrogen --restore
 # Start emacs daemonized
 exec --no-startup-id emacs --daemon
+# Start bluetooth controller
+exec --no-startup-id blueman-applet
