@@ -611,16 +611,7 @@ This removes whitespace prior to saving
     (use-package ace-window
       :ensure t
       :custom
-      (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
-      (my-leader
-	:keymaps 'normal
-	:infix "w"
-	"" '(:ignore t :which-key "Windows")
-	"s" '(ace-swap-window :which-key "Swap windows")
-	"o" '(delete-other-windows :which-key "Delete other windows")
-	"x" '(ace-delete-window :which-key "Delete window")
-	"h" '(split-window-vertically :which-key "Split window horizontally")
-	"v" '(split-window-horizontally :which-key "Split window vertically")))
+      (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
   #+END_SRC
 *** Window resizing
 #+BEGIN_SRC emacs-lisp
@@ -633,11 +624,19 @@ This removes whitespace prior to saving
     ("=" balance-windows "balance")
     ("o" ace-window "change window")
     ("q" nil "quit" :color blue))
-
+#+END_SRC
+*** Bindings
+#+BEGIN_SRC emacs-lisp
     (my-leader
     :keymaps 'normal
     :infix "w"
-    "r" '(hydra-window-resize/body :which-key "Resize windows"))
+	"" '(:ignore t :which-key "Windows")
+	"s" '(ace-swap-window :which-key "Swap windows")
+	"o" '(delete-other-windows :which-key "Delete other windows")
+	"x" '(ace-delete-window :which-key "Delete window")
+	"h" '(split-window-vertically :which-key "Split window horizontally")
+	"v" '(split-window-horizontally :which-key "Split window vertically")
+	"r" '(hydra-window-resize/body :which-key "Resize windows"))
 #+END_SRC
 ** Dumb-jump
     Jump to definitions
