@@ -17,7 +17,7 @@ set $mpd_host localhost
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango: Knack Nerd Font 9
+font pango: Ubuntu Nerd Font 9
 
 set $bg-color 	         #2f343f
 set $inactive-bg-color   #2f343f
@@ -46,7 +46,7 @@ bindsym $mod+q kill
 bindsym $mod+Shift+q kill
 
 # start rofi (a program launcher)
-bindsym $mod+d exec --no-startup-id rofi -modi drun -show drun 
+bindsym $mod+d exec --no-startup-id rofi -modi drun -show drun
 
 # lock screen
 bindsym $mod+Shift+x exec --no-startup-id lock
@@ -178,12 +178,12 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
 
 
-# START PROCESSES ON STARTUP 
+# START PROCESSES ON STARTUP
 
 # Launch Polybar where appropriate:
 exec_always --no-startup-id run_polybar
 # Capslock -> Ctrl
-exec --no-startup-id setxkbmap -option 'caps:ctrl_modifier,shift:both_capslock' 
+exec --no-startup-id setxkbmap -option 'caps:ctrl_modifier,shift:both_capslock'
 # Capslock -> Esc (when tapped)
 exec --no-startup-id xcape -e 'Caps_Lock=Escape'
 # Start compton for transparency
