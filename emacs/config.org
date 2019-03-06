@@ -413,6 +413,7 @@ This removes whitespace prior to saving
  #+BEGIN_SRC emacs-lisp
 	 (use-package spaceline
 	   :ensure t
+           :pin melpa-stable
 	   :custom
 	   (powerline-default-separator 'wave)
 	   (spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
@@ -420,6 +421,7 @@ This removes whitespace prior to saving
 	   ;; Fix rendering on MacOs
 	   (if (eq window-system 'ns)
 	       (setq powerline-image-apple-rgb t))
+           (require 'spaceline-config)
 	   (spaceline-spacemacs-theme))
 #+END_SRC
 ** All the icons
