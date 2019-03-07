@@ -1,4 +1,10 @@
 * General layout and config
+** Defuse custom file
+   I really dislike custom writing on init.el without my permission,
+   so I disable it altogether
+#+BEGIN_SRC emacs-lisp
+(setq custom-file null-device)
+#+END_SRC
 ** Mac alt fix
 #+BEGIN_SRC emacs-lisp
   (setq mac-command-modifier 'meta)
