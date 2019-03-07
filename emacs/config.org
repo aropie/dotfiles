@@ -761,11 +761,8 @@ This removes whitespace prior to saving
      :ensure t
      :after org
      :delight
-     :init
-     (evil-org-set-key-theme '(textobjects insert navigation additional shift todo heading))
      :config
-     (add-hook 'org-mode-hook 'evil-org-mode)
-     (evil-org-agenda-set-keys))
+     (add-hook 'org-mode-hook 'evil-org-mode))
  #+END_SRC
 * Languages
 ** Go
