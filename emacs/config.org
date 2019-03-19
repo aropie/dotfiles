@@ -247,6 +247,7 @@ Self explanatory, I'd guess
     "p" '(projectile-switch-project :which-key "Switch to project")
     "a" '(projectile-add-known-project :which-key "Add bookmark to project")
     "r" '(projectile-replace :which-key "Replace in project")
+    "c" '(projectile-invalidate-cache :which-key "Clear project's cache")
     "s" '(projectile-grep :which-key "Search in project")))
 #+END_SRC
 * Completion
