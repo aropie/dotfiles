@@ -411,10 +411,9 @@ This removes whitespace prior to saving
  #+END_SRC
 ** Spacemacs-theme
 #+BEGIN_SRC emacs-lisp
-  (use-package spacemacs-theme
-    :defer t
-    :init
-    (load-theme 'spacemacs-dark t))
+(use-package spacemacs-common
+    :ensure spacemacs-theme
+    :config (load-theme 'spacemacs-dark t))
 #+END_SRC
 ** Spaceline
  #+BEGIN_SRC emacs-lisp
