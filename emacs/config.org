@@ -118,8 +118,36 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
    "b" '(ido-switch-buffer :which-key "Switch buffer")
    "k" '(kill-this-buffer :which-key "Kill this buffer")
    "K" '(kill-buffer-and-window :which-key "Kill this buffer and window")
-   "o" '(ace-window :which-key "Change window")
-   "c" '(config-visit :which-key "Goto config"))
+   "o" '(ace-window :which-key "Change window"))
+#+END_SRC
+** Config shortcuts
+I tend to modify a lot my config files, so I set shortcuts to the
+most used ones
+*** Definitions
+#+BEGIN_SRC emacs-lisp
+  (defun aropie/emacs-config-visit ()
+    (interactive)
+    (find-file "~/.emacs.d/config.org"))
+  (defun aropie/i3-config-visit ()
+    (interactive)
+    (find-file "~/.config/i3/config"))
+  (defun aropie/zsh-config-visit ()
+    (interactive)
+    (find-file "~/.zshrc"))
+  (defun aropie/emacs-config-reload ()
+    (interactive)
+    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+#+END_SRC
+*** Bindings
+#+BEGIN_SRC emacs-lisp
+  (my-leader
+    :keymaps 'normal
+    :infix "c"
+    "" '(:ignore t :which-key "Config")
+    "e" '(aropie/emacs-config-visit :which-key "emacs")
+    "i" '(aropie/i3-config-visit :which-key "i3")
+    "z" '(aropie/zsh-config-visit :which-key "zsh")
+    "r" '(aropie/emacs-config-reload :which-key "Reload emacs config"))
 #+END_SRC
 ** PDF-tools
    Because Emacs' default Doc-view mode sucks hard
@@ -147,20 +175,6 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
 #+BEGIN_SRC emacs-lisp
   (use-package try
     :ensure t)
-#+END_SRC
-** Config edit/reload
-   Custom functions to visit and reload config file
-*** Edit
-#+BEGIN_SRC emacs-lisp
-  (defun config-visit ()
-    (interactive)
-    (find-file "~/.emacs.d/config.org"))
-#+END_SRC
-*** Reload
-#+BEGIN_SRC emacs-lisp
-  (defun config-reload ()
-    (interactive)
-    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
 #+END_SRC
 ** which-key
    Because Emacs is hard enough without visual aids
