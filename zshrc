@@ -30,7 +30,8 @@ POWERLEVEL9K_MODE="nerdfont-complete"
 POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 
 # Prompt elements
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon dir dir_writable vcs newline virtualenv_joined context_joined)
+# POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon dir dir_writable vcs newline virtualenv_joined context_joined)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon virtualenv dir dir_writable vcs newline context_joined)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs command_execution_time)
 
 # Prompt settings
