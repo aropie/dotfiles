@@ -665,6 +665,8 @@ This removes whitespace prior to saving
  #+BEGIN_SRC emacs-lisp
    (use-package dumb-jump
      :ensure t
+     :custom
+     (dumb-jump-use-visible-window nil)
      :config
      (my-leader
        :keymaps 'normal
