@@ -1,5 +1,5 @@
 #!/bin/bash
- 
+
 # Check for arguments
 if [[ $# -eq 0 ]]; then
     echo "No file specified"
@@ -20,15 +20,16 @@ elif [[ $EXTENSION != "tex" ]]; then
 fi
 
 # Create directory if it doesn't exist
-if [ ! -d ".metafiles" ]; then
-  mkdir .metafiles
+if [ -d ".metafiles" ]; then
+  rm -rf .metafiles
 fi
+mkdir .metafiles
 
 # Run pdflatex and biber with metafiles as in-/output directories
 pdflatex -output-directory=.metafiles $NAME
 biber --input-directory=.metafiles --output-directory=.metafiles $NAME
 pdflatex -output-directory=.metafiles $NAME
- 
+
 # Create a softlink to the output PDF
 if [ ! -f $NAME.pdf ]; then
     ln -s .metafiles/$NAME.pdf
