@@ -19,11 +19,11 @@ if [[ ! -d ~/.oh-my-zsh ]]; then
 fi
 export ZSH=~/.oh-my-zsh
 
-if [[ ! -d ~/.oh-my-zsh/custom/themes/powerlevel9k ]]; then
-    git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+if [[ ! -d ~/.oh-my-zsh/custom/themes/powerlevel10k ]]; then
+   git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 fi
 
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 POWERLEVEL9K_MODE="nerdfont-complete"
 
 # Prompt settings
@@ -31,7 +31,7 @@ POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
 
 # Prompt elements
 # POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon dir dir_writable vcs newline virtualenv_joined context_joined)
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon virtualenv dir dir_writable vcs newline context_joined)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon virtualenv dir dir_writable vcs newline context)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs command_execution_time)
 
 # Prompt settings
@@ -41,7 +41,7 @@ POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=""
 # Context
 DEFAULT_USER=$USER
 POWERLEVEL9K_ALWAYS_SHOW_CONTEXT=true
-POWERLEVEL9K_CONTEXT_TEMPLATE=" %F{088}\uf1d0"
+POWERLEVEL9K_CONTEXT_TEMPLATE="%F{088}\uf1d0"
 POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND='black'
 POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='241'
 
@@ -126,6 +126,8 @@ export ANDROID_HOME=$HOME/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+export LPASS_HOME=$HOME/.lpass
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
