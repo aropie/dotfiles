@@ -30,7 +30,5 @@ pdflatex -output-directory=.metafiles $NAME
 biber --input-directory=.metafiles --output-directory=.metafiles $NAME
 pdflatex -output-directory=.metafiles $NAME
 
-# Create a softlink to the output PDF
-if [ ! -f $NAME.pdf ]; then
-    ln -s .metafiles/$NAME.pdf
-fi
+# Create a copy to the output PDF
+cp .metafiles/$NAME.pdf .
