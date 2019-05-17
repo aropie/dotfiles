@@ -822,19 +822,30 @@ This removes whitespace prior to saving
      (setq web-mode-enable-css-colorization t))
  #+END_SRC
 ** Python
+*** Docs
+    Easy way to create standard docstrings
+    #+BEGIN_SRC emacs-lisp
+      (use-package sphinx-doc
+	:ensure t
+	:custom
+	(flycheck-python-flake8-executable "flake8")
+	:config
+	(add-hook 'python-mode-hook (lambda ()
+                                      (require 'sphinx-doc)
+                                      (sphinx-doc-mode t)))
+	(my-local-leader
+	  :states 'normal
+	  :keymaps 'python-mode-map
+	  "d" '(sphinx-doc :which-key "Generate doc")))
+    #+END_SRC
+*** Black
+    Gives a standard PEP8-compliant automated way to have a nice formatted Python code
+    (requires pip install black)
 #+BEGIN_SRC emacs-lisp
-  (use-package sphinx-doc
+  (use-package blacken
     :ensure t
-    :custom
-    (flycheck-python-flake8-executable "flake8")
     :config
-    (add-hook 'python-mode-hook (lambda ()
-                                  (require 'sphinx-doc)
-                                  (sphinx-doc-mode t)))
-    (my-local-leader
-      :states 'normal
-      :keymaps 'python-mode-map
-      "d" '(sphinx-doc :which-key "Generate doc")))
+    (add-hook 'python-mode 'blacken-mode))
 #+END_SRC
 * LOL
 ** Nyan mode
