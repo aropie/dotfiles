@@ -20,20 +20,25 @@
     (exec-path-from-shell-initialize))
 #+END_SRC
 ** Disable menu, toolbar and scroll
+   They are visual clutter once you get to know the keybindings (or create your own)
    #+BEGIN_SRC emacs-lisp
      (tool-bar-mode -1)
      (menu-bar-mode -1)
      (scroll-bar-mode -1)
    #+END_SRC
 ** Scroll conservatively
+   Makes Emacs scroll more smoothly
    #+BEGIN_SRC emacs-lisp
      (setq scroll-conservatively 100)
    #+END_SRC
 ** Disable ring alert
+   I haven't actually experienced the ring alert, but people often say it's quite
+   annoying, so better be safe than sorry
    #+BEGIN_SRC emacs-lisp
      (setq ring-bell-function 'ignore)
    #+END_SRC
 ** Startup message
+   I prefer the scratch buffer to greet me when I (rarely) restart Emacs
    #+BEGIN_SRC emacs-lisp
      (setq inhibit-startup-message t)
    #+END_SRC
@@ -47,34 +52,28 @@
   version-control t)
   #+END_SRC
 ** Ediff
-   Ediff setings so it won' messup my beautiful tilling wm
+   Ediff setings so it wont messup my beautiful tilling wm
 #+BEGIN_SRC emacs-lisp
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
   ;; Make ediff split horizontally instead of vertically
   (setq ediff-split-window-function 'split-window-horizontally)
 #+END_SRC
-** Window sizing
-    #+BEGIN_SRC emacs-lisp
-
-	(global-set-key (kbd "<C-up>") 'shrink-window)
-	(global-set-key (kbd "<C-down>") 'enlarge-window)
-	(global-set-key (kbd "<C-left>") 'shrink-window-horizontally)
-	(global-set-key (kbd "<C-right>") 'enlarge-window-horizontally)
-    #+END_SRC
 ** Increase GC
-Emacs garbage collection is a fairly primitive stop-the-world type.
-This means, performance can benefit greatly by increasing the threshold
-of memory allocated before GC runs. By default, Emacs will initate GC every
-0.76 MB allocated. Since it's no longer 2002, we can bumb that a little.
-#+BEGIN_SRC emacs-lisp
-(setq gc-cons-threshold 20000000)
-#+END_SRC
+   Emacs garbage collection is a fairly primitive stop-the-world type.
+   This means, performance can benefit greatly by increasing the threshold
+   of memory allocated before GC runs. By default, Emacs will initate GC every
+   0.76 MB allocated. Since it's no longer 2002, we can bumb that a little.
+   #+BEGIN_SRC emacs-lisp
+     (setq gc-cons-threshold 20000000)
+   #+END_SRC
 ** Transparency
+   I like being able to see my wallpaper. Call me a romantic if you like
 #+BEGIN_SRC emacs-lisp
      (set-frame-parameter (selected-frame) 'alpha '(95 95))
      (add-to-list 'default-frame-alist '(alpha 95 95))
 #+END_SRC
 ** Disable cursors in other windows
+   I find confusing having cursors on every window, so I just remove inactive ones
 #+BEGIN_SRC emacs-lisp
 (setq cursor-in-non-selected-windows nil)
 #+END_SRC
@@ -85,6 +84,8 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
   (setq help-window-select t)
 #+END_SRC
 ** Font
+   This is supposed to adjust font sizes depending on which screen I'm
+   working on, but I have yet to find a sweet spot for it
 #+BEGIN_SRC emacs-lisp
   (if (< (x-display-pixel-width) 1900)
       (set-face-attribute 'default nil :height 100)
@@ -121,8 +122,8 @@ of memory allocated before GC runs. By default, Emacs will initate GC every
    "o" '(ace-window :which-key "Change window"))
 #+END_SRC
 ** Config shortcuts
-I tend to modify a lot my config files, so I set shortcuts to the
-most used ones
+   I tend to modify a lot my config files, so I set shortcuts to the
+   most used ones
 *** Definitions
 #+BEGIN_SRC emacs-lisp
   (defun aropie/emacs-config-visit ()
@@ -203,7 +204,7 @@ most used ones
     :ensure t)
 #+END_SRC
 ** Auto-update
-Self explanatory, I'd guess
+   Self explanatory, I'd guess
 #+BEGIN_SRC emacs-lisp
   (use-package auto-package-update
     :ensure t
@@ -213,6 +214,9 @@ Self explanatory, I'd guess
     (setq auto-package-update-hide-results t))
 #+END_SRC
 ** Neotree
+   I have this laying around but never actually used (always end up
+   using dired), but I'm reluctant to remove it because it has nice
+   little icons
 #+BEGIN_SRC emacs-lisp
   (use-package neotree
     :ensure t
@@ -266,6 +270,7 @@ Self explanatory, I'd guess
 #+END_SRC
 * Completion
 ** Company
+   My choice for auto-completion
  #+BEGIN_SRC emacs-lisp
       (use-package company
 	:ensure t
@@ -297,6 +302,7 @@ Self explanatory, I'd guess
     (add-to-list 'company-backends 'company-jedi))
 #+END_SRC
 ** Go-company
+   Go autocompletion
  #+BEGIN_SRC emacs-lisp
    (use-package company-go
      :ensure t
@@ -307,6 +313,8 @@ Self explanatory, I'd guess
 		 (add-to-list 'company-backends 'company-go))))
  #+END_SRC
 ** Company-quickhelp
+   Prompts a little toolbar with documentation of the completed
+   item. Pretty neat
 #+BEGIN_SRC emacs-lisp
   (use-package company-quickhelp
     :ensure t
@@ -349,7 +357,8 @@ Self explanatory, I'd guess
  #+END_SRC
 * Editing
 ** Evil
- #+BEGIN_SRC emacs-lisp
+   Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
+   #+BEGIN_SRC emacs-lisp
    (use-package evil
      :ensure t
      :init (evil-mode 1)
@@ -357,6 +366,7 @@ Self explanatory, I'd guess
      (fset 'evil-mouse-drag-region 'ignore))
  #+END_SRC
 ** Evil-commentary
+   Allows to comment word-objects
  #+BEGIN_SRC emacs-lisp
    (use-package evil-commentary
      :ensure t
@@ -365,6 +375,7 @@ Self explanatory, I'd guess
      :delight)
  #+END_SRC
 ** Evil surround
+   Allows to modify surroundings of word-objects
 #+BEGIN_SRC emacs-lisp
   (use-package evil-surround
     :ensure t
@@ -382,6 +393,7 @@ Self explanatory, I'd guess
    (electric-pair-mode 1)
  #+END_SRC
 ** Flycheck
+   Syntax checker and linter on the fly
  #+BEGIN_SRC emacs-lisp
    (use-package flycheck
      :ensure t
@@ -397,6 +409,7 @@ Self explanatory, I'd guess
      (smart-tabs-insinuate 'c 'javascript 'ruby))
  #+END_SRC
 ** Yasnippet
+   Smart way to insert templates
  #+BEGIN_SRC emacs-lisp
          (use-package yasnippet
            :ensure t
@@ -415,7 +428,7 @@ Self explanatory, I'd guess
            (yas-global-mode 1))
  #+END_SRC
 ** Remove whitespace
-This removes whitespace prior to saving
+   This removes whitespace prior to saving
 #+BEGIN_SRC emacs-lisp
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
@@ -431,12 +444,15 @@ This removes whitespace prior to saving
      (doom-themes-neotree-config))
  #+END_SRC
 ** Spacemacs-theme
+   I like how spacemacs looks, but it's way too convoluted for my
+   taste, so I grab their theme
 #+BEGIN_SRC emacs-lisp
 (use-package spacemacs-common
     :ensure spacemacs-theme
     :config (load-theme 'spacemacs-dark t))
 #+END_SRC
 ** Spaceline
+   Nice replacement for default mode line
  #+BEGIN_SRC emacs-lisp
 	 (use-package spaceline
 	   :ensure t
@@ -458,6 +474,7 @@ This removes whitespace prior to saving
      :ensure t)
  #+END_SRC
 ** Spaceline-all-the-icons
+   Make pretty icons appear on the mode line
  #+BEGIN_SRC emacs-lisp
    (use-package spaceline-all-the-icons
      :ensure t
@@ -472,8 +489,8 @@ This removes whitespace prior to saving
      (spaceline-all-the-icons--setup-neotree))
  #+END_SRC
 ** Custom spaceline
+   Sets the mode line the way I (almost) like it
 #+BEGIN_SRC emacs-lisp
-
   (spaceline-compile
    '(((all-the-icons-modified
        all-the-icons-window-number
@@ -544,6 +561,7 @@ This removes whitespace prior to saving
       :face default-face)))
 #+END_SRC
 ** Cursor colors
+   Adds visual aid to the modeline to know which mode I'm in
  #+BEGIN_SRC emacs-lisp
    (setq evil-emacs-state-cursor '("red" bar))
    (setq evil-normal-state-cursor '("skyblue2" box))
@@ -572,6 +590,7 @@ This removes whitespace prior to saving
    (show-paren-mode t)
  #+END_SRC
 ** Indent guides
+   Visual aid for indentation
  #+BEGIN_SRC emacs-lisp
    (use-package highlight-indent-guides
      :ensure t
@@ -583,11 +602,13 @@ This removes whitespace prior to saving
  #+END_SRC
 
 ** Line highlight
+   Highlights current line to aid with quick cursor finding
  #+BEGIN_SRC emacs-lisp
    (global-hl-line-mode t)
  #+END_SRC
 * Navigation
 ** Follow symlinks
+   Stop asking if I want to follow a symlink
 #+BEGIN_SRC emacs-lisp
 (setq vc-follow-symlinks t)
 #+END_SRC
@@ -686,6 +707,8 @@ This removes whitespace prior to saving
  #+END_SRC
 * Git
 ** Magit
+   Git porcelain inside Emacs. Basically, git turned toloving hugs and
+   kisses
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :ensure t
