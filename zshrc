@@ -1,13 +1,3 @@
-EDITOR="emacsclient -c -n"
-BROWSER="vivaldi-stable"
-TERMINAL="terminator"
-export LPASS_USERNAME="aropie@hotmail.com"
-
-export TERM="xterm-256color"
-export GOPATH=$HOME/go
-export PATH=$PATH:$HOME/.scripts
-export PATH=$PATH:$GOPATH/bin
-
 # Start xorg on login
 if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
   exec startx
@@ -115,9 +105,6 @@ alias pause="mpc toggle"
 alias next="mpc next"
 alias prev="mpc prev"
 
-export MPD_HOST="localhost"
-export MPD_PORT="6601"
-
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
@@ -127,7 +114,6 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-export LPASS_HOME=$HOME/.lpass
 
 # NVM
 export NVM_DIR="$HOME/.nvm"

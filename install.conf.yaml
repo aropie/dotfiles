@@ -4,6 +4,9 @@
         relink: true
 
 - link:
+    ~/.zshrc: zshrc
+    ~/.zprofile: zprofile
+    ~/.profile: profile
     ~/.scripts: scripts
     ~/.config/i3: i3
     ~/.config/rofi: rofi
