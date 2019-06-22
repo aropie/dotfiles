@@ -8,6 +8,7 @@
     ~/.zprofile: zprofile
     ~/.profile: profile
     ~/.scripts: scripts
+    ~/.config/sxhkd: sxhkd
     ~/.config/i3: i3
     ~/.config/rofi: rofi
     ~/.config/qutebrowser: qutebrowser

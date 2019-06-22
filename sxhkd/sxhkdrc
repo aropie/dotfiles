@@ -1,0 +1,33 @@
+# BASIC
+super + shift + Return
+        $TERMINAL
+super + o
+        rofi -modi drun -show drun
+super + shift + Escape
+        rofi_power
+super + r
+        $TERMINAL -e ranger
+super + shift + x
+        lock
+super + m
+        $TERMINAL -e ncmpcpp
+super + shift + a
+        rofi_audioswap
+super + shift + p
+        rofi_password
+
+# MEDIA
+XF86AudioLowerVolume
+        pamixer --allow-boost -d 5
+XF86AudioRaiseVolume
+        pamixer --allow-boost -i 5
+XF86AudioMute
+        pamixer -t
+XF86AudioPlay
+	mpc -q toggle
+XF86Audio{Prev,Next}
+	mpc -q {prev,next}
+XF86MonBrightnessDown
+	xbacklight -dec 20
+XF86MonBrightnessUp
+	xbacklight -inc 20
