@@ -5,8 +5,7 @@
 
 - link:
     ~/.zshrc: zshrc
-    ~/.zprofile: zprofile
-    ~/.profile: profile
+    ~/.zprofile: profile
     ~/.scripts: scripts
     ~/.config/sxhkd: sxhkd
     ~/.config/i3: i3
