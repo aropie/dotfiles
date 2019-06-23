@@ -18,16 +18,18 @@ super + shift + p
 
 # MEDIA
 XF86AudioLowerVolume
-        pamixer --allow-boost -d 5
+        pamixer --allow-boost -d 5; refbar
 XF86AudioRaiseVolume
-        pamixer --allow-boost -i 5
+        pamixer --allow-boost -i 5; refbar
 XF86AudioMute
-        pamixer -t
+        pamixer -t; refbar
 XF86AudioPlay
-	mpc -q toggle
+	mpc -q toggle; refbar
 XF86Audio{Prev,Next}
-	mpc -q {prev,next}
+	mpc -q {prev,next}; refbar
 XF86MonBrightnessDown
 	xbacklight -dec 20
 XF86MonBrightnessUp
 	xbacklight -inc 20
+Print
+	rofi_screenshot
