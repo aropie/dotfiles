@@ -3,20 +3,58 @@
 trap 'update' 5
 
 delim="|"
-datetime() { \
-	    date "+ %b %d (%a)  %R"
+datetime() {
+    date "+ %b %d (%a)  %R"
 }
 
-volume() { \
-	   pamixer --get-volume-human | \
-	       awk '{if($0=="muted"){print ""}else{print ""}{print $0}}'
-    }
-
-status() { \
-	   echo $(volume) $delim $(datetime)
+volume() {
+    pamixer --get-volume-human | \
+	awk '{if($0=="muted"){print ""}else{print ""}{print $0}}'
 }
 
-update() { \
+battery() {
+    upower -i $(upower -e | grep 'BAT') | grep 'state' | \
+	awk '{if($2=="discharging"){print ""}else{print ""}}'
+    upower -i $(upower -e | grep 'BAT') | grep 'percentage' | awk '{print $2}'
+}
+
+eth() {
+    status=$(cat /sys/class/net/e*/operstate)
+    if [ "$status" = "up" ]
+    then
+       echo 
+    else
+	false
+    fi
+}
+
+wifi() {
+    ssid=$(iwgetid -r)
+    if [ ! -z "$ssid" ]
+    then
+	echo "直 " $ssid
+    else
+	false
+    fi
+}
+
+network() {
+    echo $(eth || wifi || echo )
+}
+
+music() {
+    mpc | grep -v "volume:" | \
+	awk 'NR==1{song=$0};NR==2{status=$1} \
+	    END {if(status=="[paused]"){print ""}\
+	    	else if(status=="[playing]"){print ""}\
+	    {print song}}'
+}
+
+status() {
+    echo $(music) $delim $(network) $delim $(battery) $delim $(volume) $delim $(datetime)
+}
+
+update() {
     xsetroot -name "$(status | tr '\n' ' ')" &
 }
 
