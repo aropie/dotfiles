@@ -1,5 +1,5 @@
 # BASIC
-super + shift + Return
+super + Return
         $TERMINAL
 super + o
         rofi -modi drun -show drun
