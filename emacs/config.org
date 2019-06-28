@@ -443,21 +443,15 @@
     :ensure spacemacs-theme
     :config (load-theme 'spacemacs-dark t))
 #+END_SRC
-** Spaceline
+** Doom-modeline
    Nice replacement for default mode line
- #+BEGIN_SRC emacs-lisp
-	 (use-package spaceline
-	   :ensure t
-           :pin melpa-stable
-	   :custom
-	   (powerline-default-separator 'wave)
-	   (spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-	   :config
-	   ;; Fix rendering on MacOs
-	   (if (eq window-system 'ns)
-	       (setq powerline-image-apple-rgb t))
-           (require 'spaceline-config)
-	   (spaceline-spacemacs-theme))
+#+BEGIN_SRC emacs-lisp
+  (use-package doom-modeline
+	:ensure t
+	:hook (after-init . doom-modeline-mode)
+	:config
+	(set-face-attribute 'doom-modeline-evil-normal-state nil :foreground "skyblue2")
+	(set-face-attribute 'doom-modeline-evil-insert-state nil :foreground "green"))
 #+END_SRC
 ** All the icons
     We take advantage of running Emacs as a GUI, and get nice icons for it
@@ -465,93 +459,6 @@
    (use-package all-the-icons
      :ensure t)
  #+END_SRC
-** Spaceline-all-the-icons
-   Make pretty icons appear on the mode line
- #+BEGIN_SRC emacs-lisp
-   (use-package spaceline-all-the-icons
-     :ensure t
-     :after spaceline all-the-icons
-     :custom
-     (spaceline-all-the-icons-icon-set-modified 'toggle)
-     (spaceline-all-the-icons-highlight-file-name t)
-     (spaceline-all-the-icons-separator-type 'arrow)
-     :config
-     (spaceline-all-the-icons--setup-git-ahead)
-     (spaceline-all-the-icons--setup-paradox)
-     (spaceline-all-the-icons--setup-neotree))
- #+END_SRC
-** Custom spaceline
-   Sets the mode line the way I (almost) like it
-#+BEGIN_SRC emacs-lisp
-  (spaceline-compile
-   '(((all-the-icons-modified
-       all-the-icons-window-number
-       all-the-icons-eyebrowse-workspace
-       all-the-icons-buffer-size)
-       :face highlight-face
-       :skip-alternate t
-       :priority 100)
-
-     all-the-icons-separator-left-active-1
-
-     ((all-the-icons-projectile
-       all-the-icons-mode-icon
-       all-the-icons-buffer-id)
-      :face default-face
-      :priority 99)
-
-     all-the-icons-separator-left-active-2
-
-     ((all-the-icons-process
-       all-the-icons-position
-       all-the-icons-multiple-cursors)
-      :face highlight-face
-      :separator (spaceline-all-the-icons--separator spaceline-all-the-icons-primary-separator " "))
-
-     all-the-icons-separator-left-active-3
-     all-the-icons-separator-left-inactive
-
-     ((all-the-icons-vc-status
-       ((all-the-icons-git-ahead
-	 all-the-icons-git-status) :separator " ")
-       ((all-the-icons-flycheck-status
-	 all-the-icons-flycheck-status-info) :separator " ")
-       all-the-icons-package-updates)
-      :face other-face
-      :separator (spaceline-all-the-icons--separator spaceline-all-the-icons-secondary-separator " ")
-      :priority 75)
-
-     ((all-the-icons-separator-left-extra-1
-       all-the-icons-nyan-cat
-       all-the-icons-separator-left-extra-2)
-      :tight t
-      :face powerline-active1
-      :when (or (and (bound-and-true-p nyan-mode)
-		     spaceline-all-the-icons-nyan-cat-p)
-		spaceline-all-the-icons-minor-modes-p))
-
-     ((all-the-icons-separator-minor-mode-left
-       all-the-icons-minor-modes
-       all-the-icons-separator-minor-mode-right)
-      :tight t
-      :face highlight-face
-      :when spaceline-all-the-icons-minor-modes-p))
-
-
-   `(all-the-icons-separator-right-active-1
-     ((all-the-icons-hud
-       all-the-icons-buffer-position)
-      :separator " " :when active)
-
-     all-the-icons-separator-right-active-2
-     all-the-icons-separator-right-inactive
-
-     ((all-the-icons-org-clock-current-task
-       all-the-icons-battery-status
-       all-the-icons-time)
-      :separator (spaceline-all-the-icons--separator spaceline-all-the-icons-primary-separator " ")
-      :face default-face)))
-#+END_SRC
 ** Cursor colors
    Adds visual aid to the modeline to know which mode I'm in
  #+BEGIN_SRC emacs-lisp
@@ -561,12 +468,6 @@
    (setq evil-insert-state-cursor '("green" bar))
    (setq evil-replace-state-cursor '("red" hollow))
    (setq evil-operator-state-cursor '("red" hollow))
-   (set-face-attribute 'spaceline-evil-emacs nil :background "red")
-   (set-face-attribute 'spaceline-evil-insert nil :background "green")
-   (set-face-attribute 'spaceline-evil-motion nil :background "skyblue2")
-   (set-face-attribute 'spaceline-evil-normal nil :background "skyblue2")
-   (set-face-attribute 'spaceline-evil-replace nil :background "red")
-   (set-face-attribute 'spaceline-evil-visual nil :background "gray")
  #+END_SRC
 ** Rainbow-delimiters
    Visual aid to know which parenthesis is paired to which
