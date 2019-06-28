@@ -98,9 +98,20 @@
 #+BEGIN_SRC emacs-lisp
   (use-package general
     :ensure t
+    :init
+    (setq general-override-states '(insert
+				  emacs
+				  hybrid
+				  normal
+				  visual
+				  motion
+				  operator
+				  replace))
+    (general-override-mode)
     :config
     (general-create-definer my-leader
       ;; :prefix my-leader
+      :keymaps 'override
       :prefix "SPC")
     (general-create-definer my-local-leader
       ;; prefix local-leader
@@ -177,6 +188,7 @@
   (use-package try
     :ensure t)
 #+END_SRC
+
 ** which-key
    Because Emacs is hard enough without visual aids
    #+BEGIN_SRC emacs-lisp
@@ -202,45 +214,6 @@
 #+BEGIN_SRC emacs-lisp
   (use-package hydra
     :ensure t)
-#+END_SRC
-** Auto-update
-   Self explanatory, I'd guess
-#+BEGIN_SRC emacs-lisp
-  (use-package auto-package-update
-    :ensure t
-    :config
-    (setq auto-package-update-prompt-before-update t)
-    (setq auto-package-update-delete-old-versions t)
-    (setq auto-package-update-hide-results t))
-#+END_SRC
-** Neotree
-   I have this laying around but never actually used (always end up
-   using dired), but I'm reluctant to remove it because it has nice
-   little icons
-#+BEGIN_SRC emacs-lisp
-  (use-package neotree
-    :ensure t
-    :config
-     (my-leader
-       :keymaps 'normal
-       :infix "n"
-       "" '(neotree-show :which-key "Neotree"))
-
-    (general-define-key
-     :states '(normal visual insert emacs)
-     :keymaps 'neotree-mode-map
-     "TAB" 'neotree-enter
-     "SPC" 'neotree-quick-look
-     "q" 'neotree-hide
-     "RET" 'neotree-enter
-     "g" 'neotree-refresh
-     "k" 'neotree-previous-line
-     "j" 'neotree-next-line
-     "h" 'neotree-select-up-node
-     "R" 'neotree-rename-node
-     "D" 'neotree-delete-node
-     "C" 'neotree-create-node
-     "H" 'neotree-hidden-file-toggle))
 #+END_SRC
 ** Projectile
    Ok, I'll admit it: Projectile's really cool. Really nice project management
@@ -361,10 +334,21 @@
    #+BEGIN_SRC emacs-lisp
    (use-package evil
      :ensure t
-     :init (evil-mode 1)
+     :init
+     (setq evil-want-keybinding nil)
      :config
+     (evil-mode 1)
      (fset 'evil-mouse-drag-region 'ignore))
  #+END_SRC
+** Evil-collection
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-collection
+    :after evil
+    :ensure t
+    :config
+    (add-to-list 'evil-collection-key-blacklist "SPC")
+    (evil-collection-init))
+#+END_SRC
 ** Evil-commentary
    Allows to comment word-objects
  #+BEGIN_SRC emacs-lisp
@@ -405,11 +389,6 @@
    :config
    (evil-exchange-install))
    #+END_SRC
-** Relative line number
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'load-path "~/.emacs.d/lisp/")
-  (require 'evil-relative-linum)
-#+END_SRC**
 ** Electric parenthesis
      Force the parenthesis to come in pairs, unlike you, dear reader
  #+BEGIN_SRC emacs-lisp
@@ -456,16 +435,6 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
 * UI
-** Theme
-   I really like DOOM theme's neotree integration
- #+BEGIN_SRC emacs-lisp
-   (use-package doom-themes
-     :ensure t
-     :custom
-     (doom-neotree-file-icons t)
-     :config
-     (doom-themes-neotree-config))
- #+END_SRC
 ** Spacemacs-theme
    I like how spacemacs looks, but it's way too convoluted for my
    taste, so I grab their theme
@@ -730,7 +699,7 @@
  #+END_SRC
 * Git
 ** Magit
-   Git porcelain inside Emacs. Basically, git turned toloving hugs and
+   Git porcelain inside Emacs. Basically, git turned into loving hugs and
    kisses
 #+BEGIN_SRC emacs-lisp
   (use-package magit
@@ -777,6 +746,7 @@
     "F" '(magit-pull :which-key "Pull")
     "t" '(git-timemachine :which-key "Travel through time"))
 #+END_SRC
+
 * Org
 ** Basic config
 #+BEGIN_SRC emacs-lisp
@@ -830,15 +800,6 @@
   ; Allow refile to create parent tasks with confirmation
   (setq org-refile-allow-creating-parent-nodes (quote confirm))
 #+END_SRC
-** Evil-org
- #+BEGIN_SRC emacs-lisp
-   (use-package evil-org
-     :ensure t
-     :after org
-     :delight
-     :config
-     (add-hook 'org-mode-hook 'evil-org-mode))
- #+END_SRC
 * Languages
 ** Go
  #+BEGIN_SRC emacs-lisp
@@ -909,38 +870,4 @@
     :disabled
     :init
     (run-with-idle-timer 600 t 'fireplace ()))
-#+END_SRC
-** XKCD
-   Because sometimes, we all need a break. So why not enforce them?
-#+BEGIN_SRC emacs-lisp
-  (use-package xkcd
-    :ensure t
-    :disabled
-    :config
-    (defun aropie/xkcd-rand-and-print-alt-text()
-      (interactive)
-      (call-interactively 'xkcd-rand)
-      (message xkcd-alt)
-      (evil-emacs-state))
-
-    (run-at-time (* 60 45) (* 60 45) #'aropie/xkcd-rand-and-print-alt-text))
-#+END_SRC
-* SQL
-#+BEGIN_SRC emacs-lisp
-  ;; (add-hook 'sql-interactive-mode-hook
-  ;;           (lambda ()
-  ;;             (toggle-truncate-lines t)))
-  ;; 	    (setq sql-connection-alist
-  ;;       '((server1 (sql-product 'postgres)
-  ;;                   (sql-port 5432)
-  ;;                   (sql-server "localhost")
-  ;;                   (sql-user "user")
-  ;;                   (sql-password "password")
-  ;;                   (sql-database "db1"))
-  ;;         (server2 (sql-product 'postgres)
-  ;;                   (sql-port 5432)
-  ;;                   (sql-server "localhost")
-  ;;                   (sql-user "user")
-  ;;                   (sql-password "password")
-  ;;                   (sql-database "db2"))))
 #+END_SRC
