@@ -9,9 +9,6 @@ mogrify -scale 10% -scale 1000% /tmp/screen.png
 # Add the lock to the blurred image:
 [[ -f ~/.config/i3/lock.png ]] && convert /tmp/screen.png  ~/.config/i3/lock.png -gravity center -composite /tmp/screen.png
 
-# Pause music (mocp and mpd):
-mpc pause
-
 # Lock it up!
 i3lock -e -i /tmp/screen.png
 
