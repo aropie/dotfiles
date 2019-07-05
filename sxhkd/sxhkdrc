@@ -9,8 +9,6 @@ super + r
         $TERMINAL -e ranger
 super + shift + x
         lock
-super + m
-        $TERMINAL -e ncmpcpp
 super + shift + a
         rofi_audioswap
 super + shift + p
