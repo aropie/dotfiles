@@ -8,7 +8,7 @@ super + shift + Escape
 super + r
         $TERMINAL -e ranger
 super + shift + x
-        lock
+        screen-lock
 super + shift + a
         rofi_audioswap
 super + shift + p
@@ -17,7 +17,11 @@ super + shift + p
 # MEDIA
 XF86AudioLowerVolume
         pamixer --allow-boost -d 5; refbar
+super + less
+        pamixer --allow-boost -d 5; refbar
 XF86AudioRaiseVolume
+        pamixer --allow-boost -i 5; refbar
+super + shift + less
         pamixer --allow-boost -i 5; refbar
 XF86AudioMute
         pamixer -t; refbar
