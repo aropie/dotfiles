@@ -10,5 +10,6 @@ nitrogen --restore &
 xcape -e 'Caps_Lock=Escape' &
 sxhkd &
 dwmbar &
+xautolock -time 1 -locker screen-lock &
 
 exec dwm
