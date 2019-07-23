@@ -11,12 +11,12 @@ include-file = ~/.config/polybar/modules.conf
 ;     i3 Bars
 ;=====================================================
 
-[bar/i3-bar]
+[bar/main-bar]
 inherit = bar/master
 
 ; Use $ xrandr -q | grep " connected" | cut -d ' ' -f1
 monitor =
 
-modules-left   = i3 mpd
-modules-center = clock
-modules-right  = temperature backlight volume battery wireless-network wired-network
+modules-left   = ewmh mpd
+modules-center =
+modules-right  = wireless-network wired-network battery volume clock
