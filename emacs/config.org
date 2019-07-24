@@ -755,6 +755,39 @@
     :config
     (add-hook 'python-mode 'blacken-mode))
 #+END_SRC
+** Lisp
+*** Slime
+    Sane slime config. Taken from [[https://stackoverflow.com/questions/1101487/setting-up-a-working-common-lisp-environment-for-the-aspiring-lisp-newbie/1101605#1101605][here.]]
+#+BEGIN_SRC emacs-lisp
+  (use-package slime
+    :ensure t
+    :config
+  (progn
+       (setq slime-lisp-implementations
+	     '((sbcl ("/usr/bin/sbcl"))
+	       (ecl ("/usr/bin/ecl"))
+	       (clisp ("/usr/bin/clisp"))))
+       (slime-setup '(
+		      slime-asdf
+		      slime-autodoc
+		      slime-editing-commands
+		      slime-fancy-inspector
+		      slime-fontifying-fu
+		      slime-fuzzy
+		      slime-indentation
+		      slime-mdot-fu
+		      slime-package-fu
+		      slime-references
+		      slime-repl
+		      slime-sbcl-exts
+		      slime-scratch
+		      slime-xref-browser
+		      ))
+       (slime-autodoc-mode)
+       (setq slime-complete-symbol*-fancy t)
+       (setq slime-complete-symbol-function
+    'slime-fuzzy-complete-symbol)))
+#+END_SRC
 * LOL
 ** Nyan mode
 #+BEGIN_SRC emacs-lisp
