@@ -87,9 +87,116 @@
    This is supposed to adjust font sizes depending on which screen I'm
    working on, but I have yet to find a sweet spot for it
 #+BEGIN_SRC emacs-lisp
-  (if (< (x-display-pixel-width) 2500)
-      (set-face-attribute 'default nil :height 100)
-    (set-face-attribute 'default nil :height 120))
+  (set-face-attribute 'default nil :height 100)
+#+END_SRC
+* EXWM
+** Functions
+#+BEGIN_SRC emacs-lisp
+  (defun aropie/exwm-rename-buffer ()
+    (let* ((part1 exwm-class-name)
+	   (part2 (when (not (string-equal exwm-class-name exwm-title))
+		    (concat "/" exwm-title)))
+	   (name (concat part1 (or part2 "")))
+	   (maxlen 40))
+      (exwm-workspace-rename-buffer (if (> (length name) maxlen)
+					(concat (subseq name 0 (- maxlen 3)) "...")
+				      name))))
+  (defun aropie/exwm-layout-toggle-fullscreen ()
+    "Togggles full screen for Emacs and X windows"
+    (interactive)
+    (if exwm--id
+	(if (exwm-layout--fullscreen-p)
+	    (exwm-reset)
+	  (exwm-layout-set-fullscreen))
+      (spacemacs/toggle-maximize-buffer)))
+  (defun aropie/exwm-jump-to-last-exwm ()
+    (interactive)
+    (exwm-workspace-switch exwm-toggle-workspace))
+#+END_SRC
+** Config
+#+BEGIN_SRC emacs-lisp
+    (use-package exwm
+      :init
+      ;; Disable dialog boxes since they are unusable in EXWM
+      (setq use-dialog-box nil)
+      ;; 10 Worskpaces please
+      (setq exwm-workspace-number 1)
+      ;; You may want Emacs to show you the time
+      (display-time-mode t)
+      :config
+
+      (require 'exwm-config)
+      (exwm-config-ido)
+
+      ;; Quick swtiching between workspaces
+      (defvar exwm-toggle-workspace 0
+	"Previously selected workspace. Used with `aropie/exwm-jump-to-last-exwm'.")
+
+      (defadvice exwm-workspace-switch (before save-toggle-workspace activate)
+	(setq exwm-toggle-workspace exwm-workspace-current-index))
+
+      (exwm-input-set-key (kbd "s-r") 'exwm-reset)
+      (exwm-input-set-key (kbd "s-f") 'aropie/exwm-layout-toggle-fullscreen)
+      (exwm-input-set-key (kbd "<s-tab>") 'aropie/exwm-jump-to-last-exwm)
+      ;; + Bind a key to switch workspace interactively
+      (exwm-input-set-key (kbd "s-w") 'exwm-workspace-switch)
+      ;; + Set shortcuts to switch to a certain workspace.
+      (exwm-input-set-key (kbd "s-1")
+			  (lambda () (interactive) (exwm-workspace-switch-create 1)))
+      (exwm-input-set-key (kbd "s-2")
+			  (lambda () (interactive) (exwm-workspace-switch-create 2)))
+      (exwm-input-set-key (kbd "s-3")
+			  (lambda () (interactive) (exwm-workspace-switch-create 3)))
+      (exwm-input-set-key (kbd "s-4")
+			  (lambda () (interactive) (exwm-workspace-switch-create 4)))
+      (exwm-input-set-key (kbd "s-5")
+			  (lambda () (interactive) (exwm-workspace-switch-create 5)))
+      (exwm-input-set-key (kbd "s-6")
+			  (lambda () (interactive) (exwm-workspace-switch-create 6)))
+      (exwm-input-set-key (kbd "s-7")
+			  (lambda () (interactive) (exwm-workspace-switch-create 7)))
+      (exwm-input-set-key (kbd "s-8")
+			  (lambda () (interactive) (exwm-workspace-switch-create 8)))
+      (exwm-input-set-key (kbd "s-9")
+			  (lambda () (interactive) (exwm-workspace-switch-create 9)))
+      (exwm-input-set-key (kbd "s-0")
+			  (lambda () (interactive) (exwm-workspace-switch-create 0)))
+      ;; User s-q to close buffers
+      (exwm-input-set-key (kbd "s-q") 'kill-this-buffer)
+      ;; Focusing windows
+      (exwm-input-set-key (kbd "s-h") #'evil-window-left)
+      (exwm-input-set-key (kbd "s-j") #'evil-window-down)
+      (exwm-input-set-key (kbd "s-k") #'evil-window-up)
+      (exwm-input-set-key (kbd "s-l") #'evil-window-right)
+      ;; Moving Windows
+      (exwm-input-set-key (kbd "s-H") #'evil-window-move-far-left)
+      (exwm-input-set-key (kbd "s-J") #'evil-window-move-very-bottom)
+      (exwm-input-set-key (kbd "s-K") #'evil-window-move-very-top)
+      (exwm-input-set-key (kbd "s-L") #'evil-window-move-far-right)
+
+      ;; C-c, C-x are needed for copying and pasting
+      (delete ?\C-x exwm-input-prefix-keys)
+      (delete ?\C-c exwm-input-prefix-keys)
+      ;; We can use `M-m h' to access help
+      (delete ?\C-h exwm-input-prefix-keys)
+
+      ;; Map C-c C-c to C-c in EXWM buffers
+      (add-hook 'exwm-manage-finish-hook
+		(lambda ()
+		  (when exwm-class-name
+		    (exwm-input-set-local-simulation-keys '(([?\C-c ?\C-c] . ?\C-c))))))
+
+      ;; Allow for s-SPC to work on char mode
+      (push ?\s-\  exwm-input-prefix-keys)
+
+      (add-hook 'exwm-update-class-hook 'aropie/exwm-rename-buffer)
+      (add-hook 'exwm-update-title-hook 'aropie/exwm-rename-buffer)
+
+  (require 'exwm-randr)
+  (setq exwm-randr-workspace-output-plist '(1 "DP-0" 2 "DP-3" 3 "DP-0" 4 "DP-3" 5 "DP-3" 6 "DP-3" 7 "DP-3" 8 "DP-3" 9 "DP-3"))
+  (exwm-randr-enable)
+
+  (exwm-enable))
 #+END_SRC
 * Utils
 ** General.el
@@ -112,10 +219,11 @@
     (general-create-definer my-leader
       ;; :prefix my-leader
       :keymaps 'override
-      :prefix "SPC")
+      :prefix "s-SPC")
+      (general-def '(normal visual motion) "SPC" (general-simulate-key "s-SPC"))
     (general-create-definer my-local-leader
       ;; prefix local-leader
-      :prefix "SPC m"))
+      :prefix "s-SPC m"))
 #+END_SRC
 *** Overall bindings
 #+BEGIN_SRC emacs-lisp
