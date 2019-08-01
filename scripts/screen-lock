@@ -6,10 +6,12 @@ timeout="10000"
 scrot /tmp/screen.png -z
 
 # Create a blur on the shot:
-mogrify -scale 10% -scale 1000% /tmp/screen.png
+convert /tmp/screen.png -scale 10% -scale 1000% /tmp/screen.png
 
 # Add the lock to the blurred image:
 [[ -f ~/.config/i3/lock.png ]] && convert /tmp/screen.png  ~/.config/i3/lock.png -gravity center -composite /tmp/screen.png
+# Halt notifications
+pkill -u "$USER" -USR1 dunst
 
 # Lock it up!
 i3lock -e -i /tmp/screen.png
@@ -19,3 +21,6 @@ while [[ $(pgrep -x i3lock) ]]; do
 	[[ $timeout -lt $(xssstate -i) ]] && xset dpms force off
 	sleep 5
 done
+
+# Reenable notifications
+pkill -u "$USER" -USR2 dunst
