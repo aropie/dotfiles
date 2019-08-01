@@ -1,9 +1,8 @@
 #!/bin/sh
 
 export PATH=$PATH:$HOME/.scripts
-export EDITOR='emacs'
+export EDITOR='emacsclient'
 export TERMINAL='st'
-export BROWSER='qutebrowser'
 export MPD_HOST="localhost"
 export MPD_PORT="6601"
 export SHELL='zsh'
