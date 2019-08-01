@@ -556,6 +556,7 @@
     (use-package ace-window
       :ensure t
       :custom
+      (aw-scope 'frame)
       (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
   #+END_SRC
 *** Window resizing
