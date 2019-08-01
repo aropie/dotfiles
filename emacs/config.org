@@ -216,7 +216,7 @@
     :ensure t)
 #+END_SRC
 ** Projectile
-   Ok, I'll admit it: Projectile's really cool. Really nice project management
+   Ok, I'll admit it: Projectile's really cool. Really nice project management.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :ensure t
@@ -236,6 +236,8 @@
     "B" '(projectile-switch-to-buffer-other-window :which-key "Switch to buffer (other window)")
     "k" '(projectile-kill-buffers :which-key "Kill all project buffers")
     "p" '(projectile-switch-project :which-key "Switch to project")
+    "t" '(projectile-toggle-between-implementation-and-test :which-key "Toggle between test and implementation")
+    "T" '(projectile-test-project :which-key "Tun project's tests")
     "a" '(projectile-add-known-project :which-key "Add bookmark to project")
     "r" '(projectile-replace :which-key "Replace in project")
     "c" '(projectile-invalidate-cache :which-key "Clear project's cache")
