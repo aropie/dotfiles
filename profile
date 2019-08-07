@@ -1,7 +1,7 @@
 #!/bin/sh
 
 export PATH=$PATH:$HOME/.scripts
-export EDITOR='emacsclient'
+export EDITOR='emacsclient -c'
 export TERMINAL='st'
 export MPD_HOST="localhost"
 export MPD_PORT="6601"
