@@ -11,6 +11,5 @@ xcape -e 'Caps_Lock=Escape' &
 sxhkd &
 # dwmbar &
 xautolock -time 5 -locker screen-lock &
-/usr/share/goobuntu-indicator/goobuntu_indicator.py &
 
 exec emacs
