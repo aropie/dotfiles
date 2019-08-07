@@ -10,14 +10,9 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod4
-set $term terminator
-set $editor emacsclient -cna ''
-set $mpd_port 6601
-set $mpd_host localhost
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango: Ubuntu Nerd Font 9
 
 set $bg-color 	         #2f343f
 set $inactive-bg-color   #2f343f
@@ -39,17 +34,7 @@ floating_modifier $mod
 # Hide dege borders
 hide_edge_borders both
 
-# start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
-
 bindsym $mod+q kill
-bindsym $mod+Shift+q kill
-
-# start rofi (a program launcher)
-bindsym $mod+d exec --no-startup-id rofi -modi drun -show drun
-
-# lock screen
-bindsym $mod+Shift+x exec --no-startup-id lock
 
 # split in horizontal orientation
 # bindsym $mod+h split h
@@ -75,8 +60,6 @@ bindsym $mod+u			        focus parent
 
 bindsym $mod+v split toggle
 
-bindsym $mod+r				exec $term -e ranger
-
 bindsym $mod+f 				fullscreen toggle
 
 bindsym $mod+t 				layout toggle
@@ -85,9 +68,6 @@ bindsym $mod+Shift+t			gaps inner current set 10; gaps outer current set 10
 bindsym $mod+Shift+space 		floating toggle
 bindsym $mod+space 			focus mode_toggle
 
-bindsym $mod+m 				exec $term -e ncmpcpp
-
-bindsym $mod+Shift+Escape		exec rofi_power
 bindsym $mod+Shift+r			restart
 
 bindsym $mod+s				gaps inner current plus 5
@@ -97,15 +77,6 @@ bindsym $mod+z				gaps outer current plus 5
 bindsym $mod+Shift+z			gaps outer current minus 5
 
 bindsym $mod+Shift+d			gaps inner current set 0; gaps outer current set 0
-
-bindsym $mod+e				exec $EDITOR
-
-bindsym $mod+Shift+a			exec --no-startup-id rofi_audioswap
-
-bindsym $mod+Shift+p			exec --no-startup-id rofi_password
-
-bindsym $mod+Shift+b			exec --no-stratup-id rofi_bluetooth
-
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -143,64 +114,17 @@ bindsym $mod+Shift+8 	    move container to workspace $ws8
 bindsym $mod+Shift+9 	    move container to workspace $ws9
 bindsym $mod+Shift+0 	    move container to workspace $ws10
 
-bindsym Print 		    exec --no-startup-id rofi_screenshot
-
 # bind apps to workspaces
 assign [class="qutebrowser"] $ws1
 assign [class="transmission"] $ws8
 assign [class="Rambox"] $ws9
 assign [class="Steam"] $ws10
 
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 # exit i3 (logs you out of your X session)
-# bindsym $mod+Shift+e exec --no-startup-id sh $HOME/.config/rofi/scripts/power.sh
-bindsym $mod+Shift+e exec i3-msg exit
+bindsym $mod+Shift+q exec i3-msg exit
 
 # Make the currently focused window a scratchpad
 bindsym $mod+Shift+minus move scratchpad
 
 # Show the first scratchpad window
 bindsym $mod+minus scratchpad show
-
-
-# Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer --allow-boost -i 5 #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pamixer --allow-boost -d 5 #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pamixer -t # mute sound
-
-# Media player controls
-bindsym XF86AudioPlay exec mpc -p $mpd_port toggle
-bindsym XF86AudioNext exec mpc -p $mpd_port next
-bindsym XF86AudioPrev exec mpc -p $mpd_port cdprev
-
-# Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
-
-
-# START PROCESSES ON STARTUP
-
-# Launch Polybar where appropriate:
-exec_always --no-startup-id run_polybar
-# Capslock -> Ctrl
-exec --no-startup-id setxkbmap -option 'caps:ctrl_modifier,shift:both_capslock'
-# Capslock -> Esc (when tapped)
-exec --no-startup-id xcape -e 'Caps_Lock=Escape'
-# Start compton for transparency
-exec --no-startup-id compton -f -D 1
-# Dunst for notifications
-exec --no-startup-id dunst
-# Start Music Player Daemon
-exec --no-startup-id mpd
-# Hide cursor after a biref period
-exec --no-startup-id unclutter
-# xautolock for locking on idle
-# exec --no-startup-id xautolock -time 10 -locker "~/.config/i3/scripts/lock.sh" -notify 30 -notifier "notify-send -u critical -t 10000 --icon='/usr/share/icons/gnome/48x48/actions/system-lock-screen.png' 'Screen Lock' 'Locking screen in 30 seconds'"
-# Turn numlock on
-exec --no-startup-id numlockx on
-# Set background
-exec --no-startup-id nitrogen --restore
-# Start emacs daemonized
-exec --no-startup-id emacs --daemon
-# Start bluetooth controller
-exec --no-startup-id blueman-applet
