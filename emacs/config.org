@@ -89,10 +89,23 @@
 #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'default nil :height 100)
 #+END_SRC
+** Auto revert files on change
+   When something changes a file, automatically refresh the buffer containing that file so they can’t get out of sync.
+#+BEGIN_SRC emacs-lisp
+   (global-auto-revert-mode t)
+#+END_SRC
 * Utils
 ** Emacs server
 #+BEGIN_SRC emacs-lisp
   (server-start)
+#+END_SRC
+** Dired
+*** Dired-narrow
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-narrow
+    :ensure t
+    :bind (:map dired-mode-map
+		("/" . dired-narrow-fuzzy)))
 #+END_SRC
 ** General.el
    Manage all the keybindings through general and hydra à la spacemacs
@@ -503,6 +516,14 @@
  #+BEGIN_SRC emacs-lisp
    (global-hl-line-mode t)
  #+END_SRC
+** Rainbow mode
+   A minor mode for Emacs which displays strings representing colors with the color they represent as background
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-mode
+    :ensure t
+    :config
+    (add-hook 'prog-mode-hook 'rainbow-mode))
+#+END_SRC
 * Navigation
 ** Follow symlinks
    Stop asking if I want to follow a symlink
@@ -727,6 +748,7 @@
      (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
      (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
      :config
+     (setq web-mode-enable-current-element-highlight t)
      (setq web-mode-markup-indent-offset 2)
      (setq web-mode-enable-auto-pairing t)
      (setq web-mode-enable-auto-quoting t)
