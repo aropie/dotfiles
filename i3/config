@@ -79,6 +79,9 @@ bindsym $mod+Shift+z			gaps outer current minus 5
 
 bindsym $mod+Shift+d			gaps inner current set 0; gaps outer current set 0
 
+bindsym $mod+comma 			focus output left
+bindsym $mod+period 			focus output right
+
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1:"
