@@ -28,7 +28,7 @@ XF86AudioMute
 XF86AudioPlay
 	mpc -q toggle
 XF86Audio{Prev,Next}
-	mpc -q {prev,next}
+	mpc -q {cdprev,next}
 XF86MonBrightnessDown
 	xbacklight -dec 20
 XF86MonBrightnessUp
