@@ -252,7 +252,7 @@
     "k" '(projectile-kill-buffers :which-key "Kill all project buffers")
     "p" '(projectile-switch-project :which-key "Switch to project")
     "t" '(projectile-toggle-between-implementation-and-test :which-key "Toggle between test and implementation")
-    "T" '(projectile-test-project :which-key "Tun project's tests")
+    "T" '(projectile-test-project :which-key "Run project's tests")
     "a" '(projectile-add-known-project :which-key "Add bookmark to project")
     "r" '(projectile-replace :which-key "Replace in project")
     "c" '(projectile-invalidate-cache :which-key "Clear project's cache")
@@ -466,6 +466,8 @@
   (use-package doom-modeline
 	:ensure t
 	:hook (after-init . doom-modeline-mode)
+	:custom
+	(doom-modeline-buffer-file-name-style 'truncate-with-project)
 	:config
 	(set-face-attribute 'doom-modeline-evil-normal-state nil :foreground "skyblue2")
 	(set-face-attribute 'doom-modeline-evil-insert-state nil :foreground "green"))
