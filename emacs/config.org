@@ -352,10 +352,10 @@
    (use-package evil
      :ensure t
      :init
+     (setq evil-want-integration t)
      (setq evil-want-keybinding nil)
      :config
-     (evil-mode 1)
-     (fset 'evil-mouse-drag-region 'ignore))
+     (evil-mode 1))
  #+END_SRC
 ** Evil-collection
 #+BEGIN_SRC emacs-lisp
@@ -566,14 +566,6 @@
 	"kr" '(avy-kill-region :which-key "Kill region between lines")
 	"kl" '(avy-kill-whole-line :which-key "Kill line")))
  #+END_SRC
-** Evil-avy
-   Avy support for f, F, t, T in evil-mode
-#+BEGIN_SRC emacs-lisp
-  (use-package evil-avy
-    :ensure t
-    :config
-    (evil-avy-mode t))
-#+END_SRC
 ** Window management
 *** Ace window
     Window managing made smart
