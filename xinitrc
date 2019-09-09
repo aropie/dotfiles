@@ -9,8 +9,6 @@ numlockx on &
 nitrogen --restore &
 xcape -e 'Caps_Lock=Escape' &
 sxhkd &
-# dwmbar &
 xautolock -time 5 -locker screen-lock &
-polybar -r main-bar &
 
 exec i3
