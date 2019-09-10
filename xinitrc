@@ -10,5 +10,6 @@ nitrogen --restore &
 xcape -e 'Caps_Lock=Escape' &
 sxhkd &
 xautolock -time 5 -locker screen-lock &
+blueman-applet &
 
 exec i3
