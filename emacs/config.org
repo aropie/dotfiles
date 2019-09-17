@@ -95,10 +95,6 @@
    (global-auto-revert-mode t)
 #+END_SRC
 * Utils
-** Emacs server
-#+BEGIN_SRC emacs-lisp
-  (server-start)
-#+END_SRC
 ** Dired
 *** Dired-narrow
 #+BEGIN_SRC emacs-lisp

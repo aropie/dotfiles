@@ -13,6 +13,8 @@ super + shift + a
         rofi_audioswap
 super + shift + p
         rofi_password
+super + e
+	emacsclient -c -a ""
 
 # MEDIA
 XF86AudioLowerVolume
