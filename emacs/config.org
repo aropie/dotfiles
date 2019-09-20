@@ -95,6 +95,30 @@
    (global-auto-revert-mode t)
 #+END_SRC
 * Utils
+** Helm
+#+BEGIN_SRC emacs-lisp
+  (use-package helm
+    :ensure t
+    :bind (("M-x" . helm-M-x)
+	   ("M-y" . helm-show-kill-ring))
+    :custom
+    (helm-split-window-in-side-p t)
+    (helm-move-to-line-cycle-in-source t)
+    (helm-ff-search-library-in-sexp t)
+    (helm-scroll-amount 8)
+    (helm-ff-file-name-history-use-recentf t)
+    (helm-echo-input-in-header-line t)
+    (helm-autoresize-max-height 0)
+    (helm-autoresize-min-height 20)
+    (helm-M-x-fuzzy-match t)
+    (helm-semantic-fuzzy-match t)
+    (helm-imenu-fuzzy-match t)
+    :config
+    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+    (define-key helm-map (kbd "C-z") 'helm-select-action)
+
+    (helm-mode 1))
+#+END_SRC
 ** Dired
 *** Dired-narrow
 #+BEGIN_SRC emacs-lisp
@@ -134,14 +158,16 @@
    :keymaps 'normal
    "TAB" '(mode-line-other-buffer :which-key "Previous buffer")
    "m" '(:ignore t :which-key "Major mode")
-   "f" '(find-file :which-key "Find file")
-   "F" '(find-file-other-window :which-key "Find file (other window)")
+   "f" '(helm-find-files :which-key "Find file")
+   "b" '(helm-mini :which-key "Buffers")
    "s" '(save-buffer :which-key "Save buffer")
-   "S" '(ido-write-file :which-key "Save as")
-   "b" '(ido-switch-buffer :which-key "Switch buffer")
    "k" '(kill-this-buffer :which-key "Kill this buffer")
    "K" '(kill-buffer-and-window :which-key "Kill this buffer and window")
    "o" '(ace-window :which-key "Change window"))
+
+   (my-local-leader
+     :keymaps 'normal
+     "m" '(helm-semantic-or-imenu :which-key "Semantic"))
 #+END_SRC
 ** Config shortcuts
    I tend to modify a lot my config files, so I set shortcuts to the
@@ -227,32 +253,43 @@
     :ensure t)
 #+END_SRC
 ** Projectile
-   Ok, I'll admit it: Projectile's really cool. Really nice project management.
+*** Vanilla
+    Ok, I'll admit it: Projectile's really cool. Really nice project management.
+ #+BEGIN_SRC emacs-lisp
+   (use-package projectile
+     :ensure t
+     :custom
+     (projectile-indexing-method 'native)
+     (projectile-enable-caching t)
+     :config
+     (add-to-list 'projectile-globally-ignored-directories ".venv")
+     (projectile-mode t)
+     (my-leader
+     :keymaps 'normal
+     :infix "p"
+     "" '(:ignore t :which-key "Project")
+     "f" '(projectile-find-file :which-key "Find file")
+     "F" '(projectile-find-file-other-window :which-key "Find file (other window)")
+     "b" '(projectile-switch-to-buffer :which-key "Switch to buffer")
+     "B" '(projectile-switch-to-buffer-other-window :which-key "Switch to buffer (other window)")
+     "k" '(projectile-kill-buffers :which-key "Kill all project buffers")
+     "p" '(projectile-switch-project :which-key "Switch to project")
+     "t" '(projectile-toggle-between-implementation-and-test :which-key "Toggle between test and implementation")
+     "T" '(projectile-test-project :which-key "Run project's tests")
+     "a" '(projectile-add-known-project :which-key "Add bookmark to project")
+     "r" '(projectile-replace :which-key "Replace in project")
+     "c" '(projectile-invalidate-cache :which-key "Clear project's cache")
+     "s" '(projectile-grep :which-key "Search in project")))
+
+ #+END_SRC
+*** Helm-projectile
 #+BEGIN_SRC emacs-lisp
-  (use-package projectile
+  (use-package helm-projectile
     :ensure t
-    :custom
-    (projectile-indexing-method 'native)
-    (projectile-enable-caching t)
     :config
-    (add-to-list 'projectile-globally-ignored-directories ".venv")
-    (projectile-mode t)
-    (my-leader
-    :keymaps 'normal
-    :infix "p"
-    "" '(:ignore t :which-key "Project")
-    "f" '(projectile-find-file :which-key "Find file")
-    "F" '(projectile-find-file-other-window :which-key "Find file (other window)")
-    "b" '(projectile-switch-to-buffer :which-key "Switch to buffer")
-    "B" '(projectile-switch-to-buffer-other-window :which-key "Switch to buffer (other window)")
-    "k" '(projectile-kill-buffers :which-key "Kill all project buffers")
-    "p" '(projectile-switch-project :which-key "Switch to project")
-    "t" '(projectile-toggle-between-implementation-and-test :which-key "Toggle between test and implementation")
-    "T" '(projectile-test-project :which-key "Run project's tests")
-    "a" '(projectile-add-known-project :which-key "Add bookmark to project")
-    "r" '(projectile-replace :which-key "Replace in project")
-    "c" '(projectile-invalidate-cache :which-key "Clear project's cache")
-    "s" '(projectile-grep :which-key "Search in project")))
+    (setq projectile-completion-system 'helm)
+    (setq projectile-switch-project-action 'helm-projectile)
+    (helm-projectile-on))
 #+END_SRC
 * Completion
 ** Company
@@ -307,40 +344,6 @@
     :init
     (company-quickhelp-mode 1))
 #+END_SRC
-** IDO
-   Because IDO's love (and Helm looks way too complicated)
-*** Enable IDO mode
- #+BEGIN_SRC emacs-lisp
-   (ido-mode t)
-   (setq ido-everywhere t)
- #+END_SRC
-*** Flex-matching for IDO
- A package that improves greatly on the default IDO's flex matching engine
- #+BEGIN_SRC emacs-lisp
-   (use-package flx-ido
-     :ensure t
-     :config
-     (flx-ido-mode t)
-     (setq ido-enable-flex-matching t)
-     (setq ido-use-faces nil))
- #+END_SRC
-*** Smex
-     IDO's replacement for M-x
- #+BEGIN_SRC emacs-lisp
-   (use-package smex
-     :ensure t
-     :init (smex-initialize)
-     :bind
-     ("M-x" . smex))
- #+END_SRC
-*** Grid
-     Semi-vertical view of IDO
- #+BEGIN_SRC emacs-lisp
-   (use-package ido-grid-mode
-     :ensure t
-     :init
-     (ido-grid-mode t))
- #+END_SRC
 * Editing
 ** Evil
    Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
