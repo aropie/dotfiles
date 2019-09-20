@@ -436,23 +436,26 @@
  #+END_SRC
 ** Yasnippet
    Smart way to insert templates
+*** Vanilla
  #+BEGIN_SRC emacs-lisp
-         (use-package yasnippet
-           :ensure t
-           :config
-           (setq yas-snippet-dirs (append yas-snippet-dirs
-                                          '("~/.emacs/snippets")))
-           (setq yas-triggers-in-field t)
+      (use-package yasnippet
+	:ensure t
+	:custom
+	yas-triggers-in-field t
+	:config
+	(define-key yas-minor-mode-map (kbd "TAB") nil)
+	(define-key yas-minor-mode-map (kbd "<tab>") nil)
+	(define-key yas-minor-mode-map (kbd "<backtab>") 'yas-expand)
 
-           (defun aropie/company-expand ()
-             (interactive)
-             (company-abort)
-             (yas-expand))
-           (bind-key "<backtab>" 'aropie/company-expand company-active-map)
-
-           :init
-           (yas-global-mode 1))
+	:init
+	(yas-global-mode 1))
  #+END_SRC
+*** Snippets
+    Extensive pre-cooked list of snippets
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet-snippets
+    :ensure t)
+#+END_SRC
 ** Remove whitespace
    This removes whitespace prior to saving
 #+BEGIN_SRC emacs-lisp
