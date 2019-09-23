@@ -3,7 +3,7 @@
 timeout="10000"
 
 # Take a screenshot:
-scrot /tmp/screen.png -z
+scrot /tmp/screen.png -zo
 
 # Create a blur on the shot:
 convert /tmp/screen.png -scale 10% -scale 1000% /tmp/screen.png
