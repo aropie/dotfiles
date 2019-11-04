@@ -322,6 +322,14 @@
     (setq projectile-switch-project-action 'helm-projectile)
     (helm-projectile-on))
 #+END_SRC
+** Restclient mode
+   Awesome mode to handle rest requests.
+#+BEGIN_SRC emacs-lisp
+  (use-package restclient
+    :ensure t
+    :defer t
+    :mode (("\\.http\\'" . restclient-mode)))
+#+END_SRC
 * Completion
 ** Company
    My choice for auto-completion
