@@ -567,6 +567,39 @@
     :config
     (add-hook 'prog-mode-hook 'rainbow-mode))
 #+END_SRC
+** Pretty symbols
+In emacs 24.4 we got prettify-symbols-mode which replaces things like
+lambda with λ. This can help make the code easier to read. The
+inhibit-compacting-font-caches stops garbage collect from trying to
+handle font caches which makes things a lot faster and saves us ram.
+   #+BEGIN_SRC emacs-lisp
+   (setq prettify-symbols-unprettify-at-point 'right-edge)
+   (setq inhibit-compacting-font-caches t)
+   #+END_SRC
+*** Global
+    These symbols are the basics I like enabled for all ~prog-mode~ modes.
+#+BEGIN_SRC emacs-lisp
+    (add-hook 'prog-mode-hook
+	      (lambda ()
+		(push '("!=" . ?≠) prettify-symbols-alist)
+		(push '("<=" . ?≤) prettify-symbols-alist)
+		(push '(">=" . ?≥) prettify-symbols-alist)
+		(push '("=>" . ?⇒) prettify-symbols-alist)))
+#+END_SRC
+*** Python
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'python-mode-hook
+	    (lambda ()
+	      (push '("def"    . ?ƒ) prettify-symbols-alist)
+	      (push '("sum"    . ?Σ) prettify-symbols-alist)
+	      (push '("**2"    . ?²) prettify-symbols-alist)
+	      (push '("**3"    . ?³) prettify-symbols-alist)
+	      (push '("None"   . ?∅) prettify-symbols-alist)
+	      (push '("in"     . ?∈) prettify-symbols-alist)
+	      (push '("not in" . ?∉) prettify-symbols-alist)
+	      (push '("return" . ?➡) prettify-symbols-alist)
+	      (prettify-symbols-mode t)))
+#+END_SRC
 * Navigation
 ** Follow symlinks
    Stop asking if I want to follow a symlink
@@ -792,21 +825,27 @@
      (setq web-mode-enable-css-colorization t))
  #+END_SRC
 ** Python
+*** Python3
+    Always use python3
+#+BEGIN_SRC emacs-lisp
+  (setq python-shell-interpreter "python3")
+  (setq flycheck-python-pylint-executable "/usr/bin/gpylint3")
+#+END_SRC
 *** Docs
     Easy way to create standard docstrings
     #+BEGIN_SRC emacs-lisp
-      (use-package sphinx-doc
-	:ensure t
-	:custom
-	(flycheck-python-flake8-executable "flake8")
-	:config
-	(add-hook 'python-mode-hook (lambda ()
-                                      (require 'sphinx-doc)
-                                      (sphinx-doc-mode t)))
-	(my-local-leader
-	  :states 'normal
-	  :keymaps 'python-mode-map
-	  "d" '(sphinx-doc :which-key "Generate doc")))
+	(use-package sphinx-doc
+	  :ensure t
+	  :custom
+	  (flycheck-python-flake8-executable "flake8")
+	  :config
+	  (add-hook 'python-mode-hook (lambda ()
+					(require 'sphinx-doc)
+					(sphinx-doc-mode t)))
+	  (my-local-leader
+	    :states 'normal
+	    :keymaps 'python-mode-map
+	    "d" '(sphinx-doc :which-key "Generate doc")))
     #+END_SRC
 *** Black
     Gives a standard PEP8-compliant automated way to have a nice formatted Python code
