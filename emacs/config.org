@@ -1,3 +1,41 @@
+* Startup optimizations
+** Garbage collection
+*** Set =gc-cons-thresholds= smaller for interactive use
+    A large =gc-cons-threshold= may cause freezing and stuttering
+    during long-term interactive use.
+#+BEGIN_SRC emacs-lisp
+  (defvar better-gc-cons-threshold 67108864 ; 64mb
+    "The default value to use for `gc-cons-threshold'.
+  If you experience freezing, decrease this. If you experience stuttering, increase this.")
+
+  (add-hook 'emacs-startup-hook
+	    (lambda ()
+	      (setq gc-cons-threshold better-gc-cons-threshold)
+	      (setq file-name-handler-alist file-name-handler-alist-original)
+	      (makunbound 'file-name-handler-alist-original)))
+#+END_SRC
+*** Garbage collect when Emacs is out of focus
+    *Note:* Since Emacs27.1, =focus-out-hook= is obsolete.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'emacs-startup-hook
+	    (lambda ()
+	      (if (boundp 'after-focus-change-function)
+		  (add-function :after after-focus-change-function
+				(lambda ()
+				  (unless (frame-focus-state)
+				    (garbage-collect))))
+		(add-hook 'after-focus-change-function 'garbage-collect))
+	      (defun gc-minibuffer-setup-hook ()
+		(setq gc-cons-threshold (* better-gc-cons-threshold 2)))
+
+	;; Avoid garbage collect when using minibuffer
+	      (defun gc-minibuffer-exit-hook ()
+		(garbage-collect)
+		(setq gc-cons-threshold better-gc-cons-threshold))
+
+	      (add-hook 'minibuffer-setup-hook #'gc-minibuffer-setup-hook)
+	      (add-hook 'minibuffer-exit-hook #'gc-minibuffer-exit-hook)))
+#+END_SRC
 * General layout and config
 ** Defuse custom file
    I really dislike custom writing on init.el without my permission,
@@ -19,13 +57,6 @@
     :config
     (exec-path-from-shell-initialize))
 #+END_SRC
-** Disable menu, toolbar and scroll
-   They are visual clutter once you get to know the keybindings (or create your own)
-   #+BEGIN_SRC emacs-lisp
-     (tool-bar-mode -1)
-     (menu-bar-mode -1)
-     (scroll-bar-mode -1)
-   #+END_SRC
 ** Scroll conservatively
    Makes Emacs scroll more smoothly
    #+BEGIN_SRC emacs-lisp
@@ -58,14 +89,6 @@
   ;; Make ediff split horizontally instead of vertically
   (setq ediff-split-window-function 'split-window-horizontally)
 #+END_SRC
-** Increase GC
-   Emacs garbage collection is a fairly primitive stop-the-world type.
-   This means, performance can benefit greatly by increasing the threshold
-   of memory allocated before GC runs. By default, Emacs will initate GC every
-   0.76 MB allocated. Since it's no longer 2002, we can bumb that a little.
-   #+BEGIN_SRC emacs-lisp
-     (setq gc-cons-threshold 20000000)
-   #+END_SRC
 ** Transparency
    I like being able to see my wallpaper. Call me a romantic if you like
 #+BEGIN_SRC emacs-lisp
