@@ -3,7 +3,7 @@
 *** Set =gc-cons-thresholds= smaller for interactive use
     A large =gc-cons-threshold= may cause freezing and stuttering
     during long-term interactive use.
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defvar better-gc-cons-threshold 67108864 ; 64mb
     "The default value to use for `gc-cons-threshold'.
   If you experience freezing, decrease this. If you experience stuttering, increase this.")
@@ -13,10 +13,10 @@
 	      (setq gc-cons-threshold better-gc-cons-threshold)
 	      (setq file-name-handler-alist file-name-handler-alist-original)
 	      (makunbound 'file-name-handler-alist-original)))
-#+END_SRC
+    #+END_SRC
 *** Garbage collect when Emacs is out of focus
     *Note:* Since Emacs27.1, =focus-out-hook= is obsolete.
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (add-hook 'emacs-startup-hook
 	    (lambda ()
 	      (if (boundp 'after-focus-change-function)
@@ -35,28 +35,28 @@
 
 	      (add-hook 'minibuffer-setup-hook #'gc-minibuffer-setup-hook)
 	      (add-hook 'minibuffer-exit-hook #'gc-minibuffer-exit-hook)))
-#+END_SRC
+    #+END_SRC
 * General layout and config
 ** Defuse custom file
    I really dislike custom writing on init.el without my permission,
    so I disable it altogether
-#+BEGIN_SRC emacs-lisp
-(setq custom-file null-device)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+   (setq custom-file null-device)
+   #+END_SRC
 ** Mac alt fix
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier nil)
-#+END_SRC
+   #+END_SRC
 ** Mac path fix
    MacOs has problems with paths, so we need to add them manually
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
     :if (memq window-system '(mac ns))
     :ensure t
     :config
     (exec-path-from-shell-initialize))
-#+END_SRC
+   #+END_SRC
 ** Scroll conservatively
    Makes Emacs scroll more smoothly
    #+BEGIN_SRC emacs-lisp
@@ -81,45 +81,45 @@
   kept-new-versions 6
   kept-old-versions 2
   version-control t)
-  #+END_SRC
+   #+END_SRC
 ** Ediff
    Ediff setings so it wont messup my beautiful tilling wm
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
   ;; Make ediff split horizontally instead of vertically
   (setq ediff-split-window-function 'split-window-horizontally)
-#+END_SRC
+   #+END_SRC
 ** Transparency
    I like being able to see my wallpaper. Call me a romantic if you like
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
      (set-frame-parameter (selected-frame) 'alpha '(95 95))
      (add-to-list 'default-frame-alist '(alpha 95 95))
-#+END_SRC
+   #+END_SRC
 ** Disable cursors in other windows
    I find confusing having cursors on every window, so I just remove inactive ones
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (setq cursor-in-non-selected-windows nil)
-#+END_SRC
+   #+END_SRC
 ** Help
    When opening a help window, always select that window
    afterwards and move focus to it.
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (setq help-window-select t)
-#+END_SRC
+   #+END_SRC
 ** Font
    This is supposed to adjust font sizes depending on which screen I'm
    working on, but I have yet to find a sweet spot for it
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'default nil :height 100)
-#+END_SRC
+   #+END_SRC
 ** Auto revert files on change
    When something changes a file, automatically refresh the buffer containing that file so they can’t get out of sync.
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
    (global-auto-revert-mode t)
-#+END_SRC
+   #+END_SRC
 * Utils
 ** Helm
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package helm
     :ensure t
     :bind (("M-x" . helm-M-x)
@@ -141,19 +141,19 @@
     (define-key helm-map (kbd "C-z") 'helm-select-action)
 
     (helm-mode 1))
-#+END_SRC
+   #+END_SRC
 ** Dired
 *** Dired-narrow
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package dired-narrow
     :ensure t
     :bind (:map dired-mode-map
 		("/" . dired-narrow-fuzzy)))
-#+END_SRC
+    #+END_SRC
 ** General.el
    Manage all the keybindings through general and hydra à la spacemacs
 *** Leaders definitions
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package general
     :ensure t
     :init
@@ -174,9 +174,9 @@
     (general-create-definer my-local-leader
       ;; prefix local-leader
       :prefix "SPC m"))
-#+END_SRC
+    #+END_SRC
 *** Overall bindings
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (my-leader
    :keymaps 'normal
    "TAB" '(mode-line-other-buffer :which-key "Previous buffer")
@@ -191,12 +191,12 @@
    (my-local-leader
      :keymaps 'normal
      "m" '(helm-semantic-or-imenu :which-key "Semantic"))
-#+END_SRC
+    #+END_SRC
 ** Config shortcuts
    I tend to modify a lot my config files, so I set shortcuts to the
    most used ones
 *** Definitions
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defun aropie/emacs-config-visit ()
     (interactive)
     (find-file "~/.emacs.d/config.org"))
@@ -215,9 +215,9 @@
   (defun aropie/emacs-config-reload ()
     (interactive)
     (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
-#+END_SRC
+    #+END_SRC
 *** Bindings
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (my-leader
     :keymaps 'normal
     :infix "c"
@@ -228,34 +228,34 @@
     "k" '(aropie/zsh-config-visit :which-key "keybindings")
     "x" '(aropie/zsh-config-visit :which-key "xinitrc")
     "r" '(aropie/emacs-config-reload :which-key "Reload emacs config"))
-#+END_SRC
+    #+END_SRC
 ** PDF-tools
    Because Emacs' default Doc-view mode sucks hard
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package pdf-tools
     :ensure t
     :custom
     (pdf-view-display-size 'fit-page)
     :config
     (pdf-tools-install))
-#+END_SRC
+   #+END_SRC
 ** Shell
    Because someday I wish to start using the shell within Emacs. Someday...
 *** Don't ask for confirmation when killing shell
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defun set-no-process-query-on-exit ()
     (let ((proc (get-buffer-process (current-buffer))))
       (when (processp proc)
-        (set-process-query-on-exit-flag proc nil))))
+	(set-process-query-on-exit-flag proc nil))))
 
   (add-hook 'term-exec-hook 'set-no-process-query-on-exit)
-#+END_SRC
+    #+END_SRC
 ** Try
    For when you're not sure wether you want a package polluting your system
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package try
     :ensure t)
-#+END_SRC
+   #+END_SRC
 
 ** which-key
    Because Emacs is hard enough without visual aids
@@ -268,25 +268,25 @@
        :delight)
    #+END_SRC
 ** Delight
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package delight
     :ensure t)
-#+END_SRC
+   #+END_SRC
 ** Undo-tree
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :ensure t
     :delight)
-#+END_SRC
+   #+END_SRC
 ** Hydra
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package hydra
     :ensure t)
-#+END_SRC
+   #+END_SRC
 ** Projectile
 *** Vanilla
     Ok, I'll admit it: Projectile's really cool. Really nice project management.
- #+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
    (use-package projectile
      :ensure t
      :custom
@@ -312,28 +312,28 @@
      "c" '(projectile-invalidate-cache :which-key "Clear project's cache")
      "s" '(projectile-grep :which-key "Search in project")))
 
- #+END_SRC
+    #+END_SRC
 *** Helm-projectile
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package helm-projectile
     :ensure t
     :config
     (setq projectile-completion-system 'helm)
     (setq projectile-switch-project-action 'helm-projectile)
     (helm-projectile-on))
-#+END_SRC
+    #+END_SRC
 ** Restclient mode
    Awesome mode to handle rest requests.
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package restclient
     :ensure t
     :defer t
     :mode (("\\.http\\'" . restclient-mode)))
-#+END_SRC
+   #+END_SRC
 * Completion
 ** Company
    My choice for auto-completion
- #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
       (use-package company
 	:ensure t
 	:delight
@@ -353,19 +353,19 @@
 	(global-company-mode t)
 	:config
 	(company-tng-configure-default))
- #+END_SRC
+   #+END_SRC
 ** Company-jedi
-    Python autocompletion
-#+BEGIN_SRC emacs-lisp
+   Python autocompletion
+   #+BEGIN_SRC emacs-lisp
   (use-package company-jedi
     :ensure t
     :after (company)
     :config
     (add-to-list 'company-backends 'company-jedi))
-#+END_SRC
+   #+END_SRC
 ** Go-company
    Go autocompletion
- #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
    (use-package company-go
      :ensure t
      :after company
@@ -373,16 +373,16 @@
      (add-hook 'go-mode-hook
 	       (lambda ()
 		 (add-to-list 'company-backends 'company-go))))
- #+END_SRC
+   #+END_SRC
 ** Company-quickhelp
    Prompts a little toolbar with documentation of the completed
    item. Pretty neat
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package company-quickhelp
     :ensure t
     :init
     (company-quickhelp-mode 1))
-#+END_SRC
+   #+END_SRC
 * Editing
 ** Evil
    Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
@@ -394,35 +394,35 @@
      (setq evil-want-keybinding nil)
      :config
      (evil-mode 1))
- #+END_SRC
+   #+END_SRC
 ** Evil-collection
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package evil-collection
     :after evil
     :ensure t
     :config
     (add-to-list 'evil-collection-key-blacklist "SPC")
     (evil-collection-init))
-#+END_SRC
+   #+END_SRC
 ** Evil-commentary
    Allows to comment word-objects
- #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
    (use-package evil-commentary
      :ensure t
      :init
      (evil-commentary-mode t)
      :delight)
- #+END_SRC
+   #+END_SRC
 ** Evil surround
    Allows to modify surroundings of word-objects
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package evil-surround
     :ensure t
     :init
     (global-evil-surround-mode t))
-#+END_SRC
+   #+END_SRC
 ** Evil args
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package evil-args
     :ensure t
     :config
@@ -435,7 +435,7 @@
     (define-key evil-normal-state-map "H" 'evil-backward-arg)
     (define-key evil-motion-state-map "L" 'evil-forward-arg)
     (define-key evil-motion-state-map "H" 'evil-backward-arg))
-#+END_SRC
+   #+END_SRC
 ** Evil exchange
    Allows for text objects exchanging
    #+BEGIN_SRC emacs-lisp
@@ -445,30 +445,30 @@
    (evil-exchange-install))
    #+END_SRC
 ** Electric parenthesis
-     Force the parenthesis to come in pairs, unlike you, dear reader
- #+BEGIN_SRC emacs-lisp
+   Force the parenthesis to come in pairs, unlike you, dear reader
+   #+BEGIN_SRC emacs-lisp
    (electric-pair-mode 1)
- #+END_SRC
+   #+END_SRC
 ** Flycheck
    Syntax checker and linter on the fly
- #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
    (use-package flycheck
      :ensure t
      :init (global-flycheck-mode)
      :delight)
- #+END_SRC
+   #+END_SRC
 ** Smart Tabs
-    Allegedly, the correct way to indent. Unfortunately PEP8, forbids it
- #+BEGIN_SRC emacs-lisp
+   Allegedly, the correct way to indent. Unfortunately PEP8, forbids it
+   #+BEGIN_SRC emacs-lisp
    (use-package smart-tabs-mode
      :ensure t
      :init
      (smart-tabs-insinuate 'c 'javascript 'ruby))
- #+END_SRC
+   #+END_SRC
 ** Yasnippet
    Smart way to insert templates
 *** Vanilla
- #+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (use-package yasnippet
 	:ensure t
 	:custom
@@ -480,30 +480,30 @@
 
 	:init
 	(yas-global-mode 1))
- #+END_SRC
+    #+END_SRC
 *** Snippets
     Extensive pre-cooked list of snippets
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package yasnippet-snippets
     :ensure t)
-#+END_SRC
+    #+END_SRC
 ** Remove whitespace
    This removes whitespace prior to saving
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-#+END_SRC
+   #+END_SRC
 * UI
 ** Spacemacs-theme
    I like how spacemacs looks, but it's way too convoluted for my
    taste, so I grab their theme
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package spacemacs-common
     :ensure spacemacs-theme
     :config (load-theme 'spacemacs-dark t))
-#+END_SRC
+   #+END_SRC
 ** Doom-modeline
    Nice replacement for default mode line
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package doom-modeline
 	:ensure t
 	:hook (after-init . doom-modeline-mode)
@@ -512,39 +512,39 @@
 	:config
 	(set-face-attribute 'doom-modeline-evil-normal-state nil :foreground "skyblue2")
 	(set-face-attribute 'doom-modeline-evil-insert-state nil :foreground "green"))
-#+END_SRC
+   #+END_SRC
 ** All the icons
-    We take advantage of running Emacs as a GUI, and get nice icons for it
- #+BEGIN_SRC emacs-lisp
+   We take advantage of running Emacs as a GUI, and get nice icons for it
+   #+BEGIN_SRC emacs-lisp
    (use-package all-the-icons
      :ensure t)
- #+END_SRC
+   #+END_SRC
 ** Cursor colors
    Adds visual aid to the modeline to know which mode I'm in
- #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
    (setq evil-emacs-state-cursor '("red" bar))
    (setq evil-normal-state-cursor '("skyblue2" box))
    (setq evil-visual-state-cursor '("gray" box))
    (setq evil-insert-state-cursor '("green" bar))
    (setq evil-replace-state-cursor '("red" hollow))
    (setq evil-operator-state-cursor '("red" hollow))
- #+END_SRC
+   #+END_SRC
 ** Rainbow-delimiters
    Visual aid to know which parenthesis is paired to which
- #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
    (use-package rainbow-delimiters
      :ensure t
      :config
      (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
- #+END_SRC
+   #+END_SRC
 ** Show-paren
-    Highlight matching parenthesis on selection
- #+BEGIN_SRC emacs-lisp
+   Highlight matching parenthesis on selection
+   #+BEGIN_SRC emacs-lisp
    (show-paren-mode t)
- #+END_SRC
+   #+END_SRC
 ** Indent guides
    Visual aid for indentation
- #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
    (use-package highlight-indent-guides
      :ensure t
      :delight
@@ -552,42 +552,42 @@
      (setq highlight-indent-guides-responsive 'top)
      (setq highlight-indent-guides-method 'character)
      (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
- #+END_SRC
+   #+END_SRC
 
 ** Line highlight
    Highlights current line to aid with quick cursor finding
- #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
    (global-hl-line-mode t)
- #+END_SRC
+   #+END_SRC
 ** Rainbow mode
    A minor mode for Emacs which displays strings representing colors with the color they represent as background
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package rainbow-mode
     :ensure t
     :config
     (add-hook 'prog-mode-hook 'rainbow-mode))
-#+END_SRC
+   #+END_SRC
 ** Pretty symbols
-In emacs 24.4 we got prettify-symbols-mode which replaces things like
-lambda with λ. This can help make the code easier to read. The
-inhibit-compacting-font-caches stops garbage collect from trying to
-handle font caches which makes things a lot faster and saves us ram.
+   In emacs 24.4 we got prettify-symbols-mode which replaces things like
+   lambda with λ. This can help make the code easier to read. The
+   inhibit-compacting-font-caches stops garbage collect from trying to
+   handle font caches which makes things a lot faster and saves us ram.
    #+BEGIN_SRC emacs-lisp
    (setq prettify-symbols-unprettify-at-point 'right-edge)
    (setq inhibit-compacting-font-caches t)
    #+END_SRC
 *** Global
     These symbols are the basics I like enabled for all ~prog-mode~ modes.
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
     (add-hook 'prog-mode-hook
 	      (lambda ()
 		(push '("!=" . ?≠) prettify-symbols-alist)
 		(push '("<=" . ?≤) prettify-symbols-alist)
 		(push '(">=" . ?≥) prettify-symbols-alist)
 		(push '("=>" . ?⇒) prettify-symbols-alist)))
-#+END_SRC
+    #+END_SRC
 *** Python
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (add-hook 'python-mode-hook
 	    (lambda ()
 	      (push '("def"    . ?ƒ) prettify-symbols-alist)
@@ -599,16 +599,16 @@ handle font caches which makes things a lot faster and saves us ram.
 	      (push '("not in" . ?∉) prettify-symbols-alist)
 	      (push '("return" . ?➡) prettify-symbols-alist)
 	      (prettify-symbols-mode t)))
-#+END_SRC
+    #+END_SRC
 * Navigation
 ** Follow symlinks
    Stop asking if I want to follow a symlink
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (setq vc-follow-symlinks t)
-#+END_SRC
+   #+END_SRC
 ** Avy
-    Jump around like there's no tomorrow
- #+BEGIN_SRC emacs-lisp
+   Jump around like there's no tomorrow
+   #+BEGIN_SRC emacs-lisp
     (use-package avy
       :ensure t
       :custom
@@ -639,19 +639,19 @@ handle font caches which makes things a lot faster and saves us ram.
 	"k" '(:ignore t :which-key "Kill...")
 	"kr" '(avy-kill-region :which-key "Kill region between lines")
 	"kl" '(avy-kill-whole-line :which-key "Kill line")))
- #+END_SRC
+   #+END_SRC
 ** Window management
 *** Ace window
     Window managing made smart
-  #+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
     (use-package ace-window
       :ensure t
       :custom
       (aw-scope 'frame)
       (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
-  #+END_SRC
+    #+END_SRC
 *** Window resizing
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (defhydra hydra-window-resize (:color pink)
     "Resize window"
     ("k" evil-window-increase-height "up")
@@ -661,9 +661,9 @@ handle font caches which makes things a lot faster and saves us ram.
     ("=" balance-windows "balance")
     ("o" ace-window "change window")
     ("q" nil "quit" :color blue))
-#+END_SRC
+    #+END_SRC
 *** Bindings
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
     (my-leader
     :keymaps 'normal
     :infix "w"
@@ -674,10 +674,10 @@ handle font caches which makes things a lot faster and saves us ram.
 	"h" '(split-window-vertically :which-key "Split window horizontally")
 	"v" '(split-window-horizontally :which-key "Split window vertically")
 	"r" '(hydra-window-resize/body :which-key "Resize windows"))
-#+END_SRC
+    #+END_SRC
 ** Dumb-jump
-    Jump to definitions
- #+BEGIN_SRC emacs-lisp
+   Jump to definitions
+   #+BEGIN_SRC emacs-lisp
    (use-package dumb-jump
      :ensure t
      :custom
@@ -691,20 +691,20 @@ handle font caches which makes things a lot faster and saves us ram.
        "o" '(dumb-jump-go-other-window :which-key "Jump to definition on the other window")
        "l" '(dumb-jump-quick-look :which-key "Look at definition on tooltip")
        "b" '(dumb-jump-back :which-key "Jump back to previous-to-jump position")))
- #+END_SRC
+   #+END_SRC
 * Git
 ** Magit
    Git porcelain inside Emacs. Basically, git turned into loving hugs and
    kisses
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package magit
     :ensure t
     :config)
-#+END_SRC
+   #+END_SRC
 ** Timemachine
-    Take your code for a travel through time (that is incidentally,
-    highly dependant on your commits)
-#+BEGIN_SRC emacs-lisp
+   Take your code for a travel through time (that is incidentally,
+   highly dependant on your commits)
+   #+BEGIN_SRC emacs-lisp
   (use-package git-timemachine
     :after hydra
     :ensure t
@@ -720,15 +720,15 @@ handle font caches which makes things a lot faster and saves us ram.
 
     (add-hook 'git-timemachine-mode-hook
 	      (lambda () (hydra-timemachine/body))))
-#+END_SRC
+   #+END_SRC
 ** Evil magit
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package evil-magit
     :ensure t
     :after magit)
-#+END_SRC
+   #+END_SRC
 ** Bindings
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (my-leader
     :keymaps 'normal
     :infix "g"
@@ -740,48 +740,48 @@ handle font caches which makes things a lot faster and saves us ram.
     "l" '(magit-log :which-key "Log")
     "F" '(magit-pull :which-key "Pull")
     "t" '(git-timemachine :which-key "Travel through time"))
-#+END_SRC
+   #+END_SRC
 
 * Org
 ** Basic config
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (setq org-src-window-setup 'current-window)
   (setq org-log-done t)
   (setq org-enforce-todo-dependencies t)
   (add-to-list 'org-structure-template-alist
 	       '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
-#+END_SRC
+   #+END_SRC
 ** Agenda
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (setq org-agenda-files '("~/org"))
-#+END_SRC
+   #+END_SRC
 ** Org bullets
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
     (use-package org-bullets
        :ensure t
        :config
        (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
-#+END_SRC
+   #+END_SRC
 ** Org-pomodoro
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package org-pomodoro
     :ensure t
     :config
     (setq org-pomodoro-ticking-sound-p t)
     (setq org-pomodoro-ticking-sound-states '(:pomodoro)))
-#+END_SRC
+   #+END_SRC
 ** Twitter-bootstrap export
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package ox-twbs
     :ensure t)
-#+END_SRC
+   #+END_SRC
 ** Org-capture
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c c") 'org-capture)
   (setq org-default-notes-file "~/org/refile.org")
-#+END_SRC
+   #+END_SRC
 ** Refile
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   ; Targets include this file and any file contributing to the agenda - up to 9 levels deep
   (setq org-refile-targets (quote ((nil :maxlevel . 9)
 				   (org-agenda-files :maxlevel . 9))))
@@ -794,15 +794,15 @@ handle font caches which makes things a lot faster and saves us ram.
 
   ; Allow refile to create parent tasks with confirmation
   (setq org-refile-allow-creating-parent-nodes (quote confirm))
-#+END_SRC
+   #+END_SRC
 * Languages
 ** Go
- #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
    (use-package go-mode
      :ensure t)
- #+END_SRC
+   #+END_SRC
 ** Web
- #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
    (use-package web-mode
      :ensure t
      :init
@@ -823,14 +823,14 @@ handle font caches which makes things a lot faster and saves us ram.
      (setq web-mode-enable-auto-closing t)
      (setq web-mode-enable-engine-detection t)
      (setq web-mode-enable-css-colorization t))
- #+END_SRC
+   #+END_SRC
 ** Python
 *** Python3
     Always use python3
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (setq python-shell-interpreter "python3")
   (setq flycheck-python-pylint-executable "/usr/bin/gpylint3")
-#+END_SRC
+    #+END_SRC
 *** Docs
     Easy way to create standard docstrings
     #+BEGIN_SRC emacs-lisp
@@ -850,16 +850,16 @@ handle font caches which makes things a lot faster and saves us ram.
 *** Black
     Gives a standard PEP8-compliant automated way to have a nice formatted Python code
     (requires pip install black)
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package blacken
     :ensure t
     :config
     (add-hook 'python-mode 'blacken-mode))
-#+END_SRC
+    #+END_SRC
 ** Lisp
 *** Slime
     Sane slime config. Taken from [[https://stackoverflow.com/questions/1101487/setting-up-a-working-common-lisp-environment-for-the-aspiring-lisp-newbie/1101605#1101605][here.]]
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
   (use-package slime
     :ensure t
     :config
@@ -888,21 +888,21 @@ handle font caches which makes things a lot faster and saves us ram.
        (setq slime-complete-symbol*-fancy t)
        (setq slime-complete-symbol-function
     'slime-fuzzy-complete-symbol)))
-#+END_SRC
+    #+END_SRC
 * LOL
 ** Nyan mode
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package nyan-mode
     :ensure t
     :init
     (nyan-mode)
     (nyan-start-animation))
-#+END_SRC
+   #+END_SRC
 ** Fireplace
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package fireplace
     :ensure t
     :disabled
     :init
     (run-with-idle-timer 600 t 'fireplace ()))
-#+END_SRC
+   #+END_SRC
