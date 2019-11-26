@@ -116,6 +116,7 @@
    When something changes a file, automatically refresh the buffer containing that file so they can’t get out of sync.
    #+BEGIN_SRC emacs-lisp
    (global-auto-revert-mode t)
+   (setq auto-revert-use-notify nil)
    #+END_SRC
 * Utils
 ** Helm
