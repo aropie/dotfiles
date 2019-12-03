@@ -258,6 +258,23 @@
     :ensure t)
    #+END_SRC
 
+** Persp mode
+   Pretty nice workspace management
+   #+BEGIN_SRC emacs-lisp
+     (use-package persp-mode
+       :ensure t
+       :custom
+       (persp-autokill-buffer-on-remove t)
+       :config
+       (persp-mode t)
+       (my-leader
+       :keymaps 'normal
+       :infix "P"
+       "" '(:ignore t :which-key "Persp")
+       "s" '(persp-switch :which-key "Switch persp")
+       "k" '(persp-kill :which-key "Kill persp")
+       "a" '(persp-add-buffer :which-key "Add buffer to persp")))
+   #+END_SRC
 ** which-key
    Because Emacs is hard enough without visual aids
    #+BEGIN_SRC emacs-lisp
