@@ -11,5 +11,6 @@ xcape -e 'Caps_Lock=Escape' &
 sxhkd &
 xautolock -time 5 -locker screen-lock &
 blueman-applet &
+launch_polybar
 
 exec i3
