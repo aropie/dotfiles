@@ -1,4 +1,6 @@
 #!/bin/sh
+[ -f ~/.profile ] && . ~/.profile
+
 setxkbmap latam
 setxkbmap -option 'caps:ctrl_modifier,shift:both_capslock' &
 compton -f -D 1 &
