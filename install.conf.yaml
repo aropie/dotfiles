@@ -15,4 +15,5 @@
     ~/.config/qutebrowser: qutebrowser
     ~/.config/polybar: polybar
     ~/.config/dunst: dunst
+    ~/.config/fontconfig: fontconfig
     ~/.emacs.d: emacs
