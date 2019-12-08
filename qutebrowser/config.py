@@ -30,6 +30,7 @@ config.set('content.javascript.enabled', True, 'qute://*/*')
 c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}',
                        'aw': 'https://wiki.archlinux.org/index.php?search={}',
                        'aur': 'https://aur.archlinux.org/packages/?O=0&K={}',
+                       'vw': 'https://wiki.voidlinux.org/index.php?search={}',
                        'g': 'https://www.google.com/search?q={}'}
 
 # Bindings for normal mode
