@@ -1,3 +1,4 @@
+source ~/.profile
 # Start xorg on login
 if [ -z "$DISPLAY" ] && [ "$(fgconsole)" -eq 1 ]; then
   exec startx
