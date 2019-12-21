@@ -37,6 +37,13 @@
 	      (add-hook 'minibuffer-exit-hook #'gc-minibuffer-exit-hook)))
     #+END_SRC
 * General layout and config
+** Disable menu, toolbar and scroll
+   They are visual clutter once you get to know the keybindings (or create your own)
+   #+BEGIN_SRC emacs-lisp
+     (tool-bar-mode -1)
+     (menu-bar-mode -1)
+     (scroll-bar-mode -1)
+   #+END_SRC
 ** Defuse custom file
    I really dislike custom writing on init.el without my permission,
    so I disable it altogether
@@ -119,6 +126,22 @@
    (setq auto-revert-use-notify nil)
    #+END_SRC
 * Utils
+** Persp mode
+   Pretty nice workspace management
+   #+BEGIN_SRC emacs-lisp
+     (use-package persp-mode
+       :ensure t
+       :custom
+       (persp-autokill-buffer-on-remove t)
+       :config
+       (persp-mode t)
+       (my-leader
+       :infix "P"
+       "" '(:ignore t :which-key "Persp")
+       "s" '(persp-switch :which-key "Switch persp")
+       "k" '(persp-kill :which-key "Kill persp")
+       "a" '(persp-add-buffer :which-key "Add buffer to persp")))
+   #+END_SRC
 ** Helm
    #+BEGIN_SRC emacs-lisp
   (use-package helm
@@ -143,56 +166,55 @@
 
     (helm-mode 1))
    #+END_SRC
-** Dired
-*** Dired-narrow
-    #+BEGIN_SRC emacs-lisp
-  (use-package dired-narrow
-    :ensure t
-    :bind (:map dired-mode-map
-		("/" . dired-narrow-fuzzy)))
-    #+END_SRC
 ** General.el
    Manage all the keybindings through general and hydra à la spacemacs
-*** Leaders definitions
     #+BEGIN_SRC emacs-lisp
-  (use-package general
-    :ensure t
-    :init
-    (setq general-override-states '(insert
-				  emacs
-				  hybrid
-				  normal
-				  visual
-				  motion
-				  operator
-				  replace))
-    (general-override-mode)
-    :config
-    (general-create-definer my-leader
-      ;; :prefix my-leader
-      :keymaps 'override
-      :prefix "SPC")
-    (general-create-definer my-local-leader
-      ;; prefix local-leader
-      :prefix "SPC m"))
+      (use-package general
+	:ensure t
+	:config
+	(general-create-definer my-leader
+	  ;; :prefix my-leader
+	  :states '(normal insert emacs)
+	  :keymaps 'override
+	  :prefix "SPC"
+	  :non-normal-prefix "M-SPC")
+	(general-create-definer my-local-leader
+	  ;; prefix local-leader
+	  :states '(normal insert emacs)
+	  :prefix "SPC m"
+	  :non-normal-prefix "M-SPC m"))
+      (my-local-leader
+	"m" '(helm-semantic-or-imenu :which-key "Semantic"))
     #+END_SRC
-*** Overall bindings
-    #+BEGIN_SRC emacs-lisp
-  (my-leader
-   :keymaps 'normal
-   "TAB" '(mode-line-other-buffer :which-key "Previous buffer")
-   "m" '(:ignore t :which-key "Major mode")
-   "f" '(helm-find-files :which-key "Find file")
-   "b" '(helm-mini :which-key "Buffers")
-   "s" '(save-buffer :which-key "Save buffer")
-   "k" '(kill-this-buffer :which-key "Kill this buffer")
-   "K" '(kill-buffer-and-window :which-key "Kill this buffer and window")
-   "o" '(ace-window :which-key "Change window"))
+** File keybindings
+   #+BEGIN_SRC emacs-lisp
+     (my-leader
+     "TAB" '(mode-line-other-buffer :which-key "Previous buffer")
+     "m" '(:ignore t :which-key "Major mode")
+     "o" '(ace-window :which-key "Change window"))
 
-   (my-local-leader
-     :keymaps 'normal
-     "m" '(helm-semantic-or-imenu :which-key "Semantic"))
-    #+END_SRC
+     (my-leader
+       :infix "f"
+       "" '(:ignore t :which-key "File")
+       "f" '(helm-find-files :which-key "Find file")
+       "s" '(save-buffer :which-key "Save file")
+       "u" '(:ignore t :which-key "Sudo find file (TBD)")
+       "U" '(:ignore t :which-key "Sudo this file (TBD)")
+       "R" '(:ignore t :which-key "Rename/move this file (TBD)"))
+   #+END_SRC
+** Buffer keybindings
+   #+BEGIN_SRC emacs-lisp
+     (my-leader
+     :infix "b"
+     "" '(:ignore t :which-key "Buffer")
+     "b" '(persp-switch-to-buffer :which-key "Switch to workspace buffer")
+     "B" '(helm-buffer-list :which-key "Switch to buffer")
+     "i" '(ibuffer :which-key "ibuffer")
+     "k" '(kill-this-buffer :which-key "Kill buffer")
+     "r" '(revert-buffer :which-key "Revert buffer")
+     "n" '(next-buffer :which-key "Next buffer")
+     "p" '(previous-buffer :which-key "Previous buffer"))
+   #+END_SRC
 ** Config shortcuts
    I tend to modify a lot my config files, so I set shortcuts to the
    most used ones
@@ -220,7 +242,6 @@
 *** Bindings
     #+BEGIN_SRC emacs-lisp
   (my-leader
-    :keymaps 'normal
     :infix "c"
     "" '(:ignore t :which-key "Config")
     "e" '(aropie/emacs-config-visit :which-key "emacs")
@@ -258,23 +279,6 @@
     :ensure t)
    #+END_SRC
 
-** Persp mode
-   Pretty nice workspace management
-   #+BEGIN_SRC emacs-lisp
-     (use-package persp-mode
-       :ensure t
-       :custom
-       (persp-autokill-buffer-on-remove t)
-       :config
-       (persp-mode t)
-       (my-leader
-       :keymaps 'normal
-       :infix "P"
-       "" '(:ignore t :which-key "Persp")
-       "s" '(persp-switch :which-key "Switch persp")
-       "k" '(persp-kill :which-key "Kill persp")
-       "a" '(persp-add-buffer :which-key "Add buffer to persp")))
-   #+END_SRC
 ** which-key
    Because Emacs is hard enough without visual aids
    #+BEGIN_SRC emacs-lisp
@@ -314,7 +318,6 @@
      (add-to-list 'projectile-globally-ignored-directories ".venv")
      (projectile-mode t)
      (my-leader
-     :keymaps 'normal
      :infix "p"
      "" '(:ignore t :which-key "Project")
      "f" '(projectile-find-file :which-key "Find file")
@@ -348,6 +351,14 @@
     :defer t
     :mode (("\\.http\\'" . restclient-mode)))
    #+END_SRC
+** Dired
+*** Dired-narrow
+    #+BEGIN_SRC emacs-lisp
+  (use-package dired-narrow
+    :ensure t
+    :bind (:map dired-mode-map
+		("/" . dired-narrow-fuzzy)))
+    #+END_SRC
 * Completion
 ** Company
    My choice for auto-completion
@@ -417,6 +428,7 @@
    #+BEGIN_SRC emacs-lisp
   (use-package evil-collection
     :after evil
+    :disabled
     :ensure t
     :config
     (add-to-list 'evil-collection-key-blacklist "SPC")
@@ -642,7 +654,6 @@
       "SPC" '(aropie/avy-jump-to-char-in-one-window :which-key "Jump to char"))
 
       (my-leader
-	:keymaps 'normal
 	:infix "j"
 	"" '(:ignore t :which-key "Jump")
 	"w" '(avy-goto-subword-1 :which-key "Jump to word")
@@ -683,7 +694,6 @@
 *** Bindings
     #+BEGIN_SRC emacs-lisp
     (my-leader
-    :keymaps 'normal
     :infix "w"
 	"" '(:ignore t :which-key "Windows")
 	"s" '(ace-swap-window :which-key "Swap windows")
@@ -702,7 +712,6 @@
      (dumb-jump-use-visible-window nil)
      :config
      (my-leader
-       :keymaps 'normal
        :infix "d"
        "" '(:ignore t :which-key "Definition")
        "j" '(dumb-jump-go :which-key "Jump to definition")
@@ -748,7 +757,6 @@
 ** Bindings
    #+BEGIN_SRC emacs-lisp
   (my-leader
-    :keymaps 'normal
     :infix "g"
     "" '(:ignore t :which-key "Git")
     "s" '(magit-status :which-key "Status")
