@@ -143,8 +143,6 @@
 	  :states '(normal insert emacs)
 	  :prefix "SPC m"
 	  :non-normal-prefix "M-SPC m"))
-      (my-local-leader
-	"m" '(helm-semantic-or-imenu :which-key "Semantic"))
     #+END_SRC
 ** Persp mode
    Pretty nice workspace management
@@ -162,41 +160,26 @@
        "k" '(persp-kill :which-key "Kill persp")
        "a" '(persp-add-buffer :which-key "Add buffer to persp")))
    #+END_SRC
-** Helm
+** Ivy
    #+BEGIN_SRC emacs-lisp
-  (use-package helm
-    :ensure t
-    :bind (("M-x" . helm-M-x)
-	   ("M-y" . helm-show-kill-ring))
-    :custom
-    (helm-split-window-in-side-p t)
-    (helm-move-to-line-cycle-in-source t)
-    (helm-ff-search-library-in-sexp t)
-    (helm-scroll-amount 8)
-    (helm-ff-file-name-history-use-recentf t)
-    (helm-echo-input-in-header-line t)
-    (helm-autoresize-max-height 0)
-    (helm-autoresize-min-height 20)
-    (helm-M-x-fuzzy-match t)
-    (helm-semantic-fuzzy-match t)
-    (helm-imenu-fuzzy-match t)
-    :config
-    (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-    (define-key helm-map (kbd "C-z") 'helm-select-action)
+     (use-package ivy
+       :ensure t
+       :config
+      (setq ivy-use-virtual-buffers t)
+      (setq enable-recursive-minibuffers t)
+      (ivy-mode t))
 
-    (helm-mode 1))
+     (use-package counsel
+       :ensure t
+       :config
+       (counsel-mode t))
    #+END_SRC
 ** File keybindings
    #+BEGIN_SRC emacs-lisp
      (my-leader
-     "TAB" '(mode-line-other-buffer :which-key "Previous buffer")
-     "m" '(:ignore t :which-key "Major mode")
-     "o" '(ace-window :which-key "Change window"))
-
-     (my-leader
        :infix "f"
        "" '(:ignore t :which-key "File")
-       "f" '(helm-find-files :which-key "Find file")
+       "f" '(find-file :which-key "Find file")
        "s" '(save-buffer :which-key "Save file")
        "u" '(:ignore t :which-key "Sudo find file (TBD)")
        "U" '(:ignore t :which-key "Sudo this file (TBD)")
@@ -208,7 +191,7 @@
      :infix "b"
      "" '(:ignore t :which-key "Buffer")
      "b" '(persp-switch-to-buffer :which-key "Switch to workspace buffer")
-     "B" '(helm-buffer-list :which-key "Switch to buffer")
+     "B" '(switch-to-buffer :which-key "Switch to buffer")
      "i" '(ibuffer :which-key "ibuffer")
      "k" '(kill-this-buffer :which-key "Kill buffer")
      "r" '(revert-buffer :which-key "Revert buffer")
@@ -350,15 +333,6 @@
      "c" '(projectile-invalidate-cache :which-key "Clear project's cache")
      "s" '(projectile-grep :which-key "Search in project")))
 
-    #+END_SRC
-*** Helm-projectile
-    #+BEGIN_SRC emacs-lisp
-  (use-package helm-projectile
-    :ensure t
-    :config
-    (setq projectile-completion-system 'helm)
-    (setq projectile-switch-project-action 'helm-projectile)
-    (helm-projectile-on))
     #+END_SRC
 ** Restclient mode
    Awesome mode to handle rest requests.
@@ -717,15 +691,17 @@
     #+END_SRC
 *** Bindings
     #+BEGIN_SRC emacs-lisp
-    (my-leader
-    :infix "w"
-	"" '(:ignore t :which-key "Windows")
-	"s" '(ace-swap-window :which-key "Swap windows")
-	"o" '(delete-other-windows :which-key "Delete other windows")
-	"x" '(ace-delete-window :which-key "Delete window")
-	"h" '(split-window-vertically :which-key "Split window horizontally")
-	"v" '(split-window-horizontally :which-key "Split window vertically")
-	"r" '(hydra-window-resize/body :which-key "Resize windows"))
+      (my-leader
+      :infix "w"
+	  "" '(:ignore t :which-key "Windows")
+	  "s" '(ace-swap-window :which-key "Swap windows")
+	  "o" '(delete-other-windows :which-key "Delete other windows")
+	  "x" '(ace-delete-window :which-key "Delete window")
+	  "h" '(split-window-vertically :which-key "Split window horizontally")
+	  "v" '(split-window-horizontally :which-key "Split window vertically")
+	  "r" '(hydra-window-resize/body :which-key "Resize windows"))
+      (my-leader
+	"C-w" '(ace-window) :which-key "Change window")
     #+END_SRC
 ** Dumb-jump
    Jump to definitions
