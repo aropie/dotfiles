@@ -534,13 +534,6 @@
 	(set-face-attribute 'doom-modeline-evil-normal-state nil :foreground "skyblue2")
 	(set-face-attribute 'doom-modeline-evil-insert-state nil :foreground "green"))
    #+END_SRC
-** Evil-googles
-   #+BEGIN_SRC emacs-lisp
-     (use-package evil-goggles
-       :ensure t
-       :config
-       (evil-goggles-mode))
-   #+END_SRC
 ** All the icons
    We take advantage of running Emacs as a GUI, and get nice icons for it
    #+BEGIN_SRC emacs-lisp
