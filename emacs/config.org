@@ -314,6 +314,7 @@
      :custom
      (projectile-indexing-method 'native)
      (projectile-enable-caching t)
+     (projectile-completion-system 'ivy)
      :config
      (add-to-list 'projectile-globally-ignored-directories ".venv")
      (projectile-mode t)
@@ -641,7 +642,7 @@
 	(setq current-prefix-arg '(4)) ; C-u
 	(call-interactively 'avy-goto-char))
 
-      (my-leader 'normal
+      (my-leader
       "SPC" '(aropie/avy-jump-to-char-in-one-window :which-key "Jump to char"))
 
       (my-leader
