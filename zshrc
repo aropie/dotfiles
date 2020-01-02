@@ -125,3 +125,15 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 source /usr/share/nvm/init-nvm.sh
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/usr/local/google/home/rodriguezpie/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/usr/local/google/home/rodriguezpie/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/usr/local/google/home/rodriguezpie/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/usr/local/google/home/rodriguezpie/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+# g4d completion
+if [[ -f /etc/bash_completion.d/g4d ]]; then
+  . /etc/bash_completion.d/p4
+  . /etc/bash_completion.d/g4d
+fi

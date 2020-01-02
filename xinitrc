@@ -14,5 +14,6 @@ sxhkd &
 xautolock -time 5 -locker screen-lock &
 blueman-applet &
 launch_polybar
+/usr/share/goobuntu-indicator/goobuntu_indicator.py &
 
 exec i3

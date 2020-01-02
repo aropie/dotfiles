@@ -691,6 +691,10 @@
     #+END_SRC
 *** Bindings
     #+BEGIN_SRC emacs-lisp
+      (general-define-key
+	  :states '(normal insert emacs)
+	  :keymaps 'override
+	  "C-w C-w" 'ace-window)
       (my-leader
       :infix "w"
 	  "" '(:ignore t :which-key "Windows")
@@ -700,8 +704,6 @@
 	  "h" '(split-window-vertically :which-key "Split window horizontally")
 	  "v" '(split-window-horizontally :which-key "Split window vertically")
 	  "r" '(hydra-window-resize/body :which-key "Resize windows"))
-      (my-leader
-	"C-w" '(ace-window) :which-key "Change window")
     #+END_SRC
 ** Dumb-jump
    Jump to definitions

@@ -7,6 +7,7 @@
 (setq package-user-dir "~/.cache/emacs/elpa")
 
 (require 'package)
+(require 'google)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
@@ -17,3 +18,4 @@
   (package-install 'use-package))
 
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
+(flycheck-set-checker-executable 'python-pylint "/usr/bin/gpylint")
