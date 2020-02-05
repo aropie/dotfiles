@@ -1,19 +1,19 @@
 * Startup optimizations
 ** Garbage collection
 *** Set =gc-cons-thresholds= smaller for interactive use
-    A large =gc-cons-threshold= may cause freezing and stuttering
-    during long-term interactive use.
-    #+BEGIN_SRC emacs-lisp
-  (defvar better-gc-cons-threshold 67108864 ; 64mb
-    "The default value to use for `gc-cons-threshold'.
-  If you experience freezing, decrease this. If you experience stuttering, increase this.")
+     A large =gc-cons-threshold= may cause freezing and stuttering
+     during long-term interactive use.
+     #+BEGIN_SRC emacs-lisp
+   (defvar better-gc-cons-threshold 67108864 ; 64mb
+     "The default value to use for `gc-cons-threshold'.
+   If you experience freezing, decrease this. If you experience stuttering, increase this.")
 
-  (add-hook 'emacs-startup-hook
-	    (lambda ()
-	      (setq gc-cons-threshold better-gc-cons-threshold)
-	      (setq file-name-handler-alist file-name-handler-alist-original)
-	      (makunbound 'file-name-handler-alist-original)))
-    #+END_SRC
+   (add-hook 'emacs-startup-hook
+	     (lambda ()
+	       (setq gc-cons-threshold better-gc-cons-threshold)
+	       (setq file-name-handler-alist file-name-handler-alist-original)
+	       (makunbound 'file-name-handler-alist-original)))
+     #+END_SRC
 *** Garbage collect when Emacs is out of focus
     *Note:* Since Emacs27.1, =focus-out-hook= is obsolete.
     #+BEGIN_SRC emacs-lisp
@@ -483,11 +483,18 @@
    :config
    (evil-exchange-install))
    #+END_SRC
-** Electric parenthesis
-   Force the parenthesis to come in pairs, unlike you, dear reader
+** Evil multiple cursors
    #+BEGIN_SRC emacs-lisp
-   (electric-pair-mode 1)
+     (use-package evil-mc
+       :ensure t
+       :config
+       (global-evil-mc-mode t))
    #+END_SRC
+** Electric parenthesis
+    Force the parenthesis to come in pairs, unlike you, dear reader
+    #+BEGIN_SRC emacs-lisp
+    (electric-pair-mode 1)
+    #+END_SRC
 ** Flycheck
    Syntax checker and linter on the fly
    #+BEGIN_SRC emacs-lisp
@@ -871,7 +878,6 @@
     Always use python3
     #+BEGIN_SRC emacs-lisp
   (setq python-shell-interpreter "python3")
-  (setq flycheck-python-pylint-executable "/usr/bin/gpylint3")
     #+END_SRC
 *** Docs
     Easy way to create standard docstrings
