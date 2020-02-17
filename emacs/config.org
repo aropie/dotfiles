@@ -323,7 +323,7 @@
       (use-package projectile
 	:ensure t
 	:custom
-	(projectile-indexing-method 'native)
+	(projectile-indexing-method 'alien)
 	(projectile-enable-caching t)
 	(projectile-completion-system 'helm)
 	:config
