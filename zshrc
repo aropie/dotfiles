@@ -120,12 +120,6 @@ export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 
-# NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-source /usr/share/nvm/init-nvm.sh
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/usr/local/google/home/rodriguezpie/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/usr/local/google/home/rodriguezpie/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
