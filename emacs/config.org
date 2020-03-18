@@ -352,13 +352,21 @@
 	:config
 	(helm-projectile-on))
     #+END_SRC
-** Restclient mode
+** Verb mode
    Awesome mode to handle rest requests.
    #+BEGIN_SRC emacs-lisp
-  (use-package restclient
-    :ensure t
-    :defer t
-    :mode (("\\.http\\'" . restclient-mode)))
+     (use-package verb
+       :ensure t
+       :defer t
+       :config
+
+       (my-leader
+	 :infix "v"
+	 "" '(:ignore t :which-key "Verb")
+	 "v" '(verb-send-request-on-point :which-key "Send request on point")
+	 "h" '(verb-toggle-show-headers :which-key "Toggle headers")
+	 "r" '(verb-re-send-request :which-key "Re-send previous request")
+	 "e" '(verb-export-request-on-point :which-key "Export request")))
    #+END_SRC
 ** Dired
 *** Dired-narrow
