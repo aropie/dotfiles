@@ -104,6 +104,8 @@ alias dcrun="sudo docker-compose run --rm"
 alias dcup="sudo docker-compose up"
 alias dcdown="sudo docker-compose down"
 alias dcbuild="sudo docker-compose build"
+alias dclogs="sudo docker-compose logs"
+alias dcpull="sudo docker-compose pull"
 
 # Music
 alias pause="mpc toggle"
