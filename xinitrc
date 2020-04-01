@@ -3,7 +3,7 @@
 
 setxkbmap latam
 setxkbmap -option 'caps:ctrl_modifier,shift:both_capslock' &
-compton -f -D 1 &
+picom -f -D 1 &
 dunst &
 mpd &
 unclutter &
