@@ -11,7 +11,7 @@ numlockx on &
 nitrogen --restore &
 xcape -e 'Caps_Lock=Escape' &
 sxhkd &
-xautolock -time 5 -locker screen-lock &
+xautolock -time 3 -locker screen-lock  -cornersize 50 -corners -000 -detectsleep -notify 30 -notifier "notify-send -u normal -t 3000 'Autolock' 'Locking screen in 30 seconds'"&
 blueman-applet &
 launch_polybar
 /usr/share/goobuntu-indicator/goobuntu_indicator.py &
