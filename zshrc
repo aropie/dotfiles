@@ -3,9 +3,10 @@ if [ -z "$DISPLAY" ] && [ "$(fgconsole)" -eq 1 ]; then
   exec startx
 fi
 
+export KEEP_ZSHRC=yes
 # Check for oh-my-zsh and if its missing, download it
 if [[ ! -d ~/.oh-my-zsh ]]; then
-    sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+    sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 fi
 export ZSH=~/.oh-my-zsh
 
