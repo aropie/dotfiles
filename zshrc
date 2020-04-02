@@ -27,59 +27,6 @@ fi
 
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
-POWERLEVEL9K_MODE="nerdfont-complete"
-
-# Prompt settings
-POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
-
-# Prompt elements
-# POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon dir dir_writable vcs newline virtualenv_joined context_joined)
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon virtualenv dir dir_writable vcs newline context)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs command_execution_time)
-
-# Prompt settings
-POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
-POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX=""
-
-# Context
-DEFAULT_USER=$USER
-POWERLEVEL9K_ALWAYS_SHOW_CONTEXT=true
-POWERLEVEL9K_CONTEXT_TEMPLATE="%F{088}\uf1d0"
-POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND='black'
-POWERLEVEL9K_CONTEXT_DEFAULT_BACKGROUND='241'
-
-# Dirs
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
-POWERLEVEL9K_SHORTEN_STRATEGY="truncate_from_right"
-POWERLEVEL9K_DIR_OMIT_FIRST_CHARACTER=true
-POWERLEVEL9K_HOME_FOLDER_ABBREVIATION=""
-
-# OS segment
-POWERLEVEL9K_OS_ICON_BACKGROUND='black'
-POWERLEVEL9K_LINUX_ARCH_ICON='%F{cyan}'
-
-# Virtualenv
-POWERLEVEL9K_VIRTUALENV_BACKGROUND='cyan'
-
-# VCS
-POWERLEVEL9K_VCS_GIT_ICON=$''
-POWERLEVEL9K_VCS_GIT_GITHUB_ICON=$''
-POWERLEVEL9K_VCS_SHORTEN_LENGTH=11
-POWERLEVEL9K_VCS_SHORTEN_MIN_LENGTH=11
-POWERLEVEL9K_VCS_SHORTEN_STRATEGY="truncate_from_right"
-POWERLEVEL9K_VCS_SHORTEN_DELIMITER=".."
-
-# Battery
-POWERLEVEL9K_BATTERY_LOW_FOREGROUND='red'
-POWERLEVEL9K_BATTERY_CHARGING_FOREGROUND='yellow'
-POWERLEVEL9K_BATTERY_CHARGED_FOREGROUND='green'
-POWERLEVEL9K_BATTERY_DISCONNECTED_FOREGROUND='blue'
-
-# Status
-POWERLEVEL9K_STATUS_CROSS=true
-
-# Time
-POWERLEVEL9K_TIME_FORMAT="%F{black}\uf017 %D{%I:%M}%f"
 
 # Adding interative prompt
 autoload -Uz promptinit
@@ -141,3 +88,6 @@ if [[ -f /etc/bash_completion.d/g4d ]]; then
   . /etc/bash_completion.d/p4
   . /etc/bash_completion.d/g4d
 fi
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
