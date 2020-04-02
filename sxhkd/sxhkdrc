@@ -2,7 +2,7 @@
 super + Return
         $TERMINAL
 super + o
-        rofi -modi drun -show drun
+	rofi -show drun
 super + shift + Escape
         rofi_power
 super + r
@@ -11,8 +11,10 @@ super + shift + x
         screen-lock
 super + shift + a
         rofi_audioswap
-super + shift + p
+super + p
         rofi_password
+super + shift + p
+        rofi_generate_password
 super + e
 	emacsclient -c -a ""
 
