@@ -470,7 +470,6 @@
    #+BEGIN_SRC emacs-lisp
   (use-package evil-collection
     :after evil
-    :disabled
     :ensure t
     :config
     (add-to-list 'evil-collection-key-blacklist "SPC")
