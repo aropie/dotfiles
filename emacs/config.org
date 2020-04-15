@@ -189,83 +189,85 @@
        (define-key helm-map (kbd "C-z") 'helm-select-action)
        (helm-mode t))
    #+END_SRC
-** File keybindings
-   #+BEGIN_SRC emacs-lisp
-     (my-leader
-       :infix "f"
-       "" '(:ignore t :which-key "File")
-       "f" '(helm-find-files :which-key "Find file")
-       "s" '(save-buffer :which-key "Save file")
-       "u" '(:ignore t :which-key "Sudo find file (TBD)")
-       "U" '(:ignore t :which-key "Sudo this file (TBD)")
-       "R" '(:ignore t :which-key "Rename/move this file (TBD)"))
-   #+END_SRC
-** Buffer keybindings
-   #+BEGIN_SRC emacs-lisp
-     (my-leader
-     :infix "b"
-     "" '(:ignore t :which-key "Buffer")
-     "b" '(persp-switch-to-buffer :which-key "Switch to workspace buffer")
-     "B" '(switch-to-buffer :which-key "Switch to buffer")
-     "i" '(ibuffer :which-key "ibuffer")
-     "k" '(kill-this-buffer :which-key "Kill buffer")
-     "r" '(revert-buffer :which-key "Revert buffer")
-     "n" '(next-buffer :which-key "Next buffer")
-     "p" '(previous-buffer :which-key "Previous buffer"))
-     (my-leader
-     "," '(persp-switch-to-buffer :which-key "Switch to workspace buffer"))
-   #+END_SRC
-** Toggle keybindings
-   #+BEGIN_SRC emacs-lisp
-     (my-leader
-     :infix "t"
-     "" '(:ignore t :which-key "Toggle")
-     "l" '(global-linum-mode :which-key "Line numbers")
-     "r" '(read-only-mode :which-key "Read only mode")
-     "t" '(org-pomodoro :which-key "Pomodoro timer"))
-   #+END_SRC
-** Open keybindings
-   #+BEGIN_SRC emacs-lisp
+** Main keybindings
+*** File keybindings
+    #+BEGIN_SRC emacs-lisp
+      (my-leader
+	:infix "f"
+	"" '(:ignore t :which-key "File")
+	"f" '(helm-find-files :which-key "Find file")
+	"s" '(save-buffer :which-key "Save file")
+	"u" '(:ignore t :which-key "Sudo find file (TBD)")
+	"U" '(:ignore t :which-key "Sudo this file (TBD)")
+	"R" '(:ignore t :which-key "Rename/move this file (TBD)"))
+    #+END_SRC
+*** Buffer keybindings
+    #+BEGIN_SRC emacs-lisp
+      (my-leader
+      :infix "b"
+      "" '(:ignore t :which-key "Buffer")
+      "b" '(persp-switch-to-buffer :which-key "Switch to workspace buffer")
+      "B" '(switch-to-buffer :which-key "Switch to buffer")
+      "i" '(ibuffer :which-key "ibuffer")
+      "k" '(kill-this-buffer :which-key "Kill buffer")
+      "r" '(revert-buffer :which-key "Revert buffer")
+      "n" '(next-buffer :which-key "Next buffer")
+      "p" '(previous-buffer :which-key "Previous buffer"))
+      (my-leader
+      "," '(persp-switch-to-buffer :which-key "Switch to workspace buffer"))
+    #+END_SRC
+*** Toggle keybindings
+    #+BEGIN_SRC emacs-lisp
+      (my-leader
+      :infix "t"
+      "" '(:ignore t :which-key "Toggle")
+      "l" '(global-linum-mode :which-key "Line numbers")
+      "r" '(read-only-mode :which-key "Read only mode")
+      "t" '(org-pomodoro :which-key "Pomodoro timer"))
+    #+END_SRC
+*** Open keybindings
+    #+BEGIN_SRC emacs-lisp
+      (my-leader
+      :infix "o"
+      "" '(:ignore t :which-key "Open")
+      "d" '(dired-jump :which-key "Dired"))
+    #+END_SRC
+*** Config shortcuts
+    I tend to modify a lot my config files, so I set shortcuts to the
+    most used ones
+**** Definitions
+     #+BEGIN_SRC emacs-lisp
+   (defun aropie/emacs-config-visit ()
+     (interactive)
+     (find-file "~/.emacs.d/config.org"))
+   (defun aropie/i3-config-visit ()
+     (interactive)
+     (find-file "~/.config/i3/config"))
+   (defun aropie/keybindings-config-visit ()
+     (interactive)
+     (find-file "~/.config/sxhkd/sxhkdrc"))
+   (defun aropie/zsh-config-visit ()
+     (interactive)
+     (find-file "~/.zshrc"))
+   (defun aropie/xinit-config-visit ()
+     (interactive)
+     (find-file "~/.xinitrc"))
+   (defun aropie/emacs-config-reload ()
+     (interactive)
+     (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+     #+END_SRC
+**** Bindings
+     #+BEGIN_SRC emacs-lisp
    (my-leader
-   :infix "o"
-   "" '(:ignore t :which-key "Open"))
-   #+END_SRC emacs-lisp
-** Config shortcuts
-   I tend to modify a lot my config files, so I set shortcuts to the
-   most used ones
-*** Definitions
-    #+BEGIN_SRC emacs-lisp
-  (defun aropie/emacs-config-visit ()
-    (interactive)
-    (find-file "~/.emacs.d/config.org"))
-  (defun aropie/i3-config-visit ()
-    (interactive)
-    (find-file "~/.config/i3/config"))
-  (defun aropie/keybindings-config-visit ()
-    (interactive)
-    (find-file "~/.config/sxhkd/sxhkdrc"))
-  (defun aropie/zsh-config-visit ()
-    (interactive)
-    (find-file "~/.zshrc"))
-  (defun aropie/xinit-config-visit ()
-    (interactive)
-    (find-file "~/.xinitrc"))
-  (defun aropie/emacs-config-reload ()
-    (interactive)
-    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
-    #+END_SRC
-*** Bindings
-    #+BEGIN_SRC emacs-lisp
-  (my-leader
-    :infix "c"
-    "" '(:ignore t :which-key "Config")
-    "e" '(aropie/emacs-config-visit :which-key "emacs")
-    "i" '(aropie/i3-config-visit :which-key "i3")
-    "z" '(aropie/zsh-config-visit :which-key "zsh")
-    "k" '(aropie/keybindings-config-visit :which-key "keybindings")
-    "x" '(aropie/xinit-config-visit :which-key "xinitrc")
-    "r" '(aropie/emacs-config-reload :which-key "Reload emacs config"))
-    #+END_SRC
+     :infix "c"
+     "" '(:ignore t :which-key "Config")
+     "e" '(aropie/emacs-config-visit :which-key "emacs")
+     "i" '(aropie/i3-config-visit :which-key "i3")
+     "z" '(aropie/zsh-config-visit :which-key "zsh")
+     "k" '(aropie/keybindings-config-visit :which-key "keybindings")
+     "x" '(aropie/xinit-config-visit :which-key "xinitrc")
+     "r" '(aropie/emacs-config-reload :which-key "Reload emacs config"))
+     #+END_SRC
 ** PDF-tools
    Because Emacs' default Doc-view mode sucks hard
    #+BEGIN_SRC emacs-lisp
