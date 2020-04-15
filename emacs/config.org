@@ -497,62 +497,62 @@
      :config
      (evil-mode 1))
    #+END_SRC
-** Evil-collection
-   #+BEGIN_SRC emacs-lisp
-  (use-package evil-collection
-    :after evil
-    :ensure t
-    :config
-    (add-to-list 'evil-collection-key-blacklist "SPC")
-    (evil-collection-init))
-   #+END_SRC
-** Evil-commentary
-   Allows to comment word-objects
-   #+BEGIN_SRC emacs-lisp
-   (use-package evil-commentary
+*** Evil-collection
+    #+BEGIN_SRC emacs-lisp
+   (use-package evil-collection
+     :after evil
+     :ensure t
+     :config
+     (add-to-list 'evil-collection-key-blacklist "SPC")
+     (evil-collection-init))
+    #+END_SRC
+*** Evil-commentary
+    Allows to comment word-objects
+    #+BEGIN_SRC emacs-lisp
+    (use-package evil-commentary
+      :ensure t
+      :init
+      (evil-commentary-mode t)
+      :delight)
+    #+END_SRC
+*** Evil surround
+    Allows to modify surroundings of word-objects
+    #+BEGIN_SRC emacs-lisp
+   (use-package evil-surround
      :ensure t
      :init
-     (evil-commentary-mode t)
-     :delight)
-   #+END_SRC
-** Evil surround
-   Allows to modify surroundings of word-objects
-   #+BEGIN_SRC emacs-lisp
-  (use-package evil-surround
-    :ensure t
-    :init
-    (global-evil-surround-mode t))
-   #+END_SRC
-** Evil args
-   #+BEGIN_SRC emacs-lisp
-  (use-package evil-args
+     (global-evil-surround-mode t))
+    #+END_SRC
+*** Evil args
+    #+BEGIN_SRC emacs-lisp
+   (use-package evil-args
+     :ensure t
+     :config
+     ;; bind evil-args text objects
+     (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
+     (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
+
+     ;; bind evil-forward/backward-args
+     (define-key evil-normal-state-map "L" 'evil-forward-arg)
+     (define-key evil-normal-state-map "H" 'evil-backward-arg)
+     (define-key evil-motion-state-map "L" 'evil-forward-arg)
+     (define-key evil-motion-state-map "H" 'evil-backward-arg))
+    #+END_SRC
+*** Evil exchange
+    Allows for text objects exchanging
+    #+BEGIN_SRC emacs-lisp
+    (use-package evil-exchange
     :ensure t
     :config
-    ;; bind evil-args text objects
-    (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
-    (define-key evil-outer-text-objects-map "a" 'evil-outer-arg)
-
-    ;; bind evil-forward/backward-args
-    (define-key evil-normal-state-map "L" 'evil-forward-arg)
-    (define-key evil-normal-state-map "H" 'evil-backward-arg)
-    (define-key evil-motion-state-map "L" 'evil-forward-arg)
-    (define-key evil-motion-state-map "H" 'evil-backward-arg))
-   #+END_SRC
-** Evil exchange
-   Allows for text objects exchanging
-   #+BEGIN_SRC emacs-lisp
-   (use-package evil-exchange
-   :ensure t
-   :config
-   (evil-exchange-install))
-   #+END_SRC
-** Evil multiple cursors
-   #+BEGIN_SRC emacs-lisp
-     (use-package evil-mc
-       :ensure t
-       :config
-       (global-evil-mc-mode t))
-   #+END_SRC
+    (evil-exchange-install))
+    #+END_SRC
+*** Evil multiple cursors
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-mc
+	:ensure t
+	:config
+	(global-evil-mc-mode t))
+    #+END_SRC
 ** Electric parenthesis
     Force the parenthesis to come in pairs, unlike you, dear reader
     #+BEGIN_SRC emacs-lisp
@@ -599,7 +599,7 @@
 ** Remove whitespace
    This removes whitespace prior to saving
    #+BEGIN_SRC emacs-lisp
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+     (add-hook 'before-save-hook 'delete-trailing-whitespace)
    #+END_SRC
 * UI
 ** Spacemacs-theme
