@@ -379,6 +379,27 @@
     :bind (:map dired-mode-map
 		("/" . dired-narrow-fuzzy)))
     #+END_SRC
+** Lsp mode
+*** Vanilla
+#+BEGIN_SRC emacs-lisp
+    (setq lsp-keymap-prefix "C-l")
+
+    (use-package lsp-mode
+      :ensure t
+      :hook ((python-mode . lsp)
+	     (go-mode . lsp)
+	     (lsp-mode . lsp-enable-which-key-integration))
+      :commands lsp)
+
+    (use-package lsp-ui :commands lsp-ui-mode :ensure t)
+    (use-package company-lsp
+      :commands company-lsp
+      :ensure t
+      :config
+      (push 'company-lsp company-backends))
+    (use-package helm-lsp :commands helm-lsp-workspace-symbol :ensure t)
+
+#+END_SRC
 * Completion
 ** Company
    My choice for auto-completion
@@ -388,8 +409,8 @@
 	:delight
 	:custom
 	(company-begin-commands '(self-insert-command))
-	(company-idle-delay 0)
-	(company-minimum-prefix-length 2)
+	(company-idle-delay 0.0)
+	(company-minimum-prefix-length 1)
 	(company-show-numbers t)
 	(company--dabbrev-code-everywhere t)
 	(company-dabbrev-downcase nil)
