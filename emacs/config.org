@@ -150,21 +150,21 @@
 ** Persp mode
    Pretty nice workspace management
    #+BEGIN_SRC emacs-lisp
-	  (use-package persp-mode
-	    :ensure t
-	    :custom
-	    (persp-autokill-buffer-on-remove t)
-	    (persp-add-buffer-on-after-change-major-mode t)
-	    (persp-auto-save-opt 0)
-	    (persp-nil-hidden t)
-	    :config
-	    (persp-mode t)
-	    (my-leader
-	    :infix "TAB"
-	    "" '(:ignore t :which-key "Persp")
-	    "TAB" '(persp-switch :which-key "Switch persp")
-	    "k" '(persp-kill :which-key "Kill persp")
-	    "a" '(persp-add-buffer :which-key "Add buffer to persp")))
+     (use-package persp-mode
+       :ensure t
+       :custom
+       (persp-autokill-buffer-on-remove t)
+       (persp-auto-save-opt 0)
+       (persp-nil-hidden t)
+       :config
+       (persp-mode t)
+       (my-leader
+       :infix "TAB"
+       "" '(:ignore t :which-key "Persp")
+       "TAB" '(persp-switch :which-key "Switch persp")
+       "k" '(persp-kill :which-key "Kill persp")
+       "r" '(persp-rename get-current-persp :which-key "Rename persp")
+       "a" '(persp-add-buffer buffer-name :which-key "Add buffer to persp")))
    #+END_SRC
 *** Order persps by most recent
     #+BEGIN_SRC emacs-lisp
