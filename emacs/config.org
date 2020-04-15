@@ -261,8 +261,8 @@
     "e" '(aropie/emacs-config-visit :which-key "emacs")
     "i" '(aropie/i3-config-visit :which-key "i3")
     "z" '(aropie/zsh-config-visit :which-key "zsh")
-    "k" '(aropie/zsh-config-visit :which-key "keybindings")
-    "x" '(aropie/zsh-config-visit :which-key "xinitrc")
+    "k" '(aropie/keybindings-config-visit :which-key "keybindings")
+    "x" '(aropie/xinit-config-visit :which-key "xinitrc")
     "r" '(aropie/emacs-config-reload :which-key "Reload emacs config"))
     #+END_SRC
 ** PDF-tools
