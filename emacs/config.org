@@ -195,6 +195,12 @@
 			(setq persp-names-cache
 			      (cons (safe-persp-name persp) persp-names-cache))))))
     #+END_SRC
+*** Switch to scratch on persp creation
+    #+BEGIN_SRC emacs-lisp
+      (add-to-list 'persp-created-functions
+		   '(lambda (persp phash)
+		      (persp-add-buffer (get-buffer-create "*scratch*") persp)))
+    #+END_SRC
 ** Helm
    #+BEGIN_SRC emacs-lisp
      (use-package helm
@@ -217,6 +223,15 @@
        (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
        (define-key helm-map (kbd "C-z") 'helm-select-action)
        (helm-mode t))
+   #+END_SRC
+** Create or get *scratch*
+   Utility function to get *scratch* buffer or create it if it was killed
+   #+BEGIN_SRC emacs-lisp
+     (defun get-scratch-buffer nil
+	    "create a scratch buffer"
+	    (interactive)
+	    (switch-to-buffer (get-buffer-create "*scratch*"))
+	    (lisp-interaction-mode))
    #+END_SRC
 ** Main keybindings
 *** File keybindings
@@ -259,7 +274,8 @@
       (my-leader
       :infix "o"
       "" '(:ignore t :which-key "Open")
-      "d" '(dired-jump :which-key "Dired"))
+      "d" '(dired-jump :which-key "Dired")
+      "s" '(get-scratch-buffer :which-key "Scratch"))
     #+END_SRC
 *** Config shortcuts
     I tend to modify a lot my config files, so I set shortcuts to the
