@@ -40,7 +40,7 @@ HYPHEN_INSENSITIVE="true"
 COMPLETION_WAITING_DOTS="true"
 
 # Plugins
-plugins=(git sudo zsh-syntax-highlighting docker)
+plugins=(git sudo zsh-syntax-highlighting docker docker-compose)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -91,3 +91,7 @@ fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Golang
+export GOPATH=~/.gocode
+export PATH=$PATH:$GOPATH/bin
