@@ -565,7 +565,8 @@
       (use-package evil-mc
 	:ensure t
 	:config
-	(global-evil-mc-mode t))
+	(add-hook 'prog-mode-hook 'evil-mc-mode)
+	(add-hook 'text-mode-hook 'evil-mc-mode))
     #+END_SRC
 ** Electric parenthesis
     Force the parenthesis to come in pairs, unlike you, dear reader
