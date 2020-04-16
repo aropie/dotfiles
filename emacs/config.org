@@ -430,8 +430,6 @@
 ** Lsp mode
 *** Vanilla
 #+BEGIN_SRC emacs-lisp
-    (setq lsp-keymap-prefix "C-l")
-
     (use-package lsp-mode
       :ensure t
       :hook ((python-mode . lsp)
