@@ -513,12 +513,12 @@
    #+END_SRC
 *** Evil-collection
     #+BEGIN_SRC emacs-lisp
-   (use-package evil-collection
-     :after evil
-     :ensure t
-     :config
-     (add-to-list 'evil-collection-key-blacklist "SPC")
-     (evil-collection-init))
+      (use-package evil-collection
+	:after evil
+	:ensure t
+	:config
+	(add-to-list 'evil-collection-key-blacklist "SPC")
+	(evil-collection-init '(dired magit help log-view go pdf python)))
     #+END_SRC
 *** Evil-commentary
     Allows to comment word-objects
