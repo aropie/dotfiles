@@ -794,7 +794,7 @@
       (my-leader
       :infix "w"
 	  "" '(:ignore t :which-key "Windows")
-	  "w" '(ace-window :whick-key "Change window")
+	  "w" '(ace-window :which-key "Change window")
 	  "s" '(ace-swap-window :which-key "Swap windows")
 	  "o" '(delete-other-windows :which-key "Delete other windows")
 	  "x" '(ace-delete-window :which-key "Delete window")
