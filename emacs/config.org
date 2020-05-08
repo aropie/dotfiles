@@ -37,6 +37,10 @@
 	      (add-hook 'minibuffer-exit-hook #'gc-minibuffer-exit-hook)))
     #+END_SRC
 * General layout and config
+** Use spaces instead of tabs
+   #+BEGIN_SRC emacs-lisp
+     (setq-default indent-tabs-mode nil)
+   #+END_SRC
 ** Disable menu, toolbar and scroll
    They are visual clutter once you get to know the keybindings (or create your own)
    #+BEGIN_SRC emacs-lisp
