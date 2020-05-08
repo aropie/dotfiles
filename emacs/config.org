@@ -271,6 +271,7 @@
       "" '(:ignore t :which-key "Toggle")
       "l" '(global-linum-mode :which-key "Line numbers")
       "r" '(read-only-mode :which-key "Read only mode")
+      "w" '(whitespace-mode :which-key "Whitespace mode")
       "t" '(org-pomodoro :which-key "Pomodoro timer"))
     #+END_SRC
 *** Open keybindings
