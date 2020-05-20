@@ -750,35 +750,40 @@
 ** Avy
    Jump around like there's no tomorrow
    #+BEGIN_SRC emacs-lisp
-    (use-package avy
-      :ensure t
-      :custom
-      (avy-background t)
-      (avy-all-windows t)
-      :config
-      (defun aropie/avy-jump-to-char-in-one-window()
-	(interactive)
-	(setq current-prefix-arg '(4)) ; C-u
-	(call-interactively 'avy-goto-char))
+     (use-package avy
+       :ensure t
+       :custom
+       (avy-background t)
+       (avy-all-windows t)
+       :config
+       (defun aropie/avy-jump-to-char-in-one-window()
+         (interactive)
+         (setq current-prefix-arg '(4)) ; C-u
+         (call-interactively 'avy-goto-char))
 
-      (my-leader
-      "SPC" '(aropie/avy-jump-to-char-in-one-window :which-key "Jump to char"))
+       (general-define-key
+        :keymaps 'override
+        "C-," 'aropie/avy-jump-to-char-in-one-window
+        "C-;" 'avy-goto-line)
 
-      (my-leader
-	:infix "j"
-	"" '(:ignore t :which-key "Jump")
-	"w" '(avy-goto-subword-1 :which-key "Jump to word")
-	"l" '(avy-goto-line :which-key "Jump to line")
-	"c" '(avy-goto-char :which-key "Jump to char")
-	"m" '(:ignore t :which-key "Move...")
-	"ml" '(avy-move-line :which-key "Move line")
-	"mr" '(avy-move-region :which-key "Move region")
-	"y" '(:ignore t :which-key "Yank...")
-	"yl" '(avy-copy-line :which-key "Yank line")
-	"yr" '(avy-copy-region :which-key "Yank region")
-	"k" '(:ignore t :which-key "Kill...")
-	"kr" '(avy-kill-region :which-key "Kill region between lines")
-	"kl" '(avy-kill-whole-line :which-key "Kill line")))
+       (my-leader
+       "SPC" '(aropie/avy-jump-to-char-in-one-window :which-key "Jump to char"))
+
+       (my-leader
+         :infix "j"
+         "" '(:ignore t :which-key "Jump")
+         "w" '(avy-goto-subword-1 :which-key "Jump to word")
+         "l" '(avy-goto-line :which-key "Jump to line")
+         "c" '(avy-goto-char :which-key "Jump to char")
+         "m" '(:ignore t :which-key "Move...")
+         "ml" '(avy-move-line :which-key "Move line")
+         "mr" '(avy-move-region :which-key "Move region")
+         "y" '(:ignore t :which-key "Yank...")
+         "yl" '(avy-copy-line :which-key "Yank line")
+         "yr" '(avy-copy-region :which-key "Yank region")
+         "k" '(:ignore t :which-key "Kill...")
+         "kr" '(avy-kill-region :which-key "Kill region between lines")
+         "kl" '(avy-kill-whole-line :which-key "Kill line")))
    #+END_SRC
 ** Window management
 *** Ace window
