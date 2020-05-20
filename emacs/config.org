@@ -840,6 +840,15 @@
        "l" '(dumb-jump-quick-look :which-key "Look at definition on tooltip")
        "b" '(dumb-jump-back :which-key "Jump back to previous-to-jump position")))
    #+END_SRC
+** Evil-snipe
+   #+BEGIN_SRC emacs-lisp
+     (use-package evil-snipe
+       :ensure t
+       :config
+       ;; Evil-snipe conflicts with Magit
+       (add-hook 'magit-mode-hook 'turn-off-evil-snipe-override-mode)
+       (evil-snipe-override-mode t))
+   #+END_SRC
 * Git
 ** Magit
    Git porcelain inside Emacs. Basically, git turned into loving hugs and
