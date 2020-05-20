@@ -763,8 +763,8 @@
 
        (general-define-key
         :keymaps 'override
-        "C-," 'aropie/avy-jump-to-char-in-one-window
-        "C-;" 'avy-goto-line)
+        "C-;" 'aropie/avy-jump-to-char-in-one-window
+        "C-:" 'avy-goto-line)
 
        (my-leader
        "SPC" '(aropie/avy-jump-to-char-in-one-window :which-key "Jump to char"))
