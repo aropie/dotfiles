@@ -130,6 +130,10 @@
    (global-auto-revert-mode t)
    (setq auto-revert-use-notify nil)
    #+END_SRC
+** Use y/n instead of yes/no
+   #+BEGIN_SRC emacs-lisp
+     (fset 'yes-or-no-p 'y-or-n-p)
+   #+END_SRC
 * Utils
 ** General.el
    Manage all the keybindings through general and hydra à la spacemacs
