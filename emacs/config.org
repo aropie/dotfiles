@@ -537,7 +537,7 @@
 	:ensure t
 	:config
 	(add-to-list 'evil-collection-key-blacklist "SPC")
-	(evil-collection-init '(dired magit help log-view go pdf python)))
+	(evil-collection-init '(dired magit help log-view pdf)))
     #+END_SRC
 *** Evil-commentary
     Allows to comment word-objects
