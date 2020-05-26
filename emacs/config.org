@@ -54,21 +54,22 @@
    #+BEGIN_SRC emacs-lisp
    (setq custom-file null-device)
    #+END_SRC
-** Mac alt fix
-   #+BEGIN_SRC emacs-lisp
-  (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier nil)
-   #+END_SRC
-** Mac path fix
-   MacOs has problems with paths, so we need to add them manually
-   #+BEGIN_SRC emacs-lisp
-     (use-package exec-path-from-shell
-       :if (memq window-system '(mac ns))
-       :ensure t
-       :config
-       (exec-path-from-shell-initialize)
-       (exec-path-from-shell-copy-env "GOPATH"))
-   #+END_SRC
+** Mac fixes
+*** Mac alt fix
+    #+BEGIN_SRC emacs-lisp
+   (setq mac-command-modifier 'meta)
+   (setq mac-option-modifier nil)
+    #+END_SRC
+*** Mac path fix
+    MacOs has problems with paths, so we need to add them manually
+    #+BEGIN_SRC emacs-lisp
+      (use-package exec-path-from-shell
+        :if (memq window-system '(mac ns))
+        :ensure t
+        :config
+        (exec-path-from-shell-initialize)
+        (exec-path-from-shell-copy-env "GOPATH"))
+    #+END_SRC
 ** Scroll conservatively
    Makes Emacs scroll more smoothly
    #+BEGIN_SRC emacs-lisp
@@ -110,7 +111,7 @@
 ** Disable cursors in other windows
    I find confusing having cursors on every window, so I just remove inactive ones
    #+BEGIN_SRC emacs-lisp
-(setq cursor-in-non-selected-windows nil)
+     (setq cursor-in-non-selected-windows nil)
    #+END_SRC
 ** Help
    When opening a help window, always select that window
