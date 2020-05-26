@@ -290,13 +290,14 @@
 *** Help keybindings
     #+BEGIN_SRC emacs-lisp
       (my-leader
-	:infix "h"
-	"" '(:ignore t :which-key "Help")
-	"a" '(apropos-command :which-key "Apropos")
-	"k" '(describe-key :which-key "Key")
-	"f" '(describe-function :which-key "Function")
-	"m" '(describe-mode :which-key "Mode")
-	"v" '(describe-variable :which-key "Variable"))
+        :infix "h"
+        "" '(:ignore t :which-key "Help")
+        "a" '(apropos-command :which-key "Apropos")
+        "k" '(describe-key :which-key "Key")
+        "f" '(describe-function :which-key "Function")
+        "m" '(describe-mode :which-key "Mode")
+        "b" '(describe-bindings :which-key "Bindings")
+        "v" '(describe-variable :which-key "Variable"))
     #+END_SRC
 *** Config shortcuts
     I tend to modify a lot my config files, so I set shortcuts to the
