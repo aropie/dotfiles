@@ -866,6 +866,7 @@
        :config
        ;; Evil-snipe conflicts with Magit
        (add-hook 'magit-mode-hook 'turn-off-evil-snipe-override-mode)
+       (evil-snipe-mode t)
        (evil-snipe-override-mode t))
    #+END_SRC
 * Git
