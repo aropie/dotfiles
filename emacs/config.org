@@ -265,7 +265,8 @@
       "k" '(kill-this-buffer :which-key "Kill buffer")
       "r" '(revert-buffer :which-key "Revert buffer")
       "n" '(next-buffer :which-key "Next buffer")
-      "p" '(previous-buffer :which-key "Previous buffer"))
+      "p" '(previous-buffer :which-key "Previous buffer")
+      "e" '(set-buffer-file-coding-system :which-key "Set buffer coding system"))
       (my-leader
       "," '(persp-switch-to-buffer :which-key "Switch to workspace buffer"))
     #+END_SRC
