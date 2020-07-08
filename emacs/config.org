@@ -163,7 +163,6 @@
        :ensure t
        :custom
        (persp-autokill-buffer-on-remove t)
-       (persp-auto-save-opt 0)
        (persp-nil-hidden t)
        :config
        (persp-mode t)
