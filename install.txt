@@ -19,7 +19,7 @@ mpv
 networkmanager
 nitrogen
 pamixer
-pavicontrol
+pavucontrol
 picom
 pkg-config
 polybar-git
