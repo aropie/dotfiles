@@ -1012,6 +1012,13 @@
     #+BEGIN_SRC emacs-lisp
   (setq python-shell-interpreter "python3")
     #+END_SRC
+*** Pyisort
+    #+BEGIN_SRC emacs-lisp
+      (use-package py-isort
+        :ensure t
+        :after python
+        :hook ((before-save . py-isort-before-save)))
+    #+END_SRC
 *** Docs
     Easy way to create standard docstrings
     #+BEGIN_SRC emacs-lisp
