@@ -1,3 +1,30 @@
+* Cache
+  #+BEGIN_SRC emacs-lisp
+    ;; Many modes store their cache files in =~/.emacs.d=. I prefer to keep
+    ;; those files in =~/.cache/emacs=
+    (setq user-emacs-directory "~/.cache/emacs/")
+    (if (not (file-directory-p user-emacs-directory))
+        (make-directory user-emacs-directory t))
+    (setq auto-save-list-file-prefix user-emacs-directory)
+    (setq package-user-dir "~/.cache/emacs/elpa")
+  #+END_SRC
+* Use-package
+  #+BEGIN_SRC emacs-lisp
+    (require 'package)
+    (setq package-enable-at-startup nil)
+    (add-to-list 'package-archives
+                 '("melpa" . "https://melpa.org/packages/")
+                 '("elpa" . "https://elpa.gnu.org/packages"))
+    (package-initialize)
+
+    (unless (package-installed-p 'use-package)
+      (package-refresh-contents)
+      (package-install 'use-package))
+
+    (eval-when-compile
+      (require 'use-package))
+    (setq use-package-always-ensure t)
+  #+END_SRC
 * Startup optimizations
 ** Garbage collection
 *** Set =gc-cons-thresholds= smaller for interactive use
