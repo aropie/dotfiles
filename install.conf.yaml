@@ -16,4 +16,5 @@
     ~/.config/polybar: polybar
     ~/.config/dunst: dunst
     ~/.config/fontconfig: fontconfig
+    ~/.config/picom: picom
     ~/.emacs.d: emacs
