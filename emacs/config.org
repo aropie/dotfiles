@@ -970,6 +970,7 @@
      (setq org-src-window-setup 'current-window)
      (setq org-log-done t)
      (setq org-enforce-todo-dependencies t)
+     (setq org-hide-emphasis-markers t)
    #+END_SRC
 ** Agenda
    #+BEGIN_SRC emacs-lisp
