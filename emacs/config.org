@@ -71,6 +71,10 @@
    #+BEGIN_SRC emacs-lisp
      (setq-default indent-tabs-mode nil)
    #+END_SRC
+** Enable narrow mode
+   #+BEGIN_SRC emacs-lisp
+     (put 'narrow-to-region 'disabled nil)
+   #+END_SRC
 ** Disable menu, toolbar and scroll
    They are visual clutter once you get to know the keybindings (or create your own)
    #+BEGIN_SRC emacs-lisp
