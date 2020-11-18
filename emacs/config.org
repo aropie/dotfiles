@@ -1069,14 +1069,14 @@
 	    :keymaps 'python-mode-map
 	    "d" '(sphinx-doc :which-key "Generate doc")))
     #+END_SRC
-*** Black
+*** YAPF
     Gives a standard PEP8-compliant automated way to have a nice formatted Python code
-    (requires pip install black)
+    (requires pip install yapf)
     #+BEGIN_SRC emacs-lisp
-  (use-package blacken
+  (use-package yapfify
     :ensure t
     :config
-    (add-hook 'python-mode 'blacken-mode))
+    (add-hook 'python-mode-hook 'yapf-mode))
     #+END_SRC
 ** Lisp
 *** Slime
