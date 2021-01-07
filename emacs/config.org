@@ -737,9 +737,7 @@
    Visual aid to know which parenthesis is paired to which
    #+BEGIN_SRC emacs-lisp
    (use-package rainbow-delimiters
-     :ensure t
-     :config
-     (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+     :hook (prog-mode . rainbow-delimiters-mode))
    #+END_SRC
 ** Show-paren
    Highlight matching parenthesis on selection
