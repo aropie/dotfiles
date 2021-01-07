@@ -12,7 +12,6 @@
 ** Package initialize
    #+BEGIN_SRC emacs-lisp
      (require 'package)
-     (setq package-enable-at-startup nil)
      (add-to-list 'package-archives
                   '("melpa" . "https://melpa.org/packages/")
                   '("elpa" . "https://elpa.gnu.org/packages"))
