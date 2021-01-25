@@ -20,6 +20,12 @@ config.set('content.javascript.enabled', True, 'qute://*/*')
 
 # Setting dark mode
 config.set("colors.webpage.darkmode.enabled", True)
+
+config.set("auto_save.session", True)
+config.set("tabs.show", "switching")
+config.set('tabs.background', True)
+config.set('tabs.show_switching_delay', 2000)
+
 # Search engines which can be used via the address bar. Maps a search
 # engine name (such as `DEFAULT`, or `ddg`) to a URL with a `{}`
 # placeholder. The placeholder will be replaced by the search term, use
