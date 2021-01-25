@@ -18,6 +18,8 @@ config.set('content.javascript.enabled', True, 'chrome://*/*')
 # Type: Bool
 config.set('content.javascript.enabled', True, 'qute://*/*')
 
+# Setting dark mode
+config.set("colors.webpage.darkmode.enabled", True)
 # Search engines which can be used via the address bar. Maps a search
 # engine name (such as `DEFAULT`, or `ddg`) to a URL with a `{}`
 # placeholder. The placeholder will be replaced by the search term, use
