@@ -67,6 +67,12 @@ alias pause="mpc toggle"
 alias next="mpc next"
 alias prev="mpc prev"
 
+# This is to be able to work with modern terminal emulators
+# through ssh
+alias ssh="TERM=xterm-256color ssh"
+
+alias icat="kitty +kitten icat"
+
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
