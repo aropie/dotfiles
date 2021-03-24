@@ -82,6 +82,17 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
+# Copying locally huge files
+# -a is for archive, which preserves ownership, permissions etc.
+# -v is for verbose, so I can see what's happening (optional)
+# -h is for human-readable, so the transfer rate and file sizes are easier to read (optional)
+# -W is for copying whole files only, without delta-xfer algorithm which should reduce CPU load
+# --no-compress as there's no lack of bandwidth between local devices
+# --progress so I can see the progress of large files (optional)
+
+# Usage: supercp /src /dst
+alias supercp="rsync -avhW --no-compress --progress"
+
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/usr/local/google/home/rodriguezpie/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/usr/local/google/home/rodriguezpie/Downloads/google-cloud-sdk/path.zsh.inc'; fi
