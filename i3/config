@@ -118,8 +118,9 @@ bindsym $mod+Shift+0 	    move container to workspace $ws10
 
 # bind apps to workspaces
 assign [class="qutebrowser"] $ws1
+assign [class="zoom"] $ws4
 assign [class="transmission"] $ws8
-assign [class="Rambox"] $ws9
+assign [class="Franz"] $ws9
 assign [class="Steam"] $ws10
 
 # exit i3 (logs you out of your X session)
