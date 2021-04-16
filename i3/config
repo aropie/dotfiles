@@ -132,3 +132,6 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
 # exec --no-startup-id launch_polybar
+
+for_window [class="Tandem"] floating enable
+for_window [class="Tandem"] sticky enable
