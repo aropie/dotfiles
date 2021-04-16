@@ -1,21 +1,21 @@
 - defaults:
-      link:
-          create: true
-          relink: true
+        link:
+              create: true
+              relink: true
 
 - link:
-      ~/.zshrc: zshrc
-      ~/.xinitrc: xinitrc
-      ~/.profile: profile
-      ~/.xsession: xsession
-      ~/.scripts: scripts
-      ~/.config/sxhkd: sxhkd
-      ~/.config/i3: i3
-      ~/.config/rofi: rofi
-      ~/.config/qutebrowser: qutebrowser
-      ~/.config/polybar: polybar
-      ~/.config/dunst: dunst
-      ~/.config/fontconfig: fontconfig
-      ~/.config/picom: picom
-      ~/.config/kitty: kitty
-      ~/.doom: doom
+        ~/.zshrc: zshrc
+        ~/.xinitrc: xinitrc
+        ~/.profile: profile
+        ~/.xsession: xsession
+        ~/.scripts: scripts
+        ~/.config/sxhkd: sxhkd
+        ~/.config/i3: i3
+        ~/.config/rofi: rofi
+        ~/.config/qutebrowser: qutebrowser
+        ~/.config/polybar: polybar
+        ~/.config/dunst: dunst
+        ~/.config/fontconfig: fontconfig
+        ~/.config/picom: picom
+        ~/.config/kitty: kitty
+        ~/.doom.d: doom
