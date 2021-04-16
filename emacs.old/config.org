@@ -129,7 +129,7 @@
   version-control t)
    #+END_SRC
 ** Ediff
-   Ediff setings so it wont messup my beautiful tilling wm
+   Ediff settings so it wont messup my beautiful tilling wm
    #+BEGIN_SRC emacs-lisp
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
   ;; Make ediff split horizontally instead of vertically

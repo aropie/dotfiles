@@ -5,6 +5,7 @@ setxkbmap -layout us -variant altgr-intl
 setxkbmap -option 'caps:ctrl_modifier,shift:both_capslock' &
 picom -f -D 1 &
 dunst &
+emacs --daemon
 unclutter &
 numlockx on &
 nitrogen --random --set-auto &
