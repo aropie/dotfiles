@@ -8,23 +8,25 @@ config.load_autoconfig()
 
 # Enable JavaScript.
 # Type: Bool
-config.set('content.javascript.enabled', True, 'file://*')
+config.set("content.javascript.enabled", True, "file://*")
 
 # Enable JavaScript.
 # Type: Bool
-config.set('content.javascript.enabled', True, 'chrome://*/*')
+config.set("content.javascript.enabled", True, "chrome://*/*")
 
 # Enable JavaScript.
 # Type: Bool
-config.set('content.javascript.enabled', True, 'qute://*/*')
+config.set("content.javascript.enabled", True, "qute://*/*")
+
+config.set("auto_save.session", True)
+config.set("session.lazy_restore", True)
 
 # Setting dark mode
 config.set("colors.webpage.darkmode.enabled", True)
+config.set("colors.webpage.darkmode.threshold.background", 205)
+config.set("colors.webpage.darkmode.threshold.text", 150)
 
-config.set("auto_save.session", True)
-config.set("tabs.show", "switching")
-config.set('tabs.background', True)
-config.set('tabs.show_switching_delay', 2000)
+config.set("tabs.background", True)
 
 # Search engines which can be used via the address bar. Maps a search
 # engine name (such as `DEFAULT`, or `ddg`) to a URL with a `{}`
@@ -36,15 +38,15 @@ config.set('tabs.show_switching_delay', 2000)
 # `:open google qutebrowser`.
 # Type: Dict
 c.url.searchengines = {
-    'DEFAULT': 'https://duckduckgo.com/?q={}',
-    'aw': 'https://wiki.archlinux.org/index.php?search={}',
-    'aur': 'https://aur.archlinux.org/packages/?O=0&K={}',
-    'g': 'https://www.google.com/search?q={}'
+    "DEFAULT": "https://duckduckgo.com/?q={}",
+    "aw": "https://wiki.archlinux.org/index.php?search={}",
+    "aur": "https://aur.archlinux.org/packages/?O=0&K={}",
+    "g": "https://www.google.com/search?q={}",
 }
 
 # Bindings for normal mode
-config.bind('J', 'tab-prev')
-config.bind('K', 'tab-next')
-config.bind('M', 'hint links spawn mpv {hint-url}')
-config.bind('b', 'hint all tab-bg')
-config.bind('<Ctrl+p>', 'spawn --userscript qute-lastpass')
+config.bind("J", "tab-prev")
+config.bind("K", "tab-next")
+config.bind("M", "hint links spawn mpv {hint-url}")
+config.bind("b", "hint all tab-bg")
+config.bind("<Ctrl+p>", "spawn --userscript qute-lastpass")
