@@ -15,4 +15,15 @@ xautolock -time 3 -locker screen-lock  -cornersize 50 -corners -000 -detectsleep
 blueman-applet &
 launch_polybar &
 
+# Personal
+qutebrowser &
+franz &
+
+# Only on workdays
+if should_i_be_working;
+then
+    zoom &
+    /opt/Tandem/tandem &
+fi
+
 exec i3
