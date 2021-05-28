@@ -6,6 +6,7 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
+(+workspace/restore-last-session)
 (setq user-full-name "John Doe"
       user-mail-address "john@doe.com")
 
