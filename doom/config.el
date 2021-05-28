@@ -62,6 +62,9 @@
 (nyan-mode)
 (nyan-start-animation)
 
+;; This make working with parenthesis doable when using multiple cursors
+(add-to-list 'evil-mc-incompatible-minor-modes 'smartparens-mode)
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
