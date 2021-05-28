@@ -62,6 +62,9 @@
 (nyan-mode)
 (nyan-start-animation)
 
+;; LSP breaks my autoformaters, so it's disabled for that
+(setq +format-with-lsp nil)
+
 (global-auto-revert-mode t)
 ;; This make working with parenthesis doable when using multiple cursors
 (add-to-list 'evil-mc-incompatible-minor-modes 'smartparens-mode)
