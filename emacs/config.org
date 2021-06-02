@@ -820,7 +820,7 @@
        (defun aropie/avy-jump-to-char-in-one-window()
          (interactive)
          (setq current-prefix-arg '(4)) ; C-u
-         (call-interactively 'avy-goto-char))
+         (call-interactively 'avy-goto-char-2))
 
        (general-define-key
         :keymaps 'override
