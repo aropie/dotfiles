@@ -32,10 +32,14 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Org/")
 (after! org
+  (setq org-agenda-files (list "~/Org/work" "~/Org/personal"))
   (setq org-log-done t)
   (setq org-enforce-todo-dependencies t)
   (setq org-hide-emphasis-markers t)
   (setq org-startup-folded t))
+(setq org-todo-keywords '((sequence "TODO" "DONE")))
+
+;;
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type nil)
@@ -64,6 +68,9 @@
 
 ;; LSP breaks my autoformaters, so it's disabled for that
 (setq +format-with-lsp nil)
+
+(setq company-idle-delay 0.1)
+(setq company-tooltip-idle-delay 0.1)
 
 (global-auto-revert-mode t)
 ;; This make working with parenthesis doable when using multiple cursors
