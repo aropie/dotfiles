@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# name: Verb endpoints template
+# --
+-*- mode: org; org-hide-emphasis-markers: nil; org-fontify-emphasized-text: nil; -*-
+#+TITLE: API
+* API :verb:
+template $0
+Content-Type: application/json; charset=utf-8
+Accept: application/json
+Authorization: Bearer {{(verb-json-get (oref (verb-stored-response "login") body) "resource" "access_token" "access_token")}}
+
+* Local Variables :noexport:
+# Local Variables:
+# eval: (verb-mode)
+# eval: (flyspell-mode nil)
+# End:

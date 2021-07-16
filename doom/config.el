@@ -73,6 +73,8 @@
 (setq company-tooltip-idle-delay 0.1)
 
 (global-auto-revert-mode t)
+(set-file-template! "/endpoints\\.org$" :trigger "__endpoints.org")
+
 (setq auth-sources '("~/.authinfo"))
 ;; This make working with parenthesis doable when using multiple cursors
 (add-to-list 'evil-mc-incompatible-minor-modes 'smartparens-mode)
