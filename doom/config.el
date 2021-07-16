@@ -73,6 +73,7 @@
 (setq company-tooltip-idle-delay 0.1)
 
 (global-auto-revert-mode t)
+(setq auth-sources '("~/.authinfo"))
 ;; This make working with parenthesis doable when using multiple cursors
 (add-to-list 'evil-mc-incompatible-minor-modes 'smartparens-mode)
 
