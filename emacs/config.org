@@ -29,42 +29,11 @@
      (setq use-package-always-ensure t)
    #+END_SRC
 ** Garbage collection
-*** Set =gc-cons-thresholds= smaller for interactive use
-     A large =gc-cons-threshold= may cause freezing and stuttering
-     during long-term interactive use.
-     #+BEGIN_SRC emacs-lisp
-   (defvar better-gc-cons-threshold 67108864 ; 64mb
-     "The default value to use for `gc-cons-threshold'.
-   If you experience freezing, decrease this. If you experience stuttering, increase this.")
-
-   (add-hook 'emacs-startup-hook
-	     (lambda ()
-	       (setq gc-cons-threshold better-gc-cons-threshold)
-	       (setq file-name-handler-alist file-name-handler-alist-original)
-	       (makunbound 'file-name-handler-alist-original)))
-     #+END_SRC
-*** Garbage collect when Emacs is out of focus
-    *Note:* Since Emacs27.1, =focus-out-hook= is obsolete.
-    #+BEGIN_SRC emacs-lisp
-  (add-hook 'emacs-startup-hook
-	    (lambda ()
-	      (if (boundp 'after-focus-change-function)
-		  (add-function :after after-focus-change-function
-				(lambda ()
-				  (unless (frame-focus-state)
-				    (garbage-collect))))
-		(add-hook 'after-focus-change-function 'garbage-collect))
-	      (defun gc-minibuffer-setup-hook ()
-		(setq gc-cons-threshold (* better-gc-cons-threshold 2)))
-
-	;; Avoid garbage collect when using minibuffer
-	      (defun gc-minibuffer-exit-hook ()
-		(garbage-collect)
-		(setq gc-cons-threshold better-gc-cons-threshold))
-
-	      (add-hook 'minibuffer-setup-hook #'gc-minibuffer-setup-hook)
-	      (add-hook 'minibuffer-exit-hook #'gc-minibuffer-exit-hook)))
-    #+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (use-package gcmh
+       :init
+       (gcmh-mode 1))
+   #+END_SRC
 * General layout and config
 ** Use spaces instead of tabs
    #+BEGIN_SRC emacs-lisp
@@ -98,7 +67,6 @@
     #+BEGIN_SRC emacs-lisp
       (use-package exec-path-from-shell
         :if (memq window-system '(mac ns))
-        :ensure t
         :config
         (exec-path-from-shell-initialize)
         (exec-path-from-shell-copy-env "GOPATH"))
@@ -128,13 +96,6 @@
   kept-old-versions 2
   version-control t)
    #+END_SRC
-** Ediff
-   Ediff settings so it wont messup my beautiful tilling wm
-   #+BEGIN_SRC emacs-lisp
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-  ;; Make ediff split horizontally instead of vertically
-  (setq ediff-split-window-function 'split-window-horizontally)
-   #+END_SRC
 ** Transparency
    I like being able to see my wallpaper. Call me a romantic if you like
    #+BEGIN_SRC emacs-lisp
@@ -158,22 +119,35 @@
    #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'default nil :height 100)
    #+END_SRC
-** Auto revert files on change
-   When something changes a file, automatically refresh the buffer containing that file so they can’t get out of sync.
+* Completion
+** Company
+   My choice for auto-completion
    #+BEGIN_SRC emacs-lisp
-   (global-auto-revert-mode t)
-   (setq auto-revert-use-notify nil)
+     (use-package company
+       :ensure t
+       :custom
+       (company-begin-commands '(self-insert-command))
+       (company-idle-delay 0.0)
+       (company-minimum-prefix-length 1)
+       (company-show-numbers t)
+       (company--dabbrev-code-everywhere t)
+       (company-dabbrev-downcase nil)
+       (company-dabbrev-ignore-case t)
+       (company-tooltip-align-annotations t)
+       (company-frontends
+        '(company-tng-frontend
+          company-pseudo-tooltip-frontend
+          company-echo-metadata-frontend))
+       (global-company-mode t)
+       :config
+       (company-tng-configure-default))
    #+END_SRC
-** Use y/n instead of yes/no
-   #+BEGIN_SRC emacs-lisp
-     (fset 'yes-or-no-p 'y-or-n-p)
-   #+END_SRC
+
 * Utils
 ** General.el
    Manage all the keybindings through general and hydra à la spacemacs
     #+BEGIN_SRC emacs-lisp
       (use-package general
-	:ensure t
 	:config
 	(general-create-definer my-leader
 	  ;; :prefix my-leader
@@ -187,104 +161,23 @@
 	  :prefix "SPC m"
 	  :non-normal-prefix "M-SPC m")
 	  (my-local-leader
-	    "m" '(helm-semantic-or-imenu :which-key "Imenu")))
+	    "m" '(semantic-or-imenu :which-key "Imenu")))
     #+END_SRC
-** Persp mode
-   Pretty nice workspace management
-   #+BEGIN_SRC emacs-lisp
-     (use-package persp-mode
-       :ensure t
-       :custom
-       (persp-autokill-buffer-on-remove t)
-       (persp-nil-hidden t)
-       :config
-       (persp-mode t)
-       (my-leader
-       :infix "TAB"
-       "" '(:ignore t :which-key "Persp")
-       "TAB" '(persp-switch :which-key "Switch persp")
-       "k" '(persp-kill :which-key "Kill persp")
-       "r" '(persp-rename get-current-persp :which-key "Rename persp")
-       "a" '(persp-add-buffer buffer-name :which-key "Add buffer to persp")))
-   #+END_SRC
-*** Order persps by most recent
-    #+BEGIN_SRC emacs-lisp
-(with-eval-after-load "persp-mode"
-  (add-hook 'persp-before-switch-functions
-            #'(lambda (new-persp-name w-or-f)
-                (let ((cur-persp-name (safe-persp-name (get-current-persp))))
-                  (when (member cur-persp-name persp-names-cache)
-                    (setq persp-names-cache
-                          (cons cur-persp-name
-                                (delete cur-persp-name persp-names-cache)))))))
-
-  (add-hook 'persp-renamed-functions
-            #'(lambda (persp old-name new-name)
-                (setq persp-names-cache
-                      (cons new-name (delete old-name persp-names-cache)))))
-
-  (add-hook 'persp-before-kill-functions
-            #'(lambda (persp)
-                (setq persp-names-cache
-                      (delete (safe-persp-name persp) persp-names-cache))))
-
-  (add-hook 'persp-created-functions
-            #'(lambda (persp phash)
-                (when (and (eq phash *persp-hash*)
-                           (not (member (safe-persp-name persp)
-                                        persp-names-cache)))
-                  (setq persp-names-cache
-                        (cons (safe-persp-name persp) persp-names-cache))))))
-    #+END_SRC
-*** Switch to scratch on persp creation
-    #+BEGIN_SRC emacs-lisp
-      (add-to-list 'persp-created-functions
-		   '(lambda (persp phash)
-		      (persp-add-buffer (get-buffer-create "*scratch*") persp)))
-    #+END_SRC
-** Helm
-   #+BEGIN_SRC emacs-lisp
-     (use-package helm
-       :ensure t
-       :bind (("M-x" . helm-M-x)
-	      ("M-y" . helm-show-kill-ring))
-       :custom
-       (helm-split-window-in-side-p t)
-       (helm-move-to-line-cycle-in-source t)
-       (helm-ff-search-library-in-sexp t)
-       (helm-scroll-amount 8)
-       (helm-ff-file-name-history-use-recentf t)
-       (helm-echo-input-in-header-line t)
-       (helm-autoresize-min-height 0)
-       (helm-autoresize-max-height 20)
-       (helm-M-x-fuzzy-match t)
-       (helm-semantic-fuzzy-match t)
-       (helm-imenu-fuzzy-match t)
-       :config
-       (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
-       (define-key helm-map (kbd "C-z") 'helm-select-action)
-       (helm-mode t))
-   #+END_SRC
-** Create or get *scratch*
-   Utility function to get *scratch* buffer or create it if it was killed
-   #+BEGIN_SRC emacs-lisp
-     (defun get-scratch-buffer nil
-	    "create a scratch buffer"
-	    (interactive)
-	    (switch-to-buffer (get-buffer-create "*scratch*"))
-	    (lisp-interaction-mode))
-   #+END_SRC
 ** Main keybindings
 *** File keybindings
     #+BEGIN_SRC emacs-lisp
       (my-leader
-	:infix "f"
-	"" '(:ignore t :which-key "File")
-	"f" '(helm-find-files :which-key "Find file")
-	"s" '(save-buffer :which-key "Save file")
-	"u" '(:ignore t :which-key "Sudo find file (TBD)")
-	"U" '(:ignore t :which-key "Sudo this file (TBD)")
-	"R" '(:ignore t :which-key "Rename/move this file (TBD)"))
+        :infix "f"
+        "" '(:ignore t :which-key "File")
+        "f" '(find-file :which-key "Find file")
+        "s" '(save-buffer :which-key "Save file")
+        "u" '(:ignore t :which-key "Sudo find file (TBD)")
+        "U" '(:ignore t :which-key "Sudo this file (TBD)")
+        "R" '(:ignore t :which-key "Rename/move this file (TBD)"))
+      (my-leader
+        "SPC" '(projectile-find-file :which-key "Find file in project")
+        "." '(find-file :which-key "Find file")
+        "," '(switch-to-buffer :which-key "Switch to buffer"))
     #+END_SRC
 *** Buffer keybindings
     #+BEGIN_SRC emacs-lisp
@@ -309,17 +202,19 @@
             "" '(:ignore t :which-key "Toggle")
             "l" '(global-linum-mode :which-key "Line numbers")
             "r" '(read-only-mode :which-key "Read only mode")
-            "w" '(whitespace-mode :which-key "Whitespace mode")
-            "t" '(org-pomodoro :which-key "Pomodoro timer")
-            "p" '(presentation-mode :which-key "Presentation mode"))
+            "w" '(whitespace-mode :which-key "Whitespace mode"))
     #+END_SRC
 *** Open keybindings
     #+BEGIN_SRC emacs-lisp
+      (defun aropie/open-notes ()
+        (interactive)
+        (counsel-find-file "~/Org"))
       (my-leader
-      :infix "o"
-      "" '(:ignore t :which-key "Open")
-      "d" '(dired-jump :which-key "Dired")
-      "s" '(get-scratch-buffer :which-key "Scratch"))
+        :infix "o"
+        "" '(:ignore t :which-key "Open")
+        "d" '(dired-jump :which-key "Dired")
+        "s" '(get-scratch-buffer :which-key "Scratch")
+        "n" '(aropie/open-notes :which-key "Notes"))
     #+END_SRC
 *** Help keybindings
     #+BEGIN_SRC emacs-lisp
@@ -369,241 +264,167 @@
      "x" '(aropie/xinit-config-visit :which-key "xinitrc")
      "r" '(aropie/emacs-config-reload :which-key "Reload emacs config"))
      #+END_SRC
-** PDF-tools
-   Because Emacs' default Doc-view mode sucks hard
-   #+BEGIN_SRC emacs-lisp
-  (use-package pdf-tools
-    :ensure t
-    :custom
-    (pdf-view-display-size 'fit-page)
-    :config
-    (pdf-tools-install))
-   #+END_SRC
-** Shell
-   Because someday I wish to start using the shell within Emacs. Someday...
-*** Don't ask for confirmation when killing shell
-    #+BEGIN_SRC emacs-lisp
-  (defun set-no-process-query-on-exit ()
-    (let ((proc (get-buffer-process (current-buffer))))
-      (when (processp proc)
-	(set-process-query-on-exit-flag proc nil))))
-
-  (add-hook 'term-exec-hook 'set-no-process-query-on-exit)
-    #+END_SRC
-** Try
-   For when you're not sure wether you want a package polluting your system
-   #+BEGIN_SRC emacs-lisp
-  (use-package try
-    :ensure t)
-   #+END_SRC
-
-** which-key
+** Which-key
    Because Emacs is hard enough without visual aids
    #+BEGIN_SRC emacs-lisp
      (use-package which-key
-       :ensure t
        :init
        (setq which-key-idle-delay 1)
-       (which-key-mode)
-       :delight)
+       (which-key-mode))
    #+END_SRC
-** Delight
+** Ivy
    #+BEGIN_SRC emacs-lisp
-  (use-package delight
-    :ensure t)
-   #+END_SRC
-** Undo-tree
-   #+BEGIN_SRC emacs-lisp
-  (use-package undo-tree
-    :ensure t
-    :delight)
-   #+END_SRC
-** Hydra
-   #+BEGIN_SRC emacs-lisp
-  (use-package hydra
-    :ensure t)
-   #+END_SRC
-** Projectile
-*** Vanilla
-    Ok, I'll admit it: Projectile's really cool. Really nice project management.
-    #+BEGIN_SRC emacs-lisp
-      (use-package projectile
-	:ensure t
-	:custom
-	(projectile-indexing-method 'alien)
-	(projectile-enable-caching t)
-	(projectile-completion-system 'helm)
-	:config
-	(add-to-list 'projectile-globally-ignored-directories ".venv")
-	(projectile-mode t)
-	(my-leader
-	:infix "p"
-	"" '(:ignore t :which-key "Project")
-	"f" '(projectile-find-file :which-key "Find file")
-	"F" '(projectile-find-file-other-window :which-key "Find file (other window)")
-	"b" '(projectile-switch-to-buffer :which-key "Switch to buffer")
-	"B" '(projectile-switch-to-buffer-other-window :which-key "Switch to buffer (other window)")
-	"k" '(projectile-kill-buffers :which-key "Kill all project buffers")
-	"p" '(projectile-switch-project :which-key "Switch to project")
-	"t" '(projectile-toggle-between-implementation-and-test :which-key "Toggle between test and implementation")
-	"T" '(projectile-test-project :which-key "Run project's tests")
-	"a" '(projectile-add-known-project :which-key "Add bookmark to project")
-	"r" '(projectile-replace :which-key "Replace in project")
-	"c" '(projectile-invalidate-cache :which-key "Clear project's cache")
-	"s" '(projectile-grep :which-key "Search in project")))
-    #+END_SRC
-*** Helm-projectile
-    #+BEGIN_SRC emacs-lisp
-      (use-package helm-projectile
-	:ensure t
-	:config
-	(helm-projectile-on))
-    #+END_SRC
-** Verb mode
-   Awesome mode to handle rest requests.
-   #+BEGIN_SRC emacs-lisp
-     (use-package verb
-       :ensure t
-       :defer t
+     (use-package ivy
+       :custom
+       (ivy-wrap t)
+       (ivy-height 15)
        :config
-
-       (my-leader
-	 :infix "v"
-	 "" '(:ignore t :which-key "Verb")
-	 "v" '(verb-send-request-on-point :which-key "Send request on point")
-	 "h" '(verb-toggle-show-headers :which-key "Toggle headers")
-	 "r" '(verb-re-send-request :which-key "Re-send previous request")
-	 "e" '(verb-export-request-on-point :which-key "Export request")))
+       (general-define-key
+        :keymaps 'ivy-minibuffer-map
+        "C-j" 'ivy-next-line
+        "C-k" 'ivy-previous-line
+        "C-l" 'ivy-alt-done
+        "C-o" 'ivy-dispatching-done
+        "C-SPC" 'ivy-call)
+       (ivy-mode 1))
    #+END_SRC
-** Dired
-*** Dired-narrow
+*** Ivy-rich
     #+BEGIN_SRC emacs-lisp
-  (use-package dired-narrow
-    :ensure t
-    :bind (:map dired-mode-map
-		("/" . dired-narrow-fuzzy)))
+      (use-package ivy-rich
+        :config
+        (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+        (ivy-rich-mode t))
     #+END_SRC
-** Lsp mode
-*** Vanilla
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :ensure t
-    :custom
-    (lsp-prefer-capf t)
-    :hook ((python-mode . lsp)
-           (go-mode . lsp)
-           (lsp-mode . lsp-enable-which-key-integration))
-    :commands lsp)
-
-  (use-package lsp-ui
-    :commands lsp-ui-mode
-    :ensure t
-    :config
-    (lsp-ui-doc-mode nil))
-  (use-package helm-lsp :commands helm-lsp-workspace-symbol :ensure t)
-
-#+END_SRC
+*** Ivy-xref
+    #+BEGIN_SRC emacs-lisp
+      (use-package ivy-xref
+        :custom
+        (setq xref-show-definitions-function #'ivy-xref-show-defs)
+        (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
+    #+END_SRC
+** Counsel
+   #+BEGIN_SRC emacs-lisp
+     (use-package counsel
+       :config
+       (counsel-mode t)
+       (general-define-key
+        "M-y" 'counsel-yank-pop))
+   #+END_SRC
+** Swiper
+   #+BEGIN_SRC emacs-lisp
+     (use-package swiper
+       :config
+       (general-define-key
+        "C-s" 'counsel-grep-or-swiper))
+   #+END_SRC
 ** Presentation mode
    A mode to enbiggen font for presentations and screen sharing
    #+BEGIN_SRC emacs-lisp
      (use-package presentation
-       :ensure t)
+       :config
+       (my-leader
+         :infix "t"
+         "p" '(presentation-mode :which-key "Presentation mode")))
    #+END_SRC
-* Completion
-** Company
-   My choice for auto-completion
+** Try
+   For when you're not sure wether you want a package polluting your system
    #+BEGIN_SRC emacs-lisp
-      (use-package company
-	:ensure t
-	:delight
-	:custom
-	(company-begin-commands '(self-insert-command))
-	(company-idle-delay 0.0)
-	(company-minimum-prefix-length 1)
-	(company-show-numbers t)
-	(company--dabbrev-code-everywhere t)
-	(company-dabbrev-downcase nil)
-	(company-dabbrev-ignore-case t)
-	(company-tooltip-align-annotations t)
-	(company-frontends
-	 '(company-tng-frontend
-	   company-pseudo-tooltip-frontend
-	   company-echo-metadata-frontend))
-	(global-company-mode t)
-	:config
-	(company-tng-configure-default))
+  (use-package try)
    #+END_SRC
-** Company-jedi
-   Python autocompletion
+
+** Hydra
    #+BEGIN_SRC emacs-lisp
-  (use-package company-jedi
-    :ensure t
-    :after (company)
-    :config
-    (add-to-list 'company-backends 'company-jedi))
+  (use-package hydra)
    #+END_SRC
-** Go-company
-   Go autocompletion
+** Projectile
+   Projectile's really cool. Really nice project management.
    #+BEGIN_SRC emacs-lisp
-   (use-package company-go
-     :ensure t
-     :after company
-     :config
-     (add-hook 'go-mode-hook
-	       (lambda ()
-		 (add-to-list 'company-backends 'company-go))))
+     (use-package projectile
+       :ensure t
+       :custom
+       (projectile-indexing-method 'alien)
+       (projectile-enable-caching t)
+       (projectile-completion-system 'ivy)
+       :config
+       (add-to-list 'projectile-globally-ignored-directories ".venv")
+       (projectile-mode t)
+       (my-leader
+         :infix "p"
+         "" '(:ignore t :which-key "Project")
+         "f" '(projectile-find-file :which-key "Find file")
+         "F" '(projectile-find-file-other-window :which-key "Find file (other window)")
+         "b" '(projectile-switch-to-buffer :which-key "Switch to buffer")
+         "B" '(projectile-switch-to-buffer-other-window :which-key "Switch to buffer (other window)")
+         "k" '(projectile-kill-buffers :which-key "Kill all project buffers")
+         "p" '(projectile-switch-project :which-key "Switch to project")
+         "t" '(projectile-toggle-between-implementation-and-test :which-key "Toggle between test and implementation")
+         "T" '(projectile-test-project :which-key "Run project's tests")
+         "a" '(projectile-add-known-project :which-key "Add bookmark to project")
+         "r" '(projectile-replace :which-key "Replace in project")
+         "c" '(projectile-invalidate-cache :which-key "Clear project's cache")
+         "s" '(projectile-grep :which-key "Search in project")))
    #+END_SRC
-** Company-quickhelp
-   Prompts a little toolbar with documentation of the completed
-   item. Pretty neat
+** Amx
    #+BEGIN_SRC emacs-lisp
-  (use-package company-quickhelp
-    :ensure t
-    :init
-    (company-quickhelp-mode 1))
+     (use-package amx
+       :config
+       (amx-mode t))
+   #+END_SRC
+
+** Dumb-jump
+   Jump to definitions
+   #+BEGIN_SRC emacs-lisp
+     (use-package dumb-jump
+       :custom
+       (dumb-jump-use-visible-window nil)
+       :config
+       (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+       (setq dumb-jump-force-searcher 'rg)
+       (my-leader
+         :infix "d"
+         "" '(:ignore t :which-key "Definition")
+         "j" '(dumb-jump-go :which-key "Jump to definition")
+         "o" '(dumb-jump-go-other-window :which-key "Jump to definition on the other window")
+         "l" '(dumb-jump-quick-look :which-key "Look at definition on tooltip")
+         "b" '(dumb-jump-back :which-key "Jump back to previous-to-jump position")))
    #+END_SRC
 * Editing
 ** Evil
    Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
    #+BEGIN_SRC emacs-lisp
-   (use-package evil
-     :ensure t
-     :init
-     (setq evil-want-integration t)
-     (setq evil-want-keybinding nil)
-     :config
-     (evil-mode 1))
+        (use-package evil
+          :init
+          (setq evil-want-integration t)
+          (setq evil-want-keybinding nil)
+          :config
+          (evil-mode 1)
+          (general-define-key
+           :states 'motion
+           "gd" 'xref-find-definitions
+           "gD" 'xref-find-references))
    #+END_SRC
-*** Evil-collection
+*** Evil collection
     #+BEGIN_SRC emacs-lisp
       (use-package evil-collection
-	:after evil
-	:ensure t
-	:config
-	(add-to-list 'evil-collection-key-blacklist "SPC")
-	(evil-collection-init '(dired magit help log-view pdf)))
+        :after evil
+        :config
+        (evil-collection-init))
     #+END_SRC
-*** Evil-commentary
-    Allows to comment word-objects
+*** Evil snipe
     #+BEGIN_SRC emacs-lisp
-    (use-package evil-commentary
-      :ensure t
-      :init
-      (evil-commentary-mode t)
-      :delight)
-    #+END_SRC
-*** Evil surround
-    Allows to modify surroundings of word-objects
-    #+BEGIN_SRC emacs-lisp
-   (use-package evil-surround
-     :ensure t
-     :init
-     (global-evil-surround-mode t))
+      (use-package evil-snipe
+        ;; Evil-snipe conflicts with Magit
+        :hook (magit-mode . turn-off-evil-snipe-override-mode)
+        :custom
+        (evil-snipe-smart-case t)
+        (evil-snipe-auto-scroll t)
+        :config
+        (evil-snipe-mode t)
+        (evil-snipe-override-mode t))
     #+END_SRC
 *** Evil args
     #+BEGIN_SRC emacs-lisp
    (use-package evil-args
-     :ensure t
      :config
      ;; bind evil-args text objects
      (define-key evil-inner-text-objects-map "a" 'evil-inner-arg)
@@ -615,130 +436,105 @@
      (define-key evil-motion-state-map "L" 'evil-forward-arg)
      (define-key evil-motion-state-map "H" 'evil-backward-arg))
     #+END_SRC
+*** Evil commentary
+    Allows to comment word-objects
+    #+BEGIN_SRC emacs-lisp
+    (use-package evil-commentary
+      :init
+      (evil-commentary-mode t))
+
+    #+END_SRC
+*** Evil surround
+    Allows to modify surroundings of word-objects
+    #+BEGIN_SRC emacs-lisp
+   (use-package evil-surround
+     :init
+     (global-evil-surround-mode t))
+    #+END_SRC
 *** Evil exchange
     Allows for text objects exchanging
     #+BEGIN_SRC emacs-lisp
     (use-package evil-exchange
-    :ensure t
     :config
     (evil-exchange-install))
     #+END_SRC
-*** Evil multiple cursors
+*** Evil escape
     #+BEGIN_SRC emacs-lisp
-      (use-package evil-mc
-	:ensure t
-	:config
-	(add-hook 'prog-mode-hook 'evil-mc-mode)
-	(add-hook 'text-mode-hook 'evil-mc-mode))
+      (use-package evil-escape
+        :config
+        (setq-default evil-escape-key-sequence "jk")
+        (evil-escape-mode t))
+    #+END_SRC
+*** Evil indent
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-indent-plus
+        :config
+        (evil-indent-plus-default-bindings))
+    #+END_SRC
+*** Evil numbers
+    #+BEGIN_SRC emacs-lisp
+      (use-package evil-numbers
+        :config
+        (define-key evil-normal-state-map (kbd "C-c +") 'evil-numbers/inc-at-pt)
+        (define-key evil-normal-state-map (kbd "C-c -") 'evil-numbers/dec-at-pt)
+        (define-key evil-visual-state-map (kbd "C-c +") 'evil-numbers/inc-at-pt)
+        (define-key evil-visual-state-map (kbd "C-c -") 'evil-numbers/dec-at-pt))
     #+END_SRC
 ** Electric parenthesis
-    Force the parenthesis to come in pairs, unlike you, dear reader
-    #+BEGIN_SRC emacs-lisp
-    (electric-pair-mode 1)
-    #+END_SRC
-** Flycheck
-   Syntax checker and linter on the fly
    #+BEGIN_SRC emacs-lisp
-   (use-package flycheck
-     :ensure t
-     :init (global-flycheck-mode)
-     :delight)
+     (electric-pair-mode t)
    #+END_SRC
-** Smart Tabs
-   Allegedly, the correct way to indent. Unfortunately PEP8, forbids it
-   #+BEGIN_SRC emacs-lisp
-   (use-package smart-tabs-mode
-     :ensure t
-     :init
-     (smart-tabs-insinuate 'c 'javascript 'ruby))
-   #+END_SRC
-** Yasnippet
-   Smart way to insert templates
-*** Vanilla
-    #+BEGIN_SRC emacs-lisp
-      (use-package yasnippet
-	:ensure t
-	:custom
-	yas-triggers-in-field t
-	:config
-	(define-key yas-minor-mode-map (kbd "TAB") nil)
-	(define-key yas-minor-mode-map (kbd "<tab>") nil)
-	(define-key yas-minor-mode-map (kbd "<backtab>") 'yas-expand)
-
-	:init
-	(yas-global-mode 1))
-    #+END_SRC
-*** Snippets
-    Extensive pre-cooked list of snippets
-    #+BEGIN_SRC emacs-lisp
-  (use-package yasnippet-snippets
-    :ensure t)
-    #+END_SRC
 ** Remove whitespace
    This removes whitespace prior to saving
    #+BEGIN_SRC emacs-lisp
      (add-hook 'before-save-hook 'delete-trailing-whitespace)
    #+END_SRC
-** Paredit
-   #+BEGIN_SRC emacs-lisp
-     (use-package paredit
-       :ensure t)
-   #+END_SRC
-** Hippie expand
-   #+BEGIN_SRC emacs-lisp
-     (global-set-key (kbd "M--") 'hippie-expand)
-
-     ;; Lisp-friendly hippie expand
-     (setq hippie-expand-try-functions-list
-           '(try-expand-dabbrev
-             try-expand-dabbrev-all-buffers
-             try-expand-dabbrev-from-kill
-             try-complete-lisp-symbol-partially
-             try-complete-lisp-symbol))
-   #+END_SRC
 * UI
 ** Spacemacs-theme
    I like how spacemacs looks, but it's way too convoluted for my
-   taste, so I grab their theme
+   taste, so I just grab their theme
    #+BEGIN_SRC emacs-lisp
-(use-package spacemacs-common
-    :ensure spacemacs-theme
-    :config (load-theme 'spacemacs-dark t))
+     (use-package spacemacs-common
+       :ensure spacemacs-theme
+       :config (load-theme 'spacemacs-dark t))
+   #+END_SRC
+
+** All the icons
+   We take advantage of running Emacs as a GUI, and get nice icons for it
+   #+BEGIN_SRC emacs-lisp
+     (use-package all-the-icons)
    #+END_SRC
 ** Doom-modeline
    Nice replacement for default mode line
    #+BEGIN_SRC emacs-lisp
-  (use-package doom-modeline
-	:ensure t
-	:hook (after-init . doom-modeline-mode)
-	:custom
-	(doom-modeline-buffer-file-name-style 'truncate-with-project)
-	:config
-	(set-face-attribute 'doom-modeline-evil-normal-state nil :foreground "skyblue2")
-	(set-face-attribute 'doom-modeline-evil-insert-state nil :foreground "green"))
+     (use-package doom-modeline
+       :hook (after-init . doom-modeline-mode)
+       :defer t
+       :custom
+       (doom-modeline-buffer-file-name-style 'truncate-with-project)
+       :config
+       (set-face-attribute 'doom-modeline-evil-normal-state nil :foreground "skyblue2")
+       (set-face-attribute 'doom-modeline-evil-insert-state nil :foreground "green"))
    #+END_SRC
-** All the icons
-   We take advantage of running Emacs as a GUI, and get nice icons for it
-   #+BEGIN_SRC emacs-lisp
-   (use-package all-the-icons
-     :ensure t)
-   #+END_SRC
+
 ** Cursor colors
    Adds visual aid to the modeline to know which mode I'm in
    #+BEGIN_SRC emacs-lisp
-   (setq evil-emacs-state-cursor '("red" bar))
-   (setq evil-normal-state-cursor '("skyblue2" box))
-   (setq evil-visual-state-cursor '("gray" box))
-   (setq evil-insert-state-cursor '("green" bar))
-   (setq evil-replace-state-cursor '("red" hollow))
-   (setq evil-operator-state-cursor '("red" hollow))
+     (setq evil-emacs-state-cursor '("red" bar))
+     (setq evil-normal-state-cursor '("skyblue2" box))
+     (setq evil-visual-state-cursor '("gray" box))
+     (setq evil-insert-state-cursor '("green" bar))
+     (setq evil-replace-state-cursor '("red" hollow))
+     (setq evil-operator-state-cursor '("red" hollow))
    #+END_SRC
+
 ** Rainbow-delimiters
    Visual aid to know which parenthesis is paired to which
    #+BEGIN_SRC emacs-lisp
    (use-package rainbow-delimiters
      :hook (prog-mode . rainbow-delimiters-mode))
    #+END_SRC
+
 ** Show-paren
    Highlight matching parenthesis on selection
    #+BEGIN_SRC emacs-lisp
@@ -748,8 +544,6 @@
    Visual aid for indentation
    #+BEGIN_SRC emacs-lisp
    (use-package highlight-indent-guides
-     :ensure t
-     :delight
      :config
      (setq highlight-indent-guides-responsive 'top)
      (setq highlight-indent-guides-method 'character)
@@ -760,14 +554,6 @@
    Highlights current line to aid with quick cursor finding
    #+BEGIN_SRC emacs-lisp
    (global-hl-line-mode t)
-   #+END_SRC
-** Rainbow mode
-   A minor mode for Emacs which displays strings representing colors with the color they represent as background
-   #+BEGIN_SRC emacs-lisp
-  (use-package rainbow-mode
-    :ensure t
-    :config
-    (add-hook 'prog-mode-hook 'rainbow-mode))
    #+END_SRC
 ** Pretty symbols
    In emacs 24.4 we got prettify-symbols-mode which replaces things like
@@ -802,165 +588,13 @@
 	      (push '("return" . ?➡) prettify-symbols-alist)
 	      (prettify-symbols-mode t)))
     #+END_SRC
-* Navigation
-** Follow symlinks
-   Stop asking if I want to follow a symlink
+** Nyan mode
    #+BEGIN_SRC emacs-lisp
-(setq vc-follow-symlinks t)
-   #+END_SRC
-** Avy
-   Jump around like there's no tomorrow
-   #+BEGIN_SRC emacs-lisp
-     (use-package avy
-       :ensure t
-       :custom
-       (avy-background t)
-       (avy-all-windows t)
-       :config
-       (defun aropie/avy-jump-to-char-in-one-window()
-         (interactive)
-         (setq current-prefix-arg '(4)) ; C-u
-         (call-interactively 'avy-goto-char-2))
-
-       (general-define-key
-        :keymaps 'override
-        "C-;" 'aropie/avy-jump-to-char-in-one-window
-        "C-:" 'avy-goto-line)
-
-       (my-leader
-       "SPC" '(aropie/avy-jump-to-char-in-one-window :which-key "Jump to char"))
-
-       (my-leader
-         :infix "j"
-         "" '(:ignore t :which-key "Jump")
-         "w" '(avy-goto-subword-1 :which-key "Jump to word")
-         "l" '(avy-goto-line :which-key "Jump to line")
-         "c" '(avy-goto-char :which-key "Jump to char")
-         "m" '(:ignore t :which-key "Move...")
-         "ml" '(avy-move-line :which-key "Move line")
-         "mr" '(avy-move-region :which-key "Move region")
-         "y" '(:ignore t :which-key "Yank...")
-         "yl" '(avy-copy-line :which-key "Yank line")
-         "yr" '(avy-copy-region :which-key "Yank region")
-         "k" '(:ignore t :which-key "Kill...")
-         "kr" '(avy-kill-region :which-key "Kill region between lines")
-         "kl" '(avy-kill-whole-line :which-key "Kill line")))
-   #+END_SRC
-** Window management
-*** Ace window
-    Window managing made smart
-    #+BEGIN_SRC emacs-lisp
-    (use-package ace-window
-      :ensure t
-      :custom
-      (aw-scope 'frame)
-      (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
-    #+END_SRC
-*** Window resizing
-    #+BEGIN_SRC emacs-lisp
-  (defhydra hydra-window-resize (:color pink)
-    "Resize window"
-    ("k" evil-window-increase-height "up")
-    ("j" evil-window-decrease-height "down")
-    ("h" evil-window-decrease-width "left")
-    ("l" evil-window-increase-width "right")
-    ("=" balance-windows "balance")
-    ("o" ace-window "change window")
-    ("q" nil "quit" :color blue))
-    #+END_SRC
-*** Bindings
-    #+BEGIN_SRC emacs-lisp
-      (general-define-key
-	  :states '(normal insert emacs)
-	  :keymaps 'override
-	  "C-w C-w" 'ace-window)
-      (my-leader
-      :infix "w"
-	  "" '(:ignore t :which-key "Windows")
-	  "w" '(ace-window :which-key "Change window")
-	  "s" '(ace-swap-window :which-key "Swap windows")
-	  "o" '(delete-other-windows :which-key "Delete other windows")
-	  "x" '(ace-delete-window :which-key "Delete window")
-	  "h" '(split-window-vertically :which-key "Split window horizontally")
-	  "v" '(split-window-horizontally :which-key "Split window vertically")
-	  "r" '(hydra-window-resize/body :which-key "Resize windows"))
-    #+END_SRC
-** Dumb-jump
-   Jump to definitions
-   #+BEGIN_SRC emacs-lisp
-   (use-package dumb-jump
-     :ensure t
-     :custom
-     (dumb-jump-use-visible-window nil)
-     :config
-     (my-leader
-       :infix "d"
-       "" '(:ignore t :which-key "Definition")
-       "j" '(dumb-jump-go :which-key "Jump to definition")
-       "o" '(dumb-jump-go-other-window :which-key "Jump to definition on the other window")
-       "l" '(dumb-jump-quick-look :which-key "Look at definition on tooltip")
-       "b" '(dumb-jump-back :which-key "Jump back to previous-to-jump position")))
-   #+END_SRC
-** Evil-snipe
-   #+BEGIN_SRC emacs-lisp
-     (use-package evil-snipe
-       :ensure t
-       :config
-       ;; Evil-snipe conflicts with Magit
-       (add-hook 'magit-mode-hook 'turn-off-evil-snipe-override-mode)
-       (evil-snipe-mode t)
-       (evil-snipe-override-mode t))
-   #+END_SRC
-* Git
-** Magit
-   Git porcelain inside Emacs. Basically, git turned into loving hugs and
-   kisses
-   #+BEGIN_SRC emacs-lisp
-  (use-package magit
-    :ensure t
-    :config)
-   #+END_SRC
-** Timemachine
-   Take your code for a travel through time (that is incidentally,
-   highly dependant on your commits)
-   #+BEGIN_SRC emacs-lisp
-  (use-package git-timemachine
-    :after hydra
-    :ensure t
+  (use-package nyan-mode
     :config
-    (defhydra hydra-timemachine (:color pink)
-      "Time machine"
-      ("n" git-timemachine-show-next-revision "next")
-      ("p" git-timemachine-show-previous-revision "previous")
-      ("c" git-timemachine-show-current-revision "current")
-      ("b" git-timemachine-blame "blame")
-      ("s" git-timemachine-switch-branch "switch branch")
-      ("q" (kill-matching-buffers "timemachine" t t) "quit" :color blue))
-
-    (add-hook 'git-timemachine-mode-hook
-	      (lambda () (hydra-timemachine/body))))
+    (nyan-mode)
+    (nyan-start-animation))
    #+END_SRC
-** Evil magit
-   #+BEGIN_SRC emacs-lisp
-  (use-package evil-magit
-    :ensure t
-    :after magit)
-   #+END_SRC
-** Bindings
-   #+BEGIN_SRC emacs-lisp
-  (my-leader
-    :infix "g"
-    "" '(:ignore t :which-key "Git")
-    "g" '(magit-status :which-key "Status")
-    "m" '(magit-dispatch-popup :which-key "Menu")
-    "c" '(magit-clone :which-key "Clone")
-    "b" '(magit-branch :which-key "Branch")
-    "B" '(magit-blame :which-key "Blame")
-    "l" '(magit-log :which-key "Log")
-    "F" '(magit-pull :which-key "Pull")
-    "t" '(git-timemachine :which-key "Travel through time"))
-   #+END_SRC
-
 * Org
 ** Basic config
    #+BEGIN_SRC emacs-lisp
@@ -971,32 +605,25 @@
    #+END_SRC
 ** Agenda
    #+BEGIN_SRC emacs-lisp
-  (setq org-agenda-files '("~/org"))
+  (setq org-agenda-files '("~/Org"))
    #+END_SRC
 ** Org bullets
    #+BEGIN_SRC emacs-lisp
     (use-package org-bullets
-       :ensure t
-       :config
-       (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+       :hook (org-mode . org-bullets-mode))
    #+END_SRC
 ** Org-pomodoro
    #+BEGIN_SRC emacs-lisp
-  (use-package org-pomodoro
-    :ensure t
-    :config
-    (setq org-pomodoro-ticking-sound-p t)
-    (setq org-pomodoro-ticking-sound-states '(:pomodoro)))
-   #+END_SRC
-** Twitter-bootstrap export
-   #+BEGIN_SRC emacs-lisp
-  (use-package ox-twbs
-    :ensure t)
+     (use-package org-pomodoro
+       :defer t
+       :config
+       (setq org-pomodoro-ticking-sound-p t)
+       (setq org-pomodoro-ticking-sound-states '(:pomodoro)))
    #+END_SRC
 ** Org-capture
    #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c c") 'org-capture)
-  (setq org-default-notes-file "~/org/refile.org")
+  (setq org-default-notes-file "~/Org/refile.org")
    #+END_SRC
 ** Refile
    #+BEGIN_SRC emacs-lisp
@@ -1013,164 +640,53 @@
   ; Allow refile to create parent tasks with confirmation
   (setq org-refile-allow-creating-parent-nodes (quote confirm))
    #+END_SRC
-* Languages
-** Go
+* Git
    #+BEGIN_SRC emacs-lisp
-   (use-package go-mode
-     :ensure t)
+     (my-leader
+       :infix "g"
+       "" '(:ignore t :which-key "Git")
+       "g" '(magit-status :which-key "Status")
+       "m" '(magit-dispatch-popup :which-key "Menu")
+       "c" '(magit-clone :which-key "Clone")
+       "b" '(magit-branch :which-key "Branch")
+       "B" '(magit-blame :which-key "Blame")
+       "l" '(magit-log :which-key "Log")
+       "F" '(magit-pull :which-key "Pull")
+       "t" '(git-timemachine :which-key "Travel through time"))
    #+END_SRC
-** Web
+** Magit
+   Git porcelain inside Emacs. Basically, git turned into loving hugs and
+   kisses
    #+BEGIN_SRC emacs-lisp
-   (use-package web-mode
-     :ensure t
-     :init
-     (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-     (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-     (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-     (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-     (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-     (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-     (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-     (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-     (add-to-list 'auto-mode-alist '("\\.json\\'" . web-mode))
-     :config
-     (setq web-mode-enable-current-element-highlight t)
-     (setq web-mode-markup-indent-offset 2)
-     (setq web-mode-enable-auto-pairing t)
-     (setq web-mode-enable-auto-quoting t)
-     (setq web-mode-enable-auto-closing t)
-     (setq web-mode-enable-engine-detection t)
-     (setq web-mode-enable-css-colorization t))
+     (use-package magit
+       :custom
+       (transient-default-level 5)
+       (magit-diff-refine-hunk t "Show granular diffs in selected hunk")
+       ;; Don't display parent/related refs in commit buffers; they are rarely
+       ;; helpful and only add to runtime costs.
+       (magit-revision-insert-related-refs nil)
+       :config)
    #+END_SRC
-** Python
-*** Python3
-    Always use python3
-    #+BEGIN_SRC emacs-lisp
-  (setq python-shell-interpreter "python3")
-    #+END_SRC
-*** Pyisort
-    #+BEGIN_SRC emacs-lisp
-      (use-package py-isort
-        :ensure t
-        :after python
-        :hook ((before-save . py-isort-before-save)))
-    #+END_SRC
-*** Docs
-    Easy way to create standard docstrings
-    #+BEGIN_SRC emacs-lisp
-	(use-package sphinx-doc
-	  :ensure t
-	  :custom
-	  (flycheck-python-flake8-executable "flake8")
-	  :config
-	  (add-hook 'python-mode-hook (lambda ()
-					(require 'sphinx-doc)
-					(sphinx-doc-mode t)))
-	  (my-local-leader
-	    :states 'normal
-	    :keymaps 'python-mode-map
-	    "d" '(sphinx-doc :which-key "Generate doc")))
-    #+END_SRC
-*** YAPF
-    Gives a standard PEP8-compliant automated way to have a nice formatted Python code
-    (requires pip install yapf)
-    #+BEGIN_SRC emacs-lisp
-  (use-package yapfify
-    :ensure t
-    :config
-    (add-hook 'python-mode-hook 'yapf-mode))
-    #+END_SRC
-** Lisp
-*** Slime
-    Sane slime config. Taken from [[https://stackoverflow.com/questions/1101487/setting-up-a-working-common-lisp-environment-for-the-aspiring-lisp-newbie/1101605#1101605][here.]]
-    #+BEGIN_SRC emacs-lisp
-  (use-package slime
-    :ensure t
-    :config
-  (progn
-       (setq slime-lisp-implementations
-	     '((sbcl ("/usr/bin/sbcl"))
-	       (ecl ("/usr/bin/ecl"))
-	       (clisp ("/usr/bin/clisp"))))
-       (slime-setup '(
-		      slime-asdf
-		      slime-autodoc
-		      slime-editing-commands
-		      slime-fancy-inspector
-		      slime-fontifying-fu
-		      slime-fuzzy
-		      slime-indentation
-		      slime-mdot-fu
-		      slime-package-fu
-		      slime-references
-		      slime-repl
-		      slime-sbcl-exts
-		      slime-scratch
-		      slime-xref-browser
-		      ))
-       (slime-autodoc-mode)
-       (setq slime-complete-symbol*-fancy t)
-       (setq slime-complete-symbol-function
-    'slime-fuzzy-complete-symbol)))
-    #+END_SRC
-** Clojure
+** Timemachine
+   Take your code for a travel through time (that is incidentally,
+   highly dependant on your commits)
    #+BEGIN_SRC emacs-lisp
-     (use-package clojure-mode
-       :ensure t
-       :config
-       (add-hook 'clojure-mode-hook 'enable-paredit-mode)
-       (add-hook 'clojure-mode-hook 'subword-mode)
+  (use-package git-timemachine
+    :after hydra
+    :config
+    (defhydra hydra-timemachine (:color pink)
+      "Time machine"
+      ("n" git-timemachine-show-next-revision "next")
+      ("p" git-timemachine-show-previous-revision "previous")
+      ("c" git-timemachine-show-current-revision "current")
+      ("b" git-timemachine-blame "blame")
+      ("s" git-timemachine-switch-branch "switch branch")
+      ("q" (kill-matching-buffers "timemachine" t t) "quit" :color blue))
 
-       ;; syntax hilighting for midje
-       (add-hook 'clojure-mode-hook
-                 (lambda ()
-                   (setq inferior-lisp-program "lein repl")
-                   (font-lock-add-keywords
-                    nil
-                    '(("(\\(facts?\\)"
-                       (1 font-lock-keyword-face))
-                      ("(\\(background?\\)"
-                       (1 font-lock-keyword-face))))
-                   (define-clojure-indent (fact 1))
-                   (define-clojure-indent (facts 1))
-                   (rainbow-delimiters-mode t))))
+    (add-hook 'git-timemachine-mode-hook
+	      (lambda () (hydra-timemachine/body))))
    #+END_SRC
-*** Extra syntax highlighting
-    #+BEGIN_SRC emacs-lisp
-      (use-package clojure-mode-extra-font-locking
-        :ensure t)
-    #+END_SRC
-*** Cider
-    #+BEGIN_SRC emacs-lisp
-      (use-package cider
-        :ensure t
-        :custom
-        ;; go right to the REPL buffer when it's finished connecting
-        (cider-repl-pop-to-buffer-on-connect t)
-        ;; When there's a cider error, show its buffer and switch to it
-        (cider-show-error-buffer t)
-        (cider-auto-select-error-buffer t)
-        ;; Where to store the cider history.
-        (cider-repl-history-file "~/.cache/emacs/cider-history")
-        ;; Wrap when navigating history.
-        (cider-repl-wrap-history t)
-        :config
-        (add-hook 'cider-repl-mode-hook 'paredit-mode))
-    #+END_SRC
-* LOL
-** Nyan mode
-   #+BEGIN_SRC emacs-lisp
-  (use-package nyan-mode
-    :ensure t
-    :init
-    (nyan-mode)
-    (nyan-start-animation))
-   #+END_SRC
-** Fireplace
-   #+BEGIN_SRC emacs-lisp
-  (use-package fireplace
-    :ensure t
-    :disabled
-    :init
-    (run-with-idle-timer 600 t 'fireplace ()))
-   #+END_SRC
+* Packages to consider
+  - https://github.com/Wilfred/helpful
+  - https://github.com/gilbertw1/better-jumper
+  - https://cestlaz.github.io/post/using-emacs-57-dired-narrow/
