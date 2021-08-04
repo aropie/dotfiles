@@ -18,4 +18,5 @@
         ~/.config/fontconfig: fontconfig
         ~/.config/picom: picom
         ~/.config/kitty: kitty
+        ~/.emacs.d: emacs
         ~/.doom.d: doom
