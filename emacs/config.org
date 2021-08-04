@@ -191,7 +191,7 @@ Manage all the keybindings through general and hydra à la spacemacs
 #+BEGIN_SRC emacs-lisp
   (defun aropie/open-notes ()
     (interactive)
-    (counsel-find-file "~/Org"))
+    (counsel-file-jump nil "~/Org"))
   (my-leader
     :infix "o"
     "" '(:ignore t :which-key "Open")
