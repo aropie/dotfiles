@@ -122,52 +122,6 @@ working on, but I have yet to find a sweet spot for it
 #+BEGIN_SRC emacs-lisp
   (set-face-attribute 'default nil :height 100)
 #+END_SRC
-* Completion
-** LSP
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :init
-    (setq lsp-keymap-prefix "C-c l")
-    :hook ((python-mode . lsp)
-           (lsp-mode . lsp-enable-which-key-integration))
-    :custom
-    (lsp-headerline-breadcrumb-enable nil)
-    (lsp-enable-symbol-highlighting t)
-    (lsp-lens-enable t)
-    (lsp-eldoc-enable-hover t)
-    (lsp-modeline-diagnostics-enable t)
-    (lsp-diagnostics-provider 'flycheck)
-    :commands lsp)
-
-  (use-package lsp-ui
-    :custom
-    (lsp-ui-sideline-enable t))
-
-  (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
-#+END_SRC
-** Company
-My choice for auto-completion
-#+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure t
-    :custom
-    (company-begin-commands '(self-insert-command))
-    (company-idle-delay 0.0)
-    (company-minimum-prefix-length 1)
-    (company-show-numbers t)
-    (company--dabbrev-code-everywhere t)
-    (company-dabbrev-downcase nil)
-    (company-dabbrev-ignore-case t)
-    (company-tooltip-align-annotations t)
-    (company-frontends
-     '(company-tng-frontend
-       company-pseudo-tooltip-frontend
-       company-echo-metadata-frontend))
-    (global-company-mode t)
-    :config
-    (company-tng-configure-default))
-#+END_SRC
-
 * Utils
 ** General.el
 Manage all the keybindings through general and hydra à la spacemacs
@@ -535,6 +489,56 @@ Syntax checker and linter on the fly
   (use-package flycheck
     :init (global-flycheck-mode))
 
+#+END_SRC
+* Completion
+** LSP
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+    :init
+    (setq lsp-keymap-prefix "C-c l")
+    :hook ((python-mode . lsp)
+           (lsp-mode . lsp-enable-which-key-integration))
+    :custom
+    (lsp-headerline-breadcrumb-enable nil)
+    (lsp-enable-symbol-highlighting t)
+    (lsp-lens-enable t)
+    (lsp-eldoc-enable-hover t)
+    (lsp-modeline-diagnostics-enable t)
+    (lsp-diagnostics-provider 'flycheck)
+    :commands lsp)
+
+  (use-package lsp-ui
+    :custom
+    (lsp-ui-sideline-enable t))
+
+  (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+#+END_SRC
+** Company
+My choice for auto-completion
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :ensure t
+    :custom
+    (company-begin-commands '(self-insert-command))
+    (company-idle-delay 0.0)
+    (company-minimum-prefix-length 1)
+    (company-show-numbers t)
+    (company--dabbrev-code-everywhere t)
+    (company-dabbrev-downcase nil)
+    (company-dabbrev-ignore-case t)
+    (company-tooltip-align-annotations t)
+    (company-frontends
+     '(company-tng-frontend
+       company-pseudo-tooltip-frontend
+       company-echo-metadata-frontend))
+    (global-company-mode t)
+    :config
+    (company-tng-configure-default))
+#+END_SRC
+** Company box
+#+BEGIN_SRC emacs-lisp
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
 #+END_SRC
 * UI
 ** Doom-theme
