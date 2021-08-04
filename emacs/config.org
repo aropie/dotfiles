@@ -382,11 +382,19 @@ Jump to definitions
     ([remap describe-variable] . counsel-describe-variable)
     ([remap describe-key] . helpful-key))
 #+END_SRC
+** Undo tree
+#+BEGIN_SRC emacs-lisp
+  (use-package undo-tree
+    :config (global-undo-tree-mode t))
+#+END_SRC
 * Editing
 ** Evil
 Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
 #+BEGIN_SRC emacs-lisp
   (use-package evil
+    :requires undo-tree
+    :custom
+    (evil-undo-system 'undo-tree)
     :init
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
