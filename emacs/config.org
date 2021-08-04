@@ -765,6 +765,7 @@ kisses
     ;; Don't display parent/related refs in commit buffers; they are rarely
     ;; helpful and only add to runtime costs.
     (magit-revision-insert-related-refs nil)
+    :hook (git-commit-mode . evil-insert-state)
     :config)
 #+END_SRC
 ** Timemachine
