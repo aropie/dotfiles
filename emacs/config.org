@@ -256,6 +256,11 @@ Because Emacs is hard enough without visual aids
     :custom
     (setq which-key-idle-delay 1))
 #+END_SRC
+** Ag
+The silver searcher
+#+BEGIN_SRC emacs-lisp
+  (use-package ag)
+#+END_SRC
 ** Ivy
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
@@ -348,6 +353,13 @@ Projectile's really cool. Really nice project management.
       "r" '(projectile-replace :which-key "Replace in project")
       "c" '(projectile-invalidate-cache :which-key "Clear project's cache")
       "s" '(projectile-ag :which-key "Search in project")))
+#+END_SRC
+*** Counsel-projectile
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel-projectile
+    :after (projectile counsel)
+    :config
+    (counsel-projectile-mode t))
 #+END_SRC
 ** Amx
 #+BEGIN_SRC emacs-lisp
