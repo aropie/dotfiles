@@ -30,7 +30,10 @@ those files in =~/.cache/emacs=
 ** Garbage collection
 #+BEGIN_SRC emacs-lisp
   (use-package gcmh
-    :custom (gcmh-verbose t)
+    :custom
+    (gcmh-verbose t)
+    (gcmh-idle-delay 0.5)
+    (gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
     :init
     (gcmh-mode 1))
 #+END_SRC
