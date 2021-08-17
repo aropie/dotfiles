@@ -436,6 +436,31 @@ Jump around like there's no tomorrow
       "kr" '(avy-kill-region :which-key "Kill region between lines")
       "kl" '(avy-kill-whole-line :which-key "Kill line")))
 #+END_SRC
+** Ace window
+Window managing made smart
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-window
+    :ensure t
+    :custom
+    (aw-scope 'frame)
+    (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+    :config
+    (general-define-key
+     :states '(normal insert emacs)
+     :keymaps 'override
+     "C-w C-w" 'ace-window)
+
+    (my-leader
+      :infix "w"
+      "" '(:ignore t :which-key "Windows")
+      "w" '(ace-window :which-key "Change window")
+      "s" '(ace-swap-window :which-key "Swap windows")
+      "o" '(delete-other-windows :which-key "Delete other windows")
+      "x" '(ace-delete-window :which-key "Delete window")
+      "h" '(split-window-vertically :which-key "Split window horizontally")
+      "v" '(split-window-horizontally :which-key "Split window vertically")
+      "r" '(hydra-window-resize/body :which-key "Resize windows")))
+#+END_SRC
 * Editing
 ** Evil
 Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
