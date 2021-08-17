@@ -498,6 +498,13 @@ Allows for text objects exchanging
     (define-key evil-visual-state-map (kbd "C-c +") 'evil-numbers/inc-at-pt)
     (define-key evil-visual-state-map (kbd "C-c -") 'evil-numbers/dec-at-pt))
 #+END_SRC
+*** Evil multiple cursors
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-mc
+    :config
+    (add-hook 'prog-mode-hook 'evil-mc-mode)
+    (add-hook 'text-mode-hook 'evil-mc-mode))
+#+END_SRC
 ** Electric parenthesis
 #+BEGIN_SRC emacs-lisp
   (electric-pair-mode t)
@@ -777,8 +784,7 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
     "t" '(git-timemachine :which-key "Travel through time"))
 #+END_SRC
 ** Magit
-Git porcelain inside Emacs. Basically, git turned into loving hugs and
-kisses
+Git porcelain inside Emacs. Git turned into loving hugs and kisses
 #+BEGIN_SRC emacs-lisp
   (use-package magit
     :custom
