@@ -693,16 +693,22 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
     :hook (org-mode . aropie/org-mode-setup)
     :custom
     (org-src-window-setup 'current-window)
-    (org-log-done t)
+    (org-log-done 'time)
+    (org-log-into-drawer t)
+    (org-agenda-start-with-log-time t)
     (org-enforce-todo-dependencies t)
     (org-hide-emphasis-markers t)
+    (org-confirm-babel-evaluate nil)
     (org-ellipsis " ▾")
     (org-src-fontify-natively t)
     (org-fontify-quote-and-verse-blocks t)
     (org-src-tab-acts-natively t)
     (org-src-preserve-indentation nil)
     (org-startup-folded 'content)
-    (org-cycle-separator-lines 2))
+    (org-cycle-separator-lines 2)
+    :config
+    (add-to-list 'org-export-backends 'md)
+    (add-to-list 'org-export-backends 'beamer))
 #+END_SRC
 ** Agenda
 #+BEGIN_SRC emacs-lisp
@@ -739,6 +745,22 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
 
                                           ; Allow refile to create parent tasks with confirmation
   (setq org-refile-allow-creating-parent-nodes (quote confirm))
+#+END_SRC
+** Org fancy priorities
+#+BEGIN_SRC emacs-lisp
+  (use-package org-fancy-priorities
+    :hook
+    (org-mode . org-fancy-priorities-mode)
+    :config
+    (setq org-fancy-priorities-list '((?A . "❗")
+                                      (?B . "⬆")
+                                      (?C . "⬇")
+                                      (?D . "☕")
+                                      (?1 . "⚡")
+                                      (?2 . "⮬")
+                                      (?3 . "⮮")
+                                      (?4 . "☕")
+                                      (?I . "Important"))))
 #+END_SRC
 * Git
 #+BEGIN_SRC emacs-lisp
