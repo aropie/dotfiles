@@ -587,7 +587,7 @@ Nice replacement for default mode line
     :hook (after-init . doom-modeline-mode)
     :defer t
     :custom
-    (doom-modeline-buffer-file-name-style 'truncate-with-project)
+    (doom-modeline-buffer-file-name-style 'auto)
     :config
     (set-face-attribute 'doom-modeline-evil-normal-state nil :foreground "skyblue2")
     (set-face-attribute 'doom-modeline-evil-insert-state nil :foreground "green"))
