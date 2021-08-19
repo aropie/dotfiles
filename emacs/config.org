@@ -561,7 +561,21 @@ Allows for text objects exchanging
   (use-package evil-mc
     :config
     (add-hook 'prog-mode-hook 'evil-mc-mode)
-    (add-hook 'text-mode-hook 'evil-mc-mode))
+    (add-hook 'text-mode-hook 'evil-mc-mode)
+    (general-define-key
+     :states 'normal
+     :keymaps 'override
+     "C-n" 'evil-mc-make-and-goto-next-match
+     "C-p" 'evil-mc-make-and-goto-prev-match
+     "M-n" 'evil-mc-skip-and-goto-next-match
+     "M-p" 'evil-mc-skip-and-goto-prev-match
+     "grq" 'evil-mc-undo-all-cursors
+     "grm" 'evil-mc-make-all-cursors)
+    (general-define-key
+     :states 'visual
+     :keymaps 'override
+     "grA" 'evil-mc-make-cursor-in-visual-selection-end
+     "grI" 'evil-mc-make-cursor-in-visual-selection-beg))
 #+END_SRC
 ** Electric parenthesis
 #+BEGIN_SRC emacs-lisp
