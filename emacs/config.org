@@ -238,7 +238,7 @@ most used ones
 **** Bindings
 #+BEGIN_SRC emacs-lisp
   (my-leader
-    :infix "c"
+    :infix "oc"
     "" '(:ignore t :which-key "Config")
     "e" '(aropie/emacs-config-visit :which-key "emacs")
     "i" '(aropie/i3-config-visit :which-key "i3")
