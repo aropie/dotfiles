@@ -594,9 +594,8 @@ Syntax checker and linter on the fly
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
     :init
-    (setq lsp-keymap-prefix "C-c l")
-    :hook ((python-mode . lsp)
-           (lsp-mode . lsp-enable-which-key-integration))
+    (setq lsp-keymap-prefix "SPC-c")
+    :hook ((lsp-mode . lsp-enable-which-key-integration))
     :custom
     (lsp-headerline-breadcrumb-enable nil)
     (lsp-enable-symbol-highlighting t)
@@ -614,6 +613,7 @@ Syntax checker and linter on the fly
 
   (use-package lsp-ui
     :custom
+    (lsp-ui-doc-position 'bottom)
     (lsp-ui-sideline-enable t))
 
   (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
@@ -638,7 +638,6 @@ My choice for auto-completion
      '(company-tng-frontend
        company-pseudo-tooltip-frontend
        company-echo-metadata-frontend))
-    (global-company-mode t)
     :config
     (company-tng-configure-default))
 #+END_SRC
@@ -893,6 +892,11 @@ highly dependant on your commits)
 #+END_SRC
 * Languages
 ** Python
+#+BEGIN_SRC emacs-lisp
+  (use-package python-mode
+    :hook (python-mode . lsp-deferred))
+#+END_SRC
+*** Language Server
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-python-ms
     :init (setq lsp-python-ms-auto-install-server t))
