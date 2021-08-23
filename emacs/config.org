@@ -461,6 +461,10 @@ Window managing made smart
       "v" '(split-window-horizontally :which-key "Split window vertically")
       "r" '(hydra-window-resize/body :which-key "Resize windows")))
 #+END_SRC
+** No littering
+#+BEGIN_SRC emacs-lisp
+  (use-package no-littering)
+#+END_SRC
 * Editing
 ** Evil
 Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
