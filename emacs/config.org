@@ -473,11 +473,7 @@ Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
     :config
-    (evil-mode 1)
-    (general-define-key
-     :states 'motion
-     "gd" 'xref-find-definitions
-     "gD" 'xref-find-references))
+    (evil-mode 1))
 #+END_SRC
 *** Evil collection
 #+BEGIN_SRC emacs-lisp
@@ -608,7 +604,13 @@ Syntax checker and linter on the fly
     (lsp-eldoc-enable-hover t)
     (lsp-modeline-diagnostics-enable t)
     (lsp-diagnostics-provider 'flycheck)
-    :commands lsp)
+    :commands lsp
+    :config
+    (general-define-key
+     :states 'motion
+     :keymaps 'override
+     "gd" 'lsp-find-definition
+     "gD" 'lsp-find-references))
 
   (use-package lsp-ui
     :custom
@@ -621,6 +623,8 @@ My choice for auto-completion
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :ensure t
+    :after lsp-mode
+    :hook (prog-mode . company-mode)
     :custom
     (company-begin-commands '(self-insert-command))
     (company-idle-delay 0.0)
