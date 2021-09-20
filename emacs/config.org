@@ -913,8 +913,15 @@ highly dependant on your commits)
 #+BEGIN_SRC emacs-lisp
   (use-package py-isort
     :hook (before-save . py-isort-before-save)
-    :custom (py-isort-options '("--profile=black")))
+    :custom (py-isort-options '("--interactive" "--profile=black")))
+#+END_SRC
+*** Black
+#+BEGIN_SRC emacs-lisp
+  (use-package python-black
+    :config
+    :hook (python-mode . python-black-on-save-mode))
 #+END_SRC
 * Packages to consider
 - https://github.com/gilbertw1/better-jumper
 - https://cestlaz.github.io/post/using-emacs-57-dired-narrow/
+- https://github.com/akhramov/org-wild-notifier.el
