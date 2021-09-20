@@ -126,6 +126,10 @@ Change "yes or no" prompts to "y or n" because we're fast bois
 #+BEGIN_SRC emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
+** Auto revert everything
+#+BEGIN_SRC emacs-lisp
+  (global-auto-revert-mode t)
+#+END_SRC
 * Utils
 ** General.el
 Manage all the keybindings through general and hydra à la spacemacs
