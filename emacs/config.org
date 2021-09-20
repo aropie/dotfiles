@@ -911,9 +911,17 @@ highly dependant on your commits)
 #+END_SRC
 *** Isort
 #+BEGIN_SRC emacs-lisp
-  (use-package py-isort
-    :hook (before-save . py-isort-before-save)
-    :custom (py-isort-options '("--interactive" "--profile=black")))
+  (defun aropie/isort-buffer()
+    "Runs isort on buffer"
+    (interactive)
+    (if (and (executable-find "isort") (projectile-project-p))
+        (let ((default-directory (projectile-project-root)))
+          (shell-command (format "isort --profile=black %s"
+                                 (shell-quote-argument (buffer-file-name)))))
+
+      (warn "python-mode: Cannot find isort executable.")))
+  (add-hook 'python-mode-hook
+            (lambda () (add-hook 'after-save-hook 'aropie/isort-buffer nil 'local)))
 #+END_SRC
 *** Black
 #+BEGIN_SRC emacs-lisp
