@@ -2,7 +2,7 @@
 super + Return
         $TERMINAL
 super + o
-	rofi -show drun
+	rofi -show drun -show-icons
 super + shift + Escape
         rofi_power
 super + r
