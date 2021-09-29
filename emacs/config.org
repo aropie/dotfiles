@@ -271,6 +271,7 @@ The silver searcher
     :custom
     (ivy-wrap t)
     (ivy-height 15)
+    (ivy-re-builders-alist ((t . ivy--regex-fuzzy)))
     :config
     (general-define-key
      :keymaps 'ivy-minibuffer-map
@@ -280,6 +281,8 @@ The silver searcher
      "C-o" 'ivy-dispatching-done
      "C-O" 'ivy-occur
      "C-SPC" 'ivy-call)
+    (setq ivy-re-builders-alist
+          '((t . ivy--regex-ignore-order)))
     (ivy-mode 1))
 #+END_SRC
 *** Ivy-rich
