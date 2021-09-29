@@ -595,7 +595,9 @@ Allows for text objects exchanging
      "M-n" 'evil-mc-skip-and-goto-next-match
      "M-p" 'evil-mc-skip-and-goto-prev-match
      "grq" 'evil-mc-undo-all-cursors
-     "grm" 'evil-mc-make-all-cursors)
+     "grm" 'evil-mc-make-all-cursors
+     "grj" 'evil-mc-make-cursor-move-next-line
+     "grk" 'evil-mc-make-cursor-move-prev-line)
     (general-define-key
      :states 'visual
      :keymaps 'override
