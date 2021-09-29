@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export LPASS_USERNAME=
+export PERSONAL_EMAIL=
+export WORK_EMAIL=
