@@ -89,9 +89,10 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 # -W is for copying whole files only, without delta-xfer algorithm which should reduce CPU load
 # --no-compress as there's no lack of bandwidth between local devices
 # --progress so I can see the progress of large files (optional)
-
 # Usage: supercp /src /dst
 alias supercp="rsync -avhW --no-compress --progress"
+
+alias yay="yay --sudoloop"
 
 
 # The next line updates PATH for the Google Cloud SDK.
