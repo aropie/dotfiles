@@ -42,6 +42,7 @@ c.url.searchengines = {
     "aw": "https://wiki.archlinux.org/index.php?search={}",
     "aur": "https://aur.archlinux.org/packages/?O=0&K={}",
     "g": "https://www.google.com/search?q={}",
+    "yt": "https://www.youtube.com/results?search_query={}"
 }
 
 # Bindings for normal mode
