@@ -159,18 +159,6 @@ Change "yes or no" prompts to "y or n" because we're fast bois
 
   (set-exec-path-from-shell-PATH)
 #+END_SRC
-** Create directory when missing
-Whenever creating a new file, we want to create as much parent directories as needed.
-Taken from [[https://newbedev.com/can-i-create-directories-that-don-t-exist-while-creating-a-new-file-in-emacs][here]]
-#+BEGIN_SRC emacs-lisp
-  (defadvice find-file (before make-directory-maybe (filename &optional wildcards) activate)
-    "Create parent directory if not exists while visiting file."
-    (unless (file-exists-p filename)
-      (let ((dir (file-name-directory filename)))
-        (unless (file-exists-p dir)
-          (make-directory dir t)))))
-
-#+END_SRC
 * Utils
 ** General.el
 Manage all the keybindings through general and hydra à la spacemacs
@@ -312,7 +300,8 @@ The silver searcher
     :custom
     (ivy-wrap t)
     (ivy-height 15)
-    (ivy-re-builders-alist ((t . ivy--regex-fuzzy)))
+    (ivy-re-builders-alist ((t . ivy–regex-ignore-order)))
+    (ivy-magic-slash-non-match-action 'ivy-magic-slash-non-match-create)
     :config
     (general-define-key
      :keymaps 'ivy-minibuffer-map
