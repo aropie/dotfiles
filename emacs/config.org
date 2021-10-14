@@ -505,6 +505,22 @@ Window managing made smart
     auto-save-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 #+END_SRC
+** Verb
+#+BEGIN_SRC emacs-lisp
+  (use-package verb
+    :config
+    (my-local-leader
+      :keymaps 'verb-mode-map
+      :state 'motion
+      "m" 'verb-send-request-on-point
+      "vv" 'verb-set-var))
+#+END_SRC
+*** Set local variables to safe
+For the custom template I'm using for verb files, I set some variables to safe in order to avoid prompts everytime I open one of those files
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'safe-local-variable-values '(flyspell-mode))
+  (add-to-list 'safe-local-variable-values '(org-fontify-emphasized-text))
+#+END_SRC
 * Editing
 ** Evil
 Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
