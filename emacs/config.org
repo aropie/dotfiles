@@ -500,7 +500,10 @@ Window managing made smart
 #+END_SRC
 ** No littering
 #+BEGIN_SRC emacs-lisp
-  (use-package no-littering)
+  (use-package no-littering
+    :custom
+    auto-save-file-name-transforms
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 #+END_SRC
 * Editing
 ** Evil
