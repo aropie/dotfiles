@@ -521,6 +521,13 @@ For the custom template I'm using for verb files, I set some variables to safe i
   (add-to-list 'safe-local-variable-values '(flyspell-mode))
   (add-to-list 'safe-local-variable-values '(org-fontify-emphasized-text))
 #+END_SRC
+** Persistent scratch
+#+BEGIN_SRC emacs-lisp
+  (use-package persistent-scratch
+    :config
+    (persistent-scratch-setup-default)
+    (add-hook 'kill-emacs-hook 'persistent-scratch-save))
+#+END_SRC
 * Editing
 ** Evil
 Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
@@ -696,6 +703,7 @@ My choice for auto-completion
     (company-dabbrev-downcase nil)
     (company-dabbrev-ignore-case t)
     (company-tooltip-align-annotations t)
+    (company-show-quick-access t)
     (company-frontends
      '(company-tng-frontend
        company-pseudo-tooltip-frontend
