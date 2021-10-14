@@ -716,6 +716,29 @@ My choice for auto-completion
   (use-package company-box
     :hook (company-mode . company-box-mode))
 #+END_SRC
+** YASnippet
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :hook (yas-before-expand-snippet . evil-insert-state)
+    :init
+    (yas-global-mode 1))
+#+END_SRC
+** File templates
+Idea taken from [[http://howardism.org/Technical/Emacs/templates-tutorial.html][here]]
+#+BEGIN_SRC emacs-lisp
+  (use-package autoinsert
+    :custom
+    (auto-insert-query nil)
+    (auto-insert-directory "~/.emacs.d/templates")
+    :hook (find-file . auto-insert)
+    :config
+    (defun autoinsert-yas-expand()
+      "Replace text in yasnippet template."
+      (yas-expand-snippet (buffer-string) (point-min) (point-max)))
+    (define-auto-insert "\\.py?$" ["default-py.py" autoinsert-yas-expand])
+    (define-auto-insert "\\endpoints.org?$" ["default-endpoints.org" autoinsert-yas-expand])
+    (auto-insert-mode t))
+#+END_SRC
 * UI
 ** Doom-theme
 I like how Doom looks, but it's way too convoluted for my

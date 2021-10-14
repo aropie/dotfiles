@@ -1,0 +1,16 @@
+#+TITLE: Endpoints for $1 API
+
+* $1 API                                                               :verb:
+template http://$2
+Content-Type: application/json; charset=utf-8
+Accept: application/json
+# Authorization: Bearer
+** ${3: First endpoint}
+$0
+* Local Variables :noexport:
+# Local Variables:
+# eval: (verb-mode)
+# org-hide-emphasis-markers: nil
+# org-fontify-emphasized-text: nil
+# flyspell-mode: nil
+# End:
