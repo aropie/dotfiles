@@ -102,9 +102,9 @@ I prefer the scratch buffer to greet me when I (rarely) restart Emacs
 #+END_SRC
 ** Backup tweaks
 #+BEGIN_SRC emacs-lisp
-  (setq backup-directory-alist '(("." . "~/.saves")))
-  (setq backup-by-copying t)
-  (setq delete-old-versions t
+  (setq backup-directory-alist `(("." . ,(locate-user-emacs-file "backups")))
+        backup-by-copying t
+        delete-old-versions t
         kept-new-versions 6
         kept-old-versions 2
         version-control t)
