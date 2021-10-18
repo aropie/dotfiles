@@ -51,10 +51,15 @@ source /usr/bin/virtualenvwrapper.sh
 # PATH="$PATH:$(ruby -e 'print Gem.user_dir')/bin"
 
 # Aliases
-alias music="ncmpcpp"
 alias p="sudo pacman"
 alias h="htop"
+alias ls="lsd"
+alias ll="lsd -lah"
+
+# Fun
 alias starwars="telnet towel.blinkenlights.nl"
+
+# Docker
 alias dcrun="sudo docker-compose run --rm"
 alias dcup="sudo docker-compose up"
 alias dcdown="sudo docker-compose down"
@@ -63,6 +68,7 @@ alias dclogs="sudo docker-compose logs"
 alias dcpull="sudo docker-compose pull"
 
 # Music
+alias music="ncmpcpp"
 alias pause="mpc toggle"
 alias next="mpc next"
 alias prev="mpc prev"
