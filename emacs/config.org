@@ -405,13 +405,6 @@ Projectile's really cool. Really nice project management.
     :config
     (counsel-projectile-mode t))
 #+END_SRC
-** Amx
-#+BEGIN_SRC emacs-lisp
-  (use-package amx
-    :config
-    (amx-mode t))
-#+END_SRC
-
 ** Dumb-jump
 Jump to definitions
 #+BEGIN_SRC emacs-lisp
