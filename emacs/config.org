@@ -236,7 +236,6 @@ Manage all the keybindings through general and hydra à la spacemacs
     :infix "o"
     "" '(:ignore t :which-key "Open")
     "d" '(dired-jump :which-key "Dired")
-    "s" '(get-scratch-buffer :which-key "Scratch")
     "n" '(aropie/open-notes :which-key "Notes"))
 #+END_SRC
 *** Help keybindings
@@ -286,6 +285,19 @@ most used ones
     "k" '(aropie/keybindings-config-visit :which-key "keybindings")
     "x" '(aropie/xinit-config-visit :which-key "xinitrc")
     "r" '(aropie/emacs-config-reload :which-key "Reload emacs config"))
+#+END_SRC
+** Scratch buffer
+*** Create/call scratch buffer
+Utility function to get *scratch* buffer or create it if it was killed
+#+BEGIN_SRC emacs-lisp
+  (defun aropie/get-scratch-buffer nil
+    "create a scratch buffer"
+    (interactive)
+    (switch-to-buffer (get-buffer-create "*scratch*"))
+    (org-mode))
+  (my-leader
+    :infix "o"
+    "s" '(aropie/get-scratch-buffer :which-key "Scratch"))
 #+END_SRC
 ** Which-key
 Because Emacs is hard enough without visual aids
