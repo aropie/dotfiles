@@ -304,7 +304,7 @@ The silver searcher
     (ivy-magic-slash-non-match-action 'ivy-magic-slash-non-match-create)
     :config
     (general-define-key
-     :keymaps 'ivy-minibuffer-map
+     :keymaps '(ivy-minibuffer-map ivy-switch-buffer-map)
      "C-j" 'ivy-next-line
      "C-k" 'ivy-previous-line
      "C-l" 'ivy-alt-done
