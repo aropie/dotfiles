@@ -61,7 +61,7 @@ background() {
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Import aliases
-source $ZDOTDIR/alias
+source $ZDOTDIR/aliases
 
 # Golang
 export GOPATH=~/.gocode

@@ -6,6 +6,7 @@
 - link:
         ~/.config/zsh: zsh
         ~/.config/zsh/.zprofile: profile
+        ~/.config/zsh/aliases: aliases
         ~/.xinitrc: xinitrc
         ~/.private_profile: private_profile
         ~/.xsession: xsession
