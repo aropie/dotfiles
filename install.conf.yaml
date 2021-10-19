@@ -4,6 +4,7 @@
               relink: true
 
 - link:
+        ~/.zshenv: zsh/.zshenv
         ~/.config/zsh: zsh
         ~/.config/zsh/.zprofile: profile
         ~/.config/zsh/aliases: aliases
