@@ -5,19 +5,19 @@ if [ -z "$DISPLAY" ] && [ "$(fgconsole)" -eq 1 ]; then
   exec startx
 fi
 
+export ZSH=~/.config/oh-my-zsh
 export KEEP_ZSHRC=yes
 # Check for oh-my-zsh and if its missing, download it
-if [[ ! -d ~/.oh-my-zsh ]]; then
+if [[ ! -d ~/.config/oh-my-zsh ]]; then
     sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 fi
-export ZSH=~/.oh-my-zsh
 
-if [[ ! -d ~/.oh-my-zsh/custom/themes/powerlevel10k ]]; then
-   git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+if [[ ! -d $ZSH/custom/themes/powerlevel10k ]]; then
+   git clone https://github.com/romkatv/powerlevel10k.git $ZSH/custom/themes/powerlevel10k
 fi
 
-if [[ ! -d ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]]; then
-   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+if [[ ! -d $ZSH/custom/plugins/zsh-syntax-highlighting ]]; then
+   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH/custom/plugins/zsh-syntax-highlighting
 fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -66,8 +66,3 @@ source $ZDOTDIR/aliases
 # Golang
 export GOPATH=~/.gocode
 export PATH=$PATH:$GOPATH/bin
-
-# Heru
-alias heru-prod='psql -h heru-prod-db.clvh9nprxspi.us-east-2.rds.amazonaws.com -U HeruAdmin -p 4242'
-alias heru-staging='psql -h heru-stg-db.clvh9nprxspi.us-east-2.rds.amazonaws.com -U HeruAdmin -p 4242 -d postgres'
-alias heru-dev='psql -h  heru-development-db.clvh9nprxspi.us-east-2.rds.amazonaws.com -U HeruAdmin -p 4242 -d postgres'

@@ -4,7 +4,6 @@
 alias p="sudo pacman"
 alias h="htop"
 alias ls="lsd"
-alias ll="lsd -lah"
 alias yay="yay --sudoloop"
 alias icat="kitty +kitten icat"
 # This is to be able to work with modern terminal emulators through ssh
