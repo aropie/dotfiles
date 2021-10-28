@@ -229,14 +229,10 @@ Manage all the keybindings through general and hydra à la spacemacs
 #+END_SRC
 *** Open keybindings
 #+BEGIN_SRC emacs-lisp
-  (defun aropie/open-notes ()
-    (interactive)
-    (counsel-file-jump nil "~/Org"))
   (my-leader
     :infix "o"
     "" '(:ignore t :which-key "Open")
-    "d" '(dired-jump :which-key "Dired")
-    "n" '(aropie/open-notes :which-key "Notes"))
+    "d" '(dired-jump :which-key "Dired"))
 #+END_SRC
 *** Help keybindings
 #+BEGIN_SRC emacs-lisp
@@ -901,6 +897,18 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
      :states 'normal
      :keymaps 'org-mode-map
      "TAB" 'org-cycle))
+#+END_SRC
+** Org Roam
+#+BEGIN_SRC emacs-lisp
+  (use-package org-roam
+    :custom
+    (org-roam-directory "~/RoamNotes")
+    :init (setq org-roam-v2-ack t)
+    :config
+    (org-roam-db-autosync-mode)
+    (my-leader
+      :infix "o"
+      "n" '(org-roam-node-find :which-key "Notes")))
 #+END_SRC
 ** Agenda
 #+BEGIN_SRC emacs-lisp
