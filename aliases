@@ -6,6 +6,7 @@ alias h="htop"
 alias ls="lsd"
 alias yay="yay --sudoloop"
 alias icat="kitty +kitten icat"
+alias cat="bat"
 # This is to be able to work with modern terminal emulators through ssh
 alias ssh="TERM=xterm-256color ssh"
 
