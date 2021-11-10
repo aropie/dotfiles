@@ -42,7 +42,7 @@ c.url.searchengines = {
     "aw": "https://wiki.archlinux.org/index.php?search={}",
     "aur": "https://aur.archlinux.org/packages/?O=0&K={}",
     "g": "https://www.google.com/search?q={}",
-    "yt": "https://www.youtube.com/results?search_query={}"
+    "yt": "https://www.youtube.com/results?search_query={}",
 }
 
 # Bindings for normal mode
@@ -50,4 +50,5 @@ config.bind("J", "tab-prev")
 config.bind("K", "tab-next")
 config.bind("M", "hint links spawn mpv {hint-url}")
 config.bind("b", "hint all tab-bg")
+config.bind("F", "hint all tab-fg")
 config.bind("<Ctrl+p>", "spawn --userscript qute-lastpass")
