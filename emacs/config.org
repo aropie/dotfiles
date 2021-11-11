@@ -1057,7 +1057,12 @@ highly dependant on your commits)
     :config
     :hook (python-mode . python-black-on-save-mode))
 #+END_SRC
-** Yaml
+** Markup
+*** Jenkinsfile
+#+BEGIN_SRC emacs-lisp
+  (use-package jenkinsfile-mode)
+#+END_SRC
+*** Yaml
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode)
 #+END_SRC
