@@ -868,7 +868,9 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
        :hook (fireplace-mode . evil-emacs-state)
        :custom (fireplace-smoke-on t)
        :init
-       (run-with-idle-timer 600 t 'fireplace ()))
+       (defun run-fireplace ()
+         (command-execute 'fireplace))
+       (run-with-idle-timer 600 t 'run-fireplace))
    #+END_SRC
 ** Highlight TODOs
 #+BEGIN_SRC emacs-lisp
