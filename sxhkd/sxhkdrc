@@ -16,7 +16,7 @@ super + p
 super + shift + p
         rofi_generate_password
 super + e
-	emacsclient -c -a ""
+	emacsclient -cn -a ""
 
 # MEDIA
 XF86AudioLowerVolume
