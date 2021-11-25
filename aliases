@@ -29,6 +29,7 @@ alias prev="mpc prev"
 
 # File openners
 alias -s {pdf,PDF}='background zathura'
+alias -s {jpg,JPG,jpeg,JPEG,png}='background sxiv'
 
 # Utils
 
