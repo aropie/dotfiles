@@ -248,7 +248,6 @@
     background = "#222222"
     foreground = "#888888"
     timeout = 5
-    fullscreen = pushback
     # Icon for notifications with low urgency, uncomment to enable
     #icon = /path/to/icon
 
@@ -256,7 +255,6 @@
     background = "#285577"
     foreground = "#ffffff"
     timeout = 5
-    fullscreen = pushback
     # Icon for notifications with normal urgency, uncomment to enable
     #icon = /path/to/icon
 
