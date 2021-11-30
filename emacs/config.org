@@ -160,11 +160,9 @@ Change "yes or no" prompts to "y or n" because we're fast bois
   (set-exec-path-from-shell-PATH)
 #+END_SRC
 **
-** Prefer as much as possible vertical splits
-Taken from [[https://emacs.stackexchange.com/questions/28496/magit-status-always-split-vertically][here]]
+** Always follow symlinks
 #+BEGIN_SRC emacs-lisp
-  (setq split-height-threshold 80)
-  (setq split-width-threshold 0)
+  (setq vc-follow-symlinks t)
 #+END_SRC
 * Utils
 ** General.el
