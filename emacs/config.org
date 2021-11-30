@@ -668,8 +668,6 @@ Syntax checker and linter on the fly
 ** LSP
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
-    :init
-    (setq lsp-keymap-prefix "SPC-c")
     :hook ((lsp-mode . lsp-enable-which-key-integration))
     :custom
     (lsp-headerline-breadcrumb-enable nil)
@@ -684,7 +682,13 @@ Syntax checker and linter on the fly
      :states 'motion
      :keymaps 'override
      "gd" 'lsp-find-definition
-     "gD" 'lsp-find-references))
+     "gD" 'lsp-find-references)
+    (my-leader
+      :infix "c"
+      "" '(:ignore t :which-key "Code")
+      "d" '(lsp-find-definition :which-key "Find definition")
+      "D" '(lsp-find-references :which-key "Find references")
+      "r" '(lsp-rename :which-key "Rename symbol")))
 
   (use-package lsp-ui
     :custom
