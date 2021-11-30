@@ -313,7 +313,7 @@ Ripgrep
     :custom
     (ivy-wrap t)
     (ivy-height 15)
-    (ivy-re-builders-alist ((t . ivy–regex-ignore-order)))
+    (ivy-re-builders-alist ((t . ivy--regex-ignore-order)))
     (ivy-magic-slash-non-match-action 'ivy-magic-slash-non-match-create)
     :config
     (general-define-key
@@ -324,8 +324,6 @@ Ripgrep
      "C-o" 'ivy-dispatching-done
      "C-O" 'ivy-occur
      "C-SPC" 'ivy-call)
-    (setq ivy-re-builders-alist
-          '((t . ivy--regex-ignore-order)))
     (ivy-mode 1))
 #+END_SRC
 *** Ivy-rich
