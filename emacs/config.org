@@ -323,7 +323,8 @@ Ripgrep
      "C-l" 'ivy-alt-done
      "C-o" 'ivy-dispatching-done
      "C-O" 'ivy-occur
-     "C-SPC" 'ivy-call)
+     "C-SPC" 'ivy-call
+     "M-RET" 'ivy-immediate-done)
     (ivy-mode 1))
 #+END_SRC
 *** Ivy-rich
