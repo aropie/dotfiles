@@ -79,7 +79,7 @@ so I disable it altogether
 MacOs has problems with paths, so we need to add them manually
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
-    :if (memq window-system '(mac ns))
+    :if (memq system-type '(darwin windows-nt))
     :config
     (exec-path-from-shell-initialize)
     (exec-path-from-shell-copy-env "GOPATH"))
@@ -180,9 +180,7 @@ Manage all the keybindings through general and hydra à la spacemacs
       ;; prefix local-leader
       :states '(normal insert emacs)
       :prefix "SPC m"
-      :non-normal-prefix "M-SPC m")
-    (my-local-leader
-      "m" '(semantic-or-imenu :which-key "Imenu")))
+      :non-normal-prefix "M-SPC m"))
 #+END_SRC
 ** Main keybindings
 *** File keybindings
@@ -506,6 +504,7 @@ Window managing made smart
 ** No littering
 #+BEGIN_SRC emacs-lisp
   (use-package no-littering
+    :disabled
     :custom
     auto-save-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
@@ -552,6 +551,31 @@ For the custom template I'm using for verb files, I set some variables to safe i
 *** Persp-projectile
 #+BEGIN_SRC emacs-lisp
   (use-package persp-projectile)
+#+END_SRC
+** Ledger
+#+BEGIN_SRC emacs-lisp
+  (use-package ledger-mode
+    :hook (ledger-mode . company-mode)
+    :custom
+    (ledger-complete-in-steps t)
+    :config
+    (setq ledger-reports '(("balance" "%(binary) -f %(ledger-file) bal")
+                          ("real-balance" "%(binary) -f %(ledger-file) bal --cleared --real")
+                          ("reg" "%(binary) -f %(ledger-file) reg")
+                          ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
+                          ("account" "%(binary) -f %(ledger-file) bal %(account)")))
+    (my-local-leader
+      :keymaps 'ledger-mode-map
+      :state 'motion
+      "a" 'ledger-add-transaction
+      "b" 'ledger-display-balance-at-point
+      "r" 'ledger-report)
+    (add-hook 'ledger-mode-hook
+              (lambda () (add-hook 'before-save-hook 'ledger-mode-clean-buffer nil 'local))))
+#+END_SRC
+*** Ledger Flycheck
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck-ledger)
 #+END_SRC
 * Editing
 ** Evil
