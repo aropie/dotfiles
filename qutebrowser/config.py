@@ -19,7 +19,8 @@ config.set("content.javascript.enabled", True, "chrome://*/*")
 config.set("content.javascript.enabled", True, "qute://*/*")
 
 config.set("auto_save.session", True)
-config.set("session.lazy_restore", True)
+config.set("session.lazy_restore", True)  # Currently not working :(
+config.set("content.autoplay", False)
 
 # Setting dark mode
 config.set("colors.webpage.darkmode.enabled", True)
