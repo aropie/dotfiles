@@ -227,8 +227,7 @@ Manage all the keybindings through general and hydra à la spacemacs
 #+BEGIN_SRC emacs-lisp
   (my-leader
     :infix "o"
-    "" '(:ignore t :which-key "Open")
-    "d" '(dired-jump :which-key "Dired"))
+    "" '(:ignore t :which-key "Open"))
 #+END_SRC
 *** Help keybindings
 #+BEGIN_SRC emacs-lisp
@@ -576,6 +575,16 @@ For the custom template I'm using for verb files, I set some variables to safe i
 *** Ledger Flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck-ledger)
+#+END_SRC
+** Dired
+#+BEGIN_SRC emacs-lisp
+  (use-package dired
+    :ensure nil
+    :custom (dired-listing-switches "-agho --group-directories-first")
+    :config
+    (my-leader
+      :infix "o"
+      "d" '(dired-jump :which-key "Dired")))
 #+END_SRC
 * Editing
 ** Evil
