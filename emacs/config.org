@@ -1122,6 +1122,13 @@ highly dependant on your commits)
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode)
 #+END_SRC
+** JavaScript
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-mode
+    :custom (js2-highlight-level 3)
+    :config
+    (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
+#+END_SRC
 * Packages to consider
 - https://github.com/gilbertw1/better-jumper
 - https://cestlaz.github.io/post/using-emacs-57-dired-narrow/
