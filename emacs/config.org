@@ -52,6 +52,10 @@ those files in =~/.cache/emacs=
 #+BEGIN_SRC emacs-lisp
   (setq-default indent-tabs-mode nil)
 #+END_SRC
+** Set default tab size
+#+BEGIN_SRC emacs-lisp
+  (setq-default tab-width 4)
+#+END_SRC
 ** Enable narrow mode
 #+BEGIN_SRC emacs-lisp
   (put 'narrow-to-region 'disabled nil)
