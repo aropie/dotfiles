@@ -1,5 +1,6 @@
 #!/bin/sh
 
+setxkbmap -layout us -variant altgr-intl
 picom -f -D 1 &
 dunst &
 emacs --daemon &
