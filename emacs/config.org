@@ -1119,6 +1119,10 @@ highly dependant on your commits)
     :hook (python-mode . python-black-on-save-mode))
 #+END_SRC
 ** Markup
+*** Yaml
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode)
+#+END_SRC
 ** JavaScript
 #+BEGIN_SRC emacs-lisp
   (use-package js2-mode
@@ -1133,10 +1137,6 @@ highly dependant on your commits)
 *** Jenkinsfile
 #+BEGIN_SRC emacs-lisp
   (use-package jenkinsfile-mode)
-#+END_SRC
-**** Yaml
-#+BEGIN_SRC emacs-lisp
-  (use-package yaml-mode)
 #+END_SRC
 * Packages to consider
 - https://github.com/gilbertw1/better-jumper
