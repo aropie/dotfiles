@@ -444,7 +444,11 @@ Jump to definitions
 ** Undo tree
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
-    :config (global-undo-tree-mode t))
+    :config
+    (global-undo-tree-mode t)
+    (my-leader
+      :infix "o"
+      "u" '(undo-tree-visualize :which-key "Undo tree")))
 #+END_SRC
 ** Avy
 Jump around like there's no tomorrow
