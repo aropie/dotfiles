@@ -169,6 +169,10 @@ Change "yes or no" prompts to "y or n" because we're fast bois
   (setq vc-follow-symlinks t)
 #+END_SRC
 * Utils
+** Hydra
+#+BEGIN_SRC emacs-lisp
+  (use-package hydra)
+#+END_SRC
 ** General.el
 Manage all the keybindings through general and hydra à la spacemacs
 #+BEGIN_SRC emacs-lisp
@@ -372,10 +376,6 @@ For when you're not sure wether you want a package polluting your system
   (use-package try)
 #+END_SRC
 
-** Hydra
-#+BEGIN_SRC emacs-lisp
-  (use-package hydra)
-#+END_SRC
 ** Projectile
 Projectile's really cool. Really nice project management.
 #+BEGIN_SRC emacs-lisp
@@ -684,25 +684,22 @@ Allows for text objects exchanging
 *** Evil multiple cursors
 #+BEGIN_SRC emacs-lisp
   (use-package evil-mc
+    :hook ((prog-mode text-mode) . evil-mc-mode)
     :config
-    (add-hook 'prog-mode-hook 'evil-mc-mode)
-    (add-hook 'text-mode-hook 'evil-mc-mode)
+    (defhydra hydra-mc (:color red)
+      "Multiple cursors"
+      ("n" evil-mc-make-and-goto-next-match "Create and next match")
+      ("p" evil-mc-make-and-goto-prev-match "Create and previous match")
+      ("N" evil-mc-skip-and-goto-next-match "Skip to next match")
+      ("P" evil-mc-skip-and-goto-prev-match "Skip to previous match")
+      ("m" evil-mc-make-all-cursors "Create all cursors")
+      ("j" evil-mc-make-cursor-move-next-line "Create and next line")
+      ("k" evil-mc-make-cursor-move-prev-line "Create and previous line")
+      ("q" evil-mc-undo-all-cursors "Undo all cursors" :color blue))
     (general-define-key
-     :states 'normal
+     :states '(normal visual)
      :keymaps 'override
-     "C-n" 'evil-mc-make-and-goto-next-match
-     "C-p" 'evil-mc-make-and-goto-prev-match
-     "M-n" 'evil-mc-skip-and-goto-next-match
-     "M-p" 'evil-mc-skip-and-goto-prev-match
-     "grq" 'evil-mc-undo-all-cursors
-     "grm" 'evil-mc-make-all-cursors
-     "grj" 'evil-mc-make-cursor-move-next-line
-     "grk" 'evil-mc-make-cursor-move-prev-line)
-    (general-define-key
-     :states 'visual
-     :keymaps 'override
-     "grA" 'evil-mc-make-cursor-in-visual-selection-end
-     "grI" 'evil-mc-make-cursor-in-visual-selection-beg))
+     "gr" 'hydra-mc/body))
 #+END_SRC
 ** Electric parenthesis
 #+BEGIN_SRC emacs-lisp
