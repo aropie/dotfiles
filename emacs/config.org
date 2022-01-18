@@ -68,7 +68,7 @@ They are visual clutter once you get to know the keybindings (or create your own
   (scroll-bar-mode -1)
 #+END_SRC
 ** Defuse custom file
-I really dislike custom writing on init.el without my permission,
+I really dislike ~custom~ writing on ~init.el~ without my permission,
 so I disable it altogether
 #+BEGIN_SRC emacs-lisp
   (setq custom-file null-device)
@@ -114,7 +114,7 @@ I prefer the scratch buffer to greet me when I (rarely) restart Emacs
         version-control t)
 #+END_SRC
 ** Transparency
-I like being able to see my wallpaper. Call me a romantic if you like
+I like being able to see my wallpaper, even if it's only a little bit. Call me a romantic if you like
 #+BEGIN_SRC emacs-lisp
   (set-frame-parameter (selected-frame) 'alpha '(98 98))
   (add-to-list 'default-frame-alist '(alpha 98 98))
@@ -125,8 +125,7 @@ I find confusing having cursors on every window, so I just remove inactive ones
   (setq cursor-in-non-selected-windows nil)
 #+END_SRC
 ** Help
-When opening a help window, always select that window
-afterwards and move focus to it.
+When opening a help window, always select that window afterwards and move focus to it.
 #+BEGIN_SRC emacs-lisp
   (setq help-window-select t)
 #+END_SRC
@@ -142,6 +141,7 @@ Change "yes or no" prompts to "y or n" because we're fast bois
   (fset 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 ** Auto revert everything
+Since I run a lot of automatic linting, I like for all buffers to match the actual file as closely as possible
 #+BEGIN_SRC emacs-lisp
   (global-auto-revert-mode t)
 #+END_SRC
@@ -174,7 +174,7 @@ Change "yes or no" prompts to "y or n" because we're fast bois
   (use-package hydra)
 #+END_SRC
 ** General.el
-Manage all the keybindings through general and hydra à la spacemacs
+Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
 #+BEGIN_SRC emacs-lisp
   (use-package general
     :config
@@ -371,13 +371,13 @@ A mode to enbiggen font for presentations and screen sharing
       "p" '(presentation-mode :which-key "Presentation mode")))
 #+END_SRC
 ** Try
-For when you're not sure wether you want a package polluting your system
+Sometimes I want to try a specific package before actually installing it. This is exactly it.
 #+BEGIN_SRC emacs-lisp
   (use-package try)
 #+END_SRC
 
 ** Projectile
-Projectile's really cool. Really nice project management.
+Projectile's really cool. Very nice project management.
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :ensure t
@@ -412,7 +412,7 @@ Projectile's really cool. Really nice project management.
     (counsel-projectile-mode t))
 #+END_SRC
 ** Dumb-jump
-Jump to definitions
+Jumping to definitions made simple
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
     :custom
@@ -430,6 +430,7 @@ Jump to definitions
 #+END_SRC
 
 ** Helpful
+Improves ~help~ buffers adding contextual information and multiple references
 #+BEGIN_SRC emacs-lisp
   (use-package helpful
     :custom
@@ -442,6 +443,7 @@ Jump to definitions
     ([remap describe-key] . helpful-key))
 #+END_SRC
 ** Undo tree
+Undoing becomes actually a branching tree, one that I can actually navigate. This is some serious voodoo stuff
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :config
@@ -517,6 +519,7 @@ Window managing made smart
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 #+END_SRC
 ** Verb
+Like [[https://github.com/pashky/restclient.el][restclient.el]], but +better+ with ~org-mode~
 #+BEGIN_SRC emacs-lisp
   (use-package verb
     :config
@@ -527,7 +530,7 @@ Window managing made smart
       "vv" 'verb-set-var))
 #+END_SRC
 *** Set local variables to safe
-For the custom template I'm using for verb files, I set some variables to safe in order to avoid prompts everytime I open one of those files
+For the custom template I'm using for verb files, I set some variables to ~safe~ in order to avoid prompts everytime I open one of those files
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'safe-local-variable-values '(flyspell-mode))
   (add-to-list 'safe-local-variable-values '(org-fontify-emphasized-text))
@@ -874,10 +877,7 @@ Highlights current line to aid with quick cursor finding
   (global-hl-line-mode t)
 #+END_SRC
 ** Pretty symbols
-In emacs 24.4 we got prettify-symbols-mode which replaces things like
-lambda with λ. This can help make the code easier to read. The
-inhibit-compacting-font-caches stops garbage collect from trying to
-handle font caches which makes things a lot faster and saves us ram.
+In emacs 24.4 we got prettify-symbols-mode which replaces things like lambda with λ. This can help make the code easier to read. The inhibit-compacting-font-caches stops garbage collect from trying to handle font caches which makes things a lot faster and saves us ram.
 #+BEGIN_SRC emacs-lisp
   (setq prettify-symbols-unprettify-at-point 'right-edge)
   (setq inhibit-compacting-font-caches t)
