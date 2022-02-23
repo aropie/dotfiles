@@ -48,6 +48,32 @@ those files in =~/.cache/emacs=
     (gcmh-mode 1))
 #+END_SRC
 * General layout and config
+** Keeping emacs clean
+*** No littering
+#+BEGIN_SRC emacs-lisp
+  (use-package no-littering)
+#+END_SRC
+*** Auto-saves
+#+BEGIN_SRC emacs-lisp
+  (setq auto-save-file-name-transforms
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+#+END_SRC
+
+*** Backups
+#+BEGIN_SRC emacs-lisp
+  (setq backup-directory-alist `(("." . ,(no-littering-expand-var-file-name "backups/")))
+        backup-by-copying t
+        delete-old-versions t
+        kept-new-versions 6
+        kept-old-versions 2
+        version-control t)
+#+END_SRC
+
+*** Custom
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
+#+END_SRC
+
 ** Use spaces instead of tabs
 #+BEGIN_SRC emacs-lisp
   (setq-default indent-tabs-mode nil)
@@ -103,15 +129,6 @@ annoying, so better be safe than sorry
 I prefer the scratch buffer to greet me when I (rarely) restart Emacs
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t)
-#+END_SRC
-** Backup tweaks
-#+BEGIN_SRC emacs-lisp
-  (setq backup-directory-alist `(("." . ,(locate-user-emacs-file "backups")))
-        backup-by-copying t
-        delete-old-versions t
-        kept-new-versions 6
-        kept-old-versions 2
-        version-control t)
 #+END_SRC
 ** Transparency
 I like being able to see my wallpaper, even if it's only a little bit. Call me a romantic if you like
@@ -510,14 +527,6 @@ Window managing made smart
       "h" '(split-window-vertically :which-key "Split window horizontally")
       "v" '(split-window-horizontally :which-key "Split window vertically")
       "r" '(hydra-window-resize/body :which-key "Resize windows")))
-#+END_SRC
-** No littering
-#+BEGIN_SRC emacs-lisp
-  (use-package no-littering
-    :disabled
-    :custom
-    auto-save-file-name-transforms
-        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 #+END_SRC
 ** Verb
 Like [[https://github.com/pashky/restclient.el][restclient.el]], but +better+ with ~org-mode~
