@@ -6,8 +6,6 @@ those files in =~/.cache/emacs=
   (setq user-emacs-directory "~/.cache/emacs/")
   (if (not (file-directory-p user-emacs-directory))
       (make-directory user-emacs-directory t))
-  (setq auto-save-list-file-prefix user-emacs-directory)
-  (setq package-user-dir "~/.cache/emacs/elpa")
 #+END_SRC
 ** Package initialize
 #+BEGIN_SRC emacs-lisp
