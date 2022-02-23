@@ -921,16 +921,6 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
     (visual-fill-column-width 110)
     (visual-fill-column-center-text t))
 #+END_SRC
-** Fireplace
-   #+BEGIN_SRC emacs-lisp
-     (use-package fireplace
-       :hook (fireplace-mode . evil-emacs-state)
-       :custom (fireplace-smoke-on t)
-       :init
-       (defun run-fireplace ()
-         (command-execute 'fireplace))
-       (run-with-idle-timer 600 t 'run-fireplace))
-   #+END_SRC
 ** Highlight TODOs
 #+BEGIN_SRC emacs-lisp
   (use-package hl-todo
