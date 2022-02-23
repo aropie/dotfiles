@@ -799,6 +799,7 @@ My choice for auto-completion
 ** YASnippet
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
+    :custom (yas-snippet-dirs '("~/.emacs.d/snippets"))
     :hook (yas-before-expand-snippet . evil-insert-state)
     :init
     (yas-global-mode 1))

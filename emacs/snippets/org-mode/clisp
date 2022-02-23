@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: clisp
+# key: cl
+# --
+#+BEGIN_SRC common-lisp
+$0
+#+END_SRC
