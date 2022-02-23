@@ -144,6 +144,7 @@ Change "yes or no" prompts to "y or n" because we're fast bois
 Since I run a lot of automatic linting, I like for all buffers to match the actual file as closely as possible
 #+BEGIN_SRC emacs-lisp
   (global-auto-revert-mode t)
+  (setq global-auto-revert-non-file-buffers t)
 #+END_SRC
 ** Correctly set exec-path
 #+BEGIN_SRC emacs-lisp
