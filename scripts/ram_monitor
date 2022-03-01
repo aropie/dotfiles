@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Taken from https://forums.linuxmint.com/viewtopic.php?t=363173
+
+thresholdRamPercent=80 # Should be an integer
+
+warningMessage="WARNING: RAM usage above $thresholdRamPercent percentage. Please free some RAM."
+
+while true ; do
+
+    # Get used RAM % via free(1) .
+    usedRamPercent=$(free | grep Mem | awk '{print $3/$2 * 100.0}' | sed 's/\..*$//g')
+
+    if [[ $usedRamPercent -ge $thresholdRamPercent ]] ; then
+        # Send a notification
+        notify-send -u critical -i dialog-warning "$warningMessage"
+    fi
+
+    # Refresh every 5 seconds
+    sleep 5
+
+done
