@@ -365,6 +365,14 @@ Ripgrep
     (setq xref-show-definitions-function #'ivy-xref-show-defs)
     (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 #+END_SRC
+*** Prescient
+Add sorting by recent and enhances fuzzy searching of Ivy
+#+BEGIN_SRC emacs-lisp
+  (use-package ivy-prescient
+    :custom (ivy-prescient-retain-classic-highlighting t)
+    :init (ivy-prescient-mode t))
+#+END_SRC
+
 ** Counsel
 #+BEGIN_SRC emacs-lisp
   (use-package counsel
