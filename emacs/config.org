@@ -312,7 +312,10 @@ Utility function to get *scratch* buffer or create it if it was killed
     (org-mode))
   (my-leader
     :infix "o"
-    "s" '(aropie/get-scratch-buffer :which-key "Scratch"))
+    "s" `(,(if (persp-mode)
+               'persp-switch-to-scratch-buffer
+             'aropie/get-scratch-buffer)
+          :which-key "Scratch"))
 #+END_SRC
 ** Which-key
 Because Emacs is hard enough without visual aids
