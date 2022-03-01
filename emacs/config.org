@@ -536,7 +536,7 @@ Like [[https://github.com/pashky/restclient.el][restclient.el]], but +better+ wi
     :config
     (my-local-leader
       :keymaps 'verb-mode-map
-      :state 'motion
+      :state 'normal
       "m" 'verb-send-request-on-point
       "vv" 'verb-set-var))
 #+END_SRC
@@ -750,7 +750,7 @@ Syntax checker and linter on the fly
     :commands lsp
     :config
     (general-define-key
-     :states 'motion
+     :states 'normal
      :keymaps 'override
      "gd" 'lsp-find-definition
      "gD" 'lsp-find-references)
@@ -823,8 +823,7 @@ Idea taken from [[http://howardism.org/Technical/Emacs/templates-tutorial.html][
 #+END_SRC
 * UI
 ** Doom-theme
-I like how Doom looks, but it's way too convoluted for my
-taste, so I just grab their theme
+I like how Doom looks, but it's way too convoluted for my taste, so I just grab their theme
 #+BEGIN_SRC emacs-lisp
   (use-package doom-themes
     :config
@@ -971,7 +970,7 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
 
     (my-local-leader
       :keymaps 'org-mode-map
-      :state 'motion
+      :state 'normal
       "t" 'counsel-org-tag)
 
     (general-define-key
