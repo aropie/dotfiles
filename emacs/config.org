@@ -757,11 +757,6 @@ Syntax checker and linter on the fly
     (lsp-diagnostics-provider 'flycheck)
     :commands lsp
     :config
-    (general-define-key
-     :states 'normal
-     :keymaps 'override
-     "gd" 'lsp-find-definition
-     "gD" 'lsp-find-references)
     (my-leader
       :infix "c"
       "" '(:ignore t :which-key "Code")
@@ -772,7 +767,17 @@ Syntax checker and linter on the fly
   (use-package lsp-ui
     :custom
     (lsp-ui-doc-position 'bottom)
-    (lsp-ui-sideline-enable t))
+    (lsp-ui-sideline-enable t)
+    (lsp-ui-peek-always-show t)
+    :config
+    (general-define-key
+     :states 'normal
+     "gd" 'lsp-find-definition
+     "gD" 'lsp-ui-peek-find-references)
+    (general-define-key
+     :keymaps 'lsp-ui-peek-mode-map
+     "C-j" 'lsp-ui-peek--select-next
+     "C-k" 'lsp-ui-peek--select-prev))
 
   (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
 #+END_SRC
