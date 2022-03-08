@@ -1132,11 +1132,6 @@ highly dependant on your commits)
     :config
     :hook (python-mode . python-black-on-save-mode))
 #+END_SRC
-** Markup
-*** Yaml
-#+BEGIN_SRC emacs-lisp
-  (use-package yaml-mode)
-#+END_SRC
 ** JavaScript
 #+BEGIN_SRC emacs-lisp
   (use-package js2-mode
@@ -1146,6 +1141,16 @@ highly dependant on your commits)
     :custom
     (js2-highlight-level 3)
     (js-indent-level 2))
+#+END_SRC
+** PHP
+#+BEGIN_SRC emacs-lisp
+  (use-package php-mode)
+#+END_SRC
+
+** Markup
+*** Yaml
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode)
 #+END_SRC
 ** DSL
 *** Jenkinsfile
