@@ -312,7 +312,7 @@ Utility function to get *scratch* buffer or create it if it was killed
     (org-mode))
   (my-leader
     :infix "o"
-    "s" `(,(if (persp-mode)
+    "s" `(,(if (and (boundp 'persp-mode) (persp-mode))
                'persp-switch-to-scratch-buffer
              'aropie/get-scratch-buffer)
           :which-key "Scratch"))
