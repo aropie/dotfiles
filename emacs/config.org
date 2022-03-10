@@ -148,7 +148,9 @@ When opening a help window, always select that window afterwards and move focus 
 This is supposed to adjust font sizes depending on which screen I'm
 working on, but I have yet to find a sweet spot for it
 #+BEGIN_SRC emacs-lisp
-  (set-face-attribute 'default nil :height 100)
+  (if (eq system-type 'darwin)
+      (set-face-attribute 'default nil :height 130)
+    (set-face-attribute 'default nil :height 100))
 #+END_SRC
 ** Yes-or-no
 Change "yes or no" prompts to "y or n" because we're fast bois
