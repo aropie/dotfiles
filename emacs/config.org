@@ -1082,7 +1082,8 @@ Git porcelain inside Emacs. Git turned into loving hugs and kisses
     ;; helpful and only add to runtime costs.
     (magit-revision-insert-related-refs nil)
     :hook (git-commit-mode . evil-insert-state)
-    :config)
+    :config
+    (magit-add-section-hook 'magit-status-sections-hook 'magit-insert-assume-unchanged-files 'magit-insert-stashes))
 #+END_SRC
 ** Timemachine
 Take your code for a travel through time (that is incidentally,
