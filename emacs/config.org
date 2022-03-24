@@ -395,6 +395,14 @@ A mode to enbiggen font for presentations and screen sharing
 #+BEGIN_SRC emacs-lisp
   (use-package presentation
     :config
+    (defun aropie/presentation-on ()
+      (lsp-ui-mode -1))
+    (defun aropie/presentation-off ()
+      (lsp-ui-mode 1))
+
+    (add-hook 'presentation-on-hook #'aropie/presentation-on)
+    (add-hook 'presentation-off-hook #'aropie/presentation-off)
+
     (my-leader
       :infix "t"
       "p" '(presentation-mode :which-key "Presentation mode")))
