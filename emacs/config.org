@@ -955,11 +955,35 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
     (visual-fill-column-width 110)
     (visual-fill-column-center-text t))
 #+END_SRC
-** Highlight TODOs
+** SVG-Tags
 #+BEGIN_SRC emacs-lisp
-  (use-package hl-todo
-    :hook ((prog-mode text-mode) . hl-todo-mode))
+  (use-package svg-tag-mode
+    :init
+    (add-hook 'python-mode-hook (lambda ()
+                                  (setq svg-tag-tags '(
+                                                       ("# TODO[([:alpha:][:blank:])]*[\b:]*" .
+                                                        ((lambda (tag) (svg-tag-make tag
+                                                                                     :face 'org-todo
+                                                                                     :inverse t
+                                                                                     :crop-right t
+                                                                                     :padding 0
+                                                                                     :beg 2
+                                                                                     :end -1
+                                                                                     :alignment 1))))
+                                                       ("# TODO[([:alpha:][:blank:])]*[\b:]*\\(.*\\)" .
+                                                        ((lambda (tag) (svg-tag-make tag :face 'org-todo :crop-left t))))))
+                                  (svg-tag-mode t)))
+    (add-hook 'org-mode-hook (lambda ()
+                               (setq svg-tag-tags '(
+                                                    ;; Org tags
+                                                    (":\\([A-Za-z0-9-_]+\\)" . ((lambda (tag) (svg-tag-make tag :face 'org-tag))))
+
+                                                    ;; TODO / DONE
+                                                    ("TODO" . ((lambda (tag) (svg-tag-make "TODO" :face 'org-todo :inverse t :margin 0))))
+                                                    ("DONE" . ((lambda (tag) (svg-tag-make "DONE" :face 'org-done :margin 0))))))
+                               (svg-tag-mode t))))
 #+END_SRC
+
 * Org
 ** Basic config
 #+BEGIN_SRC emacs-lisp
