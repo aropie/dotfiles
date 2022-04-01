@@ -916,7 +916,6 @@ In emacs 24.4 we got prettify-symbols-mode which replaces things like lambda wit
   (setq prettify-symbols-unprettify-at-point 'right-edge)
   (setq inhibit-compacting-font-caches t)
 #+END_SRC
-*** Global
 These symbols are the basics I like enabled for all ~prog-mode~ modes.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook
@@ -925,20 +924,6 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
               (push '("<=" . ?≤) prettify-symbols-alist)
               (push '(">=" . ?≥) prettify-symbols-alist)
               (push '("=>" . ?⇒) prettify-symbols-alist)))
-#+END_SRC
-*** Python
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'python-mode-hook
-            (lambda ()
-              (push '("def"    . ?ƒ) prettify-symbols-alist)
-              (push '("sum"    . ?Σ) prettify-symbols-alist)
-              (push '("**2"    . ?²) prettify-symbols-alist)
-              (push '("**3"    . ?³) prettify-symbols-alist)
-              (push '("None"   . ?∅) prettify-symbols-alist)
-              (push '("in"     . ?∈) prettify-symbols-alist)
-              (push '("not in" . ?∉) prettify-symbols-alist)
-              (push '("return" . ?➡) prettify-symbols-alist)
-              (prettify-symbols-mode t)))
 #+END_SRC
 ** Nyan mode
 #+BEGIN_SRC emacs-lisp
@@ -957,31 +942,7 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
 #+END_SRC
 ** SVG-Tags
 #+BEGIN_SRC emacs-lisp
-  (use-package svg-tag-mode
-    :init
-    (add-hook 'python-mode-hook (lambda ()
-                                  (setq svg-tag-tags '(
-                                                       ("# TODO[([:alpha:][:blank:])]*[\b:]*" .
-                                                        ((lambda (tag) (svg-tag-make tag
-                                                                                     :face 'org-todo
-                                                                                     :inverse t
-                                                                                     :crop-right t
-                                                                                     :padding 0
-                                                                                     :beg 2
-                                                                                     :end -1
-                                                                                     :alignment 1))))
-                                                       ("# TODO[([:alpha:][:blank:])]*[\b:]*\\(.*\\)" .
-                                                        ((lambda (tag) (svg-tag-make tag :face 'org-todo :crop-left t))))))
-                                  (svg-tag-mode t)))
-    (add-hook 'org-mode-hook (lambda ()
-                               (setq svg-tag-tags '(
-                                                    ;; Org tags
-                                                    (":\\([A-Za-z0-9-_]+\\)" . ((lambda (tag) (svg-tag-make tag :face 'org-tag))))
-
-                                                    ;; TODO / DONE
-                                                    ("TODO" . ((lambda (tag) (svg-tag-make "TODO" :face 'org-todo :inverse t :margin 0))))
-                                                    ("DONE" . ((lambda (tag) (svg-tag-make "DONE" :face 'org-done :margin 0))))))
-                               (svg-tag-mode t))))
+  (use-package svg-tag-mode)
 #+END_SRC
 
 * Org
@@ -1089,6 +1050,21 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
                                       (?4 . "☕")
                                       (?I . "Important"))))
 #+END_SRC
+** SVG tags
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (setq svg-tag-tags '(
+                                   ;; Org tags
+                                   (":\\([A-Za-z0-9-_]+\\)" . ((lambda (tag) (svg-tag-make tag :face 'org-tag))))
+
+                                   ;; TODO / DONE
+                                   ("TODO" . ((lambda (tag) (svg-tag-make "TODO" :face 'org-todo :inverse t :margin 0))))
+                                   ("DONE" . ((lambda (tag) (svg-tag-make "DONE" :face 'org-done :margin 0))))))
+              (svg-tag-mode t)))
+
+#+END_SRC
+
 * Git
 #+BEGIN_SRC emacs-lisp
   (my-leader
@@ -1169,6 +1145,40 @@ highly dependant on your commits)
   (use-package python-black
     :config
     :hook (python-mode . python-black-on-save-mode))
+#+END_SRC
+*** SVG tags
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (setq svg-tag-tags '(
+                                   ("# TODO[([:alpha:][:blank:])]*[\b:]*" .
+                                    ((lambda (tag) (svg-tag-make tag
+                                                                 :face 'org-todo
+                                                                 :inverse t
+                                                                 :crop-right t
+                                                                 :padding 0
+                                                                 :beg 2
+                                                                 :end -1
+                                                                 :alignment 1))))
+                                   ("# TODO[([:alpha:][:blank:])]*[\b:]*\\(.*\\)" .
+                                    ((lambda (tag) (svg-tag-make tag :face 'org-todo :crop-left t))))))
+              (svg-tag-mode t)))
+
+#+END_SRC
+
+*** Pretty symbols
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (push '("def"    . ?ƒ) prettify-symbols-alist)
+              (push '("sum"    . ?Σ) prettify-symbols-alist)
+              (push '("**2"    . ?²) prettify-symbols-alist)
+              (push '("**3"    . ?³) prettify-symbols-alist)
+              (push '("None"   . ?∅) prettify-symbols-alist)
+              (push '("in"     . ?∈) prettify-symbols-alist)
+              (push '("not in" . ?∉) prettify-symbols-alist)
+              (push '("return" . ?➡) prettify-symbols-alist)
+              (prettify-symbols-mode t)))
 #+END_SRC
 ** JavaScript
 #+BEGIN_SRC emacs-lisp
