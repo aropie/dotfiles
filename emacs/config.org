@@ -1142,7 +1142,9 @@ highly dependant on your commits)
   (use-package python-mode
     :hook (python-mode . lsp-deferred)
     :config
-  (setq flycheck-flake8-maximum-line-length 88))
+    (setq flycheck-flake8-maximum-line-length 88)
+    (add-hook 'python-mode-hook
+              (lambda () (local-unset-key (kbd "<backspace>")))))
 #+END_SRC
 *** Language Server
 #+BEGIN_SRC emacs-lisp
