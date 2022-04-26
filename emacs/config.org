@@ -535,6 +535,7 @@ Window managing made smart
     (aw-scope 'frame)
     (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
     :config
+    (winner-mode t)
     (general-define-key
      :states '(normal insert emacs)
      :keymaps 'override
@@ -544,6 +545,7 @@ Window managing made smart
       :infix "w"
       "" '(:ignore t :which-key "Windows")
       "w" '(ace-window :which-key "Change window")
+      "u" '(winner-undo :which-key "Undo windows config")
       "s" '(ace-swap-window :which-key "Swap windows")
       "o" '(delete-other-windows :which-key "Delete other windows")
       "x" '(ace-delete-window :which-key "Delete window")
