@@ -648,6 +648,7 @@ Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
     :init
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
+    (setq evil-respect-visual-line-mode t)
     :config
     (evil-mode 1))
 #+END_SRC
