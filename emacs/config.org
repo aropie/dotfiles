@@ -632,6 +632,11 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
       :infix "o"
       "d" '(dired-jump :which-key "Dired")))
 #+END_SRC
+** Make shebang (#!) files executable on save
+#+BEGIN_SRC emacs-lisp
+(add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
+#+END_SRC
+
 * Editing
 ** Evil
 Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
