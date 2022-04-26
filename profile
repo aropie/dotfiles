@@ -1,6 +1,7 @@
 #!/bin/sh
 
 export PATH=$PATH:$HOME/.scripts
+export PATH=$PATH:$HOME/.local/bin:
 export EDITOR='emacsclient -c -a "$@"'
 export TERMINAL='kitty'
 export MPD_HOST="localhost"
