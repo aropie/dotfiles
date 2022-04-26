@@ -155,7 +155,11 @@ working on, but I have yet to find a sweet spot for it
 ** Yes-or-no
 Change "yes or no" prompts to "y or n" because we're fast bois
 #+BEGIN_SRC emacs-lisp
-  (fset 'yes-or-no-p 'y-or-n-p)
+  ;; Emacs 28 has a variable for using short answers, which should
+  ;; be preferred if using that version or higher.
+  (if (boundp 'use-short-answers)
+      (setq use-short-answers t)
+    (advice-add 'yes-or-no-p :override #'y-or-n-p))
 #+END_SRC
 ** Auto revert everything
 Since I run a lot of automatic linting, I like for all buffers to match the actual file as closely as possible
