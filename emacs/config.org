@@ -770,6 +770,15 @@ Syntax checker and linter on the fly
     :init (global-flycheck-mode))
 
 #+END_SRC
+** Tree sitter
+#+BEGIN_SRC emacs-lisp
+  (use-package tree-sitter)
+  (use-package tree-sitter-langs
+    :init (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+    :config
+    (global-tree-sitter-mode))
+#+END_SRC
+
 * Completion
 ** LSP
 #+BEGIN_SRC emacs-lisp
