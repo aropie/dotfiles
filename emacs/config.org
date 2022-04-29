@@ -757,6 +757,7 @@ Allows for text objects exchanging
 ** Electric parenthesis
 #+BEGIN_SRC emacs-lisp
   (electric-pair-mode t)
+  (setq electric-pair-skip-whitespace nil)
 #+END_SRC
 ** Remove whitespace
 This removes whitespace prior to saving
