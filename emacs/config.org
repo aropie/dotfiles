@@ -655,6 +655,8 @@ Spaceballs (1987)
     (setq evil-want-keybinding nil)
     (setq evil-respect-visual-line-mode t)
     :config
+    ;; Push xref to the front of goto-defintion functions so it always have priority
+    (push 'evil-goto-definition-xref evil-goto-definition-functions)
     (evil-mode 1))
 #+END_SRC
 *** Evil collection
@@ -809,7 +811,6 @@ Syntax checker and linter on the fly
     :config
     (general-define-key
      :states 'normal
-     "gd" 'lsp-find-definition
      "gD" 'lsp-ui-peek-find-references)
     (general-define-key
      :keymaps 'lsp-ui-peek-mode-map
