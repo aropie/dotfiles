@@ -870,6 +870,7 @@ Idea taken from [[http://howardism.org/Technical/Emacs/templates-tutorial.html][
       (yas-expand-snippet (buffer-string) (point-min) (point-max)))
     (define-auto-insert "\\.py?$" ["default-py.py" autoinsert-yas-expand])
     (define-auto-insert "\\endpoints.org?$" ["default-endpoints.org" autoinsert-yas-expand])
+    (define-auto-insert "\\.uml$" ["default-uml.uml" autoinsert-yas-expand])
     (auto-insert-mode t))
 #+END_SRC
 * UI
