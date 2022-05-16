@@ -1,6 +1,7 @@
-[submodule "dotbot"]
-	path = dotbot
-	url = https://github.com/anishathalye/dotbot
 [submodule "polybar/polybar-scripts"]
 	path = polybar/polybar-scripts
 	url = https://github.com/polybar/polybar-scripts
+[submodule "dotbot"]
+	path = dotbot
+	url = https://github.com/anishathalye/dotbot
+	ignore = dirty
