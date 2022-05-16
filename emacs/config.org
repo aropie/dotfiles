@@ -783,7 +783,17 @@ Syntax checker and linter on the fly
     :config
     (global-tree-sitter-mode))
 #+END_SRC
-
+** Better jumper
+#+BEGIN_SRC emacs-lisp
+  (use-package better-jumper
+    :custom (better-jumper-add-jump-behavior 'replace)
+    :config
+    (general-define-key
+     :states '(normal motion)
+     "C-o" 'better-jumper-jump-backward
+     "C-i" 'better-jumper-jump-forward)
+    (better-jumper-mode))
+#+END_SRC
 * Completion
 ** LSP
 #+BEGIN_SRC emacs-lisp
