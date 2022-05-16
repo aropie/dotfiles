@@ -46,9 +46,6 @@ plugins=(git sudo zsh-syntax-highlighting docker docker-compose)
 
 source $ZSH/oh-my-zsh.sh
 
-# Virtualenv wrapper
-source /usr/bin/virtualenvwrapper.sh
-
 # starts one or multiple args as programs in background
 # Taken from https://blog.sebastian-daschner.com/entries/zsh-aliases
 background() {
@@ -66,3 +63,10 @@ source $ZDOTDIR/aliases
 # Golang
 export GOPATH=~/.gocode
 export PATH=$PATH:$GOPATH/bin
+
+#Pyenv
+# export PYENV_ROOT="$HOME/.pyenv"
+# export PATH="$PYENV_ROOT/.pyenv/bin:$PATH"
+# eval "$(pyenv init --path)"
+# eval "$(pyenv init -)"
+# eval "$(pyenv virtualenv-init -)"
