@@ -1,0 +1,9 @@
+@startuml
+title $1
+
+participant $2 as $3
+entity $4 as $5
+
+
+$3 -> $5 : $6
+@enduml
