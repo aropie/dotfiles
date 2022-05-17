@@ -4,7 +4,6 @@
 alias p="sudo pacman"
 alias h="htop"
 alias ls="lsd"
-alias yay="yay --sudoloop"
 alias icat="kitty +kitten icat"
 alias cat="bat"
 # This is to be able to work with modern terminal emulators through ssh
@@ -14,12 +13,14 @@ alias ssh="TERM=xterm-256color ssh"
 alias starwars="telnet towel.blinkenlights.nl"
 
 # Docker
-alias dcrun="sudo docker-compose run --rm"
-alias dcup="sudo docker-compose up"
-alias dcdown="sudo docker-compose down"
-alias dcbuild="sudo docker-compose build"
-alias dclogs="sudo docker-compose logs"
-alias dcpull="sudo docker-compose pull"
+alias dc="sudo docker compose"
+alias dcrun="dc run --rm"
+alias dcup="dc up"
+alias dcdown="dc down"
+alias dcbuild="dc build"
+alias dclogs="dc logs"
+alias dcpull="dc pull"
+alias dcps="dc ps"
 
 # Music
 alias music="ncmpcpp"
