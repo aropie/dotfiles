@@ -212,6 +212,27 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
       :prefix "SPC m"
       :non-normal-prefix "M-SPC m"))
 #+END_SRC
+** Perspective
+#+BEGIN_SRC emacs-lisp
+  (use-package perspective
+    :custom
+    (persp-suppress-no-prefix-key-warning t)
+    (persp-modestring-short t)
+    (persp-sort 'access)
+    :config
+    (my-leader
+      :infix "TAB"
+      "" '(:ignore t :which-key "Persp")
+      "TAB" '(persp-switch-last :which-key "Switch to last persp")
+      "n" '(persp-switch :which-key "Switch/create to persp")
+      "k" '(persp-kill :which-key "Kill persp")
+      "r" '(persp-rename :which-key "Rename persp"))
+    (persp-mode))
+#+END_SRC
+*** Persp-projectile
+#+BEGIN_SRC emacs-lisp
+  (use-package persp-projectile)
+#+END_SRC
 ** Main keybindings
 *** File keybindings
 #+BEGIN_SRC emacs-lisp
@@ -576,26 +597,6 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
     :config
     (persistent-scratch-setup-default)
     (add-hook 'kill-emacs-hook 'persistent-scratch-save))
-#+END_SRC
-** Perspective
-#+BEGIN_SRC emacs-lisp
-  (use-package perspective
-    :custom
-    (persp-modestring-short t)
-    (persp-sort 'access)
-    :config
-    (my-leader
-      :infix "TAB"
-      "" '(:ignore t :which-key "Persp")
-      "TAB" '(persp-switch-last :which-key "Switch to last persp")
-      "n" '(persp-switch :which-key "Switch/create to persp")
-      "k" '(persp-kill :which-key "Kill persp")
-      "r" '(persp-rename :which-key "Rename persp"))
-    (persp-mode))
-#+END_SRC
-*** Persp-projectile
-#+BEGIN_SRC emacs-lisp
-  (use-package persp-projectile)
 #+END_SRC
 ** Ledger
 #+BEGIN_SRC emacs-lisp
