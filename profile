@@ -22,7 +22,6 @@ export MYPY_CACHE_DIR="$XDG_CACHE_HOME"/mypy
 prefix=${XDG_DATA_HOME}/npm
 cache=${XDG_CACHE_HOME}/npm
 tmp=${XDG_RUNTIME_DIR}/npm
-init-module=${XDG_CONFIG_HOME}/npm/config/npm-init.js
 export NVM_DIR="$XDG_DATA_HOME"/nvm
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 

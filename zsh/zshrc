@@ -61,14 +61,3 @@ background() {
 
 # Import aliases
 source $ZDOTDIR/aliases
-
-# Golang
-export GOPATH=~/.gocode
-export PATH=$PATH:$GOPATH/bin
-
-#Pyenv
-# export PYENV_ROOT="$HOME/.pyenv"
-# export PATH="$PYENV_ROOT/.pyenv/bin:$PATH"
-# eval "$(pyenv init --path)"
-# eval "$(pyenv init -)"
-# eval "$(pyenv virtualenv-init -)"
