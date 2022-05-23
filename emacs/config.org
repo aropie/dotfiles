@@ -31,7 +31,6 @@
 #+BEGIN_SRC emacs-lisp
   (use-package gcmh
     :custom
-    (gcmh-idle-delay 0.5)
     (gcmh-high-cons-threshold (* 16 1024 1024))  ; 16mb
     :init
     (gcmh-mode 1))
@@ -289,10 +288,7 @@ most used ones
     (find-file (expand-file-name "config.org" user-emacs-directory)))
   (defun aropie/zsh-config-visit ()
     (interactive)
-    (find-file "~/.zshrc"))
-  (defun aropie/xinit-config-visit ()
-    (interactive)
-    (find-file "~/.xinitrc"))
+    (find-file (expand-file-name ".zshrc" (substitute-env-vars "$ZDOTDIR"))))
   (defun aropie/emacs-config-reload ()
     (interactive)
     (org-babel-load-file (expand-file-name "config.org" user-emacs-directory)))
