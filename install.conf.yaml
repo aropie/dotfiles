@@ -20,5 +20,7 @@
         ~/.config/fontconfig: fontconfig
         ~/.config/picom: picom
         ~/.config/kitty: kitty
-        ~/.emacs.d: emacs
-        ~/.doom.d: doom
+        ~/.config/emacs/init.el: emacs/init.el
+        ~/.config/emacs/config.org: emacs/config.org
+        ~/.config/emacs/snippets: emacs/snippets
+        ~/.config/emacs/templates: emacs/templates

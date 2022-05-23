@@ -1,12 +1,4 @@
 * Startup optimizations
-** Cache
-Many modes store their cache files in =~/.emacs.d=. I prefer to keep
-those files in =~/.cache/emacs=
-#+BEGIN_SRC emacs-lisp
-  (setq user-emacs-directory "~/.cache/emacs/")
-  (if (not (file-directory-p user-emacs-directory))
-      (make-directory user-emacs-directory t))
-#+END_SRC
 ** Package initialize
 #+BEGIN_SRC emacs-lisp
   (require 'package)
@@ -185,10 +177,6 @@ Since I run a lot of automatic linting, I like for all buffers to match the actu
   (set-exec-path-from-shell-PATH)
 #+END_SRC
 **
-** Always follow symlinks
-#+BEGIN_SRC emacs-lisp
-  (setq vc-follow-symlinks t)
-#+END_SRC
 * Utils
 ** Hydra
 #+BEGIN_SRC emacs-lisp
@@ -298,13 +286,7 @@ most used ones
 #+BEGIN_SRC emacs-lisp
   (defun aropie/emacs-config-visit ()
     (interactive)
-    (find-file "~/.emacs.d/config.org"))
-  (defun aropie/i3-config-visit ()
-    (interactive)
-    (find-file "~/.config/i3/config"))
-  (defun aropie/keybindings-config-visit ()
-    (interactive)
-    (find-file "~/.config/sxhkd/sxhkdrc"))
+    (find-file (expand-file-name "config.org" user-emacs-directory)))
   (defun aropie/zsh-config-visit ()
     (interactive)
     (find-file "~/.zshrc"))
@@ -313,7 +295,7 @@ most used ones
     (find-file "~/.xinitrc"))
   (defun aropie/emacs-config-reload ()
     (interactive)
-    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+    (org-babel-load-file (expand-file-name "config.org" user-emacs-directory)))
 #+END_SRC
 **** Bindings
 #+BEGIN_SRC emacs-lisp
@@ -321,10 +303,7 @@ most used ones
     :infix "oc"
     "" '(:ignore t :which-key "Config")
     "e" '(aropie/emacs-config-visit :which-key "emacs")
-    "i" '(aropie/i3-config-visit :which-key "i3")
     "z" '(aropie/zsh-config-visit :which-key "zsh")
-    "k" '(aropie/keybindings-config-visit :which-key "keybindings")
-    "x" '(aropie/xinit-config-visit :which-key "xinitrc")
     "r" '(aropie/emacs-config-reload :which-key "Reload emacs config"))
 #+END_SRC
 ** Scratch buffer
@@ -863,7 +842,7 @@ My choice for auto-completion
 ** YASnippet
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
-    :custom (yas-snippet-dirs '("~/.emacs.d/snippets"))
+    :custom (yas-snippet-dirs `(,(concat user-emacs-directory "templates")))
     :hook (yas-before-expand-snippet . evil-insert-state)
     :init
     (yas-global-mode 1))
@@ -874,7 +853,7 @@ Idea taken from [[http://howardism.org/Technical/Emacs/templates-tutorial.html][
   (use-package autoinsert
     :custom
     (auto-insert-query nil)
-    (auto-insert-directory "~/.emacs.d/templates")
+    (auto-insert-directory (concat user-emacs-directory "templates"))
     :hook (find-file . auto-insert)
     :config
     (defun autoinsert-yas-expand()
