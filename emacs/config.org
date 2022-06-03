@@ -432,7 +432,7 @@ Projectile's really cool. Very nice project management.
       "b" '(projectile-switch-to-buffer :which-key "Switch to buffer")
       "B" '(projectile-switch-to-buffer-other-window :which-key "Switch to buffer (other window)")
       "k" '(projectile-kill-buffers :which-key "Kill all project buffers")
-      "p" '(projectile-switch-project :which-key "Switch to project")
+      "p" '(projectile-persp-switch-project :which-key "Switch to project")
       "t" '(projectile-toggle-between-implementation-and-test :which-key "Toggle between test and implementation")
       "T" '(projectile-test-project :which-key "Run project's tests")
       "a" '(projectile-add-known-project :which-key "Add bookmark to project")
