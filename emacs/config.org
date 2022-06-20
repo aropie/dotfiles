@@ -196,7 +196,8 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
       ;; prefix local-leader
       :states '(normal insert emacs)
       :prefix "SPC m"
-      :non-normal-prefix "M-SPC m"))
+      :non-normal-prefix "M-SPC m")
+    (general-auto-unbind-keys))
 #+END_SRC
 ** Perspective
 #+BEGIN_SRC emacs-lisp
