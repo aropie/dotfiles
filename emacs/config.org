@@ -613,9 +613,12 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
     :hook ((dired-mode . dired-omit-mode)
            (dired-mode . dired-hide-details-mode))
     :config
-    (evil-collection-define-key 'normal 'dired-mode-map
-                                 "h" 'dired-up-directory
-                                 "l" 'dired-find-file)
+    (general-define-key
+     :states 'normal
+     :keymaps 'dired-mode-map
+     "h" 'dired-up-directory
+     "l" 'dired-find-file)
+
     (my-leader
       :infix "o"
       "d" '(dired-jump :which-key "Dired"))
