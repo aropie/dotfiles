@@ -1279,7 +1279,8 @@ highly dependant on your commits)
 ** Markup
 *** Yaml
 #+BEGIN_SRC emacs-lisp
-  (use-package yaml-mode)
+  (use-package yaml-mode
+    :hook (yaml-mode . highlight-indent-guides-mode))
 #+END_SRC
 ** DSL
 *** Jenkinsfile
