@@ -1144,16 +1144,18 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
 #+END_SRC
 ** SVG tags
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (setq svg-tag-tags '(
-                                   ;; Org tags
-                                   (":\\([A-Za-z0-9-_]+\\)" . ((lambda (tag) (svg-tag-make tag :face 'org-tag))))
+  ;; Disabling until https://github.com/rougier/svg-lib/issues/18 is resolved
+  ;; because it breaks daemon mode
+  ;; (add-hook 'org-mode-hook
+  ;;           (lambda ()
+  ;;             (setq svg-tag-tags '(
+  ;;                                  ;; Org tags
+  ;;                                  (":\\([A-Za-z0-9-_]+\\)" . ((lambda (tag) (svg-tag-make tag :face 'org-tag))))
 
-                                   ;; TODO / DONE
-                                   ("TODO" . ((lambda (tag) (svg-tag-make "TODO" :face 'org-todo :inverse t :margin 0))))
-                                   ("DONE" . ((lambda (tag) (svg-tag-make "DONE" :face 'org-done :margin 0))))))
-              (svg-tag-mode t)))
+  ;;                                  ;; TODO / DONE
+  ;;                                  ("TODO" . ((lambda (tag) (svg-tag-make "TODO" :face 'org-todo :inverse t :margin 0))))
+  ;;                                  ("DONE" . ((lambda (tag) (svg-tag-make "DONE" :face 'org-done :margin 0))))))
+  ;;             (svg-tag-mode t)))
 
 #+END_SRC
 
