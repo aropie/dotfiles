@@ -13,6 +13,10 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
 export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 
+## Docker
+export DOCKER_BIN="$HOME"/.local/bin
+export DOCKER_HOST="unix:///run/user/1000/docker.sock"
+
 ## AWS
 export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials
 export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
@@ -35,8 +39,6 @@ export MYSQL_HISTFILE="$XDG_DATA_HOME"/mysql_history
 
 ## Wine
 export WINEPREFIX="$XDG_DATA_HOME"/wine
-
-
 
 export PATH=$PATH:$HOME/.scripts
 export PATH=$PATH:$HOME/.local/bin:
