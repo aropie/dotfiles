@@ -25,6 +25,8 @@
     (auto-package-update-prompt-before-update t)
     (auto-package-update-hide-results nil)
     :config
+    (if (daemonp)
+        (setq auto-package-update-prompt-before-update nil))
     (auto-package-update-maybe))
 #+END_SRC
 ** Garbage collection
