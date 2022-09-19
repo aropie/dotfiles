@@ -265,7 +265,9 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
 #+BEGIN_SRC emacs-lisp
   (my-leader
     :infix "o"
-    "" '(:ignore t :which-key "Open"))
+    "" '(:ignore t :which-key "Open")
+    "c" '(calc :which-key "Calc"))
+
 #+END_SRC
 *** Help keybindings
 #+BEGIN_SRC emacs-lisp
@@ -297,7 +299,7 @@ most used ones
 **** Bindings
 #+BEGIN_SRC emacs-lisp
   (my-leader
-    :infix "oc"
+    :infix "oC"
     "" '(:ignore t :which-key "Config")
     "e" '(aropie/emacs-config-visit :which-key "emacs")
     "z" '(aropie/zsh-config-visit :which-key "zsh")
