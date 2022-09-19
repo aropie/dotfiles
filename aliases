@@ -13,7 +13,7 @@ alias ssh="TERM=xterm-256color ssh"
 alias starwars="telnet towel.blinkenlights.nl"
 
 # Docker
-alias dc="sudo docker compose"
+alias dc="docker compose"
 alias dcrun="dc run --rm"
 alias dcup="dc up"
 alias dcdown="dc down"
