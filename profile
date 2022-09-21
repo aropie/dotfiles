@@ -16,6 +16,7 @@ export XAUTHORITY="$XDG_RUNTIME_DIR"/Xauthority
 ## Docker
 export DOCKER_BIN="$HOME"/.local/bin
 export DOCKER_HOST="unix:///run/user/1000/docker.sock"
+export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
 
 ## AWS
 export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials
