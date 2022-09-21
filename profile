@@ -24,6 +24,8 @@ export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
 
 ## Python
 export MYPY_CACHE_DIR="$XDG_CACHE_HOME"/mypy
+export PYENV_ROOT="$XDG_DATA_HOME"/pyenv
+export PATH="$PYENV_ROOT/bin:$PATH"
 
 ## Node
 prefix=${XDG_DATA_HOME}/npm

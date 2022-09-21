@@ -61,3 +61,6 @@ background() {
 
 # Import aliases
 source $ZDOTDIR/aliases
+
+# Initialize Pyenv
+eval "$(pyenv init -)"
