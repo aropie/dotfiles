@@ -14,13 +14,16 @@ alias starwars="telnet towel.blinkenlights.nl"
 
 # Docker
 alias dc="docker compose"
-alias dcrun="dc run --rm"
+alias dcr="dc run"
+alias dcrm="dcr --rm"
 alias dcup="dc up"
+alias dcupd="dcup -d"
 alias dcdown="dc down"
 alias dcbuild="dc build"
 alias dclogs="dc logs"
 alias dcpull="dc pull"
 alias dcps="dc ps"
+alias dcrestart="dc restart"
 
 # Music
 alias music="ncmpcpp"
