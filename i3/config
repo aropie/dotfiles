@@ -18,7 +18,9 @@ set $text-color          #f3f4f5
 set $inactive-text-color #676E7D
 set $urgent-bg-color     #E53935
 
-default_border pixel 5
+# Disable titlebar while mainting a border
+for_window [class=".*"] border pixel 5
+
 # Required for gaps
 gaps inner 10
 gaps outer 10
