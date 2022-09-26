@@ -1223,7 +1223,15 @@ highly dependant on your commits)
 #+END_SRC
 *** Language Server
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-pyright)
+  (use-package lsp-pyright
+    :custom
+    (lsp-pyright-multi-root nil))
+#+END_SRC
+*** Enable Venv automatically
+#+BEGIN_SRC emacs-lisp
+  (use-package pyvenv-auto
+    :config
+    (pyvenv-auto-mode t))
 #+END_SRC
 *** Autoformat
 #+BEGIN_SRC emacs-lisp
