@@ -1309,6 +1309,10 @@ highly dependant on your commits)
     (setq plantuml-output-type "png")
     (add-to-list 'auto-mode-alist '("\\.uml\\'" . plantuml-mode)))
 #+END_SRC
+*** Dockerfile
+#+BEGIN_SRC emacs-lisp
+  (use-package dockerfile-mode)
+#+END_SRC
 * Packages to consider
 - https://github.com/gilbertw1/better-jumper
 - https://cestlaz.github.io/post/using-emacs-57-dired-narrow/
