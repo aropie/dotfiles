@@ -35,6 +35,9 @@ alias prev="mpc prev"
 alias -s {pdf,PDF}='background zathura'
 alias -s {jpg,JPG,jpeg,JPEG,png}='background sxiv'
 
+# Alias to prevent .wget-hsts from popping up on $HOME
+alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
+
 # Utils
 
 # Copying locally huge files

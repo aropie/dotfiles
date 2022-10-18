@@ -7,7 +7,7 @@ export XDG_STATE_HOME="$HOME"/.local/state
 export XDG_CACHE_HOME="$HOME"/.cache
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
-# Uncluttering my $HOME
+# Decluttering my $HOME
 
 ## X11
 export XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
@@ -42,6 +42,12 @@ export MYSQL_HISTFILE="$XDG_DATA_HOME"/mysql_history
 
 ## Wine
 export WINEPREFIX="$XDG_DATA_HOME"/wine
+
+## Less
+export LESSHISTFILE="$XDG_STATE_HOME"/less/history
+
+## ZSH
+export HISTFILE="$XDG_STATE_HOME"/zsh/history
 
 export PATH=$PATH:$HOME/.scripts
 export PATH=$PATH:$HOME/.local/bin:
