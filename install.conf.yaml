@@ -2,6 +2,7 @@
         link:
               create: true
               relink: true
+              glob: true
 
 - link:
         ~/.zshenv: zsh/zshenv
@@ -10,7 +11,7 @@
         ~/.config/zsh/aliases: aliases
         ~/.xinitrc: xinitrc
         ~/.private_profile: private_profile
-        ~/.scripts: scripts
+        ~/.local/bin: scripts/*
         ~/.config/sxhkd: sxhkd
         ~/.config/i3: i3
         ~/.config/rofi: rofi
@@ -20,7 +21,4 @@
         ~/.config/fontconfig: fontconfig
         ~/.config/picom: picom
         ~/.config/kitty: kitty
-        ~/.config/emacs/init.el: emacs/init.el
-        ~/.config/emacs/config.org: emacs/config.org
-        ~/.config/emacs/snippets: emacs/snippets
-        ~/.config/emacs/templates: emacs/templates
+        ~/.config/emacs: emacs/*

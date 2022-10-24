@@ -49,13 +49,16 @@ export LESSHISTFILE="$XDG_STATE_HOME"/less/history
 ## ZSH
 export HISTFILE="$XDG_STATE_HOME"/zsh/history
 
-export PATH=$PATH:$HOME/.scripts
+## LastPass
+export LPASS_HOME=$HOME/.lpass
+
+## MPD
+export MPD_HOST="localhost"
+export MPD_PORT="6601"
+
 export PATH=$PATH:$HOME/.local/bin:
 export EDITOR='emacsclient -c -a "$@"'
 export TERMINAL='kitty'
-export MPD_HOST="localhost"
-export MPD_PORT="6601"
 export SHELL='zsh'
-export LPASS_HOME=$HOME/.lpass
 
 [ -f ~/.private_profile ] && . ~/.private_profile
