@@ -12,6 +12,7 @@ xautolock -time 3 -locker screen-lock  -cornersize 50 -corners -000 -detectsleep
 blueman-applet &
 launch_polybar &
 ram_monitor &
+polkit-dumb-agent &
 
 # Personal
 qutebrowser &
