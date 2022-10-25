@@ -57,8 +57,8 @@ export MPD_HOST="localhost"
 export MPD_PORT="6601"
 
 export PATH=$PATH:$HOME/.local/bin:
-export EDITOR='emacsclient -c -a "$@"'
-export TERMINAL='kitty'
-export SHELL='zsh'
+export EDITOR='/usr/bin/emacsclient -c -a "$@"'
+export TERMINAL='/usr/bin/kitty'
+export SHELL='/usr/bin/zsh'
 
 [ -f ~/.private_profile ] && . ~/.private_profile
