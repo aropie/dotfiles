@@ -4,18 +4,6 @@
   (straight-use-package 'use-package)
   (setq straight-use-package-by-default t)
 #+END_SRC
-** Update packages automatically
-#+BEGIN_SRC emacs-lisp
-  (use-package auto-package-update
-    :custom
-    (auto-package-update-interval 14)
-    (auto-package-update-prompt-before-update t)
-    (auto-package-update-hide-results nil)
-    :config
-    (if (daemonp)
-        (setq auto-package-update-prompt-before-update nil))
-    (auto-package-update-maybe))
-#+END_SRC
 ** Garbage collection
 #+BEGIN_SRC emacs-lisp
   (use-package gcmh
