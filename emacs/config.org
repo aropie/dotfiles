@@ -312,9 +312,17 @@ Ripgrep
 #+BEGIN_SRC emacs-lisp
   (use-package rg)
 #+END_SRC
+** Vertico
+#+BEGIN_SRC emacs-lisp
+  (use-package vertico
+    :custom (enable-recursive-minibuffers t)
+    :config
+    (vertico-mode))
+#+END_SRC
 ** Ivy
 #+BEGIN_SRC emacs-lisp
   (use-package ivy
+    :disabled
     :custom
     (ivy-wrap t)
     (ivy-height 15)
@@ -343,6 +351,7 @@ Ripgrep
 *** Ivy-xref
 #+BEGIN_SRC emacs-lisp
   (use-package ivy-xref
+    :disabled
     :custom
     (setq xref-show-definitions-function #'ivy-xref-show-defs)
     (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
@@ -351,6 +360,7 @@ Ripgrep
 Add sorting by recent and enhances fuzzy searching of Ivy
 #+BEGIN_SRC emacs-lisp
   (use-package ivy-prescient
+    :disabled
     :custom (ivy-prescient-retain-classic-highlighting t)
     :init (ivy-prescient-mode t))
 #+END_SRC
@@ -358,6 +368,7 @@ Add sorting by recent and enhances fuzzy searching of Ivy
 ** Counsel
 #+BEGIN_SRC emacs-lisp
   (use-package counsel
+    :disabled
     :config
     (counsel-mode t)
     (general-define-key
@@ -366,6 +377,7 @@ Add sorting by recent and enhances fuzzy searching of Ivy
 ** Swiper
 #+BEGIN_SRC emacs-lisp
   (use-package swiper
+    :disabled
     :config
     (general-define-key
      "C-s" 'counsel-grep-or-swiper))
@@ -859,7 +871,7 @@ Syntax checker and linter on the fly
      "C-j" 'lsp-ui-peek--select-next
      "C-k" 'lsp-ui-peek--select-prev))
 
-  (use-package lsp-ivy :commands lsp-ivy-workspace-symbol)
+  (use-package lsp-ivy :commands lsp-ivy-workspace-symbol :disabled)
 #+END_SRC
 ** Company
 My choice for auto-completion
