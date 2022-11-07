@@ -440,13 +440,10 @@ Jumping to definitions made simple
 Improves ~help~ buffers adding contextual information and multiple references
 #+BEGIN_SRC emacs-lisp
   (use-package helpful
-    :custom
-    (counsel-describe-function-function #'helpful-callable)
-    (counsel-describe-variable-function #'helpful-variable)
     :bind
-    ([remap describe-function] . counsel-describe-function)
+    ([remap describe-function] . helpful-function)
     ([remap describe-command] . helpful-command)
-    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-variable] . helpful-variable)
     ([remap describe-key] . helpful-key))
 #+END_SRC
 ** Undo tree
