@@ -1295,3 +1295,4 @@ highly dependant on your commits)
 - https://github.com/akhramov/org-wild-notifier.el
 - https://github.com/mineo/yatemplate
 - https://github.com/karthink/popper
+- [[https://github.com/ankurdave/color-identifiers-mode]]
