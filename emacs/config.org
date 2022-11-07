@@ -319,68 +319,16 @@ Ripgrep
     :config
     (vertico-mode))
 #+END_SRC
-** Ivy
-#+BEGIN_SRC emacs-lisp
-  (use-package ivy
-    :disabled
     :custom
-    (ivy-wrap t)
-    (ivy-height 15)
-    (ivy-re-builders-alist ((t . ivy--regex-ignore-order)))
-    (ivy-magic-slash-non-match-action 'ivy-magic-slash-non-match-create)
     :config
     (general-define-key
-     :keymaps '(ivy-minibuffer-map ivy-switch-buffer-map)
-     "C-j" 'ivy-next-line
-     "C-k" 'ivy-previous-line
-     "C-l" 'ivy-alt-done
-     "C-o" 'ivy-dispatching-done
-     "C-O" 'ivy-occur
-     "C-SPC" 'ivy-call
-     "M-RET" 'ivy-immediate-done)
-    (ivy-mode 1))
 #+END_SRC
-*** Ivy-rich
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy-rich
-    :requires (counsel)
-    :config
-    (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
-    (ivy-rich-mode t))
 #+END_SRC
-*** Ivy-xref
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy-xref
-    :disabled
-    :custom
-    (setq xref-show-definitions-function #'ivy-xref-show-defs)
-    (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 #+END_SRC
-*** Prescient
-Add sorting by recent and enhances fuzzy searching of Ivy
 #+BEGIN_SRC emacs-lisp
-  (use-package ivy-prescient
-    :disabled
-    :custom (ivy-prescient-retain-classic-highlighting t)
-    :init (ivy-prescient-mode t))
-#+END_SRC
-
-** Counsel
-#+BEGIN_SRC emacs-lisp
-  (use-package counsel
-    :disabled
-    :config
-    (counsel-mode t)
     (general-define-key
-     "M-y" 'counsel-yank-pop))
-#+END_SRC
-** Swiper
-#+BEGIN_SRC emacs-lisp
-  (use-package swiper
-    :disabled
-    :config
-    (general-define-key
-     "C-s" 'counsel-grep-or-swiper))
 #+END_SRC
 ** Presentation mode
 A mode to enbiggen font for presentations and screen sharing
@@ -412,8 +360,8 @@ Projectile's really cool. Very nice project management.
     :custom
     (projectile-indexing-method 'alien)
     (projectile-enable-caching t)
-    (projectile-completion-system 'ivy)
-    :config
+    (projectile-completion-system 'auto)
+    :init
     (add-to-list 'projectile-globally-ignored-directories ".venv")
     (projectile-mode t)
     (my-leader
