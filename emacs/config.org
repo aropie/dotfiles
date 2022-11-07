@@ -218,16 +218,16 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
   (my-leader
     :infix "b"
     "" '(:ignore t :which-key "Buffer")
-    "b" '(persp-counsel-switch-buffer :which-key "Switch to workspace buffer")
+    "b" '(persp-switch-to-buffer* :which-key "Switch to workspace buffer")
     "B" '(switch-to-buffer :which-key "Switch to buffer")
     "i" '(ibuffer :which-key "ibuffer")
-    "k" '(kill-this-buffer :which-key "Kill buffer")
+    "k" '(persp-remove-buffer :which-key "Kill buffer")
     "r" '(revert-buffer :which-key "Revert buffer")
     "n" '(next-buffer :which-key "Next buffer")
     "p" '(previous-buffer :which-key "Previous buffer")
     "e" '(set-buffer-file-coding-system :which-key "Set buffer coding system"))
   (my-leader
-    "," '(persp-counsel-switch-buffer :which-key "Switch to workspace buffer"))
+    "," '(persp-switch-to-buffer* :which-key "Switch to workspace buffer"))
 #+END_SRC
 *** Toggle keybindings
 #+BEGIN_SRC emacs-lisp
@@ -315,20 +315,48 @@ Ripgrep
 ** Vertico
 #+BEGIN_SRC emacs-lisp
   (use-package vertico
-    :custom (enable-recursive-minibuffers t)
+    :custom
+    (enable-recursive-minibuffers t)
+    (vertico-cycle t)
     :config
+    (general-define-key
+     :keymaps 'vertico-map
+     "C-j" 'vertico-next
+     "C-k" 'vertico-previous)
     (vertico-mode))
 #+END_SRC
+** Marginalia
+#+BEGIN_SRC emacs-lisp
+  (use-package marginalia
+    :after vertico
+    :general (:keymaps 'minibuffer-local-map
+              "M-A" 'marginalia-cycle)
+    :init
+    (marginalia-mode t))
+#+END_SRC
+** Orderless
+#+BEGIN_SRC emacs-lisp
+  (use-package orderless
+    :ensure t
     :custom
-    :config
+    (completion-styles '(orderless basic))
+    (completion-category-overrides '((file (styles basic partial-completion)))))
+#+END_SRC
+** Consult
+#+BEGIN_SRC emacs-lisp
+  (use-package consult
+    :hook (completion-list-mode . consult-preview-at-point-mode)
+    :init
     (general-define-key
-#+END_SRC
-#+BEGIN_SRC emacs-lisp
-#+END_SRC
-#+BEGIN_SRC emacs-lisp
-#+END_SRC
-#+BEGIN_SRC emacs-lisp
-    (general-define-key
+     "C-s" 'consult-line
+     :keymap minibuffer-local-map
+     "C-r" 'consult-history)
+    (my-leader
+      :infix "t"
+      "m" '(consult-minor-mode-menu :which-key "Toggle minor mode (i/o/l/g SPC)")
+      "M" '(consult-mode-command :which-key "Toggle major mode (l/g/m SPC)"))
+    (setq xref-show-xrefs-function #'consult-xref
+          xref-show-definitions-function #'consult-xref))
 #+END_SRC
 ** Presentation mode
 A mode to enbiggen font for presentations and screen sharing
@@ -378,14 +406,17 @@ Projectile's really cool. Very nice project management.
       "a" '(projectile-add-known-project :which-key "Add bookmark to project")
       "r" '(projectile-replace :which-key "Replace in project")
       "c" '(projectile-invalidate-cache :which-key "Clear project's cache")
-      "s" '(counsel-projectile-rg :which-key "Search in project")))
+      "s" '(consult-ripgrep :which-key "Search in project")))
 #+END_SRC
-*** Counsel-projectile
+*** Persp-projectile
+Bind each project to a new persp when opened
 #+BEGIN_SRC emacs-lisp
-  (use-package counsel-projectile
-    :after (projectile counsel)
-    :config
-    (counsel-projectile-mode t))
+  (use-package persp-projectile
+    :straight (:host github :repo "bbatsov/persp-projectile")
+    :init
+      (my-leader
+        :infix "p"
+        "p" '(projectile-persp-switch-project :which-key "Switch to project")))
 #+END_SRC
 ** Dumb-jump
 Jumping to definitions made simple
@@ -798,6 +829,9 @@ Syntax checker and linter on the fly
     (lsp-diagnostics-provider 'flycheck)
     :commands lsp
     :config
+    (general-define-key
+     :states 'normal
+     "gD" 'lsp-find-references)
     (my-leader
       :infix "c"
       "" '(:ignore t :which-key "Code")
@@ -811,9 +845,6 @@ Syntax checker and linter on the fly
     (lsp-ui-sideline-enable t)
     (lsp-ui-peek-always-show t)
     :config
-    (general-define-key
-     :states 'normal
-     "gD" 'lsp-ui-peek-find-references)
     (general-define-key
      :keymaps 'lsp-ui-peek-mode-map
      "C-j" 'lsp-ui-peek--select-next
