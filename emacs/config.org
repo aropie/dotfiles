@@ -920,6 +920,14 @@ We take advantage of running Emacs as a GUI, and get nice icons for it
 #+BEGIN_SRC emacs-lisp
   (use-package all-the-icons)
 #+END_SRC
+** All-the-icons-completion
+#+BEGIN_SRC emacs-lisp
+  (use-package all-the-icons-completion
+    :after (marginalia all-the-icons)
+    :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
+    :init
+    (all-the-icons-completion-mode))
+#+END_SRC
 ** Doom-modeline
 Nice replacement for default mode line
 #+BEGIN_SRC emacs-lisp
