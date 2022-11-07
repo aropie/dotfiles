@@ -215,13 +215,16 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
 #+END_SRC
 *** Buffer keybindings
 #+BEGIN_SRC emacs-lisp
+  (defun aropie/persp-remove-this-buffer ()
+    (interactive)
+    (persp-remove-buffer (current-buffer)))
   (my-leader
     :infix "b"
     "" '(:ignore t :which-key "Buffer")
     "b" '(persp-switch-to-buffer* :which-key "Switch to workspace buffer")
     "B" '(switch-to-buffer :which-key "Switch to buffer")
     "i" '(ibuffer :which-key "ibuffer")
-    "k" '(persp-remove-buffer :which-key "Kill buffer")
+    "k" '(aropie/persp-remove-this-buffer :which-key "Kill this buffer")
     "r" '(revert-buffer :which-key "Revert buffer")
     "n" '(next-buffer :which-key "Next buffer")
     "p" '(previous-buffer :which-key "Previous buffer")
