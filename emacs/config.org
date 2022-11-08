@@ -324,6 +324,8 @@ Ripgrep
     :config
     (general-define-key
      :keymaps 'vertico-map
+     "C-S-J" 'vertico-next-group
+     "C-S-K" 'vertico-previous-group
      "C-j" 'vertico-next
      "C-k" 'vertico-previous)
     (vertico-mode))
