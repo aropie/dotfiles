@@ -849,8 +849,6 @@ Syntax checker and linter on the fly
      :keymaps 'lsp-ui-peek-mode-map
      "C-j" 'lsp-ui-peek--select-next
      "C-k" 'lsp-ui-peek--select-prev))
-
-  (use-package lsp-ivy :commands lsp-ivy-workspace-symbol :disabled)
 #+END_SRC
 ** Company
 My choice for auto-completion
@@ -1048,7 +1046,7 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
     (my-local-leader
       :keymaps 'org-mode-map
       :state 'normal
-      "t" 'counsel-org-tag)
+      "t" 'org-set-tags-command)
 
     (general-define-key
      :states 'normal
