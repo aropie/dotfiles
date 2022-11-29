@@ -239,7 +239,8 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
     "" '(:ignore t :which-key "Toggle")
     "l" '(global-linum-mode :which-key "Line numbers")
     "r" '(read-only-mode :which-key "Read only mode")
-    "w" '(whitespace-mode :which-key "Whitespace mode"))
+    "w" '(whitespace-mode :which-key "Whitespace mode")
+    "v" '(visual-line-mode :which-key "Visual line mode"))
 #+END_SRC
 *** Open keybindings
 #+BEGIN_SRC emacs-lisp
