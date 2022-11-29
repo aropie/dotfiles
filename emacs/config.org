@@ -1277,6 +1277,27 @@ highly dependant on your commits)
   (use-package yaml-mode
     :hook (yaml-mode . highlight-indent-guides-mode))
 #+END_SRC
+*** CSV
+#+BEGIN_SRC emacs-lisp
+  (use-package csv-mode
+    :init
+    (add-hook 'csv-mode-hook
+              (lambda ()
+                (csv-align-mode 1)
+                (visual-line-mode -1)))
+    :config
+    (general-define-key
+     :keymaps 'csv-mode-map
+     :states 'normal
+     "H" 'csv-forward-field
+     "L" 'csv-backward-field)
+    (my-local-leader
+      :keymaps 'csv-mode-map
+      :states 'normal
+      "a" '(csv-align-mode :which-key "Toggle align-mode")
+      "h" '(csv-header-line :which-key "Toggle header")
+      "s" '(csv-sort-fields :which-key "Sort fields")))
+#+END_SRC
 ** DSL
 *** Jenkinsfile
 #+BEGIN_SRC emacs-lisp
