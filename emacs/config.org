@@ -1045,6 +1045,11 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
     (add-to-list 'org-export-backends 'md)
     (add-to-list 'org-export-backends 'beamer)
 
+    ;; Load languages functionality into Org Babel
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((shell . t)))
+
     (my-local-leader
       :keymaps 'org-mode-map
       :state 'normal
