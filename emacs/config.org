@@ -559,7 +559,7 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
                           ("account" "%(binary) -f %(ledger-file) bal %(account)")))
     (my-local-leader
       :keymaps 'ledger-mode-map
-      :state 'motion
+      :state 'normal
       "a" 'ledger-add-transaction
       "b" 'ledger-display-balance-at-point
       "r" 'ledger-report)
@@ -708,9 +708,7 @@ Spaceballs (1987)
     (define-key evil-normal-state-map "L" 'evil-forward-arg)
     (define-key evil-normal-state-map "H" 'evil-backward-arg)
     (define-key evil-motion-state-map "L" 'evil-forward-arg)
-    (define-key evil-motion-state-map "H" 'evil-backward-arg)
-    ;; add " " to arg-delimiters for Lisp goodness
-    (push " " evil-args-delimiters))
+    (define-key evil-motion-state-map "H" 'evil-backward-arg))
 #+END_SRC
 *** Evil commentary
 Allows to comment word-objects
@@ -830,6 +828,7 @@ Syntax checker and linter on the fly
     (lsp-eldoc-enable-hover t)
     (lsp-modeline-diagnostics-enable t)
     (lsp-diagnostics-provider 'flycheck)
+    (lsp-log-io t)
     :commands lsp
     :config
     (general-define-key
@@ -1173,8 +1172,7 @@ Git porcelain inside Emacs. Git turned into loving hugs and kisses
     (magit-add-section-hook 'magit-status-sections-hook 'magit-insert-assume-unchanged-files 'magit-insert-stashes))
 #+END_SRC
 ** Timemachine
-Take your code for a travel through time (that is incidentally,
-highly dependant on your commits)
+Take your code for a travel through time (that is incidentally, highly dependant on your commits)
 #+BEGIN_SRC emacs-lisp
   (use-package git-timemachine
     :straight (:host nil :repo "https://codeberg.org/pidu/git-timemachine"
