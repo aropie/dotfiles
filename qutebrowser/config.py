@@ -21,6 +21,9 @@ config.set("content.javascript.enabled", True, "qute://*/*")
 config.set("auto_save.session", True)
 config.set("session.lazy_restore", True)  # Currently not working :(
 config.set("content.autoplay", False)
+config.set("content.javascript.can_access_clipboard", True)
+config.set("content.pdfjs", True)
+config.set("input.insert_mode.auto_leave", False)
 
 # Setting dark mode
 config.set("colors.webpage.darkmode.enabled", True)
