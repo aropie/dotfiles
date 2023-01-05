@@ -1289,8 +1289,8 @@ Take your code for a travel through time (that is incidentally, highly dependant
     (general-define-key
      :keymaps 'csv-mode-map
      :states 'normal
-     "H" 'csv-forward-field
-     "L" 'csv-backward-field)
+     "L" 'csv-forward-field
+     "H" 'csv-backward-field)
     (my-local-leader
       :keymaps 'csv-mode-map
       :states 'normal
