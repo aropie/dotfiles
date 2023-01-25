@@ -385,12 +385,6 @@ A mode to enbiggen font for presentations and screen sharing
       :infix "t"
       "p" '(presentation-mode :which-key "Presentation mode")))
 #+END_SRC
-** Try
-Sometimes I want to try a specific package before actually installing it. This is exactly it.
-#+BEGIN_SRC emacs-lisp
-  (use-package try)
-#+END_SRC
-
 ** Projectile
 Projectile's really cool. Very nice project management.
 #+BEGIN_SRC emacs-lisp
