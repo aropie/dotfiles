@@ -661,6 +661,12 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
 #+BEGIN_SRC emacs-lisp
   (global-visual-line-mode t)
 #+END_SRC
+** PDF Tools
+#+BEGIN_SRC emacs-lisp
+  (use-package pdf-tools
+    :init
+    (pdf-tools-install))
+#+END_SRC
 * Editing
 ** Evil
 Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
