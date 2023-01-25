@@ -221,8 +221,7 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
   (my-leader
     :infix "b"
     "" '(:ignore t :which-key "Buffer")
-    "b" '(persp-switch-to-buffer* :which-key "Switch to workspace buffer")
-    "B" '(switch-to-buffer :which-key "Switch to buffer")
+    "b" '(consult-buffer :which-key "Switch to workspace buffer")
     "i" '(ibuffer :which-key "ibuffer")
     "k" '(aropie/persp-remove-this-buffer :which-key "Kill this buffer")
     "r" '(revert-buffer :which-key "Revert buffer")
@@ -230,7 +229,7 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
     "p" '(previous-buffer :which-key "Previous buffer")
     "e" '(set-buffer-file-coding-system :which-key "Set buffer coding system"))
   (my-leader
-    "," '(persp-switch-to-buffer* :which-key "Switch to workspace buffer"))
+    "," '(consult-buffer :which-key "Switch to workspace buffer"))
 #+END_SRC
 *** Toggle keybindings
 #+BEGIN_SRC emacs-lisp
@@ -357,6 +356,11 @@ Ripgrep
      "C-s" 'consult-line
      :keymap minibuffer-local-map
      "C-r" 'consult-history)
+
+    ;; This allows using consult-buffer restricted to current perspective
+    (consult-customize consult--source-buffer :hidden t :default nil)
+    (add-to-list 'consult-buffer-sources persp-consult-source)
+
     (my-leader
       :infix "t"
       "m" '(consult-minor-mode-menu :which-key "Toggle minor mode (i/o/l/g SPC)")
