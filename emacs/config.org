@@ -39,14 +39,6 @@
   (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
 #+END_SRC
 
-** Use spaces instead of tabs
-#+BEGIN_SRC emacs-lisp
-  (setq-default indent-tabs-mode nil)
-#+END_SRC
-** Set default tab size
-#+BEGIN_SRC emacs-lisp
-  (setq-default tab-width 4)
-#+END_SRC
 ** Enable narrow mode
 #+BEGIN_SRC emacs-lisp
   (put 'narrow-to-region 'disabled nil)
@@ -668,6 +660,22 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
     (pdf-tools-install))
 #+END_SRC
 * Editing
+** Indentation
+*** Tabs
+**** Use tabs (almost) always
+#+BEGIN_SRC emacs-lisp
+  (setq-default indent-tabs-mode t)
+#+END_SRC
+**** Set default tab size
+#+BEGIN_SRC emacs-lisp
+  (setq-default tab-width 4)
+#+END_SRC
+*** Aggressive indent
+Mantain indentation when moving blocks around
+#+BEGIN_SRC emacs-lisp
+  (use-package aggressive-indent-mode
+    :hook (prog-mode . aggressive-indent-mode))
+#+END_SRC
 ** Evil
 Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
 #+BEGIN_QUOTE
@@ -684,6 +692,7 @@ Spaceballs (1987)
     (setq evil-want-integration t)
     (setq evil-want-keybinding nil)
     (setq evil-respect-visual-line-mode t)
+    (setq-default evil-shift-width tab-width)
     :config
     ;; Push xref to the front of goto-defintion functions so it always have priority
     (push 'evil-goto-definition-xref evil-goto-definition-functions)
@@ -1212,6 +1221,7 @@ Take your code for a travel through time (that is incidentally, highly dependant
     (setq flycheck-flake8-maximum-line-length 88)
     (add-hook 'python-mode-hook
               (lambda ()
+                (setq indent-tabs-mode nil)
                 (local-unset-key (kbd "<backspace>"))
                 (local-unset-key (kbd ":")))))
 #+END_SRC
