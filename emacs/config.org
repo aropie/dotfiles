@@ -869,6 +869,9 @@ Syntax checker and linter on the fly
     (lsp-ui-doc-position 'at-point)
     :hook (lsp-mode . lsp-ui-doc-mode)
     :config
+    (my-leader
+      :infix "c"
+      "i" '(lsp-ui-imenu :which-key "imenu"))
     (general-define-key
      :keymaps '(override lsp-ui-mode-map)
      :states 'normal
