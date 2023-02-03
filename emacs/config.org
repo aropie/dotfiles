@@ -1228,6 +1228,7 @@ Take your code for a travel through time (that is incidentally, highly dependant
     (inferior-python-mode . hide-mode-line-mode)
     :config
     (setq flycheck-flake8-maximum-line-length 88)
+    (setq lsp-clients-python-library-directories '("/usr/" "~/.local/bin/"))
     (add-hook 'python-mode-hook
               (lambda ()
                 (setq indent-tabs-mode nil)
