@@ -1036,7 +1036,11 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
 #+BEGIN_SRC emacs-lisp
   (use-package svg-tag-mode)
 #+END_SRC
-
+** Hide mode-line
+To be used in hooks for hiding the mode-line, mainly inferior-modes (ie shells, REPLs, etc)
+#+BEGIN_SRC emacs-lisp
+  (use-package hide-mode-line)
+#+END_SRC
 * Org
 ** Basic config
 #+BEGIN_SRC emacs-lisp
@@ -1216,7 +1220,9 @@ Take your code for a travel through time (that is incidentally, highly dependant
 ** Python
 #+BEGIN_SRC emacs-lisp
   (use-package python-mode
-    :hook (python-mode . lsp-deferred)
+    :hook
+    (python-mode . lsp-deferred)
+    (inferior-python-mode . hide-mode-line-mode)
     :config
     (setq flycheck-flake8-maximum-line-length 88)
     (add-hook 'python-mode-hook
