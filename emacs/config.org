@@ -800,8 +800,7 @@ Allows for text objects exchanging
   (electric-pair-mode t)
   (setq electric-pair-skip-whitespace nil)
 #+END_SRC
-** Remove whitespace
-This removes whitespace prior to saving
+** Remove whitespace prior to saving
 #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
@@ -880,7 +879,7 @@ Syntax checker and linter on the fly
     (general-define-key
      :states 'normal
      :keymaps 'lsp-ui-doc-frame-mode-map
-    "q" 'lsp-ui-doc-hide))
+     "q" 'lsp-ui-doc-hide))
 #+END_SRC
 ** Company
 My choice for auto-completion
@@ -1268,18 +1267,18 @@ Take your code for a travel through time (that is incidentally, highly dependant
 #+BEGIN_SRC emacs-lisp
   (add-hook 'python-mode-hook
             (lambda ()
-              (setq svg-tag-tags '(
-                                   ("# TODO[([:alpha:][:blank:])]*[\b:]*" .
-                                    ((lambda (tag) (svg-tag-make tag
-                                                                 :face 'org-todo
-                                                                 :inverse t
-                                                                 :crop-right t
-                                                                 :padding 0
-                                                                 :beg 2
-                                                                 :end -1
-                                                                 :alignment 1))))
-                                   ("# TODO[([:alpha:][:blank:])]*[\b:]*\\(.*\\)" .
-                                    ((lambda (tag) (svg-tag-make tag :face 'org-todo :crop-left t))))))
+              (setq svg-tag-tags
+                    '(("# TODO[([:alpha:][:blank:])]*[\b:]*" .
+                       ((lambda (tag) (svg-tag-make tag
+                                                    :face 'org-todo
+                                                    :inverse t
+                                                    :crop-right t
+                                                    :padding 0
+                                                    :beg 2
+                                                    :end -1
+                                                    :alignment 1))))
+                      ("# TODO[([:alpha:][:blank:])]*[\b:]*\\(.*\\)" .
+                       ((lambda (tag) (svg-tag-make tag :face 'org-todo :crop-left t))))))
               (svg-tag-mode t)))
 
 #+END_SRC
@@ -1374,7 +1373,6 @@ Take your code for a travel through time (that is incidentally, highly dependant
   (use-package dockerfile-mode)
 #+END_SRC
 * Packages to consider
-- https://github.com/gilbertw1/better-jumper
 - https://cestlaz.github.io/post/using-emacs-57-dired-narrow/
 - https://github.com/akhramov/org-wild-notifier.el
 - https://github.com/mineo/yatemplate
