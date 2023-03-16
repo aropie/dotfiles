@@ -8,11 +8,7 @@ unclutter &
 numlockx on &
 nitrogen --random --set-auto &
 sxhkd &
-xautolock -time 10 -locker screen-lock \
-    -cornersize 100 -corners +00- -cornerdelay 3600 \
-    -detectsleep \
-    -notify 30 \
-    -notifier "notify-send -u normal -t 3000 'Autolock' 'Locking screen in 30 seconds'" &
+xidlehook --not-when-fullscreen --timer 600 screen-lock "" &
 blueman-applet &
 launch_polybar &
 ram_monitor &
