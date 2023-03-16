@@ -391,7 +391,6 @@ Projectile's really cool. Very nice project management.
   (use-package projectile
     :custom
     (projectile-indexing-method 'alien)
-    (projectile-enable-caching t)
     (projectile-completion-system 'auto)
     :init
     (add-to-list 'projectile-globally-ignored-directories ".venv")
