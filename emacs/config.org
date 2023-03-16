@@ -580,6 +580,10 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
     :hook ((dired-mode . dired-omit-mode)
            (dired-mode . dired-hide-details-mode))
     :config
+
+    ;; Open dired folders in same buffer
+    (put 'dired-find-alternate-file 'disabled nil)
+
     (general-define-key
      :states 'normal
      :keymaps 'dired-mode-map
