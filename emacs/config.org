@@ -348,7 +348,7 @@ Ripgrep
      "C-s" 'consult-line
      :keymap minibuffer-local-map
      "C-r" 'consult-history)
-
+    :config
     ;; This allows using consult-buffer restricted to current perspective
     (consult-customize consult--source-buffer :hidden t :default nil)
     (add-to-list 'consult-buffer-sources persp-consult-source)
