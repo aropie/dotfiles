@@ -19,7 +19,9 @@ ram_monitor &
 polkit-mate-authentication-agent-1 &
 
 # Personal
-qutebrowser &
-franz &
+if should_i_be_working; then
+    qutebrowser &
+    franz &
+fi
 
 exec i3
