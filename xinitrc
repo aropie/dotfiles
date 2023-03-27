@@ -8,7 +8,7 @@ unclutter &
 numlockx on &
 nitrogen --random --set-auto &
 sxhkd &
-xidlehook --not-when-fullscreen --timer 600 screen-lock "" &
+xidlehook --not-when-fullscreen --not-when-audio --timer 600 screen-lock "" &
 blueman-applet &
 launch_polybar &
 ram_monitor &
