@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-[ $(date +%u) -lt 6 ] && [ $(date +%H) -gt 8 ] && [ $(date +%H) -lt 18 ]
+[ $(date +%u) -lt 6 ] && [ $(date +%H) -ge 8 ] && [ $(date +%H) -lt 18 ]
