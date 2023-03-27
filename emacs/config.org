@@ -1248,8 +1248,9 @@ Take your code for a travel through time (that is incidentally, highly dependant
 *** Enable Venv automatically
 #+BEGIN_SRC emacs-lisp
   (use-package pyvenv-auto
-    :config
-    (pyvenv-auto-mode t))
+    :custom
+    (pyvenv-auto-venv-dirnames '("venv" ".venv"))
+    :hook (python-mode . pyvenv-auto-run))
 #+END_SRC
 *** Pytest dispatcher
 #+BEGIN_SRC emacs-lisp
