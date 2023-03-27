@@ -18,6 +18,7 @@ polkit-mate-authentication-agent-1 &
 if should_i_be_working; then
     qutebrowser &
     franz &
+    1password &
 fi
 
 exec i3
