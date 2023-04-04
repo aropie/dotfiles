@@ -8,7 +8,7 @@ super + shift + Escape
 super + r
         $TERMINAL -e ranger
 super + shift + x
-        xautolock -locknow
+        screen-lock
 super + shift + a
         rofi_audioswap
 super + p
