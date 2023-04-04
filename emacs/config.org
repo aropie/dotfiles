@@ -673,12 +673,6 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
 #+BEGIN_SRC emacs-lisp
   (setq-default tab-width 4)
 #+END_SRC
-*** Aggressive indent
-Mantain indentation when moving blocks around
-#+BEGIN_SRC emacs-lisp
-  (use-package aggressive-indent-mode
-    :hook (prog-mode . aggressive-indent-mode))
-#+END_SRC
 ** Evil
 Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
 #+BEGIN_QUOTE
