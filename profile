@@ -60,5 +60,6 @@ export PATH=$PATH:$HOME/.local/bin:
 export EDITOR='/usr/bin/emacsclient -c -a "$@"'
 export TERMINAL='/usr/bin/kitty'
 export SHELL='/usr/bin/zsh'
+export MUSIC='/usr/bin/youtube-music'
 
 [ -f ~/.private_profile ] && . ~/.private_profile
