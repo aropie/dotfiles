@@ -16,7 +16,11 @@ super + p
 super + shift + p
         rofi_generate_password
 super + e
-	emacsclient -cn -a ""
+	  	i3_scratchpad_show_or_launch 'scratch-editor' '$EDITOR'
+super + minus
+	  	i3_scratchpad_show_or_launch 'scratch-terminal' '$TERMINAL'
+super + m
+	  	i3_scratchpad_show_or_launch 'scratch-music' '$MUSIC'
 
 # MEDIA
 XF86AudioLowerVolume
