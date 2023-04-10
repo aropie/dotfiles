@@ -67,7 +67,6 @@ bindsym $mod+t                  layout toggle
 bindsym $mod+Shift+t            gaps inner current set 10; gaps outer current set 10
 
 bindsym $mod+Shift+space        floating toggle
-bindsym $mod+space              focus mode_toggle
 
 bindsym $mod+Shift+r            restart
 

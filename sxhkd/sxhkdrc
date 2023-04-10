@@ -19,8 +19,11 @@ super + e
 	  	i3_scratchpad_show_or_launch 'scratch-editor' '$EDITOR'
 super + minus
 	  	i3_scratchpad_show_or_launch 'scratch-terminal' '$TERMINAL'
+super + space
+	  	i3_scratchpad_show_or_launch 'scratch-terminal' '$TERMINAL'
 super + m
 	  	i3_scratchpad_show_or_launch 'scratch-music' '$MUSIC'
+
 
 # MEDIA
 XF86AudioLowerVolume
