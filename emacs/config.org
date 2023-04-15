@@ -192,14 +192,28 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
 ** Main keybindings
 *** File keybindings
 #+BEGIN_SRC emacs-lisp
+  ;; Taken from https://emacsredux.com/blog/2013/05/04/rename-file-and-buffer/
+  (defun aropie/rename-file-and-buffer ()
+    "Rename the current buffer and file it is visiting."
+    (interactive)
+    (let ((filename (buffer-file-name)))
+      (if (not (and filename (file-exists-p filename)))
+          (message "Buffer is not visiting a file!")
+        (let ((new-name (read-file-name "New name: " filename)))
+          (cond
+           ((vc-backend filename) (vc-rename-file filename new-name))
+           (t
+            (rename-file filename new-name t)
+            (set-visited-file-name new-name t t)))))))
+
   (my-leader
     :infix "f"
     "" '(:ignore t :which-key "File")
     "f" '(find-file :which-key "Find file")
     "s" '(save-buffer :which-key "Save file")
+    "r" '(aropie/rename-file-and-buffer :which-key "Rename/move this file)")
     "u" '(:ignore t :which-key "Sudo find file (TBD)")
-    "U" '(:ignore t :which-key "Sudo this file (TBD)")
-    "R" '(:ignore t :which-key "Rename/move this file (TBD)"))
+    "U" '(:ignore t :which-key "Sudo this file (TBD)"))
   (my-leader
     "SPC" '(projectile-find-file :which-key "Find file in project")
     "." '(find-file :which-key "Find file")
