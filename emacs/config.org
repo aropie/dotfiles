@@ -676,6 +676,13 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
     :init
     (pdf-tools-install))
 #+END_SRC
+*** PDF restore view
+#+BEGIN_SRC emacs-lisp
+  (use-package pdf-view-restore
+    :after pdf-tools
+    :config
+    (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
+#+END_SRC
 * Editing
 ** Indentation
 *** Tabs
