@@ -967,7 +967,13 @@ I like how Doom looks, but it's way too convoluted for my taste, so I just grab 
     (load-theme 'doom-one t)
     (doom-themes-org-config))
 #+END_SRC
-
+** Solaire
+=Solaire-mode= is an aesthetic plugin designed to visually distinguish "real" buffers (i.e. file-visiting code buffers where you do most of your work) from "unreal" buffers (like popups, sidebars, log buffers, terminals, etc) by giving the latter a slightly different -- often darker -- background
+#+BEGIN_SRC emacs-lisp
+  (use-package solaire-mode
+    :config
+    (solaire-global-mode 1))
+#+END_SRC
 ** All the icons
 We take advantage of running Emacs as a GUI, and get nice icons for it
 #+BEGIN_SRC emacs-lisp
