@@ -1325,10 +1325,18 @@ Take your code for a travel through time (that is incidentally, highly dependant
 #+END_SRC
 *** Autoformat
 #+BEGIN_SRC emacs-lisp
+  ;; Add autoflake as an Apheleia formatter
+  (add-to-list 'apheleia-formatters '(autoflake . ("autoflake" "-")))
+
+  ;; Configure autoflake independently of it being added as a formatter
+  (setf (alist-get 'autoflake apheleia-formatters)
+        '("autoflake" "--remove-all-unused-imports" "-"))
   (setf (alist-get 'isort apheleia-formatters)
         '("isort" "--profile=black" "--stdout" "-"))
+
+  ;; Define order of formatters execution
   (setf (alist-get 'python-mode apheleia-mode-alist)
-        '(isort black))
+        '(autoflake isort black))
 #+END_SRC
 *** SVG tags
 #+BEGIN_SRC emacs-lisp
