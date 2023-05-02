@@ -7,6 +7,16 @@ export XDG_STATE_HOME="$HOME"/.local/state
 export XDG_CACHE_HOME="$HOME"/.cache
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
+# Setting mah env vars
+export PATH=$PATH:$HOME/.local/bin:
+export EDITOR='/usr/bin/emacsclient -c -a "$@"'
+export TERMINAL='/usr/bin/kitty'
+export SHELL='/usr/bin/zsh'
+export MUSIC='/usr/bin/youtube-music'
+export SCREENSHOT='/usr/bin/flameshot'
+
+[ -f ~/.private_profile ] && . ~/.private_profile
+
 # Decluttering my $HOME
 
 ## X11
@@ -55,11 +65,3 @@ export LPASS_HOME=$HOME/.lpass
 ## MPD
 export MPD_HOST="localhost"
 export MPD_PORT="6601"
-
-export PATH=$PATH:$HOME/.local/bin:
-export EDITOR='/usr/bin/emacsclient -c -a "$@"'
-export TERMINAL='/usr/bin/kitty'
-export SHELL='/usr/bin/zsh'
-export MUSIC='/usr/bin/youtube-music'
-
-[ -f ~/.private_profile ] && . ~/.private_profile

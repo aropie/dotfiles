@@ -45,4 +45,4 @@ XF86MonBrightnessDown
 XF86MonBrightnessUp
 	xbacklight -inc 20
 Print
-	rofi_screenshot
+	$SCREENSHOT gui

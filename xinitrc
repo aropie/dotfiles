@@ -13,6 +13,7 @@ blueman-applet &
 launch_polybar &
 ram_monitor &
 polkit-mate-authentication-agent-1 &
+flameshot &
 
 # Personal
 if should_i_be_working; then
