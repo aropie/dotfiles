@@ -1244,6 +1244,7 @@ Git porcelain inside Emacs. Git turned into loving hugs and kisses
     ;; Don't display parent/related refs in commit buffers; they are rarely
     ;; helpful and only add to runtime costs.
     (magit-revision-insert-related-refs nil)
+    (magit-commit-show-diff nil)
     :hook (git-commit-mode . evil-insert-state)
     :config
     (magit-add-section-hook 'magit-status-sections-hook 'magit-insert-assume-unchanged-files 'magit-insert-stashes))
