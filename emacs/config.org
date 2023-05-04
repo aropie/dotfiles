@@ -3,6 +3,7 @@
 #+BEGIN_SRC emacs-lisp
   (straight-use-package 'use-package)
   (setq straight-use-package-by-default t)
+  (use-package use-package-ensure-system-package)
 #+END_SRC
 ** Garbage collection
 #+BEGIN_SRC emacs-lisp
@@ -331,7 +332,8 @@ Because Emacs is hard enough without visual aids
 ** Rg
 Ripgrep
 #+BEGIN_SRC emacs-lisp
-  (use-package rg)
+  (use-package rg
+    :ensure-system-package (rg . ripgrep))
 #+END_SRC
 ** Vertico
 #+BEGIN_SRC emacs-lisp
