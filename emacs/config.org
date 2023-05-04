@@ -34,11 +34,12 @@
         version-control t)
 #+END_SRC
 
-*** Custom
+*** Disable custom file
+I really dislike ~custom~ writing on ~init.el~ without my permission,
+so I disable it altogether
 #+BEGIN_SRC emacs-lisp
-  (setq custom-file (no-littering-expand-etc-file-name "custom.el"))
+  (setq custom-file null-device)
 #+END_SRC
-
 ** Enable narrow mode
 #+BEGIN_SRC emacs-lisp
   (put 'narrow-to-region 'disabled nil)
@@ -49,12 +50,6 @@ They are visual clutter once you get to know the keybindings (or create your own
   (tool-bar-mode -1)
   (menu-bar-mode -1)
   (scroll-bar-mode -1)
-#+END_SRC
-** Defuse custom file
-I really dislike ~custom~ writing on ~init.el~ without my permission,
-so I disable it altogether
-#+BEGIN_SRC emacs-lisp
-  (setq custom-file null-device)
 #+END_SRC
 ** Mac fixes
 *** Mac alt fix
@@ -88,7 +83,7 @@ I prefer the scratch buffer to greet me when I (rarely) restart Emacs
   (setq inhibit-startup-message t)
 #+END_SRC
 ** Transparency
-I like being able to see my wallpaper, even if it's only a little bit. Call me a romantic if you like
+I like being able to see my wallpaper, even if it's only a little bit
 #+BEGIN_SRC emacs-lisp
   (set-frame-parameter (selected-frame) 'alpha '(98 98))
   (add-to-list 'default-frame-alist '(alpha 98 98))
@@ -99,7 +94,7 @@ I find confusing having cursors on every window, so I just remove inactive ones
   (setq cursor-in-non-selected-windows nil)
 #+END_SRC
 ** Help
-When opening a help window, always select that window afterwards and move focus to it.
+When opening a help window, always select that window afterwards and move focus to it
 #+BEGIN_SRC emacs-lisp
   (setq help-window-select t)
 #+END_SRC
@@ -112,7 +107,7 @@ working on, but I have yet to find a sweet spot for it
     (set-face-attribute 'default nil :height 100))
 #+END_SRC
 ** Yes-or-no
-Change "yes or no" prompts to "y or n" because we're fast bois
+Change "yes or no" prompts to "y or n"
 #+BEGIN_SRC emacs-lisp
   ;; Emacs 28 has a variable for using short answers, which should
   ;; be preferred if using that version or higher.
