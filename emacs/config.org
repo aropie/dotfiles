@@ -612,7 +612,7 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
      :states 'normal
      :keymaps 'dired-mode-map
      "h" 'dired-up-directory
-     "l" 'dired-find-file)
+     "l" 'dired-find-alternate-file)
 
     (my-leader
       :infix "o"
