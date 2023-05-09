@@ -184,12 +184,8 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
     (persp-suppress-no-prefix-key-warning t)
     (persp-modestring-short t)
     (persp-sort 'access)
-    (persp-state-default-file (no-littering-expand-var-file-name "persp-session.el"))
     :config
     (persp-mode)
-    (add-hook 'kill-emacs-hook #'persp-state-save)  ; Save persp before quitting Emacs
-    (when (file-exists-p (no-littering-expand-var-file-name "persp-session.el"))
-      (persp-state-restore (no-littering-expand-var-file-name "persp-session.el")))
     (my-leader
       :infix "TAB"
       "" '(:ignore t :which-key "Persp")
