@@ -8,7 +8,7 @@ export XDG_CACHE_HOME="$HOME"/.cache
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 # Setting mah env vars
-export PATH=$PATH:$HOME/.local/bin:
+export PATH=$HOME/.local/bin:$PATH:
 export EDITOR='/usr/bin/emacsclient -c -a "$@"'
 export TERMINAL='/usr/bin/kitty'
 export SHELL='/usr/bin/zsh'
