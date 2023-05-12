@@ -1425,7 +1425,8 @@ Take your code for a travel through time (that is incidentally, highly dependant
     (add-hook 'csv-mode-hook
               (lambda ()
                 (csv-align-mode 1)
-                (visual-line-mode -1)))
+                (visual-line-mode -1)
+                (toggle-truncate-lines t)))
     :config
     (general-define-key
      :keymaps 'csv-mode-map
