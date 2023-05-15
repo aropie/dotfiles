@@ -1091,7 +1091,6 @@ To be used in hooks for hiding the mode-line, mainly inferior-modes (ie shells, 
 ** Basic config
 #+BEGIN_SRC emacs-lisp
   (defun aropie/org-mode-setup ()
-    (org-indent-mode t)
     (visual-fill-column-mode t)
     (setq evil-auto-indent nil))
 
@@ -1158,6 +1157,13 @@ To be used in hooks for hiding the mode-line, mainly inferior-modes (ie shells, 
 #+BEGIN_SRC emacs-lisp
   (use-package org-modern
     :hook (org-mode . org-modern-mode))
+#+END_SRC
+** Org modern indent
+#+BEGIN_SRC emacs-lisp
+  (use-package org-modern-indent
+    :straight (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
+    :config ; add late to hook
+    (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
 #+END_SRC
 ** Org-pomodoro
 #+BEGIN_SRC emacs-lisp
