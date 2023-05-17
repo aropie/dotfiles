@@ -922,21 +922,19 @@ Code folding based on the tree-sitter syntax tree
 My choice for auto-completion
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :after lsp-mode
-    :hook (prog-mode . company-mode)
-    :custom
-    (company-begin-commands '(self-insert-command))
-    (company-idle-delay 0.0)
-    (company-minimum-prefix-length 1)
-    (company-show-numbers t)
-    (company-dabbrev-code-everywhere t)
-    (company-dabbrev-code-other-buffers t)
-    (company-dabbrev-downcase nil)
-    (company-dabbrev-ignore-case t)
-    (company-tooltip-align-annotations t)
-    (company-show-quick-access t)
-    :config
-    (company-tng-configure-default))
+	:after lsp-mode
+	:hook (prog-mode . company-mode)
+	:custom
+	(company-begin-commands '(self-insert-command))
+	(company-idle-delay 0.0)
+	(company-minimum-prefix-length 1)
+	(company-show-numbers t)
+	(company-dabbrev-code-everywhere t)
+	(company-dabbrev-code-other-buffers t)
+	(company-dabbrev-downcase nil)
+	(company-dabbrev-ignore-case t)
+	(company-tooltip-align-annotations t)
+	(company-show-quick-access t))
 #+END_SRC
 ** Company box
 #+BEGIN_SRC emacs-lisp
@@ -1317,7 +1315,7 @@ Take your code for a travel through time (that is incidentally, highly dependant
 
   (add-to-list 'flycheck-checkers 'python-ruff)
 
-  (flycheck-add-next-checker 'python-ruff 'python-mypy)
+  (flycheck-add-next-checker 'python-ruff 'python-pyright)
 #+END_SRC
 *** Language Server
 #+BEGIN_SRC emacs-lisp
