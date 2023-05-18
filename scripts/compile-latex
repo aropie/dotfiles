@@ -2,8 +2,8 @@
 
 # Check for arguments
 if [[ $# -eq 0 ]]; then
-    echo "No file specified"
-    exit 1
+  echo "No file specified"
+  exit 1
 fi
 
 FILE=$1
@@ -12,11 +12,11 @@ EXTENSION=${FILE##*.}
 
 # Check if args are correct
 if [[ ! -f $FILE ]]; then
-    echo File does not exist
-    exit 1
+  echo File does not exist
+  exit 1
 elif [[ $EXTENSION != "tex" ]]; then
-    echo $FILE is not a tex file
-    exit 1
+  echo $FILE is not a tex file
+  exit 1
 fi
 
 # Create directory if it doesn't exist

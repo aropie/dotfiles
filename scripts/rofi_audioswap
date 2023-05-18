@@ -7,7 +7,7 @@ LAUNCHER="rofi -dmenu -i -lines ${LINES} -hide-scrollbar -p "
 # Fetch sinks and arrange them in the form <index>: <name>
 ENTRIES=$(pacmd list-sinks | gawk 'BEGIN {var=0; FS=": "} 
       		   	       	    $1 ~ /\tname/ {printf "%s: %s\\n", var, $2}
-      		   	 	    /index/ {var=$2}')    
+      		   	 	    /index/ {var=$2}')
 
 # Pipe sink list to rofi
 sink=$(echo -e "$ENTRIES" | rofi -dmenu -p "Audio output" | awk '{print $1}' | tr -d '\r\n:')
@@ -15,8 +15,7 @@ sink=$(echo -e "$ENTRIES" | rofi -dmenu -p "Audio output" | awk '{print $1}' | t
 pacmd set-default-sink $sink
 
 # Change every current audio input to new default sink
-pacmd list-sink-inputs | grep index | while read line
-do
-    input=$(echo $line | awk '{print $2}')
-    pacmd move-sink-input $input $sink
+pacmd list-sink-inputs | grep index | while read line; do
+  input=$(echo $line | awk '{print $2}')
+  pacmd move-sink-input $input $sink
 done
