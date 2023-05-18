@@ -1265,17 +1265,18 @@ Take your code for a travel through time (that is incidentally, highly dependant
 ** Python
 #+BEGIN_SRC emacs-lisp
   (use-package python-mode
-    :hook
-    (python-mode . lsp-deferred)
-    (inferior-python-mode . hide-mode-line-mode)
-    :config
-    (setq flycheck-flake8-maximum-line-length 88)
-    (setq lsp-clients-python-library-directories '("/usr/" "~/.local/bin/"))
-    (add-hook 'python-mode-hook
-              (lambda ()
-                (setq indent-tabs-mode nil)
-                (local-unset-key (kbd "<backspace>"))
-                (local-unset-key (kbd ":")))))
+	:hook
+	(python-mode . lsp-deferred)
+	(inferior-python-mode . hide-mode-line-mode)
+	:config
+	(setq flycheck-flake8-maximum-line-length 88)
+	(setq lsp-clients-python-library-directories '("/usr/" "~/.local/bin/"))
+	(add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\venv\\'")
+	(add-hook 'python-mode-hook
+			  (lambda ()
+				(setq indent-tabs-mode nil)
+				(local-unset-key (kbd "<backspace>"))
+				(local-unset-key (kbd ":")))))
 #+END_SRC
 *** Linter
 [[https://github.com/charliermarsh/ruff][Ruff]] is an extremely fast Python linter which integrates [[https://beta.ruff.rs/docs/rules/][a lot]] of different linters into one
