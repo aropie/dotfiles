@@ -920,7 +920,9 @@ My choice for auto-completion
 	(company-dabbrev-downcase nil)
 	(company-dabbrev-ignore-case t)
 	(company-tooltip-align-annotations t)
-	(company-show-quick-access t))
+	(company-show-quick-access t)
+	:config
+	(company-tng-configure-default))
 #+END_SRC
 ** Company box
 #+BEGIN_SRC emacs-lisp
