@@ -1431,6 +1431,23 @@ Take your code for a travel through time (that is incidentally, highly dependant
       "h" '(csv-header-line :which-key "Toggle header")
       "s" '(csv-sort-fields :which-key "Sort fields")))
 #+END_SRC
+** Bash
+*** Linter
+[[https://github.com/koalaman/shellcheck][ShellCheck]] is a GPLv3 tool that gives warnings and suggestions for bash/sh shell scripts
+#+BEGIN_SRC emacs-lisp
+  (use-package sh-script
+	:ensure nil
+	:hook (sh-mode . lsp-deferred))
+#+END_SRC
+*** Autoformat
+#+BEGIN_SRC emacs-lisp
+   ;; The following formatting flags closely resemble Google's shell style defined in
+   ;;       https://google.github.io/styleguide/shellguide.html
+  (setf (alist-get 'shfmt apheleia-formatters)
+		'("shfmt" "-i" "2" "-ci" "-bn"))
+  (setf (alist-get 'sh-mode apheleia-mode-alist)
+		'(shfmt))
+#+END_SRC
 ** DSL
 *** Jenkinsfile
 #+BEGIN_SRC emacs-lisp
