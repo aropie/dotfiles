@@ -871,7 +871,7 @@ Code folding based on the tree-sitter syntax tree
     (lsp-modeline-diagnostics-enable t)
     (lsp-diagnostics-provider 'flycheck)
     (lsp-signature-render-documentation nil)
-    (lsp-log-io t)
+    (lsp-log-io nil)
     :commands lsp
     :config
     (general-define-key
