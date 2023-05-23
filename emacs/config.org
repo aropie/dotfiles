@@ -792,22 +792,24 @@ Allows for text objects exchanging
 *** Evil multiple cursors
 #+BEGIN_SRC emacs-lisp
   (use-package evil-mc
-    :hook ((prog-mode text-mode) . evil-mc-mode)
-    :config
-    (defhydra hydra-mc (:color red)
-      "Multiple cursors"
-      ("n" evil-mc-make-and-goto-next-match "Create and next match")
-      ("p" evil-mc-make-and-goto-prev-match "Create and previous match")
-      ("N" evil-mc-skip-and-goto-next-match "Skip to next match")
-      ("P" evil-mc-skip-and-goto-prev-match "Skip to previous match")
-      ("m" evil-mc-make-all-cursors "Create all cursors")
-      ("j" evil-mc-make-cursor-move-next-line "Create and next line")
-      ("k" evil-mc-make-cursor-move-prev-line "Create and previous line")
-      ("q" evil-mc-undo-all-cursors "Undo all cursors" :color blue))
-    (general-define-key
-     :states '(normal visual)
-     :keymaps 'override
-     "gr" 'hydra-mc/body))
+	:straight (:host github :repo "gabesoft/evil-mc"
+					 :fork "thanhvg")
+	:hook ((prog-mode text-mode) . evil-mc-mode)
+	:config
+	(defhydra hydra-mc (:color red)
+	  "Multiple cursors"
+	  ("n" evil-mc-make-and-goto-next-match "Create and next match")
+	  ("p" evil-mc-make-and-goto-prev-match "Create and previous match")
+	  ("N" evil-mc-skip-and-goto-next-match "Skip to next match")
+	  ("P" evil-mc-skip-and-goto-prev-match "Skip to previous match")
+	  ("m" evil-mc-make-all-cursors "Create all cursors")
+	  ("j" evil-mc-make-cursor-move-next-line "Create and next line")
+	  ("k" evil-mc-make-cursor-move-prev-line "Create and previous line")
+	  ("q" evil-mc-undo-all-cursors "Undo all cursors" :color blue))
+	(general-define-key
+	 :states '(normal visual)
+	 :keymaps 'override
+	 "gr" 'hydra-mc/body))
 #+END_SRC
 ** Electric parenthesis
 #+BEGIN_SRC emacs-lisp
