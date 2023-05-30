@@ -792,8 +792,6 @@ Allows for text objects exchanging
 *** Evil multiple cursors
 #+BEGIN_SRC emacs-lisp
   (use-package evil-mc
-	:straight (:host github :repo "gabesoft/evil-mc"
-					 :fork "thanhvg")
 	:hook ((prog-mode text-mode) . evil-mc-mode)
 	:config
 	(defhydra hydra-mc (:color red)
