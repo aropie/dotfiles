@@ -235,12 +235,13 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
 *** Toggle keybindings
 #+BEGIN_SRC emacs-lisp
   (my-leader
-    :infix "t"
-    "" '(:ignore t :which-key "Toggle")
-    "l" '(global-linum-mode :which-key "Line numbers")
-    "r" '(read-only-mode :which-key "Read only mode")
-    "w" '(whitespace-mode :which-key "Whitespace mode")
-    "v" '(visual-line-mode :which-key "Visual line mode"))
+	:infix "t"
+	"" '(:ignore t :which-key "Toggle")
+	"l" '(global-display-line-numbers-mode :which-key "Line numbers")
+	"r" '(read-only-mode :which-key "Read only mode")
+	"w" '(whitespace-mode :which-key "Whitespace mode")
+	"v" '(visual-line-mode :which-key "Visual line mode")
+	"t" '(toggle-truncate-lines :which-key "Truncate lines"))
 #+END_SRC
 *** Open keybindings
 #+BEGIN_SRC emacs-lisp
