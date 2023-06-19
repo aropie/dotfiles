@@ -463,11 +463,13 @@ Improves ~help~ buffers adding contextual information and multiple references
 Undoing becomes actually a branching tree, one that I can actually navigate. This is some serious voodoo stuff
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
-    :config
-    (global-undo-tree-mode t)
-    (my-leader
-      :infix "o"
-      "u" '(undo-tree-visualize :which-key "Undo tree")))
+	:custom ((undo-tree-auto-save-history t)
+			 (undo-tree-history-directory-alist `(("." . ,(no-littering-expand-var-file-name "undo-tree-hist/")))))
+	:config
+	(global-undo-tree-mode t)
+	(my-leader
+	  :infix "o"
+	  "u" '(undo-tree-visualize :which-key "Undo tree")))
 #+END_SRC
 ** Avy
 Jump around like there's no tomorrow
