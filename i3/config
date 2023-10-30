@@ -122,7 +122,10 @@ assign [class="qutebrowser"] $ws1
 assign [class="zoom"] $ws4
 assign [class="transmission"] $ws8
 assign [class="Franz"] $ws9
-assign [class="Steam"] $ws10
+assign [class="steam"] $ws10
+
+
+for_window [class="steam"] layout tabbed
 
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+q exec i3-msg exit
