@@ -682,6 +682,10 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
     :config
     (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode))
 #+END_SRC
+** Debugging
+#+BEGIN_SRC emacs-lisp
+  (use-package dap-mode)
+#+END_SRC
 * Editing
 ** Indentation
 *** Tabs
@@ -883,9 +887,7 @@ Code folding based on the tree-sitter syntax tree
     (my-leader
       :infix "c"
       "" '(:ignore t :which-key "Code")
-      "d" '(lsp-find-definition :which-key "Find definition")
-      "D" '(lsp-find-references :which-key "Find references")
-      "r" '(lsp-rename :which-key "Rename symbol")))
+      "d" `(,(lambda () (interactive) (dap-ui-mode) (dap-hydra)) :which-key "Debug session") "r" '(lsp-rename :which-key "Rename symbol")))
 
   (use-package lsp-ui
     :custom
@@ -1383,6 +1385,14 @@ Take your code for a travel through time (that is incidentally, highly dependant
               (push '("not in" . ?∉) prettify-symbols-alist)
               (push '("return" . ?➡) prettify-symbols-alist)
               (prettify-symbols-mode t)))
+#+END_SRC
+
+*** Debugging
+#+BEGIN_SRC emacs-lisp
+  (require 'dap-python)
+  ;; if you installed debugpy, you need to set this
+  ;; https://github.com/emacs-lsp/dap-mode/issues/306
+  (setq dap-python-debugger 'debugpy)
 #+END_SRC
 ** JavaScript
 #+BEGIN_SRC emacs-lisp
