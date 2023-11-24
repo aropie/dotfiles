@@ -684,7 +684,9 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
 #+END_SRC
 ** Debugging
 #+BEGIN_SRC emacs-lisp
-  (use-package dap-mode)
+  (use-package dap-mode
+    :config
+    (dap-ui-mode 1))
 #+END_SRC
 * Editing
 ** Indentation
@@ -885,9 +887,10 @@ Code folding based on the tree-sitter syntax tree
      :states 'normal
      "gD" 'lsp-find-references)
     (my-leader
-      :infix "c"
-      "" '(:ignore t :which-key "Code")
-      "d" `(,(lambda () (interactive) (dap-ui-mode) (dap-hydra)) :which-key "Debug session") "r" '(lsp-rename :which-key "Rename symbol")))
+  	:infix "c"
+  	"" '(:ignore t :which-key "Code")
+  	"d" '(dap-hydra :which-key "Debug session")
+  	"r" '(lsp-rename :which-key "Rename symbol")))
 
   (use-package lsp-ui
     :custom
@@ -1268,6 +1271,11 @@ Take your code for a travel through time (that is incidentally, highly dependant
               (lambda () (hydra-timemachine/body))))
 #+END_SRC
 * Languages
+** Lisp
+*** Arg delimiters
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'lisp-data-mode-hook (lambda () (setq-local evil-args-delimiters '(" "))))
+#+END_SRC
 ** Python
 #+BEGIN_SRC emacs-lisp
   (use-package python-mode
