@@ -148,20 +148,36 @@ Since I run a lot of automatic linting, I like for all buffers to match the actu
 ** General.el
 Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
 #+BEGIN_SRC emacs-lisp
+  (setq aropie/file-prefix "f"
+  	  aropie/buffer-prefix "b"
+  	  aropie/toggle-prefix "t"
+  	  aropie/open-prefix "o"
+  	  aropie/help-prefix "h"
+  	  aropie/config-prefix "oC")
   (use-package general
     :config
     (general-create-definer my-leader
-      ;; :prefix my-leader
-      :states '(normal insert emacs)
-      :keymaps 'override
-      :prefix "SPC"
-      :non-normal-prefix "M-SPC")
+  	;; :prefix my-leader
+  	:states '(normal insert emacs)
+  	:keymaps 'override
+  	:prefix "SPC"
+  	:non-normal-prefix "M-SPC")
     (general-create-definer my-local-leader
-      ;; prefix local-leader
-      :states '(normal insert emacs)
-      :prefix "SPC m"
-      :non-normal-prefix "M-SPC m")
+  	;; prefix local-leader
+  	:states '(normal insert emacs)
+  	:prefix "SPC m"
+  	:non-normal-prefix "M-SPC m")
     (general-auto-unbind-keys))
+  ;; fake-keyword is needed because of the way the macro is defined
+  ;; https://github.com/noctuid/general.el#positional-argument-wrappers
+  (my-leader
+    :fake-keyword t
+    aropie/file-prefix'(:ignore t :which-key "File")
+    aropie/buffer-prefix '(:ignore t :which-key "Buffer")
+    aropie/toggle-prefix '(:ignore t :which-key "Toggle")
+    aropie/open-prefix '(:ignore t :which-key "Open")
+    aropie/help-prefix '(:ignore t :which-key "Help")
+    aropie/config-prefix '(:ignore t :which-key "Config"))
 #+END_SRC
 ** Perspective
 #+BEGIN_SRC emacs-lisp
@@ -202,8 +218,7 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
             (set-visited-file-name new-name t t)))))))
 
   (my-leader
-    :infix "f"
-    "" '(:ignore t :which-key "File")
+    :infix aropie/file-prefix
     "f" '(find-file :which-key "Find file")
     "s" '(save-buffer :which-key "Save file")
     "r" '(aropie/rename-file-and-buffer :which-key "Rename/move this file)")
@@ -220,8 +235,7 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
     (interactive)
     (persp-remove-buffer (current-buffer)))
   (my-leader
-    :infix "b"
-    "" '(:ignore t :which-key "Buffer")
+    :infix aropie/buffer-prefix
     "b" '(consult-buffer :which-key "Switch to workspace buffer")
     "i" '(clone-indirect-buffer :which-key "Clone buffer as indirect buffer")
     "k" '(aropie/persp-remove-this-buffer :which-key "Kill this buffer")
@@ -235,8 +249,7 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
 *** Toggle keybindings
 #+BEGIN_SRC emacs-lisp
   (my-leader
-	:infix "t"
-	"" '(:ignore t :which-key "Toggle")
+	:infix aropie/toggle-prefix
 	"l" '(global-display-line-numbers-mode :which-key "Line numbers")
 	"r" '(read-only-mode :which-key "Read only mode")
 	"w" '(whitespace-mode :which-key "Whitespace mode")
@@ -246,16 +259,14 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
 *** Open keybindings
 #+BEGIN_SRC emacs-lisp
   (my-leader
-    :infix "o"
-    "" '(:ignore t :which-key "Open")
+    :infix aropie/open-prefix
     "c" '(calc :which-key "Calc"))
 
 #+END_SRC
 *** Help keybindings
 #+BEGIN_SRC emacs-lisp
   (my-leader
-    :infix "h"
-    "" '(:ignore t :which-key "Help")
+    :infix aropie/help-prefix
     "a" '(apropos-command :which-key "Apropos")
     "k" '(describe-key :which-key "Key")
     "f" '(describe-function :which-key "Function")
@@ -266,7 +277,6 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
 *** Config shortcuts
 I tend to modify a lot my config files, so I set shortcuts to the
 most used ones
-**** Definitions
 #+BEGIN_SRC emacs-lisp
   (defun aropie/emacs-config-visit ()
     (interactive)
@@ -277,12 +287,9 @@ most used ones
   (defun aropie/emacs-config-reload ()
     (interactive)
     (org-babel-load-file (expand-file-name "config.org" user-emacs-directory)))
-#+END_SRC
-**** Bindings
-#+BEGIN_SRC emacs-lisp
+
   (my-leader
-    :infix "oC"
-    "" '(:ignore t :which-key "Config")
+    :infix aropie/config-prefix
     "e" '(aropie/emacs-config-visit :which-key "emacs")
     "z" '(aropie/zsh-config-visit :which-key "zsh")
     "r" '(aropie/emacs-config-reload :which-key "Reload emacs config"))
@@ -297,7 +304,7 @@ Utility function to get *scratch* buffer or create it if it was killed
     (switch-to-buffer (get-buffer-create "*scratch*"))
     (org-mode))
   (my-leader
-    :infix "o"
+    :infix aropie/open-prefix
     "s" `(,(if (and (boundp 'persp-mode) (persp-mode))
                'persp-switch-to-scratch-buffer
              'aropie/get-scratch-buffer)
@@ -365,7 +372,7 @@ Ripgrep
     (add-to-list 'consult-buffer-sources persp-consult-source)
 
     (my-leader
-      :infix "t"
+      :infix aropie/toggle-prefix
       "m" '(consult-minor-mode-menu :which-key "Toggle minor mode (i/o/l/g SPC)")
       "M" '(consult-mode-command :which-key "Toggle major mode (l/g/m SPC)"))
     (setq xref-show-xrefs-function #'consult-xref
@@ -393,7 +400,7 @@ A mode to enbiggen font for presentations and screen sharing
     (add-hook 'presentation-off-hook #'aropie/presentation-off)
 
     (my-leader
-      :infix "t"
+      :infix aropie/toggle-prefix
       "p" '(presentation-mode :which-key "Presentation mode")))
 #+END_SRC
 ** Projectile
@@ -469,7 +476,7 @@ Undoing becomes actually a branching tree, one that I can actually navigate. Thi
 	:config
 	(global-undo-tree-mode t)
 	(my-leader
-	  :infix "o"
+	  :infix aropie/open-prefix
 	  "u" '(undo-tree-visualize :which-key "Undo tree")))
 #+END_SRC
 ** Avy
@@ -604,7 +611,7 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
      "l" 'dired-find-alternate-file)
 
     (my-leader
-      :infix "o"
+      :infix aropie/open-prefix
       "d" '(dired-jump :which-key "Dired"))
     (my-leader
       :keymaps 'dired-mode-map
