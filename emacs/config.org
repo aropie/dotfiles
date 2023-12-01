@@ -732,6 +732,7 @@ Spaceballs (1987)
 #+BEGIN_SRC emacs-lisp
   (use-package evil-collection
     :after evil
+    :custom (evil-collection-outline-bind-tab-p t)
     :config
     (evil-collection-init))
 #+END_SRC
