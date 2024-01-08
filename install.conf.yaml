@@ -22,3 +22,4 @@
         ~/.config/picom: picom
         ~/.config/kitty: kitty
         ~/.config/emacs: emacs/*
+        ~/.config/pacdef: pacdef

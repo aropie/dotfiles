@@ -1,0 +1,5 @@
+[arch]
+amd-ucode
+nvidia
+nvidia-utils
+lib32-nvidia-utils

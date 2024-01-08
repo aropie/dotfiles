@@ -1,0 +1,8 @@
+[arch]
+alsa-utils
+pavucontrol
+pulseaudio
+pulseaudio-alsa
+pulseaudio-bluetooth
+pulseaudio-jack
+pulseaudio-zeroconf

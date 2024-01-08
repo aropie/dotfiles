@@ -1,0 +1,15 @@
+[arch]
+pcsx2-latest-bin
+steam
+wine
+winetricks
+gamemode-git
+lib32-nvidia-utils
+lib32-opencl-nvidia
+opencl-nvidia
+libvdpau
+libxnvctrl
+vulkan-icd-loader
+lib32-vulkan-icd-loader
+vkbasalt
+lib32-vkbasalt
