@@ -1439,6 +1439,11 @@ Take your code for a travel through time (that is incidentally, highly dependant
       "m" 'haskell-interactive-switch-back))
 #+END_SRC
 ** Markup
+*** Markdown
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :custom (markdown-command "markdown_py"))
+#+END_SRC
 *** Yaml
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode
