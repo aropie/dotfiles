@@ -1508,6 +1508,10 @@ Take your code for a travel through time (that is incidentally, highly dependant
 #+BEGIN_SRC emacs-lisp
   (use-package dockerfile-mode)
 #+END_SRC
+*** Terraform
+#+BEGIN_SRC emacs-lisp
+  (use-package terraform-mode)
+#+END_SRC
 * Packages to consider
 - https://cestlaz.github.io/post/using-emacs-57-dired-narrow/
 - https://github.com/akhramov/org-wild-notifier.el
