@@ -11,7 +11,6 @@ sxhkd &
 xidlehook --not-when-fullscreen --not-when-audio --timer 600 screen-lock "" &
 blueman-applet &
 launch_polybar &
-ram_monitor &
 polkit-mate-authentication-agent-1 &
 flameshot &
 
