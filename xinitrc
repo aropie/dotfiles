@@ -14,11 +14,11 @@ launch_polybar &
 polkit-mate-authentication-agent-1 &
 flameshot &
 
-# Personal
+Personal
 if should_i_be_working; then
-    qutebrowser &
-    franz &
-    1password &
+  qutebrowser &
+  ferdium &
+  1password &
 fi
 
 exec i3
