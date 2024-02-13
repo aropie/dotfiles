@@ -44,6 +44,10 @@ tmp=${XDG_RUNTIME_DIR}/npm
 export NVM_DIR="$XDG_DATA_HOME"/nvm
 export _JAVA_OPTIONS=-Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java
 
+## Go
+export GOPATH="$HOME"/.local/go
+export PATH="$PATH:$GOPATH/bin"
+
 ## PostgreSQL
 export PGPASSFILE="$XDG_CONFIG_HOME/pg/pgpass"
 
