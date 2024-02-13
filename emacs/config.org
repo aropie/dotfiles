@@ -1420,6 +1420,12 @@ Take your code for a travel through time (that is incidentally, highly dependant
     (js2-highlight-level 3)
     (js-indent-level 2))
 #+END_SRC
+** Go
+#+BEGIN_SRC emacs-lisp
+  (use-package go-mode
+    :hook
+    (go-mode . lsp-deferred))
+#+END_SRC
 ** PHP
 #+BEGIN_SRC emacs-lisp
   (use-package php-mode)
