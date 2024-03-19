@@ -15,10 +15,13 @@ polkit-mate-authentication-agent-1 &
 flameshot &
 
 Personal
-if should_i_be_working; then
+if should_i_be_working;
+then
   qutebrowser &
   ferdium &
   1password &
+else
+	steam &
 fi
 
 exec i3
