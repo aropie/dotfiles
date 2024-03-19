@@ -50,6 +50,7 @@ export PATH="$PATH:$GOPATH/bin"
 
 ## PostgreSQL
 export PGPASSFILE="$XDG_CONFIG_HOME/pg/pgpass"
+export PGSERVICEFILE="$XDG_CONFIG_HOME/pg/pg_service.conf"
 
 ## MySQL
 export MYSQL_HISTFILE="$XDG_DATA_HOME"/mysql_history
