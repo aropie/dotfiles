@@ -597,8 +597,19 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
     (dired-recursive-deletes 'always)
     (dired-dwim-target t)
     (dired-omit-files "^\\.[^.].*")
+    (dired-use-ls-dired 'unspecified)
     :hook ((dired-mode . dired-omit-mode)
            (dired-mode . dired-hide-details-mode))
+    :general (my-leader
+    	:infix aropie/toggle-prefix
+    	:states '(normal visual motion)
+    	:keymaps 'dired-mode-map
+    	"h" 'dired-omit-mode :which-key "Toggle hidden files"
+    	"a" 'dired-hide-details-mode :which-key "Toggle full details")
+    :init
+    (when (eq system-type 'darwin)
+  	(setq insert-directory-program "/opt/homebrew/bin/gls"))
+
     :config
 
     ;; Open dired folders in same buffer
@@ -610,15 +621,10 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
      "h" 'dired-up-directory
      "l" 'dired-find-alternate-file)
 
+
     (my-leader
       :infix aropie/open-prefix
-      "d" '(dired-jump :which-key "Dired"))
-    (my-leader
-      :keymaps 'dired-mode-map
-      :state 'normal
-      :infix "t"
-      "h" 'dired-omit-mode :which-key "Toggle hidden files"
-      "a" 'dired-hide-details-mode :which-key "Toggle full details"))
+      "d" '(dired-jump :which-key "Dired")))
 #+END_SRC
 *** Dired narrow
 #+BEGIN_SRC emacs-lisp
