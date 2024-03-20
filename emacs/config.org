@@ -1163,17 +1163,10 @@ To be used in hooks for hiding the mode-line, mainly inferior-modes (ie shells, 
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-files '("~/Org"))
 #+END_SRC
-** Org modern
+** Org bullet
 #+BEGIN_SRC emacs-lisp
-  (use-package org-modern
-    :hook (org-mode . org-modern-mode))
-#+END_SRC
-** Org modern indent
-#+BEGIN_SRC emacs-lisp
-  (use-package org-modern-indent
-    :straight (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
-    :config ; add late to hook
-    (add-hook 'org-mode-hook #'org-modern-indent-mode 90))
+  (use-package org-bullets
+    :hook (org-mode . org-bullets-mode))
 #+END_SRC
 ** Org-pomodoro
 #+BEGIN_SRC emacs-lisp
