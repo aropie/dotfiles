@@ -667,6 +667,11 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
     :config
     (dap-ui-mode 1))
 #+END_SRC
+** Ediff
+#+BEGIN_SRC emacs-lisp
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+  (setq ediff-split-window-function 'split-window-horizontally)
+#+END_SRC
 * Editing
 ** Indentation
 *** Tabs
