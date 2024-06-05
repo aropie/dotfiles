@@ -644,10 +644,6 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
 #+BEGIN_SRC emacs-lisp
 (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
 #+END_SRC
-** Visual Line Mode
-#+BEGIN_SRC emacs-lisp
-  (global-visual-line-mode t)
-#+END_SRC
 ** PDF Tools
 #+BEGIN_SRC emacs-lisp
   (use-package pdf-tools
