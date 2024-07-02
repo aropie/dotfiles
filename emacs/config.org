@@ -1201,7 +1201,7 @@ To be used in hooks for hiding the mode-line, mainly inferior-modes (ie shells, 
     :infix "g"
     "" '(:ignore t :which-key "Git")
     "g" '(magit-status :which-key "Status")
-    "m" '(magit-dispatch-popup :which-key "Menu")
+    "m" '(magit-dispatch :which-key "Menu")
     "c" '(magit-clone :which-key "Clone")
     "b" '(magit-branch :which-key "Branch")
     "B" '(magit-blame :which-key "Blame")
