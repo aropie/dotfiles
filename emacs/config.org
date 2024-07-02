@@ -104,7 +104,7 @@ This is supposed to adjust font sizes depending on which screen I'm
 working on, but I have yet to find a sweet spot for it
 #+BEGIN_SRC emacs-lisp
   (if (eq system-type 'darwin)
-      (set-face-attribute 'default nil :height 130)
+      (set-face-attribute 'default nil :height 120)
     (set-face-attribute 'default nil :height 100))
 #+END_SRC
 ** Yes-or-no
