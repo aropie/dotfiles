@@ -883,6 +883,9 @@ Code folding based on the tree-sitter syntax tree
     (my-leader
       :infix "c"
       "i" '(lsp-ui-imenu :which-key "imenu"))
+    (my-leader
+  	:infix aropie/toggle-prefix
+  	"b" '(lsp-headerline-breadcrumb-mode :which-key "Breadcrumb"))
     (general-define-key
      :keymaps '(override lsp-ui-mode-map)
      :states 'normal
