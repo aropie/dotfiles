@@ -684,6 +684,11 @@ For the custom template I'm using for verb files, I set some variables to ~safe~
 #+BEGIN_SRC emacs-lisp
   (setq-default tab-width 4)
 #+END_SRC
+** Line numbers
+#+BEGIN_SRC emacs-lisp
+  (setq display-line-numbers-type 'relative)
+  (global-display-line-numbers-mode)
+#+END_SRC
 ** Evil
 Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
 #+BEGIN_QUOTE
@@ -1020,10 +1025,13 @@ Highlight matching parenthesis on selection
 Visual aid for indentation
 #+BEGIN_SRC emacs-lisp
   (use-package highlight-indent-guides
-    :config
-    (setq highlight-indent-guides-responsive 'top)
-    (setq highlight-indent-guides-method 'character)
-    (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+    :custom
+    (highlight-indent-guides-responsive 'top)
+    (highlight-indent-guides-method 'character)
+    (highlight-indent-guides-auto-character-face-perc 30)
+    (highlight-indent-guides-auto-top-character-face-perc 80)
+    :hook
+    (prog-mode . highlight-indent-guides-mode))
 #+END_SRC
 
 ** Line highlight
