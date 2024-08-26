@@ -861,9 +861,9 @@ Code folding based on the tree-sitter syntax tree
 ** LSP
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
-    :hook ((lsp-mode . lsp-enable-which-key-integration))
+    :hook (lsp-mode . lsp-enable-which-key-integration)
     :custom
-    (lsp-headerline-breadcrumb-enable nil)
+    (lsp-headerline-breadcrumb-enable t)
     (lsp-enable-symbol-highlighting t)
     (lsp-lens-enable t)
     (lsp-eldoc-enable-hover t)
