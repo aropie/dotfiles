@@ -16,16 +16,24 @@
 * General layout and config
 ** Keeping emacs clean
 *** No littering
+From [[https://github.com/emacscollective/no-littering][its Github]]: The default paths used to store configuration files and persistent data are not
+consistent across Emacs packages. This isn’t just a problem with third-party packages but even with
+built-in packages. This package sets out to fix this by changing the values of path variables to put
+configuration files in ~no-littering-etc-directory~ and and persistent data files in
+~no-littering-var-directory~. and by using descriptive file names and subdirectories when
+appropriate. This is similar to a color-theme; a “path-theme” if you will.
 #+BEGIN_SRC emacs-lisp
   (use-package no-littering)
 #+END_SRC
 *** Auto-saves
+Move auto-saves to their respective path in ~no-littering~ dir
 #+BEGIN_SRC emacs-lisp
   (setq auto-save-file-name-transforms
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
 #+END_SRC
 
 *** Backups
+Move backups to their respective path in ~no-littering~ dir
 #+BEGIN_SRC emacs-lisp
   (setq backup-directory-alist `(("." . ,(no-littering-expand-var-file-name "backups/")))
         backup-by-copying t
@@ -36,12 +44,13 @@
 #+END_SRC
 
 *** Disable custom file
-I really dislike ~custom~ writing on ~init.el~ without my permission,
-so I disable it altogether
+I really dislike ~custom~ writing on ~init.el~ without my permission, so I disable it
+altogether. Everything should be declared in ~config.org~
 #+BEGIN_SRC emacs-lisp
   (setq custom-file null-device)
 #+END_SRC
 ** Enable narrow mode
+Narrow mode is disabled by default, but I like to use it from time to time
 #+BEGIN_SRC emacs-lisp
   (put 'narrow-to-region 'disabled nil)
 #+END_SRC
@@ -68,47 +77,47 @@ MacOs has problems with paths, so we need to add them manually
     (exec-path-from-shell-copy-env "GOPATH"))
 #+END_SRC
 ** Scroll conservatively
-Makes Emacs scroll more smoothly
+Makes Emacs scroll more smoothly.
 #+BEGIN_SRC emacs-lisp
   (setq scroll-conservatively 100)
 #+END_SRC
 ** Disable ring alert
-I haven't actually experienced the ring alert, but people often say it's quite
-annoying, so better be safe than sorry
+I haven't actually experienced the ring alert, but people often say it's quite annoying, so better
+be safe than sorry.
 #+BEGIN_SRC emacs-lisp
   (setq ring-bell-function 'ignore)
 #+END_SRC
 ** Startup message
-I prefer the scratch buffer to greet me when I (rarely) restart Emacs
+I prefer the scratch buffer to greet me when I (rarely) restart Emacs.
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t)
 #+END_SRC
 ** Transparency
-I like being able to see my wallpaper, even if it's only a little bit
+I like being able to see my wallpaper, even if it's only a little bit.
 #+BEGIN_SRC emacs-lisp
   (set-frame-parameter (selected-frame) 'alpha '(98 98))
   (add-to-list 'default-frame-alist '(alpha 98 98))
 #+END_SRC
 ** Disable cursors in other windows
-I find confusing having cursors on every window, so I just remove inactive ones
+I find it confusing having cursors on every window, so I just remove inactive ones.
 #+BEGIN_SRC emacs-lisp
   (setq cursor-in-non-selected-windows nil)
 #+END_SRC
 ** Help
-When opening a help window, always select that window afterwards and move focus to it
+When opening a help window, always and move focus to it.
 #+BEGIN_SRC emacs-lisp
   (setq help-window-select t)
 #+END_SRC
 ** Font
-This is supposed to adjust font sizes depending on which screen I'm
-working on, but I have yet to find a sweet spot for it
+This is supposed to adjust font sizes depending on which screen I'm working on, but I have yet to
+find a sweet spot for it.
 #+BEGIN_SRC emacs-lisp
   (if (eq system-type 'darwin)
       (set-face-attribute 'default nil :height 120)
     (set-face-attribute 'default nil :height 100))
 #+END_SRC
 ** Yes-or-no
-Change "yes or no" prompts to "y or n"
+Change =yes or no= prompts to =y or n=.
 #+BEGIN_SRC emacs-lisp
   ;; Emacs 28 has a variable for using short answers, which should
   ;; be preferred if using that version or higher.
@@ -117,7 +126,8 @@ Change "yes or no" prompts to "y or n"
     (advice-add 'yes-or-no-p :override #'y-or-n-p))
 #+END_SRC
 ** Auto revert everything
-Since I run a lot of automatic linting, I like for all buffers to match the actual file as closely as possible
+Since I run a lot of automatic linting, I like for all buffers to match the actual file as closely
+as possible.
 #+BEGIN_SRC emacs-lisp
   (global-auto-revert-mode t)
   (setq global-auto-revert-non-file-buffers t)
@@ -142,11 +152,12 @@ Since I run a lot of automatic linting, I like for all buffers to match the actu
 #+END_SRC
 * Utils
 ** Hydra
+I use hydra to have some persistent menus and bindings.
 #+BEGIN_SRC emacs-lisp
   (use-package hydra)
 #+END_SRC
 ** General.el
-Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
+Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~.
 #+BEGIN_SRC emacs-lisp
   (setq aropie/file-prefix "f"
   	  aropie/buffer-prefix "b"
@@ -210,9 +221,6 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
 #+END_SRC
 *** Buffer keybindings
 #+BEGIN_SRC emacs-lisp
-  ;; (defun aropie/persp-remove-this-buffer ()
-  ;;   (interactive)
-  ;;   (persp-remove-buffer (current-buffer)))
   (my-leader
     :infix aropie/buffer-prefix
     "b" '(consult-buffer :which-key "Switch to workspace buffer")
@@ -239,7 +247,8 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
 #+BEGIN_SRC emacs-lisp
   (my-leader
     :infix aropie/open-prefix
-    "c" '(calc :which-key "Calc"))
+    "c" '(calc :which-key "Calc")
+    "s" '(scratch-buffer :which-key "Scratch"))
 
 #+END_SRC
 *** Help keybindings
@@ -254,15 +263,17 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~
     "v" '(describe-variable :which-key "Variable"))
 #+END_SRC
 *** Config shortcuts
-I tend to modify a lot my config files, so I set shortcuts to the
-most used ones
+I tend to modify a lot my config files, so I set shortcuts to the most used ones.
 #+BEGIN_SRC emacs-lisp
   (defun aropie/emacs-config-visit ()
     (interactive)
     (find-file (expand-file-name "config.org" user-emacs-directory)))
   (defun aropie/zsh-config-visit ()
     (interactive)
-    (find-file (expand-file-name ".zshrc" (substitute-env-vars "$ZDOTDIR"))))
+    (find-file (expand-file-name ".zshrc" (let ((dir (substitute-env-vars "$ZDOTDIR")))
+  										  (if (eq dir "")
+  											  (substitute-env-vars "$HOME")
+  											dir)))))
   (defun aropie/emacs-config-reload ()
     (interactive)
     (org-babel-load-file (expand-file-name "config.org" user-emacs-directory)))
@@ -273,23 +284,8 @@ most used ones
     "z" '(aropie/zsh-config-visit :which-key "zsh")
     "r" '(aropie/emacs-config-reload :which-key "Reload emacs config"))
 #+END_SRC
-** Scratch buffer
-*** Create/call scratch buffer
-Utility function to get *scratch* buffer or create it if it was killed
-#+BEGIN_SRC emacs-lisp
-  (defun aropie/get-scratch-buffer nil
-    "create a scratch buffer"
-    (interactive)
-    (switch-to-buffer (get-buffer-create "*scratch*")))
-  (my-leader
-    :infix aropie/open-prefix
-    "s" `(,(if (and (boundp 'persp-mode) (persp-mode))
-               'persp-switch-to-scratch-buffer
-             'aropie/get-scratch-buffer)
-          :which-key "Scratch"))
-#+END_SRC
 ** Which-key
-Because Emacs is hard enough without visual aids
+Because Emacs is hard enough without visual aids.
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :init
@@ -298,12 +294,16 @@ Because Emacs is hard enough without visual aids
     (setq which-key-idle-delay 1))
 #+END_SRC
 ** Rg
-Ripgrep
+Ripgrep.
 #+BEGIN_SRC emacs-lisp
   (use-package rg
     :ensure-system-package (rg . ripgrep))
 #+END_SRC
 ** Vertico
+From [[https://github.com/minad/vertico][its Github]]: Vertico provides a performant and minimalistic vertical completion UI based on the
+default completion system. The focus of Vertico is to provide a UI which behaves correctly under all
+circumstances. By reusing the built-in facilities system, Vertico achieves full compatibility with
+built-in Emacs completion commands and completion tables.
 #+BEGIN_SRC emacs-lisp
   (use-package vertico
     :custom
@@ -319,6 +319,7 @@ Ripgrep
     (vertico-mode))
 #+END_SRC
 ** Marginalia
+Adds annotations at the margin for minivuffer completions.
 #+BEGIN_SRC emacs-lisp
   (use-package marginalia
     :after vertico
@@ -366,7 +367,7 @@ Ripgrep
     (embark-collect-mode . consult-preview-at-point-mode))
 #+END_SRC
 ** Presentation mode
-A mode to enbiggen font for presentations and screen sharing
+A mode to enbiggen font for presentations and screen sharing.
 #+BEGIN_SRC emacs-lisp
   (use-package presentation
     :config
@@ -428,7 +429,7 @@ Jumping to definitions made simple
 #+END_SRC
 
 ** Helpful
-Improves ~help~ buffers adding contextual information and multiple references
+Improves ~help~ buffers adding contextual information and multiple references.
 #+BEGIN_SRC emacs-lisp
   (use-package helpful
     :bind
@@ -438,7 +439,8 @@ Improves ~help~ buffers adding contextual information and multiple references
     ([remap describe-key] . helpful-key))
 #+END_SRC
 ** Undo tree
-Undoing becomes actually a branching tree, one that I can actually navigate. This is some serious voodoo stuff
+Undoing becomes actually a branching tree, one that I can actually navigate. This is some serious
+voodoo stuff.
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
     :custom (undo-tree-auto-save-history nil)
@@ -449,7 +451,7 @@ Undoing becomes actually a branching tree, one that I can actually navigate. Thi
   	"u" '(undo-tree-visualize :which-key "Undo tree")))
 #+END_SRC
 ** Avy
-Jump around like there's no tomorrow
+Jump around like there's no tomorrow.
 #+BEGIN_SRC emacs-lisp
   (use-package avy
     :custom
@@ -482,7 +484,7 @@ Jump around like there's no tomorrow
       "kl" '(avy-kill-whole-line :which-key "Kill line")))
 #+END_SRC
 ** Ace window
-Window managing made smart
+Window managing made smart.
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window
     :custom
@@ -508,7 +510,7 @@ Window managing made smart
       "r" '(hydra-window-resize/body :which-key "Resize windows")))
 #+END_SRC
 ** Verb
-Like [[https://github.com/pashky/restclient.el][restclient.el]], but +better+ with ~org-mode~
+Like [[https://github.com/pashky/restclient.el][restclient.el]], but +better+ with ~org-mode.~
 #+BEGIN_SRC emacs-lisp
   (use-package verb
     :config
@@ -520,7 +522,8 @@ Like [[https://github.com/pashky/restclient.el][restclient.el]], but +better+ wi
   	"vv" 'verb-set-var))
 #+END_SRC
 *** Set local variables to safe
-For the custom template I'm using for verb files, I set some variables to ~safe~ in order to avoid prompts everytime I open one of those files
+For the custom template I'm using for verb files, I set some variables to ~safe~ in order to avoid
+prompts everytime I open one of those files.
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'safe-local-variable-values '(flyspell-mode))
   (add-to-list 'safe-local-variable-values '(org-fontify-emphasized-text))
