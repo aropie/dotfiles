@@ -860,6 +860,17 @@ Code folding based on the tree-sitter syntax tree
     :config
     (apheleia-global-mode t))
 #+END_SRC
+** Auto-fill-mode
+Enable ~auto-fill-mode~ for code comments. Also, by default ~fill-column~ is set to 70, which is way too low,
+so we increase it a little bit. This value will be used for auto-filling code comments and also by
+~org-mode~.
+#+BEGIN_SRC emacs-lisp
+  (setq-default fill-column 100)
+  (add-hook 'prog-mode-hook
+  		  (lambda () (progn
+  					   (auto-fill-mode t)
+  					   (set (make-local-variable 'comment-auto-fill-only-comments) t))))
+#+END_SRC
 * Completion
 ** LSP
 #+BEGIN_SRC emacs-lisp
@@ -1084,9 +1095,10 @@ To be used in hooks for hiding the mode-line, mainly inferior-modes (ie shells, 
 * Org
 ** Basic config
 #+BEGIN_SRC emacs-lisp
-  (defun aropie/org-mode-setup ()
-	(visual-fill-column-mode t)
-	(setq evil-auto-indent nil))
+    (defun aropie/org-mode-setup ()
+  	(visual-fill-column-mode t)
+  	(auto-fill-mode t)
+  	(setq evil-auto-indent nil))
 
   (use-package org
 	:defer t
@@ -1332,9 +1344,6 @@ checker myself
         '("isort" "--stdout" "-"))
 
   ;; Define order of formatters execution
-  ;; (setf (alist-get 'python-mode apheleia-mode-alist)
-  ;;       '(autoflake isort ruff))
-
   (setf (alist-get 'python-mode apheleia-mode-alist)
         '(autoflake isort ruff))
 #+END_SRC
