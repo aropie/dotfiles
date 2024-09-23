@@ -872,6 +872,14 @@ so we increase it a little bit. This value will be used for auto-filling code co
   					   (auto-fill-mode t)
   					   (set (make-local-variable 'comment-auto-fill-only-comments) t))))
 #+END_SRC
+** Parrot
+#+BEGIN_SRC emacs-lisp
+  (use-package parrot
+    :config
+    (parrot-mode)
+    (define-key evil-normal-state-map (kbd "[r") 'parrot-rotate-prev-word-at-point)
+    (define-key evil-normal-state-map (kbd "]r") 'parrot-rotate-next-word-at-point))
+#+END_SRC
 * Completion
 ** LSP
 #+BEGIN_SRC emacs-lisp
