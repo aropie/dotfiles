@@ -687,9 +687,10 @@ prompts everytime I open one of those files.
   (setq-default tab-width 4)
 #+END_SRC
 ** Line numbers
+Use relative line numbers, but only for programming languages
 #+BEGIN_SRC emacs-lisp
   (setq display-line-numbers-type 'relative)
-  (global-display-line-numbers-mode)
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 #+END_SRC
 ** Evil
 Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
