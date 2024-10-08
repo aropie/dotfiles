@@ -1375,7 +1375,7 @@ checker myself
 
   ;; Define order of formatters execution
   (setf (alist-get 'python-mode apheleia-mode-alist)
-        '(autoflake isort ruff))
+        '(autoflake ruff-isort ruff))
 #+END_SRC
 *** Enable Venv automatically
 #+BEGIN_SRC emacs-lisp
