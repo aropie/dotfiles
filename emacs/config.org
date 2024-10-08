@@ -675,6 +675,27 @@ prompts everytime I open one of those files.
   (setq ediff-window-setup-function 'ediff-setup-windows-plain)
   (setq ediff-split-window-function 'split-window-horizontally)
 #+END_SRC
+** Vterm
+#+BEGIN_SRC emacs-lisp
+  (use-package vterm)
+#+END_SRC
+** Multi-Vterm
+#+BEGIN_SRC emacs-lisp
+  (use-package multi-vterm
+    :after consult
+    :hook (vterm-mode . evil-insert-state)
+    :init
+    (general-define-key
+     "C-<return>" 'multi-vterm-dedicated-toggle)
+   ;;  Filter by default the dedicated vterm from consult buffer list
+    (push "\\*vterminal - dedicated\\*" consult-buffer-filter))
+#+END_SRC
+** Popwin
+#+BEGIN_SRC emacs-lisp
+  (use-package popwin
+    :config
+    (popwin-mode 1))
+#+END_SRC
 * Editing
 ** Indentation
 *** Tabs
