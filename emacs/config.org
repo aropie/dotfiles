@@ -1551,3 +1551,47 @@ checker myself
 - https://github.com/mineo/yatemplate
 - https://github.com/karthink/popper
 - [[https://github.com/ankurdave/color-identifiers-mode]]
+* Cheatsheet
+#+BEGIN_SRC emacs-lisp
+  (use-package cheatsheet
+    :init
+    (defun aropie/cheatsheet-show-group ()
+  	"Create buffer and show a single cheatsheet group."
+  	(interactive)
+  	(switch-to-buffer-other-window "*cheatsheet*")
+  	(cheatsheet-mode)
+  	(erase-buffer)
+  	(let* ((group-names (mapcar (lambda (group) (plist-get group :name)) (cheatsheet-get)))
+  		   (selected-group (completing-read "Cheatsheet: " group-names))
+  		   (formated-group (list :name selected-group :cheats (cheatsheet--get-group selected-group))))
+  	  (insert (cheatsheet--format-group formated-group)))
+  	(setq buffer-read-only t))
+    :config
+    ;; Make q close the cheatsheet popup
+    (general-define-key
+     :states '(normal visual)
+     :keymaps 'cheatsheet-mode-map
+     "q" 'kill-buffer-and-window)
+    ;; Make chatsheets behave like a popup
+    (push '("*cheatsheet*" :noselect t) popwin:special-display-config)
+
+
+    (cheatsheet-add-group "Text objects"
+  						'(:key "i" :description "same or higher indentation")
+  						'(:key "gx" :description "exchange objects"))
+
+    (cheatsheet-add-group "Consult"
+  						'(:key "C-. o" :description "open in other window"))
+
+    (cheatsheet-add-group "Calc"
+  						'(:key "TAB" :description "Exchange last two items in stack")
+  						'(:key "t[i/o]" :description "Change focus [in/out] to trail window ")
+  						'(:key "u" :description "Undo")
+  						'(:key "DD" :description "Redo")
+  						'(:key "n" :description "Make last value negative")
+  						)
+
+    (cheatsheet-add-group "Common"
+  						'(:key "s" :description "snipe")
+  						'(:key "]r" :description "rotate")))
+#+END_SRC
