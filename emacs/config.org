@@ -697,6 +697,15 @@ prompts everytime I open one of those files.
     :config
     (popwin-mode 1))
 #+END_SRC
+** GPT
+Add an LLM client within Emacs
+#+BEGIN_SRC emacs-lisp
+  (use-package gptel
+    :config
+    (my-leader
+  	:infix aropie/open-prefix
+  	"g" '(gptel-menu :which-menu "GPT")))
+#+END_SRC
 * Editing
 ** Indentation
 *** Tabs
