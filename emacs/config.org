@@ -654,7 +654,7 @@ prompts everytime I open one of those files.
 ** PDF Tools
 #+BEGIN_SRC emacs-lisp
   (use-package pdf-tools
-    :init
+    :config
     (pdf-tools-install))
 #+END_SRC
 *** PDF restore view
@@ -684,9 +684,10 @@ prompts everytime I open one of those files.
   (use-package multi-vterm
     :after consult
     :hook (vterm-mode . evil-insert-state)
-    :init
-    (general-define-key
-     "C-<return>" 'multi-vterm-dedicated-toggle)
+    :general ("C-<return>" 'multi-vterm-dedicated-toggle)
+    :config
+    ;; (general-define-key
+    ;;  "C-<return>" 'multi-vterm-dedicated-toggle)
    ;;  Filter by default the dedicated vterm from consult buffer list
     (push "\\*vterminal - dedicated\\*" consult-buffer-filter))
 #+END_SRC
@@ -972,6 +973,7 @@ My choice for auto-completion
 ** Company box
 #+BEGIN_SRC emacs-lisp
   (use-package company-box
+    :requires company
     :hook (company-mode . company-box-mode))
 #+END_SRC
 ** YASnippet
@@ -1313,18 +1315,18 @@ Take your code for a travel through time (that is incidentally, highly dependant
 ** Python
 #+BEGIN_SRC emacs-lisp
   (use-package python-mode
-	:hook
-	(python-mode . lsp-deferred)
-	(inferior-python-mode . hide-mode-line-mode)
-	:config
-	(setq flycheck-flake8-maximum-line-length 88)
-	(setq lsp-clients-python-library-directories '("/usr/" "~/.local/bin/"))
-	(add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\venv\\'")
-	(add-hook 'python-mode-hook
-			  (lambda ()
-				(setq indent-tabs-mode nil)
-				(local-unset-key (kbd "<backspace>"))
-				(local-unset-key (kbd ":")))))
+    :hook
+    (python-mode . lsp-deferred)
+    (inferior-python-mode . hide-mode-line-mode)
+    :config
+    (setq flycheck-flake8-maximum-line-length 88)
+    (setq lsp-clients-python-library-directories '("/usr/" "~/.local/bin/"))
+    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\venv\\'")
+    (add-hook 'python-mode-hook
+  			(lambda ()
+  			  (setq indent-tabs-mode nil)
+  			  (local-unset-key (kbd "<backspace>"))
+  			  (local-unset-key (kbd ":")))))
 #+END_SRC
 *** Language Server
 #+BEGIN_SRC emacs-lisp
