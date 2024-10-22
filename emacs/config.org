@@ -260,6 +260,7 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~.
     "f" '(describe-function :which-key "Function")
     "m" '(describe-mode :which-key "Mode")
     "b" '(describe-bindings :which-key "Bindings")
+    "B" '(general-describe-keybindings :which-key "Personal bindings")
     "v" '(describe-variable :which-key "Variable"))
 #+END_SRC
 *** Config shortcuts
