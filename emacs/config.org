@@ -179,10 +179,7 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~.
   	:prefix "SPC m"
   	:non-normal-prefix "M-SPC m")
     (general-auto-unbind-keys))
-  ;; fake-keyword is needed because of the way the macro is defined
-  ;; https://github.com/noctuid/general.el#positional-argument-wrappers
   (my-leader
-    :fake-keyword t
     aropie/file-prefix'(:ignore t :which-key "File")
     aropie/buffer-prefix '(:ignore t :which-key "Buffer")
     aropie/toggle-prefix '(:ignore t :which-key "Toggle")
@@ -209,59 +206,59 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~.
 
   (my-leader
     :infix aropie/file-prefix
-    "f" '(find-file :which-key "Find file")
-    "s" '(save-buffer :which-key "Save file")
-    "r" '(aropie/rename-file-and-buffer :which-key "Rename/move this file)")
-    "u" '(:ignore t :which-key "Sudo find file (TBD)")
-    "U" '(:ignore t :which-key "Sudo this file (TBD)"))
+    "f" '("Find file" . find-file)
+    "s" '("Save file" . save-buffer)
+    "r" '("Rename/move this file)" . aropie/rename-file-and-buffer)
+    "u" '("Sudo find file (TBD)" t . :ignore)
+    "U" '("Sudo this file (TBD)" t . :ignore))
   (my-leader
-    "SPC" '(projectile-find-file :which-key "Find file in project")
-    "." '(find-file :which-key "Find file")
-    "," '(switch-to-buffer :which-key "Switch to buffer"))
+    "SPC" '("Find file in project" . projectile-find-file)
+    "." '("Find file" . find-file)
+    "," '("Switch to buffer" . switch-to-buffer))
 #+END_SRC
 *** Buffer keybindings
 #+BEGIN_SRC emacs-lisp
   (my-leader
     :infix aropie/buffer-prefix
-    "b" '(consult-buffer :which-key "Switch to workspace buffer")
-    "i" '(clone-indirect-buffer :which-key "Clone buffer as indirect buffer")
-    "k" '(kill-this-buffer :which-key "Kill this buffer")
-    "r" '(revert-buffer :which-key "Revert buffer")
-    "n" '(next-buffer :which-key "Next buffer")
-    "p" '(previous-buffer :which-key "Previous buffer")
-    "e" '(set-buffer-file-coding-system :which-key "Set buffer coding system"))
+    "b" '("Switch to workspace buffer" . consult-buffer)
+    "i" '("Clone buffer as indirect buffer" . clone-indirect-buffer)
+    "k" '("Kill this buffer" . kill-this-buffer)
+    "r" '("Revert buffer" . revert-buffer)
+    "n" '("Next buffer" . next-buffer)
+    "p" '("Previous buffer" . previous-buffer)
+    "e" '("Set buffer coding system" . set-buffer-file-coding-system))
   (my-leader
-    "," '(consult-buffer :which-key "Switch to workspace buffer"))
+    "," '("Switch to workspace buffer" . consult-buffer))
 #+END_SRC
 *** Toggle keybindings
 #+BEGIN_SRC emacs-lisp
   (my-leader
 	:infix aropie/toggle-prefix
-	"l" '(global-display-line-numbers-mode :which-key "Line numbers")
-	"r" '(read-only-mode :which-key "Read only mode")
-	"w" '(whitespace-mode :which-key "Whitespace mode")
-	"v" '(visual-line-mode :which-key "Visual line mode")
-	"t" '(toggle-truncate-lines :which-key "Truncate lines"))
+	"l" '("Line numbers" . global-display-line-numbers-mode)
+	"r" '("Read only mode" . read-only-mode)
+	"w" '("Whitespace mode" . whitespace-mode)
+	"v" '("Visual line mode" . visual-line-mode)
+	"t" '("Truncate lines" . toggle-truncate-lines))
 #+END_SRC
 *** Open keybindings
 #+BEGIN_SRC emacs-lisp
   (my-leader
     :infix aropie/open-prefix
-    "c" '(calc :which-key "Calc")
-    "s" '(scratch-buffer :which-key "Scratch"))
+    "c" '("Calc" . calc)
+    "s" '("Scratch" . scratch-buffer))
 
 #+END_SRC
 *** Help keybindings
 #+BEGIN_SRC emacs-lisp
   (my-leader
     :infix aropie/help-prefix
-    "a" '(apropos-command :which-key "Apropos")
-    "k" '(describe-key :which-key "Key")
-    "f" '(describe-function :which-key "Function")
-    "m" '(describe-mode :which-key "Mode")
-    "b" '(describe-bindings :which-key "Bindings")
-    "B" '(general-describe-keybindings :which-key "Personal bindings")
-    "v" '(describe-variable :which-key "Variable"))
+    "a" '("Apropos" . apropos-command)
+    "k" '("Key" . describe-key)
+    "f" '("Function" . describe-function)
+    "m" '("Mode" . describe-mode)
+    "b" '("Bindings" . describe-bindings)
+    "B" '("Personal bindings" . general-describe-keybindings)
+    "v" '("Variable" . describe-variable))
 #+END_SRC
 *** Config shortcuts
 I tend to modify a lot my config files, so I set shortcuts to the most used ones.
@@ -281,9 +278,9 @@ I tend to modify a lot my config files, so I set shortcuts to the most used ones
 
   (my-leader
     :infix aropie/config-prefix
-    "e" '(aropie/emacs-config-visit :which-key "emacs")
-    "z" '(aropie/zsh-config-visit :which-key "zsh")
-    "r" '(aropie/emacs-config-reload :which-key "Reload emacs config"))
+    "e" '("emacs" . aropie/emacs-config-visit)
+    "z" '("zsh" . aropie/zsh-config-visit)
+    "r" '("Reload emacs config" . aropie/emacs-config-reload))
 #+END_SRC
 ** Which-key
 Because Emacs is hard enough without visual aids.
@@ -350,8 +347,8 @@ Adds annotations at the margin for minivuffer completions.
 
     (my-leader
       :infix aropie/toggle-prefix
-      "m" '(consult-minor-mode-menu :which-key "Toggle minor mode (i/o/l/g SPC)")
-      "M" '(consult-mode-command :which-key "Toggle major mode (l/g/m SPC)"))
+      "m" '("Toggle minor mode (i/o/l/g SPC)" . consult-minor-mode-menu)
+      "M" '("Toggle major mode (l/g/m SPC)" . consult-mode-command))
     (setq xref-show-xrefs-function #'consult-xref
           xref-show-definitions-function #'consult-xref))
 #+END_SRC
@@ -382,7 +379,7 @@ A mode to enbiggen font for presentations and screen sharing.
 
     (my-leader
       :infix aropie/toggle-prefix
-      "p" '(presentation-mode :which-key "Presentation mode")))
+      "p" '("Presentation mode" . presentation-mode)))
 #+END_SRC
 ** Projectile
 Projectile's really cool. Very nice project management.
@@ -398,18 +395,18 @@ Projectile's really cool. Very nice project management.
     (my-leader
       :infix "p"
       "" '(:ignore t :which-key "Project")
-  	"p" '(projectile-switch-project :which-key "Switch project")
-      "f" '(projectile-find-file :which-key "Find file")
-      "F" '(projectile-find-file-other-window :which-key "Find file (other window)")
-      "b" '(projectile-switch-to-buffer :which-key "Switch to buffer")
-      "B" '(projectile-switch-to-buffer-other-window :which-key "Switch to buffer (other window)")
-      "k" '(projectile-kill-buffers :which-key "Kill all project buffers")
-      "t" '(projectile-toggle-between-implementation-and-test :which-key "Toggle between test and implementation")
-      "T" '(projectile-test-project :which-key "Run project's tests")
-      "a" '(projectile-add-known-project :which-key "Add bookmark to project")
-      "r" '(projectile-replace :which-key "Replace in project")
-      "c" '(projectile-invalidate-cache :which-key "Clear project's cache")
-      "s" '(consult-ripgrep :which-key "Search in project")))
+  	"p" '("Switch project" . projectile-switch-project)
+      "f" '("Find file" . projectile-find-file)
+      "F" '("Find file (other window)" . projectile-find-file-other-window)
+      "b" '("Switch to buffer" . projectile-switch-to-buffer)
+      "B" '("Switch to buffer (other window)" . projectile-switch-to-buffer-other-window)
+      "k" '("Kill all project buffers" . projectile-kill-buffers)
+      "t" '("Toggle between test and implementation" . projectile-toggle-between-implementation-and-test)
+      "T" '("Run project's tests" . projectile-test-project)
+      "a" '("Add bookmark to project" . projectile-add-known-project)
+      "r" '("Replace in project" . projectile-replace)
+      "c" '("Clear project's cache" . projectile-invalidate-cache)
+      "s" '("Search in project" . consult-ripgrep)))
 #+END_SRC
 ** Dumb-jump
 Jumping to definitions made simple
@@ -423,10 +420,10 @@ Jumping to definitions made simple
     (my-leader
       :infix "d"
       "" '(:ignore t :which-key "Definition")
-      "j" '(dumb-jump-go :which-key "Jump to definition")
-      "o" '(dumb-jump-go-other-window :which-key "Jump to definition on the other window")
-      "l" '(dumb-jump-quick-look :which-key "Look at definition on tooltip")
-      "b" '(dumb-jump-back :which-key "Jump back to previous-to-jump position")))
+      "j" '("Jump to definition" . dumb-jump-go)
+      "o" '("Jump to definition on the other window" . dumb-jump-go-other-window)
+      "l" '("Look at definition on tooltip" . dumb-jump-quick-look)
+      "b" '("Jump back to previous-to-jump position" . dumb-jump-back)))
 #+END_SRC
 
 ** Helpful
@@ -449,7 +446,7 @@ voodoo stuff.
     (global-undo-tree-mode t)
     (my-leader
   	:infix aropie/open-prefix
-  	"u" '(undo-tree-visualize :which-key "Undo tree")))
+  	"u" '("Undo tree" . undo-tree-visualize)))
 #+END_SRC
 ** Avy
 Jump around like there's no tomorrow.
@@ -471,18 +468,18 @@ Jump around like there's no tomorrow.
     (my-leader
       :infix "j"
       "" '(:ignore t :which-key "Jump")
-      "w" '(avy-goto-subword-1 :which-key "Jump to word")
-      "l" '(avy-goto-line :which-key "Jump to line")
-      "c" '(avy-goto-char :which-key "Jump to char")
+      "w" '("Jump to word" . avy-goto-subword-1)
+      "l" '("Jump to line" . avy-goto-line)
+      "c" '("Jump to char" . avy-goto-char)
       "m" '(:ignore t :which-key "Move...")
-      "ml" '(avy-move-line :which-key "Move line")
-      "mr" '(avy-move-region :which-key "Move region")
+      "ml" '("Move line" . avy-move-line)
+      "mr" '("Move region" . avy-move-region)
       "y" '(:ignore t :which-key "Yank...")
-      "yl" '(avy-copy-line :which-key "Yank line")
-      "yr" '(avy-copy-region :which-key "Yank region")
+      "yl" '("Yank line" . avy-copy-line)
+      "yr" '("Yank region" . avy-copy-region)
       "k" '(:ignore t :which-key "Kill...")
-      "kr" '(avy-kill-region :which-key "Kill region between lines")
-      "kl" '(avy-kill-whole-line :which-key "Kill line")))
+      "kr" '("Kill region between lines" . avy-kill-region)
+      "kl" '("Kill line" . avy-kill-whole-line)))
 #+END_SRC
 ** Ace window
 Window managing made smart.
@@ -501,14 +498,14 @@ Window managing made smart.
     (my-leader
       :infix "w"
       "" '(:ignore t :which-key "Windows")
-      "w" '(ace-window :which-key "Change window")
-      "u" '(winner-undo :which-key "Undo windows config")
-      "s" '(ace-swap-window :which-key "Swap windows")
-      "o" '(delete-other-windows :which-key "Delete other windows")
-      "x" '(ace-delete-window :which-key "Delete window")
-      "h" '(split-window-vertically :which-key "Split window horizontally")
-      "v" '(split-window-horizontally :which-key "Split window vertically")
-      "r" '(hydra-window-resize/body :which-key "Resize windows")))
+      "w" '("Change window" . ace-window)
+      "u" '("Undo windows config" . winner-undo)
+      "s" '("Swap windows" . ace-swap-window)
+      "o" '("Delete other windows" . delete-other-windows)
+      "x" '("Delete window" . ace-delete-window)
+      "h" '("Split window horizontally" . split-window-vertically)
+      "v" '("Split window vertically" . split-window-horizontally)
+      "r" '("Resize windows" . hydra-window-resize/body)))
 #+END_SRC
 ** Verb
 Like [[https://github.com/pashky/restclient.el][restclient.el]], but +better+ with ~org-mode.~
@@ -578,8 +575,8 @@ prompts everytime I open one of those files.
     	:infix aropie/toggle-prefix
     	:states '(normal visual motion)
     	:keymaps 'dired-mode-map
-    	"h" 'dired-omit-mode :which-key "Toggle hidden files"
-    	"a" 'dired-hide-details-mode :which-key "Toggle full details")
+    	"h" '("Toggle hidden files" . dired-omit-mode)
+    	"a" '("Toggle full details" . dired-hide-details-mode))
     :init
     (when (eq system-type 'darwin)
   	(setq insert-directory-program "/opt/homebrew/bin/gls"))
@@ -598,7 +595,7 @@ prompts everytime I open one of those files.
 
     (my-leader
       :infix aropie/open-prefix
-      "d" '(dired-jump :which-key "Dired")))
+      "d" '("Dired" . dired-jump)))
 #+END_SRC
 *** Dired narrow
 #+BEGIN_SRC emacs-lisp
@@ -705,7 +702,7 @@ Add an LLM client within Emacs
     :config
     (my-leader
   	:infix aropie/open-prefix
-  	"g" '(gptel-menu :which-menu "GPT")))
+  	"g" '("GPT" . gptel-menu)))
 #+END_SRC
 * Editing
 ** Indentation
@@ -934,8 +931,8 @@ so we increase it a little bit. This value will be used for auto-filling code co
     (my-leader
   	:infix "c"
   	"" '(:ignore t :which-key "Code")
-  	"d" '(dap-hydra :which-key "Debug session")
-  	"r" '(lsp-rename :which-key "Rename symbol")))
+  	"d" '("Debug session" . dap-hydra)
+  	"r" '("Rename symbol" . lsp-rename)))
 
   (use-package lsp-ui
     :custom
@@ -946,10 +943,10 @@ so we increase it a little bit. This value will be used for auto-filling code co
     :config
     (my-leader
       :infix "c"
-      "i" '(lsp-ui-imenu :which-key "imenu"))
+      "i" '("imenu" . lsp-ui-imenu))
     (my-leader
   	:infix aropie/toggle-prefix
-  	"b" '(lsp-headerline-breadcrumb-mode :which-key "Breadcrumb"))
+  	"b" '("Breadcrumb" . lsp-headerline-breadcrumb-mode))
     (general-define-key
      :keymaps '(override lsp-ui-mode-map)
      :states 'normal
@@ -1197,7 +1194,7 @@ To be used in hooks for hiding the mode-line, mainly inferior-modes (ie shells, 
     (org-roam-db-autosync-mode)
     (my-leader
       :infix "o"
-      "n" '(org-roam-node-find :which-key "Notes")))
+      "n" '("Notes" . org-roam-node-find)))
 #+END_SRC
 ** Agenda
 #+BEGIN_SRC emacs-lisp
@@ -1273,14 +1270,14 @@ To be used in hooks for hiding the mode-line, mainly inferior-modes (ie shells, 
   (my-leader
     :infix "g"
     "" '(:ignore t :which-key "Git")
-    "g" '(magit-status :which-key "Status")
-    "m" '(magit-dispatch :which-key "Menu")
-    "c" '(magit-clone :which-key "Clone")
-    "b" '(magit-branch :which-key "Branch")
-    "B" '(magit-blame :which-key "Blame")
-    "l" '(magit-log :which-key "Log")
-    "F" '(magit-pull :which-key "Pull")
-    "t" '(git-timemachine :which-key "Travel through time"))
+    "g" '("Status" . magit-status)
+    "m" '("Menu" . magit-dispatch)
+    "c" '("Clone" . magit-clone)
+    "b" '("Branch" . magit-branch)
+    "B" '("Blame" . magit-blame)
+    "l" '("Log" . magit-log)
+    "F" '("Pull" . magit-pull)
+    "t" '("Travel through time" . git-timemachine))
 #+END_SRC
 ** Magit
 Git porcelain inside Emacs. Git turned into loving hugs and kisses
@@ -1513,9 +1510,9 @@ checker myself
     (my-local-leader
       :keymaps 'csv-mode-map
       :states 'normal
-      "a" '(csv-align-mode :which-key "Toggle align-mode")
-      "h" '(csv-header-line :which-key "Toggle header")
-      "s" '(csv-sort-fields :which-key "Sort fields")))
+      "a" '("Toggle align-mode" . csv-align-mode)
+      "h" '("Toggle header" . csv-header-line)
+      "s" '("Sort fields" . csv-sort-fields)))
 #+END_SRC
 ** Bash
 *** Linter
