@@ -150,6 +150,10 @@ as possible.
 
   (set-exec-path-from-shell-PATH)
 #+END_SRC
+** Increase kill ring size
+#+BEGIN_SRC emacs-lisp
+  (setq kill-ring-max 1200)
+#+END_SRC
 * Utils
 ** Hydra
 I use hydra to have some persistent menus and bindings.
