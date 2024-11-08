@@ -919,6 +919,7 @@ so we increase it a little bit. This value will be used for auto-filling code co
   (use-package lsp-mode
     :hook (lsp-mode . lsp-enable-which-key-integration)
     :custom
+    (lsp-headerline-breadcrumb-segments '(project file symbols))
     (lsp-headerline-breadcrumb-enable t)
     (lsp-enable-symbol-highlighting t)
     (lsp-lens-enable t)
