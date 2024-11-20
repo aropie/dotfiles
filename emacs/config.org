@@ -845,6 +845,18 @@ Allows for text objects exchanging
 	 :keymaps 'override
 	 "gr" 'hydra-mc/body))
 #+END_SRC
+*** Evil Owl
+#+BEGIN_SRC emacs-lisp
+  (use-package evil-owl
+    :custom (evil-owl-max-string-length 500)
+    :config
+    (add-to-list 'display-buffer-alist
+                 '("*evil-owl*"
+                   (display-buffer-in-side-window)
+                   (side . bottom)
+                   (window-height . 0.3)))
+    (evil-owl-mode))
+#+END_SRC
 ** Electric parenthesis
 #+BEGIN_SRC emacs-lisp
   (electric-pair-mode t)
@@ -1582,6 +1594,10 @@ checker myself
   		   (formated-group (list :name selected-group :cheats (cheatsheet--get-group selected-group))))
   	  (insert (cheatsheet--format-group formated-group)))
   	(setq buffer-read-only t))
+    :general (my-leader
+    	:infix aropie/help-prefix
+    	:states '(normal visual motion)
+    	"c" '("Cheatsheet" . aropie/cheatsheet-show-group))
     :config
     ;; Make q close the cheatsheet popup
     (general-define-key
@@ -1604,8 +1620,15 @@ checker myself
   						'(:key "t[i/o]" :description "Change focus [in/out] to trail window ")
   						'(:key "u" :description "Undo")
   						'(:key "DD" :description "Redo")
-  						'(:key "n" :description "Make last value negative")
-  						)
+  						'(:key "n" :description "Make last value negative"))
+
+    (cheatsheet-add-group "Marks, registers and macros"
+  						'(:key "q <x>" :description "Record macro")
+  						'(:key "@ <x>" :description "Replay macro")
+  						'(:key "m <x>" :description "Mark the location. Capital letters are global")
+  						'(:key "' <x>" :description "Goto mark")
+  						'(:key "\" <x>" :description "Store in register. In normal/visual mode")
+  						'(:key "C-r <x>" :description "Paste from register. In insert mode"))
 
     (cheatsheet-add-group "Common"
   						'(:key "s" :description "snipe")
