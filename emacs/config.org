@@ -880,7 +880,7 @@ Code folding based on the tree-sitter syntax tree
 ** Better jumper
 #+BEGIN_SRC emacs-lisp
   (use-package better-jumper
-    :custom (better-jumper-add-jump-behavior 'replace)
+    :custom (better-jumper-add-jump-behavior 'append)
     :config
     (general-define-key
      :states '(normal motion)
