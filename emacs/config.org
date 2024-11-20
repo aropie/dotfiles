@@ -1129,7 +1129,9 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
 #+END_SRC
 ** SVG-Tags
 #+BEGIN_SRC emacs-lisp
-  (use-package svg-tag-mode)
+  ;; It displays badly on MacOS, so I'm disabling it until I can figure it out
+  (use-package svg-tag-mode
+    :if (not (eq system-type 'darwin)))
 #+END_SRC
 ** Hide mode-line
 To be used in hooks for hiding the mode-line, mainly inferior-modes (ie shells, REPLs, etc)
@@ -1564,7 +1566,6 @@ checker myself
 - https://cestlaz.github.io/post/using-emacs-57-dired-narrow/
 - https://github.com/akhramov/org-wild-notifier.el
 - https://github.com/mineo/yatemplate
-- https://github.com/karthink/popper
 - [[https://github.com/ankurdave/color-identifiers-mode]]
 * Cheatsheet
 #+BEGIN_SRC emacs-lisp
