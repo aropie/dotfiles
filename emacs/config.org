@@ -688,8 +688,6 @@ prompts everytime I open one of those files.
     :hook (vterm-mode . evil-insert-state)
     :general ("C-<return>" 'multi-vterm-dedicated-toggle)
     :config
-    ;; (general-define-key
-    ;;  "C-<return>" 'multi-vterm-dedicated-toggle)
    ;;  Filter by default the dedicated vterm from consult buffer list
     (push "\\*vterminal - dedicated\\*" consult-buffer-filter))
 #+END_SRC
