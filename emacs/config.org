@@ -1052,7 +1052,10 @@ I like how Doom looks, but it's way too convoluted for my taste, so I just grab 
 ** All the icons
 We take advantage of running Emacs as a GUI, and get nice icons for it
 #+BEGIN_SRC emacs-lisp
-  (use-package all-the-icons)
+  (use-package all-the-icons
+    :init
+    (unless (member "all-the-icons" (font-family-list))
+  	(all-the-icons-install-fonts t)))
 #+END_SRC
 ** All-the-icons-completion
 #+BEGIN_SRC emacs-lisp
@@ -1068,6 +1071,9 @@ Nice replacement for default mode line
   (use-package doom-modeline
     :hook (after-init . doom-modeline-mode)
     :defer t
+    :init
+    (unless (member "Symbols Nerd Font Mono" (font-family-list))
+  	(nerd-icons-install-fonts t))
     :custom
     (doom-modeline-buffer-file-name-style 'relative-to-project)
     :config
