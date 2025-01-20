@@ -4,6 +4,7 @@
   (straight-use-package 'use-package)
   (setq straight-use-package-by-default t)
   (use-package use-package-ensure-system-package)
+  (use-package system-packages)
 #+END_SRC
 ** Garbage collection
 #+BEGIN_SRC emacs-lisp
