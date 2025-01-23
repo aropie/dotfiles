@@ -1222,7 +1222,7 @@ To be used in hooks for hiding the mode-line, mainly inferior-modes (ie shells, 
 #+BEGIN_SRC emacs-lisp
   (use-package org-roam
     :custom
-    (org-roam-directory "~/RoamNotes")
+    (org-roam-directory "~/Notes")
     :init (setq org-roam-v2-ack t)
     :config
     (org-roam-db-autosync-mode)
