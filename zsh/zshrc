@@ -5,6 +5,13 @@ if [ -z "$DISPLAY" ] && [ "$(fgconsole)" -eq 1 ]; then
   exec startx
 fi
 
+if [[ "$TERM" == "dumb" ]]; then
+  unset zle_bracketed_paste
+  unset zle
+  PS1='$ '
+  return
+fi
+
 export ZSH="$XDG_CONFIG_HOME"/oh-my-zsh
 export ZSH_CUSTOM="$ZSH"/custom
 export KEEP_ZSHRC=yes
