@@ -534,8 +534,9 @@ prompts everytime I open one of those files.
 ** Persistent scratch
 #+BEGIN_SRC emacs-lisp
   (use-package persistent-scratch
-    :config
+    :init
     (persistent-scratch-setup-default)
+    :config
     (add-hook 'kill-emacs-hook 'persistent-scratch-save))
 #+END_SRC
 ** Ledger
@@ -1309,7 +1310,7 @@ To be used in hooks for hiding the mode-line, mainly inferior-modes (ie shells, 
     "c" '("Clone" . magit-clone)
     "b" '("Branch" . magit-branch)
     "B" '("Blame" . magit-blame)
-    "l" '("Log" . magit-log)
+    "L" '("Log" . magit-log)
     "F" '("Pull" . magit-pull)
     "t" '("Travel through time" . git-timemachine))
 #+END_SRC
@@ -1347,6 +1348,12 @@ Take your code for a travel through time (that is incidentally, highly dependant
 
     (add-hook 'git-timemachine-mode-hook
               (lambda () (hydra-timemachine/body))))
+#+END_SRC
+** Git link
+#+BEGIN_SRC emacs-lisp
+  (use-package git-link
+      :general (my-leader :infix "g"
+                "l" '("Generate link" . git-link)))
 #+END_SRC
 * Languages
 ** Lisp
