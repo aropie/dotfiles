@@ -688,7 +688,21 @@ prompts everytime I open one of those files.
   (use-package multi-vterm
     :after consult
     :hook (vterm-mode . evil-insert-state)
-    :general ("C-<return>" 'multi-vterm-dedicated-toggle)
+    :general ("C-<return>" 'aropie/dwim-toggle-dedicated-vterm)
+    :init
+    (defun aropie/dwim-toggle-dedicated-vterm ()
+  	"DWIM when toggling the dedicated vterm buffer.
+
+  If dedicated vterm is not visible, open it and switch focus to it.
+  If it's visible but not selected, select it.
+  If it's visible and selected, close it."
+  	(interactive)
+  	(let ((vterm-buffer-window (get-buffer-window multi-vterm-dedicated-buffer)))
+  	  (if vterm-buffer-window
+  		  (if (eq (current-buffer) multi-vterm-dedicated-buffer)
+  			  (multi-vterm-dedicated-close)
+  			(select-window vterm-buffer-window))
+  		(multi-vterm-dedicated-open))))
     :config
    ;;  Filter by default the dedicated vterm from consult buffer list
     (push "\\*vterminal - dedicated\\*" consult-buffer-filter))
