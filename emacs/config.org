@@ -697,14 +697,15 @@ prompts everytime I open one of those files.
   If it's visible but not selected, select it.
   If it's visible and selected, close it."
   	(interactive)
-  	(let ((vterm-buffer-window (get-buffer-window multi-vterm-dedicated-buffer)))
+  	(let ((vterm-buffer-window (if (boundp 'multi-vterm-dedicated-buffer)
+  								   (get-buffer-window multi-vterm-dedicated-buffer))))
   	  (if vterm-buffer-window
   		  (if (eq (current-buffer) multi-vterm-dedicated-buffer)
   			  (multi-vterm-dedicated-close)
   			(select-window vterm-buffer-window))
   		(multi-vterm-dedicated-open))))
     :config
-   ;;  Filter by default the dedicated vterm from consult buffer list
+    ;;  Filter by default the dedicated vterm from consult buffer list
     (push "\\*vterminal - dedicated\\*" consult-buffer-filter))
 #+END_SRC
 ** Popwin
