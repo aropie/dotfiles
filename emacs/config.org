@@ -737,7 +737,7 @@ Add an LLM client within Emacs
 ** Line numbers
 Use relative line numbers, but only for programming languages
 #+BEGIN_SRC emacs-lisp
-  (setq display-line-numbers-type 'relative)
+  (setq display-line-numbers-type 'visual)
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 #+END_SRC
 ** Evil
