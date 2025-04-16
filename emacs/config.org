@@ -681,7 +681,8 @@ prompts everytime I open one of those files.
 #+END_SRC
 ** Vterm
 #+BEGIN_SRC emacs-lisp
-  (use-package vterm)
+  (use-package vterm
+    :custom (vterm-max-scrollback 100000))
 #+END_SRC
 ** Multi-Vterm
 #+BEGIN_SRC emacs-lisp
