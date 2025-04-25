@@ -724,6 +724,13 @@ Add an LLM client within Emacs
   	:infix aropie/open-prefix
   	"g" '("GPT" . gptel-menu)))
 #+END_SRC
+** Pulsar
+#+BEGIN_SRC emacs-lisp
+  (use-package pulsar
+    :config
+    (pulsar-global-mode t))
+
+#+END_SRC
 * Editing
 ** Indentation
 *** Tabs
@@ -918,12 +925,16 @@ Code folding based on the tree-sitter syntax tree
 ** Better jumper
 #+BEGIN_SRC emacs-lisp
   (use-package better-jumper
-    :custom (better-jumper-add-jump-behavior 'append)
+    :hook (better-jumper-post-jump . recenter)
+    :custom (better-jumper-add-jump-behavior 'replace)
+    :init
+    ;; Pulse the cursor after jumping
+    (add-to-list 'pulsar-pulse-functions 'better-jumper-jump-forward)
+    (add-to-list 'pulsar-pulse-functions 'better-jumper-jump-backward)
+    :general (:states '(normal motion)
+  					"C-o" 'better-jumper-jump-backward
+  					"C-i" 'better-jumper-jump-forward)
     :config
-    (general-define-key
-     :states '(normal motion)
-     "C-o" 'better-jumper-jump-backward
-     "C-i" 'better-jumper-jump-forward)
     (better-jumper-mode))
 #+END_SRC
 ** Apheleia
