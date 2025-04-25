@@ -348,6 +348,7 @@ Adds annotations at the margin for minivuffer completions.
      "C-s" 'consult-line
      :keymap minibuffer-local-map
      "C-r" 'consult-history)
+    (evil-add-command-properties #'consult-buffer :jump t)
     :config
 
     (my-leader
