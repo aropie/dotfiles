@@ -466,9 +466,18 @@ Jump around like there's no tomorrow.
       (setq current-prefix-arg '(4)) ; C-u
       (call-interactively 'avy-goto-char-2))
 
+
+  (defun avy-goto-definition (pt)
+    (save-excursion
+  	(goto-char pt)
+  	(evil-goto-definition))
+    t)
+
+  (setf (alist-get ?D avy-dispatch-alist) 'avy-goto-definition)
+
     (general-define-key
      :keymaps 'override
-     "C-;" 'aropie/avy-jump-to-char-in-one-window)
+     "C-;" 'avy-goto-char-timer)
 
     (my-leader
       :infix "j"
