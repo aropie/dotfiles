@@ -342,6 +342,7 @@ Adds annotations at the margin for minivuffer completions.
 ** Consult
 #+BEGIN_SRC emacs-lisp
   (use-package consult
+    :after (evil)
     :hook (completion-list-mode . consult-preview-at-point-mode)
     :init
     (general-define-key
@@ -1641,7 +1642,11 @@ checker myself
 * Cheatsheet
 #+BEGIN_SRC emacs-lisp
   (use-package cheatsheet
-    :init
+    :general (my-leader
+    	:infix aropie/help-prefix
+    	:states '(normal visual motion)
+    	"c" '("Cheatsheet" . aropie/cheatsheet-show-group))
+    :config
     (defun aropie/cheatsheet-show-group ()
   	"Create buffer and show a single cheatsheet group."
   	(interactive)
@@ -1653,11 +1658,6 @@ checker myself
   		   (formated-group (list :name selected-group :cheats (cheatsheet--get-group selected-group))))
   	  (insert (cheatsheet--format-group formated-group)))
   	(setq buffer-read-only t))
-    :general (my-leader
-    	:infix aropie/help-prefix
-    	:states '(normal visual motion)
-    	"c" '("Cheatsheet" . aropie/cheatsheet-show-group))
-    :config
     ;; Make q close the cheatsheet popup
     (general-define-key
      :states '(normal visual)
