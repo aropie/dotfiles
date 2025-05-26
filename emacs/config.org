@@ -505,6 +505,7 @@ Window managing made smart.
     (aw-scope 'frame)
     (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
     :config
+    (global-set-key (kbd "M-o") 'other-window)
     (winner-mode t)
     (general-define-key
      :states '(normal insert emacs)
