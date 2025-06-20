@@ -155,6 +155,10 @@ as possible.
 #+BEGIN_SRC emacs-lisp
   (setq kill-ring-max 1200)
 #+END_SRC
+** Start frame fullsize
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+#+END_SRC
 * Utils
 ** Hydra
 I use hydra to have some persistent menus and bindings.
@@ -998,9 +1002,9 @@ so we increase it a little bit. This value will be used for auto-filling code co
      :states 'normal
      :keymaps 'lsp-ui-doc-frame-mode-map
      "q" 'lsp-ui-doc-hide))
-
-
-  ;; LSP Booster
+#+END_SRC
+*** LSP booster
+#+BEGIN_SRC emacs-lisp
   (defun lsp-booster--advice-json-parse (old-fn &rest args)
     "Try to parse bytecode instead of json."
     (or
@@ -1025,15 +1029,12 @@ so we increase it a little bit. This value will be used for auto-filling code co
                (not (functionp 'json-rpc-connection))  ;; native json-rpc
                (executable-find "emacs-lsp-booster"))
           (progn
-  		  (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+    	(when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
               (setcar orig-result command-from-exec-path))
-  		  (message "Using emacs-lsp-booster for %s!" orig-result)
-  		  (cons "emacs-lsp-booster" orig-result))
-  	  orig-result)))
+    	(message "Using emacs-lsp-booster for %s!" orig-result)
+    	(cons "emacs-lsp-booster" orig-result))
+    	orig-result)))
   (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
-#+END_SRC
-*** LSP booster
-#+BEGIN_SRC emacs-lisp
 #+END_SRC
 ** Company
 My choice for auto-completion
