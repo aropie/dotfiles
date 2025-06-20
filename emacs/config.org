@@ -551,31 +551,6 @@ prompts everytime I open one of those files.
     :config
     (add-hook 'kill-emacs-hook 'persistent-scratch-save))
 #+END_SRC
-** Ledger
-#+BEGIN_SRC emacs-lisp
-  (use-package ledger-mode
-    :hook (ledger-mode . company-mode)
-    :custom
-    (ledger-complete-in-steps t)
-    :config
-    (setq ledger-reports '(("balance" "%(binary) -f %(ledger-file) bal")
-                          ("real-balance" "%(binary) -f %(ledger-file) bal --cleared --real")
-                          ("reg" "%(binary) -f %(ledger-file) reg")
-                          ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
-                          ("account" "%(binary) -f %(ledger-file) bal %(account)")))
-    (my-local-leader
-      :keymaps 'ledger-mode-map
-      :state 'normal
-      "a" 'ledger-add-transaction
-      "b" 'ledger-display-balance-at-point
-      "r" 'ledger-report)
-    (add-hook 'ledger-mode-hook
-              (lambda () (add-hook 'before-save-hook 'ledger-mode-clean-buffer nil 'local))))
-#+END_SRC
-*** Ledger Flycheck
-#+BEGIN_SRC emacs-lisp
-  (use-package flycheck-ledger)
-#+END_SRC
 ** Dired
 #+BEGIN_SRC emacs-lisp
   (use-package dired
@@ -696,7 +671,7 @@ prompts everytime I open one of those files.
   (use-package vterm
     :custom (vterm-max-scrollback 100000))
 #+END_SRC
-** Multi-Vterm
+*** Multi-Vterm
 #+BEGIN_SRC emacs-lisp
   (use-package multi-vterm
     :after consult
@@ -1671,6 +1646,31 @@ checker myself
 *** Terraform
 #+BEGIN_SRC emacs-lisp
   (use-package terraform-mode)
+#+END_SRC
+*** Ledger
+#+BEGIN_SRC emacs-lisp
+  (use-package ledger-mode
+    :hook (ledger-mode . company-mode)
+    :custom
+    (ledger-complete-in-steps t)
+    :config
+    (setq ledger-reports '(("balance" "%(binary) -f %(ledger-file) bal")
+                          ("real-balance" "%(binary) -f %(ledger-file) bal --cleared --real")
+                          ("reg" "%(binary) -f %(ledger-file) reg")
+                          ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
+                          ("account" "%(binary) -f %(ledger-file) bal %(account)")))
+    (my-local-leader
+      :keymaps 'ledger-mode-map
+      :state 'normal
+      "a" 'ledger-add-transaction
+      "b" 'ledger-display-balance-at-point
+      "r" 'ledger-report)
+    (add-hook 'ledger-mode-hook
+              (lambda () (add-hook 'before-save-hook 'ledger-mode-clean-buffer nil 'local))))
+#+END_SRC
+**** Ledger Flycheck
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck-ledger)
 #+END_SRC
 * Packages to consider
 - https://cestlaz.github.io/post/using-emacs-57-dired-narrow/
