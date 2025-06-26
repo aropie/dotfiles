@@ -905,13 +905,10 @@ Syntax checker and linter on the fly
     :config
     (global-tree-sitter-mode))
 #+END_SRC
-** TS-fold
-Code folding based on the tree-sitter syntax tree
+** Code Folding
 #+BEGIN_SRC emacs-lisp
-  (use-package ts-fold
-    :straight (ts-fold :type git :host github :repo "emacs-tree-sitter/ts-fold")
-    :config
-    (global-ts-fold-mode))
+  (use-package hideshow
+    :hook (prog-mode . hs-minor-mode))
 #+END_SRC
 ** Better jumper
 #+BEGIN_SRC emacs-lisp
