@@ -979,9 +979,10 @@ so we increase it a little bit. This value will be used for auto-filling code co
 
   (use-package lsp-ui
     :custom
+    (lsp-ui-doc-enable t)
+    (lsp-ui-doc-position 'at-point)
     (lsp-ui-doc-include-signature t)
     (lsp-ui-sideline-enable t)
-    (lsp-ui-doc-position 'at-point)
     :hook (lsp-mode . lsp-ui-doc-mode)
     :config
     (my-leader
@@ -1053,11 +1054,16 @@ My choice for auto-completion
 	:config
 	(company-tng-configure-default))
 #+END_SRC
-** Company box
+*** Company box
 #+BEGIN_SRC emacs-lisp
   (use-package company-box
     :requires company
     :hook (company-mode . company-box-mode))
+#+END_SRC
+*** Company Quickhelp
+#+BEGIN_SRC emacs-lisp
+  (use-package company-quickhelp
+    :hook (company-mode . company-quickhelp-mode))
 #+END_SRC
 ** YASnippet
 #+BEGIN_SRC emacs-lisp
