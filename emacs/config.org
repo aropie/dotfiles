@@ -1420,7 +1420,7 @@ Take your code for a travel through time (that is incidentally, highly dependant
 #+BEGIN_SRC emacs-lisp
   (use-package python-mode
     :hook
-    (python-mode . lsp-deferred)
+    ;; We don't want to add lsp here because we should start lsp AFTER pyvenv kicks in
     (inferior-python-mode . hide-mode-line-mode)
     :config
     (setq flycheck-flake8-maximum-line-length 88)
