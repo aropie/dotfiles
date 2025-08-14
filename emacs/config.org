@@ -1354,7 +1354,10 @@ To be used in hooks for hiding the mode-line, mainly inferior-modes (ie shells, 
   ;;             (svg-tag-mode t)))
 
 #+END_SRC
-
+** Github Flavored Markdown exporter
+#+BEGIN_SRC emacs-lisp
+  (use-package ox-gfm)
+#+END_SRC
 * Git
 #+BEGIN_SRC emacs-lisp
   (my-leader
