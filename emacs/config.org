@@ -1382,6 +1382,8 @@ Git porcelain inside Emacs. Git turned into loving hugs and kisses
     (magit-commit-show-diff nil)
     :hook (git-commit-mode . evil-insert-state)
     :config
+    (general-def '(normal visual motion) magit-blob-mode-map
+     "q" 'magit-kill-this-buffer)
     (magit-add-section-hook 'magit-status-sections-hook 'magit-insert-assume-unchanged-files 'magit-insert-stashes))
 #+END_SRC
 ** Timemachine
