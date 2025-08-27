@@ -295,10 +295,8 @@ I tend to modify a lot my config files, so I set shortcuts to the most used ones
 Because Emacs is hard enough without visual aids.
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
-    :init
-    (which-key-mode)
-    :custom
-    (setq which-key-idle-delay 1))
+    :hook (after-init . which-key-mode)
+    :custom (which-key-idle-delay 1))
 #+END_SRC
 ** Rg
 Ripgrep.
@@ -316,21 +314,19 @@ built-in Emacs completion commands and completion tables.
     :custom
     (enable-recursive-minibuffers t)
     (vertico-cycle t)
-    :config
-    (general-define-key
-     :keymaps 'vertico-map
-     "C-S-J" 'vertico-next-group
-     "C-S-K" 'vertico-previous-group
-     "C-j" 'vertico-next
-     "C-k" 'vertico-previous)
-    (vertico-mode))
+    :general (vertico-map
+  			"C-S-J" 'vertico-next-group
+  			"C-S-K" 'vertico-previous-group
+  			"C-j" 'vertico-next
+  			"C-k" 'vertico-previous)
+    :hook (after-init . vertico-mode))
 #+END_SRC
 ** Marginalia
-Adds annotations at the margin for minivuffer completions.
+Adds annotations at the margin for minibuffer completions.
 #+BEGIN_SRC emacs-lisp
   (use-package marginalia
     :after vertico
-    :general (:keymaps 'minibuffer-local-map
+    :general (minibuffer-local-map
               "M-A" 'marginalia-cycle)
     :init
     (marginalia-mode t))
@@ -338,7 +334,6 @@ Adds annotations at the margin for minivuffer completions.
 ** Orderless
 #+BEGIN_SRC emacs-lisp
   (use-package orderless
-    :ensure t
     :custom
     (completion-styles '(orderless basic))
     (completion-category-overrides '((file (styles basic partial-completion)))))
@@ -346,32 +341,29 @@ Adds annotations at the margin for minivuffer completions.
 ** Consult
 #+BEGIN_SRC emacs-lisp
   (use-package consult
-    :after (evil)
+    :after evil
     :hook (completion-list-mode . consult-preview-at-point-mode)
-    :init
-    (general-define-key
-     "C-s" 'consult-line
-     :keymap minibuffer-local-map
+    :general
+    ("C-s" 'consult-line)
+    (minibuffer-local-map
      "C-r" 'consult-history)
-    (evil-add-command-properties #'consult-buffer :jump t)
-    :config
-
     (my-leader
-      :infix aropie/toggle-prefix
-      "m" '("Toggle minor mode (i/o/l/g SPC)" . consult-minor-mode-menu)
-      "M" '("Toggle major mode (l/g/m SPC)" . consult-mode-command))
+  	:infix aropie/toggle-prefix
+  	"m" '("Toggle minor mode (i/o/l/g SPC)" . consult-minor-mode-menu)
+  	"M" '("Toggle major mode (l/g/m SPC)" . consult-mode-command))
+    :config
+    (evil-add-command-properties #'consult-buffer :jump t)
     (setq xref-show-xrefs-function #'consult-xref
           xref-show-definitions-function #'consult-xref))
 #+END_SRC
 ** Embark
 #+BEGIN_SRC emacs-lisp
   (use-package embark
-    :bind
-    (("C-." . embark-act)         ;; pick some comfortable binding
-     ("C-;" . embark-dwim)        ;; good alternative: M-.
-     ("C-h B" . embark-bindings))) ;; alternative for `describe-bindings'
+    :general
+    ("C-." 'embark-act)         ;; pick some comfortable binding
+    ("C-;" 'embark-dwim)        ;; good alternative: M-.
+    ("C-h B" 'embark-bindings)) ;; alternative for `describe-bindings'
   (use-package embark-consult
-    :ensure t ; only need to install it, embark loads it after consult if found
     :hook
     (embark-collect-mode . consult-preview-at-point-mode))
 #+END_SRC
@@ -400,9 +392,7 @@ Projectile's really cool. Very nice project management.
     (projectile-indexing-method 'alien)
     (projectile-completion-system 'auto)
     (projectile-enable-caching t)
-    :config
-    (add-to-list 'projectile-globally-ignored-directories ".venv")
-    (projectile-mode t)
+    :general
     (my-leader
       :infix "p"
       "" '(:ignore t :which-key "Project")
@@ -417,7 +407,10 @@ Projectile's really cool. Very nice project management.
       "a" '("Add bookmark to project" . projectile-add-known-project)
       "r" '("Replace in project" . projectile-replace)
       "c" '("Clear project's cache" . projectile-invalidate-cache)
-      "s" '("Search in project" . consult-ripgrep)))
+      "s" '("Search in project" . consult-ripgrep))
+    :config
+    (add-to-list 'projectile-globally-ignored-directories ".venv")
+    (projectile-mode t))
 #+END_SRC
 ** Dumb-jump
 Jumping to definitions made simple
@@ -437,6 +430,18 @@ Jumping to definitions made simple
       "b" '("Jump back to previous-to-jump position" . dumb-jump-back)))
 #+END_SRC
 
+** Better jumper
+#+BEGIN_SRC emacs-lisp
+  (use-package better-jumper
+    :hook
+    (better-jumper-post-jump . recenter)
+    (after-init . better-jumper-mode)
+    :custom (better-jumper-add-jump-behavior 'replace)
+    :config
+    (with-eval-after-load 'evil-maps
+  	(define-key evil-motion-state-map (kbd "C-o") 'better-jumper-jump-backward)
+  	(define-key evil-motion-state-map (kbd "<C-i>") 'better-jumper-jump-forward)))
+#+END_SRC
 ** Helpful
 Improves ~help~ buffers adding contextual information and multiple references.
 #+BEGIN_SRC emacs-lisp
@@ -452,10 +457,10 @@ Undoing becomes actually a branching tree, one that I can actually navigate. Thi
 voodoo stuff.
 #+BEGIN_SRC emacs-lisp
   (use-package undo-tree
+    :demand t
     :custom (undo-tree-auto-save-history nil)
-    :config
-    (global-undo-tree-mode t)
-    (my-leader
+    :hook (after-init . global-undo-tree-mode)
+    :general (my-leader
   	:infix aropie/open-prefix
   	"u" '("Undo tree" . undo-tree-visualize)))
 #+END_SRC
@@ -463,28 +468,24 @@ voodoo stuff.
 Jump around like there's no tomorrow.
 #+BEGIN_SRC emacs-lisp
   (use-package avy
+    :preface
+    (defun aropie/avy-jump-to-char-in-one-window()
+  	(interactive)
+  	(setq current-prefix-arg '(4)) ; C-u
+  	(call-interactively 'avy-goto-char-2))
+    (defun avy-goto-definition (pt)
+  	(save-excursion
+  	  (goto-char pt)
+  	  (evil-goto-definition))
+  	t)
     :custom
     (avy-background t)
     (avy-all-windows t)
     :config
-    (defun aropie/avy-jump-to-char-in-one-window()
-      (interactive)
-      (setq current-prefix-arg '(4)) ; C-u
-      (call-interactively 'avy-goto-char-2))
-
-
-  (defun avy-goto-definition (pt)
-    (save-excursion
-  	(goto-char pt)
-  	(evil-goto-definition))
-    t)
-
-  (setf (alist-get ?D avy-dispatch-alist) 'avy-goto-definition)
-
-    (general-define-key
-     :keymaps 'override
+    (setf (alist-get ?D avy-dispatch-alist) 'avy-goto-definition)
+    :general
+    (:keymaps 'override
      "C-;" 'avy-goto-char-timer)
-
     (my-leader
       :infix "j"
       "" '(:ignore t :which-key "Jump")
@@ -550,10 +551,9 @@ prompts everytime I open one of those files.
 ** Persistent scratch
 #+BEGIN_SRC emacs-lisp
   (use-package persistent-scratch
-    :init
-    (persistent-scratch-setup-default)
-    :config
-    (add-hook 'kill-emacs-hook 'persistent-scratch-save))
+    :hook
+    (after-init . persistent-scratch-setup-default)
+    (kill-emacs . persistent-scratch-save))
 #+END_SRC
 ** Dired
 #+BEGIN_SRC emacs-lisp
@@ -649,6 +649,7 @@ prompts everytime I open one of those files.
 ** PDF Tools
 #+BEGIN_SRC emacs-lisp
   (use-package pdf-tools
+    :magic ("%PDF" . pdf-view-mode)
     :config
     (pdf-tools-install))
 #+END_SRC
@@ -710,7 +711,7 @@ prompts everytime I open one of those files.
 Add an LLM client within Emacs
 #+BEGIN_SRC emacs-lisp
   (use-package gptel
-    :config
+    :general
     (my-leader
   	:infix aropie/open-prefix
   	"g" '("GPT" . gptel-menu)))
@@ -718,9 +719,10 @@ Add an LLM client within Emacs
 ** Pulsar
 #+BEGIN_SRC emacs-lisp
   (use-package pulsar
+    :hook (after-init . pulsar-global-mode)
     :config
-    (pulsar-global-mode t))
-
+  	(add-to-list 'pulsar-pulse-functions 'better-jumper-jump-forward)
+  	(add-to-list 'pulsar-pulse-functions 'better-jumper-jump-backward))
 #+END_SRC
 * Editing
 ** Indentation
@@ -756,10 +758,10 @@ Spaceballs (1987)
     (setq evil-want-keybinding nil)
     (setq evil-respect-visual-line-mode t)
     (setq-default evil-shift-width tab-width)
+    :hook (after-init . evil-mode)
     :config
     ;; Push xref to the front of goto-defintion functions so it always have priority
-    (push 'evil-goto-definition-xref evil-goto-definition-functions)
-    (evil-mode 1))
+    (push 'evil-goto-definition-xref evil-goto-definition-functions))
 #+END_SRC
 *** Evil collection
 #+BEGIN_SRC emacs-lisp
@@ -909,21 +911,6 @@ Syntax checker and linter on the fly
 #+BEGIN_SRC emacs-lisp
   (use-package hideshow
     :hook (prog-mode . hs-minor-mode))
-#+END_SRC
-** Better jumper
-#+BEGIN_SRC emacs-lisp
-  (use-package better-jumper
-    :hook (better-jumper-post-jump . recenter)
-    :custom (better-jumper-add-jump-behavior 'replace)
-    :init
-    ;; Pulse the cursor after jumping
-    (add-to-list 'pulsar-pulse-functions 'better-jumper-jump-forward)
-    (add-to-list 'pulsar-pulse-functions 'better-jumper-jump-backward)
-    :general (:states '(normal motion)
-  					"C-o" 'better-jumper-jump-backward
-  					"C-i" 'better-jumper-jump-forward)
-    :config
-    (better-jumper-mode))
 #+END_SRC
 ** Apheleia
 #+BEGIN_SRC emacs-lisp
@@ -1100,7 +1087,10 @@ I like how Doom looks, but it's way too convoluted for my taste, so I just grab 
     (doom-themes-org-config))
 #+END_SRC
 ** Solaire
-=Solaire-mode= is an aesthetic plugin designed to visually distinguish "real" buffers (i.e. file-visiting code buffers where you do most of your work) from "unreal" buffers (like popups, sidebars, log buffers, terminals, etc) by giving the latter a slightly different -- often darker -- background
+=Solaire-mode= is an aesthetic plugin designed to visually distinguish "real" buffers
+(i.e. file-visiting code buffers where you do most of your work) from "unreal" buffers (like popups,
+sidebars, log buffers, terminals, etc) by giving the latter a slightly different -- often darker --
+background
 #+BEGIN_SRC emacs-lisp
   (use-package solaire-mode
     :config
@@ -1687,29 +1677,37 @@ checker myself
 - https://github.com/mineo/yatemplate
 - [[https://github.com/ankurdave/color-identifiers-mode]]
 * Cheatsheet
+[[https://github.com/mykyta-shyrin/cheatsheet][Source]]
 #+BEGIN_SRC emacs-lisp
   (use-package cheatsheet
-    :general (my-leader
-    	:infix aropie/help-prefix
-    	:states '(normal visual motion)
-    	"c" '("Cheatsheet" . aropie/cheatsheet-show-group))
-    :config
+    :demand t
+
+    :preface
     (defun aropie/cheatsheet-show-group ()
   	"Create buffer and show a single cheatsheet group."
   	(interactive)
-  	(switch-to-buffer-other-window "*cheatsheet*")
-  	(cheatsheet-mode)
-  	(erase-buffer)
   	(let* ((group-names (mapcar (lambda (group) (plist-get group :name)) (cheatsheet-get)))
   		   (selected-group (completing-read "Cheatsheet: " group-names))
   		   (formated-group (list :name selected-group :cheats (cheatsheet--get-group selected-group))))
+
+  	  (switch-to-buffer-other-window "*cheatsheet*")
+  	  (cheatsheet-mode)
+  	  (erase-buffer)
   	  (insert (cheatsheet--format-group formated-group)))
   	(setq buffer-read-only t))
+
+    :general
+    (my-leader
+  	:infix aropie/help-prefix
+  	:states '(normal visual motion)
+  	"c" '("Cheatsheet" . aropie/cheatsheet-show-group))
     ;; Make q close the cheatsheet popup
     (general-define-key
      :states '(normal visual)
      :keymaps 'cheatsheet-mode-map
      "q" 'kill-buffer-and-window)
+
+    :config
     ;; Make chatsheets behave like a popup
     (push '("*cheatsheet*" :noselect t) popwin:special-display-config)
 
