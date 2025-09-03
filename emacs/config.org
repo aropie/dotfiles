@@ -440,7 +440,7 @@ Jumping to definitions made simple
     :config
     (with-eval-after-load 'evil-maps
   	(define-key evil-motion-state-map (kbd "C-o") 'better-jumper-jump-backward)
-  	(define-key evil-motion-state-map (kbd "<C-i>") 'better-jumper-jump-forward)))
+  	(define-key evil-motion-state-map (kbd "C-i") 'better-jumper-jump-forward)))
 #+END_SRC
 ** Helpful
 Improves ~help~ buffers adding contextual information and multiple references.
