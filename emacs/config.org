@@ -680,9 +680,36 @@ prompts everytime I open one of those files.
 #+BEGIN_SRC emacs-lisp
   (use-package multi-vterm
     :after consult
+    :ensure t
     :hook (vterm-mode . evil-insert-state)
-    :general ("C-<return>" 'aropie/dwim-toggle-dedicated-vterm)
+    :general ("C-<return>" 'aropie/toggle-switch-dedicated-vterm)
     :init
+    ;; This requires multi-vterm-dedicated-buffer-name tp be changed into a var in the source code
+    (defvar multi-vterm-dedicated-buffer-name)
+
+    (defun aropie/switch-dedicated-vterm ()
+  	"Switch which vterm buffer is the dedicated one.
+
+  If the buffer name doesn't match, a new vterm buffer is created and selected as dedicated."
+  	(interactive)
+  	(let* ((vterm-buffers (cl-remove-if-not
+  						   (lambda (buf)
+  							 (with-current-buffer buf
+  							   (derived-mode-p 'vterm-mode)))
+  						   (buffer-list)))
+  		   (selected-buffer-name (completing-read "Select vterm buffer: "
+  												  (mapcar 'buffer-name vterm-buffers)
+  												  nil nil))
+  		   (clean-buffer-name (if (string-match "^\\*vterminal - \\(.*\\)\\*$" selected-buffer-name)
+  								  (match-string 1 selected-buffer-name)
+  								selected-buffer-name))
+  		   (dedicated-buffer-window (get-buffer-window multi-vterm-dedicated-buffer)))
+  	  (if dedicated-buffer-window
+  		  (multi-vterm-dedicated-close))
+  	  (setq multi-vterm-dedicated-buffer-name clean-buffer-name)
+  	  (setq multi-vterm-dedicated-buffer nil)
+  	  (multi-vterm-dedicated-open)))
+
     (defun aropie/dwim-toggle-dedicated-vterm ()
   	"DWIM when toggling the dedicated vterm buffer.
 
@@ -697,6 +724,12 @@ prompts everytime I open one of those files.
   			  (multi-vterm-dedicated-close)
   			(select-window vterm-buffer-window))
   		(multi-vterm-dedicated-open))))
+
+    (defun aropie/toggle-switch-dedicated-vterm (arg)
+  	(interactive "P")
+  	(if arg  ;; Called with C-u
+  		(aropie/switch-dedicated-vterm)
+  	  (aropie/dwim-toggle-dedicated-vterm)))
     :config
     ;;  Filter by default the dedicated vterm from consult buffer list
     (push "\\*vterminal - dedicated\\*" consult-buffer-filter))
