@@ -447,7 +447,7 @@ Improves ~help~ buffers adding contextual information and multiple references.
 #+BEGIN_SRC emacs-lisp
   (use-package helpful
     :bind
-    ([remap describe-function] . helpful-function)
+    ([remap describe-function] . helpful-callable)
     ([remap describe-command] . helpful-command)
     ([remap describe-variable] . helpful-variable)
     ([remap describe-key] . helpful-key))
