@@ -1685,6 +1685,7 @@ checker myself
     :hook (ledger-mode . company-mode)
     :custom
     (ledger-complete-in-steps t)
+    (ledger-default-date-format "%Y-%m-%d")
     :config
     (setq ledger-reports '(("balance" "%(binary) -f %(ledger-file) bal")
                           ("real-balance" "%(binary) -f %(ledger-file) bal --cleared --real")
