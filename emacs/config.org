@@ -567,6 +567,7 @@ prompts everytime I open one of those files.
     (dired-dwim-target t)
     (dired-omit-files "^\\.[^.].*")
     (dired-use-ls-dired 'unspecified)
+    (dired-kill-when-opening-new-dired-buffer t)
     :hook ((dired-mode . dired-omit-mode)
            (dired-mode . dired-hide-details-mode))
     :general (my-leader
