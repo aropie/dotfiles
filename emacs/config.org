@@ -684,7 +684,9 @@ prompts everytime I open one of those files.
     :after consult
     :ensure t
     :hook (vterm-mode . evil-insert-state)
-    :general ("C-<return>" 'aropie/toggle-switch-dedicated-vterm)
+    :general
+    ("C-<return>" 'aropie/dwim-toggle-dedicated-vterm)
+    ("C-M-<return>" 'aropie/switch-dedicated-vterm)
     :init
     ;; This requires multi-vterm-dedicated-buffer-name tp be changed into a var in the source code
     (defvar multi-vterm-dedicated-buffer-name)
@@ -726,12 +728,6 @@ prompts everytime I open one of those files.
   			  (multi-vterm-dedicated-close)
   			(select-window vterm-buffer-window))
   		(multi-vterm-dedicated-open))))
-
-    (defun aropie/toggle-switch-dedicated-vterm (arg)
-  	(interactive "P")
-  	(if arg  ;; Called with C-u
-  		(aropie/switch-dedicated-vterm)
-  	  (aropie/dwim-toggle-dedicated-vterm)))
     :config
     ;;  Filter by default the dedicated vterm from consult buffer list
     (push "\\*vterminal" consult-buffer-filter))
