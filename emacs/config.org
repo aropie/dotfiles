@@ -733,7 +733,7 @@ prompts everytime I open one of those files.
   	  (aropie/dwim-toggle-dedicated-vterm)))
     :config
     ;;  Filter by default the dedicated vterm from consult buffer list
-    (push "\\*vterminal - dedicated\\*" consult-buffer-filter))
+    (push "\\*vterminal" consult-buffer-filter))
 #+END_SRC
 ** Popwin
 #+BEGIN_SRC emacs-lisp
