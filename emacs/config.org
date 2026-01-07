@@ -607,6 +607,11 @@ prompts everytime I open one of those files.
   (use-package diredfl
     :hook (dired-mode . diredfl-mode))
 #+END_SRC
+*** Dired preview
+#+BEGIN_SRC emacs-lisp
+  (use-package dired-preview
+    :custom (dired-preview-delay 0.1))
+#+END_SRC
 *** All the icons
 #+BEGIN_SRC emacs-lisp
   (use-package all-the-icons-dired
