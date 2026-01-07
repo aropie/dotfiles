@@ -11,6 +11,7 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
+(setq straight-package--warning-displayed t)
 
 (setq vc-follow-symlinks t)
 ;; Upstream org needs to be installed before anything else
