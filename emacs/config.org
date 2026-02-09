@@ -697,28 +697,46 @@ prompts everytime I open one of those files.
     (defvar multi-vterm-dedicated-buffer-name)
     (defvar multi-vterm-dedicated-buffer nil)
 
-    (defun aropie/switch-dedicated-vterm ()
-  	"Switch which vterm buffer is the dedicated one.
+    ;; Set per-project via .dir-locals.el. Example:
+    ;;   ((nil . ((aropie/vterm-templates . (("name" . "command")
+    ;;                                       ("other" . "other command"))))))
+    (defvar aropie/vterm-templates nil
+      "Alist mapping vterm names to commands to run on creation.
+    Set per-project via .dir-locals.el.")
+    (put 'aropie/vterm-templates 'safe-local-variable #'listp)
 
-  If the buffer name doesn't match, a new vterm buffer is created and selected as dedicated."
-  	(interactive)
-  	(let* ((vterm-buffers (cl-remove-if-not
-  						   (lambda (buf)
-  							 (with-current-buffer buf
-  							   (derived-mode-p 'vterm-mode)))
-  						   (buffer-list)))
-  		   (selected-buffer-name (completing-read "Select vterm buffer: "
-  												  (mapcar 'buffer-name vterm-buffers)
-  												  nil nil))
-  		   (clean-buffer-name (if (string-match "^\\*vterminal - \\(.*\\)\\*$" selected-buffer-name)
-  								  (match-string 1 selected-buffer-name)
-  								selected-buffer-name))
-  		   (dedicated-buffer-window (get-buffer-window multi-vterm-dedicated-buffer)))
-  	  (if dedicated-buffer-window
-  		  (multi-vterm-dedicated-close))
-  	  (setq multi-vterm-dedicated-buffer-name clean-buffer-name)
-  	  (setq multi-vterm-dedicated-buffer nil)
-  	  (multi-vterm-dedicated-open)))
+    (defun aropie/switch-dedicated-vterm ()
+      "Switch which vterm buffer is the dedicated one.
+
+    If the selected name matches a template in `aropie/vterm-templates'
+    and no buffer exists for it yet, create it and run the template command."
+      (interactive)
+      (let* ((vterm-buffers (cl-remove-if-not
+                             (lambda (buf)
+                               (with-current-buffer buf
+                                 (derived-mode-p 'vterm-mode)))
+                             (buffer-list)))
+             (existing-names (mapcar (lambda (buf)
+                                       (let ((name (buffer-name buf)))
+                                         (if (string-match "^\\*vterminal - \\(.*\\)\\*$" name)
+                                             (match-string 1 name)
+                                           name)))
+                                     vterm-buffers))
+             (template-names (mapcar #'car aropie/vterm-templates))
+             (candidates (delete-dups (append existing-names template-names)))
+             (selected-name (completing-read "Select vterm buffer: " candidates nil nil))
+             (buffer-exists-p (get-buffer (format "*vterminal - %s*" selected-name)))
+             (template-command (cdr (assoc selected-name aropie/vterm-templates)))
+             (dedicated-buffer-window (get-buffer-window multi-vterm-dedicated-buffer)))
+        (when dedicated-buffer-window
+          (multi-vterm-dedicated-close))
+        (setq multi-vterm-dedicated-buffer-name selected-name)
+        (setq multi-vterm-dedicated-buffer nil)
+        (multi-vterm-dedicated-open)
+        (when (and template-command (not buffer-exists-p))
+          (with-current-buffer multi-vterm-dedicated-buffer
+            (vterm-send-string template-command)
+            (vterm-send-return)))))
 
     (defun aropie/dwim-toggle-dedicated-vterm ()
   	"DWIM when toggling the dedicated vterm buffer.
