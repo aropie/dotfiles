@@ -695,6 +695,7 @@ prompts everytime I open one of those files.
     :init
     ;; This requires multi-vterm-dedicated-buffer-name tp be changed into a var in the source code
     (defvar multi-vterm-dedicated-buffer-name)
+    (defvar multi-vterm-dedicated-buffer nil)
 
     (defun aropie/switch-dedicated-vterm ()
   	"Switch which vterm buffer is the dedicated one.
