@@ -1493,12 +1493,6 @@ Take your code for a travel through time (that is incidentally, highly dependant
   			  (local-unset-key (kbd "<backspace>"))
   			  (local-unset-key (kbd ":")))))
 #+END_SRC
-*** Language Server
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-pyright
-    :custom
-    (lsp-pyright-multi-root nil))
-#+END_SRC
 *** Linter
 My linter of choice is [[https://docs.astral.sh/ruff/][ruff]], and even tough it's officially included in Flycheck, the included
 options are not the best and I've had some problems with it. That's why I'd rather define the
