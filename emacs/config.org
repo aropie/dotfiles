@@ -1428,11 +1428,21 @@ Git porcelain inside Emacs. Git turned into loving hugs and kisses
     ;; helpful and only add to runtime costs.
     (magit-revision-insert-related-refs nil)
     (magit-commit-show-diff nil)
+    (magit-refresh-status-buffer nil)    ;; don't auto-refresh after every operation
+    (magit-diff-highlight-hunk-body nil) ;; skip expensive hunk highlighting
+    (magit-status-show-hashes-in-headers nil)
     :hook (git-commit-mode . evil-insert-state)
     :config
     (general-def '(normal visual motion) magit-blob-mode-map
-     "q" 'magit-kill-this-buffer)
-    (magit-add-section-hook 'magit-status-sections-hook 'magit-insert-assume-unchanged-files 'magit-insert-stashes))
+  	"q" 'magit-kill-this-buffer)
+    (magit-add-section-hook 'magit-status-sections-hook 'magit-insert-assume-unchanged-files 'magit-insert-stashes)
+
+    ;; Disable expensive sections in status buffer
+    (remove-hook 'magit-status-sections-hook 'magit-insert-tags-header)
+    (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
+    (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
+    (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
+    (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent))
 #+END_SRC
 ** Timemachine
 Take your code for a travel through time (that is incidentally, highly dependant on your commits)
