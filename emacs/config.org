@@ -1438,8 +1438,9 @@ Take your code for a travel through time (that is incidentally, highly dependant
 ** Git link
 #+BEGIN_SRC emacs-lisp
   (use-package git-link
-      :general (my-leader :infix "g"
-                "l" '("Generate link" . git-link)))
+    :custom (git-link-use-commit t)
+    :general (my-leader :infix "g"
+  			 "l" '("Generate link" . git-link)))
 #+END_SRC
 * Languages
 ** Lisp
