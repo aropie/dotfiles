@@ -779,6 +779,15 @@ Add an LLM client within Emacs
   	(add-to-list 'pulsar-pulse-functions 'better-jumper-jump-forward)
   	(add-to-list 'pulsar-pulse-functions 'better-jumper-jump-backward))
 #+END_SRC
+** Compile
+Some adjustment to compile mode
+#+BEGIN_SRC emacs-lisp
+  ;; Support colors in compile buffers
+  (add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
+  ;; Stop scrolling at the first error
+  (setq compilation-scroll-output 'first-error)
+
+#+END_SRC
 * Editing
 ** Indentation
 *** Tabs
@@ -1008,6 +1017,7 @@ so we increase it a little bit. This value will be used for auto-filling code co
     (lsp-signature-render-documentation nil)
     (lsp-log-io nil)
     (lsp-use-plists t)
+    (lsp-file-watch-threshold 8000)
     :commands lsp
     :config
     (general-define-key
@@ -1017,7 +1027,13 @@ so we increase it a little bit. This value will be used for auto-filling code co
   	:infix "c"
   	"" '(:ignore t :which-key "Code")
   	"d" '("Debug session" . dap-hydra)
-  	"r" '("Rename symbol" . lsp-rename)))
+  	"r" '("Rename symbol" . lsp-rename))
+
+    (defun aropie/lsp-setup-xref-fallback ()
+      "Ensure dumb-jump is available as xref fallback after LSP."
+      (add-hook 'xref-backend-functions #'dumb-jump-xref-activate nil t))
+
+    (add-hook 'lsp-after-open-hook #'aropie/lsp-setup-xref-fallback))
 
   (use-package lsp-ui
     :custom
@@ -1555,6 +1571,88 @@ checker myself
       :keymaps 'python-mode-map
       :state 'normal
       "t" 'python-pytest-dispatch))
+#+END_SRC
+*** Django test dispatcher
+#+BEGIN_SRC emacs-lisp
+  (defvar aropie/django-test-command
+    "Command template for running Django tests. %s is replaced with the test path.
+    Set per-project via .dir-locals.el."
+      (concat "django" "manage.py" "test %s'"))
+  (put 'aropie/django-test-command 'safe-local-variable #'stringp)
+
+  (defun aropie/django-test--module-path ()
+      "Get the dotted module path for the current buffer."
+      (replace-regexp-in-string
+       "/" "."
+       (replace-regexp-in-string
+        "\\.py$" ""
+        (file-relative-name (buffer-file-name) (projectile-project-root)))))
+
+  (defun aropie/django-test--enclosing-node (type)
+    "Find the nearest enclosing tree-sitter node of TYPE from point."
+    (let ((node (tree-sitter-node-at-pos)))
+  	(while (and node (not (eq (tsc-node-type node) type)))
+  	  (setq node (tsc-get-parent node)))
+  	node))
+
+  (defun aropie/django-test--node-name (node)
+    "Get the name of a tree-sitter class/function NODE."
+    (tsc-node-text (tsc-get-child-by-field node :name)))
+
+  (defun aropie/django-test--module-path ()
+    "Get the dotted module path for the current buffer."
+    (replace-regexp-in-string
+     "/" "."
+     (replace-regexp-in-string
+      "\\.py$" ""
+      (file-relative-name (buffer-file-name) (projectile-project-root)))))
+
+
+  (defun aropie/django-test--send (test-path)
+    "Run TEST-PATH in a compilation buffer."
+    (compile (format aropie/django-test-command test-path)))
+
+
+  (defun aropie/django-test-at-point ()
+    "Run the Django test at point (method > class > module)."
+    (interactive)
+    (let* ((module (aropie/django-test--module-path))
+           (class-node (aropie/django-test--enclosing-node 'class_definition))
+           (class-name (when class-node (aropie/django-test--node-name
+  									   class-node)))
+           (func-node (aropie/django-test--enclosing-node 'function_definition))
+           (func-name (when func-node (aropie/django-test--node-name
+  									 func-node)))
+           (method-name (when (and func-name (string-prefix-p "test_"
+  															func-name))
+                          func-name)))
+      (aropie/django-test--send
+       (concat module
+               (when class-name (concat "." class-name))
+               (when method-name (concat "." method-name))))))
+
+  (defun aropie/django-test-class ()
+    "Run all tests in the class at point."
+    (interactive)
+    (let* ((module (aropie/django-test--module-path))
+           (class-node (aropie/django-test--enclosing-node 'class_definition))
+           (class-name (when class-node (aropie/django-test--node-name
+  									   class-node))))
+      (aropie/django-test--send
+       (concat module (when class-name (concat "." class-name))))))
+
+  (defun aropie/django-test-module ()
+    "Run all tests in the current module."
+    (interactive)
+    (aropie/django-test--send (aropie/django-test--module-path)))
+
+  (my-local-leader
+      :keymaps 'python-mode-map
+      :state 'normal
+      "t" '(:ignore t :which-key "Test")
+      "tt" '("Test at point" . aropie/django-test-at-point)
+      "tc" '("Test class" . aropie/django-test-class)
+      "tm" '("Test module" . aropie/django-test-module))
 #+END_SRC
 *** SVG tags
 #+BEGIN_SRC emacs-lisp
