@@ -1013,11 +1013,12 @@ so we increase it a little bit. This value will be used for auto-filling code co
     (lsp-lens-enable t)
     (lsp-eldoc-enable-hover t)
     (lsp-modeline-diagnostics-enable t)
-    (lsp-diagnostics-provider 'flycheck)
+    (lsp-diagnostics-provider :flycheck)
     (lsp-signature-render-documentation nil)
     (lsp-log-io nil)
     (lsp-use-plists t)
     (lsp-file-watch-threshold 8000)
+    (lsp-disabled-clients '(ruff))
     :commands lsp
     :config
     (general-define-key
@@ -1502,42 +1503,14 @@ Take your code for a travel through time (that is incidentally, highly dependant
     :config
     (setq flycheck-flake8-maximum-line-length 88)
     (setq lsp-clients-python-library-directories '("/usr/" "~/.local/bin/"))
+    ;; We want ruff going through flycheck, not LSP
+    (setq lsp-disabled-clients '(ruff))
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\venv\\'")
     (add-hook 'python-mode-hook
   			(lambda ()
   			  (setq indent-tabs-mode nil)
   			  (local-unset-key (kbd "<backspace>"))
   			  (local-unset-key (kbd ":")))))
-#+END_SRC
-*** Linter
-My linter of choice is [[https://docs.astral.sh/ruff/][ruff]], and even tough it's officially included in Flycheck, the included
-options are not the best and I've had some problems with it. That's why I'd rather define the
-checker myself
-#+BEGIN_SRC emacs-lisp
-  (flycheck-define-checker python-ruff
-    "A Python syntax and style checker using the ruff utility.
-  To override the path to the ruff executable, set
-  `flycheck-python-ruff-executable'.
-  See URL `http://pypi.python.org/pypi/ruff'."
-    :command ("ruff"
-              "check"
-  			(config-file "--config" flycheck-python-ruff-config)
-              "--output-format=concise"
-  			"--no-fix"
-              (eval (when buffer-file-name
-                      (concat "--stdin-filename=" buffer-file-name)))
-              "-")
-    :standard-input t
-    :error-filter (lambda (errors)
-                    (let ((errors (flycheck-sanitize-errors errors)))
-                      (seq-map #'flycheck-flake8-fix-error-level errors)))
-    :error-patterns
-    ((warning line-start
-              (file-name) ":" line ":" (optional column ":") " "
-              (id (one-or-more (any alpha)) (one-or-more digit)) " "
-              (message (one-or-more not-newline))
-              line-end))
-    :modes (python-mode))
 #+END_SRC
 *** Autoformat
 #+BEGIN_SRC emacs-lisp
