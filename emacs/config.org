@@ -1679,6 +1679,14 @@ Take your code for a travel through time (that is incidentally, highly dependant
     (js2-highlight-level 3)
     (js-indent-level 2))
 #+END_SRC
+** Typescript
+#+BEGIN_SRC emacs-lisp
+
+  (use-package typescript-ts-mode
+      :ensure nil
+      :hook (typescript-ts-mode . (lambda () (setq-local indent-tabs-mode nil)))
+  	:custom (typescript-ts-mode-indent-offset 4))
+#+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
