@@ -2,7 +2,6 @@
 ** Use-package
 #+BEGIN_SRC emacs-lisp
   (straight-use-package 'use-package)
-  (use-package use-package-ensure-system-package)
   (use-package system-packages)
 #+END_SRC
 ** Garbage collection
@@ -962,14 +961,6 @@ Syntax checker and linter on the fly
     :init (global-flycheck-mode))
 
 #+END_SRC
-** Tree sitter
-#+BEGIN_SRC emacs-lisp
-  (use-package tree-sitter)
-  (use-package tree-sitter-langs
-    :init (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
-    :config
-    (global-tree-sitter-mode))
-#+END_SRC
 ** Code Folding
 #+BEGIN_SRC emacs-lisp
   (use-package hideshow
@@ -1505,12 +1496,13 @@ Take your code for a travel through time (that is incidentally, highly dependant
     ;; We don't want to add lsp here because we should start lsp AFTER pyvenv kicks in
     (inferior-python-mode . hide-mode-line-mode)
     :config
+    (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
     (setq flycheck-flake8-maximum-line-length 88)
     (setq lsp-clients-python-library-directories '("/usr/" "~/.local/bin/"))
     ;; We want ruff going through flycheck, not LSP
     (setq lsp-disabled-clients '(ruff))
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\venv\\'")
-    (add-hook 'python-mode-hook
+    (add-hook 'python-ts-mode-hook
   			(lambda ()
   			  (setq indent-tabs-mode nil)
   			  (local-unset-key (kbd "<backspace>"))
@@ -1528,7 +1520,7 @@ Take your code for a travel through time (that is incidentally, highly dependant
         '("isort" "--stdout" "-"))
 
   ;; Define order of formatters execution
-  (setf (alist-get 'python-mode apheleia-mode-alist)
+  (setf (alist-get 'python-ts-mode apheleia-mode-alist)
         '(autoflake ruff-isort ruff))
 #+END_SRC
 *** Enable Venv automatically
@@ -1536,7 +1528,7 @@ Take your code for a travel through time (that is incidentally, highly dependant
   (use-package pyvenv-auto
 	:custom
 	(pyvenv-auto-venv-dirnames '("venv" ".venv"))
-	:hook (python-mode . pyvenv-auto-run)
+	:hook (python-ts-mode . pyvenv-auto-run)
 	:init
 	(add-hook 'pyvenv-post-activate-hooks 'lsp-deferred))
 #+END_SRC
@@ -1624,7 +1616,7 @@ Take your code for a travel through time (that is incidentally, highly dependant
     (aropie/django-test--send (aropie/django-test--module-path)))
 
   (my-local-leader
-      :keymaps 'python-mode-map
+      :keymaps 'python-ts-mode-map
       :state 'normal
       "t" '(:ignore t :which-key "Test")
       "tt" '("Test at point" . aropie/django-test-at-point)
@@ -1633,7 +1625,7 @@ Take your code for a travel through time (that is incidentally, highly dependant
 #+END_SRC
 *** SVG tags
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'python-mode-hook
+  (add-hook 'python-ts-mode-hook
             (lambda ()
               (setq svg-tag-tags
                     '(("# TODO[([:alpha:][:blank:])]*[\b:]*" .
@@ -1653,7 +1645,7 @@ Take your code for a travel through time (that is incidentally, highly dependant
 
 *** Pretty symbols
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'python-mode-hook
+  (add-hook 'python-ts-mode-hook
             (lambda ()
               (push '("def"    . ?ƒ) prettify-symbols-alist)
               (push '("sum"    . ?Σ) prettify-symbols-alist)
