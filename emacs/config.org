@@ -230,7 +230,7 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~.
     :infix aropie/buffer-prefix
     "b" '("Switch to workspace buffer" . consult-buffer)
     "i" '("Clone buffer as indirect buffer" . clone-indirect-buffer)
-    "k" '("Kill this buffer" . kill-this-buffer)
+    "k" '("Kill this buffer" . kill-current-buffer)
     "r" '("Revert buffer" . revert-buffer)
     "n" '("Next buffer" . next-buffer)
     "p" '("Previous buffer" . previous-buffer)
