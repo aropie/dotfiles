@@ -1282,6 +1282,11 @@ To be used in hooks for hiding the mode-line, mainly inferior-modes (ie shells, 
 #+BEGIN_SRC emacs-lisp
   (use-package hide-mode-line)
 #+END_SRC
+** Colorful mode
+#+BEGIN_SRC emacs-lisp
+  (use-package colorful-mode
+    :config (global-colorful-mode t))
+#+END_SRC
 * Org
 ** Basic config
 #+BEGIN_SRC emacs-lisp
