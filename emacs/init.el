@@ -1,7 +1,10 @@
 ;; -*- lexical-binding: t -*-
 (defvar bootstrap-version)
 (let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
       (bootstrap-version 7))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
@@ -18,4 +21,5 @@
 ;; to avoid problems with straight.el
 ;; https://www.reddit.com/r/emacs/comments/qcj33a/problem_and_workaround_with_orgmode_function/
 (straight-use-package 'org)
+(setq straight-use-package-by-default t)
 (org-babel-load-file (expand-file-name "config.org" user-emacs-directory))
