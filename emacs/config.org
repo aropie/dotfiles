@@ -786,6 +786,11 @@ Some adjustment to compile mode
   (setq compilation-scroll-output 'first-error)
 
 #+END_SRC
+** Treesit fold
+Code folding via tree-sitter
+#+BEGIN_SRC emacs-lisp
+  (use-package treesit-fold)
+#+END_SRC
 * Editing
 ** Indentation
 *** Tabs
@@ -960,11 +965,6 @@ Syntax checker and linter on the fly
   (use-package flycheck
     :init (global-flycheck-mode))
 
-#+END_SRC
-** Code Folding
-#+BEGIN_SRC emacs-lisp
-  (use-package hideshow
-    :hook (prog-mode . hs-minor-mode))
 #+END_SRC
 ** Apheleia
 #+BEGIN_SRC emacs-lisp
@@ -1495,6 +1495,7 @@ Take your code for a travel through time (that is incidentally, highly dependant
     :hook
     ;; We don't want to add lsp here because we should start lsp AFTER pyvenv kicks in
     (inferior-python-mode . hide-mode-line-mode)
+    (python-ts-mode . treesit-fold-mode)
     :config
     (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
     (setq flycheck-flake8-maximum-line-length 88)
