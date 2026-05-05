@@ -1776,6 +1776,16 @@ Take your code for a travel through time (that is incidentally, highly dependant
     (setq plantuml-output-type "png")
     (add-to-list 'auto-mode-alist '("\\.uml\\'" . plantuml-mode)))
 #+END_SRC
+*** Mermaid
+#+BEGIN_SRC emacs-lisp
+  (use-package ob-mermaid)
+  (org-babel-do-load-languages
+      'org-babel-load-languages
+      '((mermaid . t)
+        (scheme . t)))
+
+  (setq ob-mermaid-cli-path "mmdc")
+#+END_SRC
 *** Dockerfile
 #+BEGIN_SRC emacs-lisp
   (use-package dockerfile-mode)
