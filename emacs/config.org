@@ -1278,6 +1278,11 @@ To be used in hooks for hiding the mode-line, mainly inferior-modes (ie shells, 
   (use-package colorful-mode
     :config (global-colorful-mode t))
 #+END_SRC
+** Olivetti
+Nice mode for writing text. I enable individual for each environment where I want it
+#+BEGIN_SRC emacs-lisp
+  (use-package olivetti)
+#+END_SRC
 * Org
 ** Basic config
 #+BEGIN_SRC emacs-lisp
@@ -1712,7 +1717,8 @@ Take your code for a travel through time (that is incidentally, highly dependant
 *** Markdown
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
-    :custom (markdown-command "markdown_py"))
+  :hook (markdown-mode . olivetti-mode)
+  :custom (markdown-command "markdown_py"))
 #+END_SRC
 *** Yaml
 #+BEGIN_SRC emacs-lisp
