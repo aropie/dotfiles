@@ -791,6 +791,26 @@ Code folding via tree-sitter
 #+BEGIN_SRC emacs-lisp
   (use-package treesit-fold)
 #+END_SRC
+** Perspective
+#+BEGIN_SRC emacs-lisp
+  (use-package perspective
+    :init (persp-mode 1)
+    :general
+    (my-leader
+  	:infix "<tab>"
+  	"" '(:ignore t :which-key "Perspective")
+  	"<tab>" '("Switch perspective" . persp-switch)
+  	"n" '("Switch to next perspective" . persp-next)
+  	"p" '("Switch to previous perspective" . persp-prev))
+    :custom
+    (persp-modestring-short t)
+    (persp-suppress-no-prefix-key-warning t)
+    :config
+    ;; Make consult filter by perspective
+    (with-eval-after-load 'consult
+  	(consult-customize consult-source-buffer :hidden t :default nil)
+  	(add-to-list 'consult-buffer-sources persp-consult-source)))
+#+END_SRC
 * Editing
 ** Indentation
 *** Tabs
