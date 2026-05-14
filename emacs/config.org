@@ -1140,6 +1140,10 @@ Idea taken from [[http://howardism.org/Technical/Emacs/templates-tutorial.html][
     (auto-insert-mode t))
 #+END_SRC
 * UI
+** Increase treesit highlighting level
+#+BEGIN_SRC emacs-lisp
+(setq treesit-font-lock-level 4)
+#+END_SRC
 ** Doom-theme
 I like how Doom looks, but it's way too convoluted for my taste, so I just grab their theme
 #+BEGIN_SRC emacs-lisp
