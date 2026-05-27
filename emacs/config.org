@@ -763,7 +763,8 @@ Code folding via tree-sitter
   	"" '(:ignore t :which-key "Perspective")
   	"<tab>" '("Switch perspective" . persp-switch)
   	"n" '("Switch to next perspective" . persp-next)
-  	"p" '("Switch to previous perspective" . persp-prev))
+  	"p" '("Switch to previous perspective" . persp-prev)
+  	"k" '("Kill perspective" . persp-kill))
     :custom
     (persp-modestring-short t)
     (persp-suppress-no-prefix-key-warning t)
