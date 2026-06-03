@@ -106,7 +106,16 @@ I find it confusing having cursors on every window, so I just remove inactive on
 When opening a help window, always and move focus to it.
 #+BEGIN_SRC emacs-lisp
   (setq help-window-select t)
+  (setq help-window-keep-selected t)
 #+END_SRC
+** Resize windows
+#+BEGIN_SRC emacs-lisp
+  (setq window-combination-resize t)
+#+END_SRC
+** Preserve clipboard when addinto to kill ring
+ #+BEGIN_SRC emacs-lisp
+  (setq save-interprogram-paste-before-kill t)
+ #+END_SRC
 ** Font
 This is supposed to adjust font sizes depending on which screen I'm working on, but I have yet to
 find a sweet spot for it.
@@ -196,6 +205,39 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~.
     my/config-prefix '(:ignore t :which-key "Config"))
 #+END_SRC
 ** Main keybindings
+*** DWIM Keyboard quit
+#+BEGIN_SRC emacs-lisp
+  ;; Taken directly from
+  ;; https://protesilaos.com/codelog/2026-04-30-emacs-decent-default-sacha-chua/
+  ;; All credits to Protesilaos
+  (defun my/keyboard-quit-dwim ()
+    "Do-What-I-Mean behaviour for a general `keyboard-quit'.
+
+  The generic `keyboard-quit' does not do the expected thing when
+  the minibuffer is open.  Whereas we want it to close the
+  minibuffer, even without explicitly focusing it.
+
+  The DWIM behaviour of this command is as follows:
+
+  - When the region is active, disable it.
+  - When a minibuffer is open, but not focused, close the minibuffer.
+  - When the Completions buffer is selected, close it.
+  - In every other case use the regular `keyboard-quit'."
+    (interactive)
+    (cond
+     ((region-active-p)
+      (keyboard-quit))
+     ((derived-mode-p 'completion-list-mode)
+      (delete-completion-window))
+     ((> (minibuffer-depth) 0)
+      (abort-recursive-edit))
+     (t
+      (keyboard-quit))))
+
+
+  (general-define-key
+   "C-g" 'my/keyboard-quit-dwim)
+#+END_SRC
 *** File keybindings
 #+BEGIN_SRC emacs-lisp
   ;; Taken from https://emacsredux.com/blog/2013/05/04/rename-file-and-buffer/
@@ -566,6 +608,9 @@ prompts everytime I open one of those files.
     (dired-omit-files "^\\.[^.].*")
     (dired-use-ls-dired 'unspecified)
     (dired-kill-when-opening-new-dired-buffer t)
+    (dired-auto-revert-buffer #'dired-directory-changed-p)
+    (dired-create-destination-dirs 'ask)
+    (dired-create-destination-dirs-on-trailing-dirsep t)
     :hook ((dired-mode . dired-omit-mode)
            (dired-mode . dired-hide-details-mode))
     :general (my-leader
