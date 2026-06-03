@@ -197,12 +197,17 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~.
   	:non-normal-prefix "M-SPC m")
     (general-auto-unbind-keys))
   (my-leader
-    my/file-prefix'(:ignore t :which-key "File")
+    "f" '(:ignore t :which-key "Col desc"))
+
+  (my-leader
+    :start-maps t
+    my/file-prefix '(:ignore t :which-key "File")
     my/buffer-prefix '(:ignore t :which-key "Buffer")
     my/toggle-prefix '(:ignore t :which-key "Toggle")
     my/open-prefix '(:ignore t :which-key "Open")
     my/help-prefix '(:ignore t :which-key "Help")
-    my/config-prefix '(:ignore t :which-key "Config"))
+    my/config-prefix '(:ignore t :which-key "Config")
+    "m" '(:ignore t :which-key "Local"))
 #+END_SRC
 ** Main keybindings
 *** DWIM Keyboard quit
