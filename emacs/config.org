@@ -1286,6 +1286,7 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
 ** Nyan mode
 #+BEGIN_SRC emacs-lisp
   (use-package nyan-mode
+    :custom (nyan-wavy-trail t)
     :config
     (nyan-mode)
     (nyan-start-animation))
