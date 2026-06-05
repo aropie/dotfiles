@@ -124,6 +124,7 @@ find a sweet spot for it.
   (if (eq system-type 'darwin)
   	(set-face-attribute 'default nil :height 120)
     (set-face-attribute 'default nil :height 100))
+
 #+END_SRC
 ** Yes-or-no
 Change =yes or no= prompts to =y or n=.
@@ -734,6 +735,16 @@ prompts everytime I open one of those files.
 *** Eat
 #+BEGIN_SRC emacs-lisp
   (use-package eat
+    :init
+    ;; Claude Code's status glyphs ⏺ (U+23FA) and ⎿ (U+23BF) aren't in DejaVu,
+    ;; so they fall back to fonts with taller line boxes,
+    ;; making the blinking status dot bounce the line height in eat.
+    ;; Display them as same-metric glyphs the default font covers; faces (e.g.
+    ;; the green "done" color) pass through, and the buffer text is unchanged.
+    (or standard-display-table (setq standard-display-table (make-display-table)))
+    (aset standard-display-table #x23FA [#x25CF]) ; ⏺ → ●
+    (aset standard-display-table #x23BF [#x2514]) ; ⎿ → └
+
     :straight (:host codeberg
   				   :repo "akib/emacs-eat"
   				   :files ("*.el" ("term" "term/*.el") "*.texi"
