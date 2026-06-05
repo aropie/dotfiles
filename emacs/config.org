@@ -109,10 +109,12 @@ When opening a help window, always and move focus to it.
   (setq help-window-keep-selected t)
 #+END_SRC
 ** Resize windows
+Make windows resize proportionally when closing and opening new windows.
 #+BEGIN_SRC emacs-lisp
   (setq window-combination-resize t)
 #+END_SRC
-** Preserve clipboard when addinto to kill ring
+** Preserve clipboard when adding to to kill ring
+Save existing clipboard text into the kill ring before replacing it.
  #+BEGIN_SRC emacs-lisp
   (setq save-interprogram-paste-before-kill t)
  #+END_SRC
@@ -161,6 +163,7 @@ as possible.
   (set-exec-path-from-shell-PATH)
 #+END_SRC
 ** Increase kill ring size
+Bump up the amount of entries stored in the kill ring so I (almost) never loose anything.
 #+BEGIN_SRC emacs-lisp
   (setq kill-ring-max 1200)
 #+END_SRC
@@ -460,7 +463,7 @@ Projectile's really cool. Very nice project management.
     (projectile-mode t))
 #+END_SRC
 ** Dumb-jump
-Jumping to definitions made simple
+Jumping to definitions made simple.
 #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
     :custom
@@ -478,6 +481,7 @@ Jumping to definitions made simple
 #+END_SRC
 
 ** Better jumper
+Improved jump tracking and management.
 #+BEGIN_SRC emacs-lisp
   (use-package better-jumper
     :hook
@@ -596,6 +600,8 @@ prompts everytime I open one of those files.
   (add-to-list 'safe-local-variable-values '(org-fontify-emphasized-text))
 #+END_SRC
 ** Persistent scratch
+I put a lot of scattered throughs and snippets on my scratch buffer, so I like it to be persistent
+between sessions.
 #+BEGIN_SRC emacs-lisp
   (use-package persistent-scratch
     :hook
@@ -703,6 +709,7 @@ prompts everytime I open one of those files.
 (add-hook 'after-save-hook #'executable-make-buffer-file-executable-if-script-p)
 #+END_SRC
 ** PDF Tools
+Improved PDF viewing.
 #+BEGIN_SRC emacs-lisp
   (use-package pdf-tools
     :magic ("%PDF" . pdf-view-mode)
@@ -778,6 +785,9 @@ prompts everytime I open one of those files.
           (eat "claude")))))
 #+END_SRC
 ** Popwin
+Make pop-up windows behave correctly. This has pretty sane defaults, but I also set some other
+buffer types to be treated as pop-up windows. Those configurations are set at their respective
+packages entries.
 #+BEGIN_SRC emacs-lisp
   (use-package popwin
     :config
@@ -793,6 +803,7 @@ Add an LLM client within Emacs
   	"g" '("GPT" . gptel-menu)))
 #+END_SRC
 ** Pulsar
+Visual aid that "pulses" the cursor when doing any king of jump or movement.
 #+BEGIN_SRC emacs-lisp
   (use-package pulsar
     :hook (after-init . pulsar-global-mode)
@@ -801,7 +812,7 @@ Add an LLM client within Emacs
   	(add-to-list 'pulsar-pulse-functions 'better-jumper-jump-backward))
 #+END_SRC
 ** Compile
-Some adjustment to compile mode
+Some adjustment to compile mode.
 #+BEGIN_SRC emacs-lisp
   ;; Support colors in compile buffers
   (add-hook 'compilation-filter-hook 'ansi-color-compilation-filter)
@@ -810,11 +821,13 @@ Some adjustment to compile mode
 
 #+END_SRC
 ** Treesit fold
-Code folding via tree-sitter
+Code folding via tree-sitter.
 #+BEGIN_SRC emacs-lisp
   (use-package treesit-fold)
 #+END_SRC
 ** Perspective
+Bundle buffers and their window configurations into "perspectives" to have differentiated workspaces
+for each individual project.
 #+BEGIN_SRC emacs-lisp
   (use-package perspective
     :init (persp-mode 1)
@@ -847,13 +860,13 @@ Code folding via tree-sitter
   (setq-default tab-width 4)
 #+END_SRC
 ** Line numbers
-Use relative line numbers, but only for programming languages
+Use relative line numbers, but only for programming languages.
 #+BEGIN_SRC emacs-lisp
   (setq display-line-numbers-type 'visual)
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 #+END_SRC
 ** Evil
-Embrace the anarchy. I love vim's modal editing. I hate vim as an editor
+Embrace the anarchy. I love vim's modal editing. I hate vim as an editor.
 #+BEGIN_QUOTE
 Evil will always triumph, because good is dumb.
 Spaceballs (1987)
@@ -995,6 +1008,7 @@ Allows for text objects exchanging
     (evil-owl-mode))
 #+END_SRC
 ** Electric parenthesis
+Enable automativ pairing of delimiters (parenthesis, brackets, etc).
 #+BEGIN_SRC emacs-lisp
   (electric-pair-mode t)
   (setq electric-pair-skip-whitespace nil)
@@ -1004,13 +1018,15 @@ Allows for text objects exchanging
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
 #+END_SRC
 ** Flycheck
-Syntax checker and linter on the fly
+Syntax checker and linter on the fly.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
     :init (global-flycheck-mode))
 
 #+END_SRC
 ** Apheleia
+Language-agnostic linter framework. Provides an interface to hook up individual linters for each
+programming language.
 #+BEGIN_SRC emacs-lisp
   (use-package apheleia
     :config
@@ -1028,6 +1044,7 @@ so we increase it a little bit. This value will be used for auto-filling code co
   					   (set (make-local-variable 'comment-auto-fill-only-comments) t))))
 #+END_SRC
 ** Parrot
+Add a fun parrot to the modeline. Also, rotates words.
 #+BEGIN_SRC emacs-lisp
   (use-package parrot
     :config
@@ -1128,7 +1145,7 @@ so we increase it a little bit. This value will be used for auto-filling code co
   (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
 #+END_SRC
 ** Company
-My choice for auto-completion
+My choice for auto-completion.
 #+BEGIN_SRC emacs-lisp
   (use-package company
 	:after lsp-mode
