@@ -1207,7 +1207,7 @@ Idea taken from [[http://howardism.org/Technical/Emacs/templates-tutorial.html][
 (setq treesit-font-lock-level 4)
 #+END_SRC
 ** Doom-theme
-I like how Doom looks, but it's way too convoluted for my taste, so I just grab their theme
+I like how Doom looks, but it's way too convoluted for my taste, so I just grab their theme.
 #+BEGIN_SRC emacs-lisp
   (use-package doom-themes
     :config
@@ -1225,7 +1225,7 @@ background
     (solaire-global-mode 1))
 #+END_SRC
 ** All the icons
-We take advantage of running Emacs as a GUI, and get nice icons for it
+We take advantage of running Emacs as a GUI, and get nice icons for it.
 #+BEGIN_SRC emacs-lisp
   (use-package all-the-icons
     :init
@@ -1241,7 +1241,7 @@ We take advantage of running Emacs as a GUI, and get nice icons for it
     (all-the-icons-completion-mode))
 #+END_SRC
 ** Doom-modeline
-Nice replacement for default mode line
+Nice replacement for default mode line.
 #+BEGIN_SRC emacs-lisp
   (use-package doom-modeline
     :hook (after-init . doom-modeline-mode)
@@ -1257,7 +1257,7 @@ Nice replacement for default mode line
 #+END_SRC
 
 ** Cursor colors
-Adds visual aid to the modeline to know which mode I'm in
+Adds visual aid to the modeline to know which mode I'm in.
 #+BEGIN_SRC emacs-lisp
   (setq evil-emacs-state-cursor '("red" bar))
   (setq evil-normal-state-cursor '("skyblue2" box))
@@ -1268,19 +1268,19 @@ Adds visual aid to the modeline to know which mode I'm in
 #+END_SRC
 
 ** Rainbow-delimiters
-Visual aid to know which parenthesis is paired to which
+Visual aid to know which parenthesis is paired to which.
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
     :hook (prog-mode . rainbow-delimiters-mode))
 #+END_SRC
 
 ** Show-paren
-Highlight matching parenthesis on selection
+Highlight matching parenthesis on selection.
 #+BEGIN_SRC emacs-lisp
   (show-paren-mode t)
 #+END_SRC
 ** Indent guides
-Visual aid for indentation
+Visual aid for indentation.
 #+BEGIN_SRC emacs-lisp
   (use-package highlight-indent-guides
     :custom
@@ -1293,12 +1293,14 @@ Visual aid for indentation
 #+END_SRC
 
 ** Line highlight
-Highlights current line to aid with quick cursor finding
+Highlights current line to aid with quick cursor finding.
 #+BEGIN_SRC emacs-lisp
   (global-hl-line-mode t)
 #+END_SRC
 ** Pretty symbols
-In emacs 24.4 we got prettify-symbols-mode which replaces things like lambda with λ. This can help make the code easier to read. The inhibit-compacting-font-caches stops garbage collect from trying to handle font caches which makes things a lot faster and saves us ram.
+In emacs 24.4 we got prettify-symbols-mode which replaces things like lambda with λ. This can help
+make the code easier to read. The inhibit-compacting-font-caches stops garbage collect from trying
+to handle font caches which makes things a lot faster and saves us ram.
 #+BEGIN_SRC emacs-lisp
   (setq prettify-symbols-unprettify-at-point 'right-edge)
   (setq inhibit-compacting-font-caches t)
@@ -1596,7 +1598,8 @@ Take your code for a travel through time (that is incidentally, highly dependant
   (setf (alist-get 'python-ts-mode apheleia-mode-alist)
         '(autoflake ruff-isort ruff))
 #+END_SRC
-*** Enable Venv automatically
+*** Venv management
+**** Enable Venv automatically
 #+BEGIN_SRC emacs-lisp
   (use-package pyvenv-auto
 	:custom
