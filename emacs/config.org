@@ -1605,6 +1605,25 @@ Take your code for a travel through time (that is incidentally, highly dependant
 	:init
 	(add-hook 'pyvenv-post-activate-hooks 'lsp-deferred))
 #+END_SRC
+**** Copy venv over when creating a worktree
+#+BEGIN_SRC emacs-lisp
+  (defun aropie/worktree-link-venv (&rest _)
+    "Give a freshly created worktree the same .venv symlink as the main worktree.
+  `magit-worktree-checkout'/`magit-worktree-branch' end by visiting the new
+  worktree, so here `default-directory' is already the new worktree.  Read the
+  central-venv target from the MAIN worktree's .venv symlink (git lists it first)
+  and recreate it, so `pyvenv-auto' activates and the LSP starts."
+    (when-let* ((main   (caar (magit-list-worktrees)))
+  			  (target (file-symlink-p (expand-file-name ".venv" main)))
+  			  (new    (expand-file-name ".venv" (magit-toplevel))))
+  	(unless (file-exists-p new)
+  	  (make-symbolic-link target new)
+  	  (message "Worktree: linked .venv → %s" target))))
+
+  (advice-add 'magit-worktree-checkout :after #'aropie/worktree-link-venv)
+  (advice-add 'magit-worktree-branch   :after #'aropie/worktree-link-venv)
+
+#+END_SRC
 *** Pytest dispatcher
 #+BEGIN_SRC emacs-lisp
   (use-package python-pytest
