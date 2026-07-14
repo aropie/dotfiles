@@ -842,6 +842,7 @@ for each individual project.
     :custom
     (persp-modestring-short t)
     (persp-suppress-no-prefix-key-warning t)
+    (persp-sort 'access)
     :config
     ;; Make consult filter by perspective
     (with-eval-after-load 'consult
