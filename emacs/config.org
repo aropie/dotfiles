@@ -838,6 +838,7 @@ for each individual project.
   	"<tab>" '("Switch perspective" . persp-switch)
   	"n" '("Switch to next perspective" . persp-next)
   	"p" '("Switch to previous perspective" . persp-prev)
+  	"r" '("Rename perspective" . persp-rename)
   	"k" '("Kill perspective" . persp-kill))
     :custom
     (persp-modestring-short t)
