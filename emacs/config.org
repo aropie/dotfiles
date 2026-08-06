@@ -1566,19 +1566,21 @@ Take your code for a travel through time (that is incidentally, highly dependant
 #+END_SRC
 ** Python
 #+BEGIN_SRC emacs-lisp
-  (use-package python-mode
+  (use-package python
+    :straight nil
+    :init
+    (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
     :hook
     ;; We don't want to add lsp here because we should start lsp AFTER pyvenv kicks in
     (inferior-python-mode . hide-mode-line-mode)
     (python-ts-mode . treesit-fold-mode)
     :config
-    (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
     (setq flycheck-flake8-maximum-line-length 88)
     (setq lsp-clients-python-library-directories '("/usr/" "~/.local/bin/"))
     ;; We want ruff going through flycheck, not LSP
     (setq lsp-disabled-clients '(ruff))
     (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\venv\\'")
-    (add-hook 'python-ts-mode-hook
+    (add-hook 'python-base-mode-hook
   			(lambda ()
   			  (setq indent-tabs-mode nil)
   			  (local-unset-key (kbd "<backspace>"))
@@ -1596,18 +1598,18 @@ Take your code for a travel through time (that is incidentally, highly dependant
         '("isort" "--stdout" "-"))
 
   ;; Define order of formatters execution
-  (setf (alist-get 'python-ts-mode apheleia-mode-alist)
+  (setf (alist-get 'python-base-mode apheleia-mode-alist)
         '(autoflake ruff-isort ruff))
 #+END_SRC
 *** Venv management
 **** Enable Venv automatically
 #+BEGIN_SRC emacs-lisp
   (use-package pyvenv-auto
-	:custom
-	(pyvenv-auto-venv-dirnames '("venv" ".venv"))
-	:hook (python-ts-mode . pyvenv-auto-run)
-	:init
-	(add-hook 'pyvenv-post-activate-hooks 'lsp-deferred))
+  	:custom
+  	(pyvenv-auto-venv-dirnames '("venv" ".venv"))
+  	:hook (python-base-mode . pyvenv-auto-run)
+  	:init
+  	(add-hook 'pyvenv-post-activate-hooks 'lsp-deferred))
 #+END_SRC
 **** Copy venv over when creating a worktree
 #+BEGIN_SRC emacs-lisp
@@ -1633,7 +1635,8 @@ Take your code for a travel through time (that is incidentally, highly dependant
   (use-package python-pytest
     :config
     (my-local-leader
-      :keymaps 'python-mode-map
+      ;; `python-base-mode-map' so this lands in both python-mode and python-ts-mode
+      :keymaps 'python-base-mode-map
       :state 'normal
       "t" 'python-pytest-dispatch))
 #+END_SRC
@@ -1721,7 +1724,7 @@ Take your code for a travel through time (that is incidentally, highly dependant
 #+END_SRC
 *** SVG tags
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'python-ts-mode-hook
+  (add-hook 'python-base-mode-hook
             (lambda ()
               (setq svg-tag-tags
                     '(("# TODO[([:alpha:][:blank:])]*[\b:]*" .
@@ -1741,7 +1744,7 @@ Take your code for a travel through time (that is incidentally, highly dependant
 
 *** Pretty symbols
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'python-ts-mode-hook
+  (add-hook 'python-base-mode-hook
             (lambda ()
               (push '("def"    . ?ƒ) prettify-symbols-alist)
               (push '("sum"    . ?Σ) prettify-symbols-alist)
