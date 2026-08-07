@@ -271,7 +271,7 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~.
     "u" '("Sudo find file (TBD)" t . :ignore)
     "U" '("Sudo this file (TBD)" t . :ignore))
   (my-leader
-    "SPC" '("Find file in project" . projectile-find-file)
+    "SPC" '("Find file in project" . project-find-file)
     "." '("Find file" . find-file)
     "," '("Switch to buffer" . switch-to-buffer))
 #+END_SRC
@@ -435,33 +435,15 @@ A mode to enbiggen font for presentations and screen sharing.
       :infix my/toggle-prefix
       "p" '("Presentation mode" . presentation-mode)))
 #+END_SRC
-** Projectile
-Projectile's really cool. Very nice project management.
+** Project
 #+BEGIN_SRC emacs-lisp
-  (use-package projectile
-    :custom
-    (projectile-indexing-method 'alien)
-    (projectile-completion-system 'auto)
-    (projectile-enable-caching t)
+  (use-package project
+    :straight nil
     :general
     (my-leader
       :infix "p"
       "" '(:ignore t :which-key "Project")
-  	"p" '("Switch project" . projectile-switch-project)
-      "f" '("Find file" . projectile-find-file)
-      "F" '("Find file (other window)" . projectile-find-file-other-window)
-      "b" '("Switch to buffer" . projectile-switch-to-buffer)
-      "B" '("Switch to buffer (other window)" . projectile-switch-to-buffer-other-window)
-      "k" '("Kill all project buffers" . projectile-kill-buffers)
-      "t" '("Toggle between test and implementation" . projectile-toggle-between-implementation-and-test)
-      "T" '("Run project's tests" . projectile-test-project)
-      "a" '("Add bookmark to project" . projectile-add-known-project)
-      "r" '("Replace in project" . projectile-replace)
-      "c" '("Clear project's cache" . projectile-invalidate-cache)
-      "s" '("Search in project" . consult-ripgrep))
-    :config
-    (add-to-list 'projectile-globally-ignored-directories ".venv")
-    (projectile-mode t))
+      "s" '("Search in project" . consult-ripgrep)))
 #+END_SRC
 ** Dumb-jump
 Jumping to definitions made simple.
