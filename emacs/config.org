@@ -1038,116 +1038,43 @@ Add a fun parrot to the modeline. Also, rotates words.
     (define-key evil-normal-state-map (kbd "]r") 'parrot-rotate-next-word-at-point))
 #+END_SRC
 * Completion
-** LSP
+** Eglot
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :hook (lsp-mode . lsp-enable-which-key-integration)
-    :custom
-    (lsp-headerline-breadcrumb-segments '(project file symbols))
-    (lsp-headerline-breadcrumb-enable t)
-    (lsp-enable-symbol-highlighting t)
-    (lsp-lens-enable t)
-    (lsp-eldoc-enable-hover t)
-    (lsp-modeline-diagnostics-enable t)
-    (lsp-diagnostics-provider :flycheck)
-    (lsp-signature-render-documentation nil)
-    (lsp-log-io nil)
-    (lsp-use-plists t)
-    (lsp-file-watch-threshold 8000)
-    (lsp-disabled-clients '(ruff))
-    :commands lsp
+  (use-package eglot
+    :straight nil
+    :init
+    (defun my/eglot-init ()
+  	(eglot-inlay-hints-mode -1))
+    :hook (eglot-managed-mode . my/eglot-init)
     :config
-    (general-define-key
-     :states 'normal
-     "gD" 'lsp-find-references)
+    ;; Put ty at the top of the list as LSP server
+    (add-to-list 'eglot-server-programs
+  			   '((python-mode python-ts-mode) . ("ty" "server")))
     (my-leader
   	:infix "c"
   	"" '(:ignore t :which-key "Code")
-  	"d" '("Debug session" . dap-hydra)
-  	"r" '("Rename symbol" . lsp-rename))
-
-    (defun my/lsp-setup-xref-fallback ()
-      "Ensure dumb-jump is available as xref fallback after LSP."
-      (add-hook 'xref-backend-functions #'dumb-jump-xref-activate nil t))
-
-    (add-hook 'lsp-after-open-hook #'my/lsp-setup-xref-fallback))
-
-  (use-package lsp-ui
-    :custom
-    (lsp-ui-doc-enable t)
-    (lsp-ui-doc-position 'at-point)
-    (lsp-ui-doc-include-signature t)
-    (lsp-ui-sideline-enable t)
-    :hook (lsp-mode . lsp-ui-doc-mode)
-    :config
-    (my-leader
-      :infix "c"
-      "i" '("imenu" . lsp-ui-imenu))
-    (my-leader
-  	:infix my/toggle-prefix
-  	"b" '("Breadcrumb" . lsp-headerline-breadcrumb-mode))
-    (general-define-key
-     :keymaps '(override lsp-ui-mode-map)
-     :states 'normal
-     "K" 'lsp-ui-doc-glance
-     "<backtab>" 'lsp-ui-doc-focus-frame)
-    (general-define-key
-     :states 'normal
-     :keymaps 'lsp-ui-doc-frame-mode-map
-     "q" 'lsp-ui-doc-hide))
-#+END_SRC
-*** LSP booster
-#+BEGIN_SRC emacs-lisp
-  (defun lsp-booster--advice-json-parse (old-fn &rest args)
-    "Try to parse bytecode instead of json."
-    (or
-     (when (equal (following-char) ?#)
-  	 (let ((bytecode (read (current-buffer))))
-  	   (when (byte-code-function-p bytecode)
-  		 (funcall bytecode))))
-     (apply old-fn args)))
-  (advice-add (if (progn (require 'json)
-  					   (fboundp 'json-parse-buffer))
-  				'json-parse-buffer
-  			  'json-read)
-  			:around
-  			#'lsp-booster--advice-json-parse)
-
-  (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-    "Prepend emacs-lsp-booster command to lsp CMD."
-    (let ((orig-result (funcall old-fn cmd test?)))
-      (if (and (not test?)                             ;; for check lsp-server-present?
-               (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-               lsp-use-plists
-               (not (functionp 'json-rpc-connection))  ;; native json-rpc
-               (executable-find "emacs-lsp-booster"))
-          (progn
-    	(when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
-              (setcar orig-result command-from-exec-path))
-    	(message "Using emacs-lsp-booster for %s!" orig-result)
-    	(cons "emacs-lsp-booster" orig-result))
-    	orig-result)))
-  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+  	"r" '("Rename symbol" . eglot-rename)))
 #+END_SRC
 ** Company
 My choice for auto-completion.
 #+BEGIN_SRC emacs-lisp
   (use-package company
-	:after lsp-mode
-	:hook (prog-mode . company-mode)
-	:custom
-	(company-begin-commands '(self-insert-command))
-	(company-idle-delay 0.0)
-	(company-minimum-prefix-length 1)
-	(company-show-numbers t)
-	(company-dabbrev-code-everywhere t)
-	(company-dabbrev-code-other-buffers t)
-	(company-dabbrev-downcase nil)
-	(company-dabbrev-ignore-case t)
-	(company-tooltip-align-annotations t)
-	(company-show-quick-access t)
-	:config
-	(company-tng-configure-default))
+  	:after lsp-mode
+  	:hook (prog-mode . company-mode)
+  	:custom
+  	(company-begin-commands '(self-insert-command))
+  	(company-idle-delay 0.0)
+  	(company-minimum-prefix-length 1)
+  	(company-show-numbers t)
+  	(company-dabbrev-code-everywhere t)
+  	(company-dabbrev-code-other-buffers t)
+  	(company-dabbrev-downcase nil)
+  	(company-dabbrev-ignore-case t)
+  	(company-tooltip-align-annotations t)
+  	(company-show-quick-access t)
+  	(custom-add-dependencies)
+  	:config
+  	(company-tng-configure-default))
 #+END_SRC
 *** Company box
 #+BEGIN_SRC emacs-lisp
@@ -1592,7 +1519,7 @@ Take your code for a travel through time (that is incidentally, highly dependant
   	(pyvenv-auto-venv-dirnames '("venv" ".venv"))
   	:hook (python-base-mode . pyvenv-auto-run)
   	:init
-  	(add-hook 'pyvenv-post-activate-hooks 'lsp-deferred))
+  	(add-hook 'pyvenv-post-activate-hooks 'eglot-ensure))
 #+END_SRC
 **** Copy venv over when creating a worktree
 #+BEGIN_SRC emacs-lisp
