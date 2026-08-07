@@ -46,7 +46,7 @@ Move backups to their respective path in ~no-littering~ dir
 I really dislike ~custom~ writing on ~init.el~ without my permission, so I disable it
 altogether. Everything should be declared in ~config.org~
 #+BEGIN_SRC emacs-lisp
-  (setq custom-file null-device)
+  (setq custom-file nil)
 #+END_SRC
 ** Enable narrow mode
 Narrow mode is disabled by default, but I like to use it from time to time
