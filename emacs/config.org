@@ -765,6 +765,163 @@ Improved PDF viewing.
                                      (read-directory-name "Run claude in: "))))
           (eat "claude")))))
 #+END_SRC
+*** Claude agents
+Monitor every running Claude Code session at once. Claude Code keeps a live registry under
+=~/.claude/sessions/=, one JSON file per session, holding its status and what it is waiting on.
+Eat runs claude as a direct child of Emacs, so a terminal buffer's process id is the same pid
+Claude Code records, which is what lets =RET= jump straight to the right perspective.
+#+BEGIN_SRC emacs-lisp
+  (defvar my/claude-sessions-directory "~/.claude/sessions/"
+    "Directory where Claude Code writes one JSON file per running session.")
+
+  (defvar my/claude-agents-buffer-name "*Claude Agents*")
+
+  (defvar my/claude-agents-refresh-seconds 5)
+
+  (defvar my/claude-agents--timer nil)
+
+  (defun my/claude-agents--terminal-pids ()
+    "Alist of (PID . BUFFER) for every Claude terminal buffer.
+  Eat runs claude as a direct child of Emacs, so a buffer's process id is
+  the same pid Claude Code records in its session files."
+    (delq nil
+          (mapcar (lambda (buffer)
+                    (when-let* (((string-prefix-p "*Claude term - " (buffer-name buffer)))
+                                (process (get-buffer-process buffer)))
+                      (cons (process-id process) buffer)))
+                  (buffer-list))))
+
+  (defun my/claude-agents--perspective (buffer)
+    "Return the perspective name encoded in BUFFER's name."
+    (let ((name (buffer-name buffer)))
+      (when (string-match "\\`\\*Claude term - \\(.*\\)\\*\\'" name)
+        (match-string 1 name))))
+
+  (defun my/claude-agents--alive-p (pid)
+    (when-let* ((attributes (process-attributes pid))
+                (args (alist-get 'args attributes)))
+      (string-match-p "claude" args)))
+
+  (defun my/claude-agents--sessions ()
+    (let (sessions)
+      (when (file-directory-p my/claude-sessions-directory)
+        (dolist (file (directory-files my/claude-sessions-directory t "\\.json\\'"))
+          (when-let* ((session (ignore-errors
+                                 (with-temp-buffer
+                                   (insert-file-contents file)
+                                   (json-parse-buffer :object-type 'alist
+                                                      :null-object nil
+                                                      :false-object nil))))
+                      (pid (alist-get 'pid session))
+                      ((my/claude-agents--alive-p pid)))
+            (push session sessions))))
+      sessions))
+
+  (defun my/claude-agents--rank (status)
+    (cond ((member status '("waiting" "blocked")) 0)
+          ((equal status "idle") 1)
+          ((equal status "busy") 3)
+          (t 2)))
+
+  (defun my/claude-agents--format-age (seconds)
+    (cond ((< seconds 60) (format "%ds" seconds))
+          ((< seconds 3600) (format "%dm" (/ seconds 60)))
+          ((< seconds 86400) (format "%dh%02dm" (/ seconds 3600) (% (/ seconds 60) 60)))
+          (t (format "%dd" (/ seconds 86400)))))
+
+  (defun my/claude-agents--face (status seconds)
+    (cond ((member status '("waiting" "blocked")) 'error)
+          ((and (equal status "idle") (< seconds 1800)) 'success)
+          ((equal status "idle") 'shadow)
+          (t 'font-lock-comment-face)))
+
+  (defun my/claude-agents--truncate (string width)
+    (truncate-string-to-width (or string "") width nil nil t))
+
+  (defun my/claude-agents--entries ()
+    (let ((terminals (my/claude-agents--terminal-pids))
+          (now (float-time)))
+      (mapcar
+       (lambda (session)
+         (let* ((pid (alist-get 'pid session))
+                (status (or (alist-get 'status session) "unknown"))
+                (changed (or (alist-get 'statusUpdatedAt session)
+                             (alist-get 'startedAt session)))
+                (seconds (if changed (max 0 (floor (- now (/ changed 1000.0)))) 0))
+                (buffer (alist-get pid terminals)))
+           (list pid
+                 (vector (propertize status 'face (my/claude-agents--face status seconds))
+                         (my/claude-agents--format-age seconds)
+                         (my/claude-agents--truncate
+                          (and buffer (my/claude-agents--perspective buffer)) 33)
+                         (my/claude-agents--truncate (alist-get 'name session) 23)
+                         (my/claude-agents--truncate (alist-get 'waitingFor session) 17)
+                         (abbreviate-file-name (or (alist-get 'cwd session) ""))))))
+       (sort (my/claude-agents--sessions)
+             (lambda (a b)
+               (let ((rank-a (my/claude-agents--rank (alist-get 'status a)))
+                     (rank-b (my/claude-agents--rank (alist-get 'status b))))
+                 (if (= rank-a rank-b)
+                     (> (or (alist-get 'statusUpdatedAt a) 0)
+                        (or (alist-get 'statusUpdatedAt b) 0))
+                   (< rank-a rank-b))))))))
+
+  (defun my/claude-agents-visit ()
+    "Switch to the perspective and terminal of the agent at point."
+    (interactive)
+    (let* ((pid (tabulated-list-get-id))
+           (buffer (alist-get pid (my/claude-agents--terminal-pids))))
+      (unless buffer
+        (user-error "No Emacs terminal for pid %s" pid))
+      (when-let* ((perspective (my/claude-agents--perspective buffer)))
+        (unless (equal perspective (persp-current-name))
+          (persp-switch perspective)))
+      (pop-to-buffer buffer)))
+
+  (defun my/claude-agents--refresh ()
+    (if-let* ((buffer (get-buffer my/claude-agents-buffer-name)))
+        (when (get-buffer-window buffer t)
+          (with-current-buffer buffer
+            (tabulated-list-print t t)))
+      (when (timerp my/claude-agents--timer)
+        (cancel-timer my/claude-agents--timer))
+      (setq my/claude-agents--timer nil)))
+
+  (define-derived-mode my/claude-agents-mode tabulated-list-mode "Claude Agents"
+    "Major mode for monitoring running Claude Code sessions."
+    (setq tabulated-list-format [("State" 9 t)
+                                 ("Time" 6 nil)
+                                 ("Perspective" 34 t)
+                                 ("Agent" 24 t)
+                                 ("Waiting for" 18 nil)
+                                 ("Directory" 0 t)])
+    (setq tabulated-list-entries #'my/claude-agents--entries)
+    (tabulated-list-init-header))
+
+  (keymap-set my/claude-agents-mode-map "RET" #'my/claude-agents-visit)
+
+  (with-eval-after-load 'evil
+    (evil-define-key '(normal motion) my/claude-agents-mode-map
+      (kbd "RET") #'my/claude-agents-visit))
+
+  (defun my/claude-agents ()
+    "List running Claude Code agents and jump to the one needing attention."
+    (interactive)
+    (let ((buffer (get-buffer-create my/claude-agents-buffer-name)))
+      (with-current-buffer buffer
+        (unless (derived-mode-p 'my/claude-agents-mode)
+          (my/claude-agents-mode))
+        (tabulated-list-print))
+      (unless (timerp my/claude-agents--timer)
+        (setq my/claude-agents--timer
+              (run-at-time my/claude-agents-refresh-seconds
+                           my/claude-agents-refresh-seconds
+                           #'my/claude-agents--refresh)))
+      (pop-to-buffer buffer)))
+
+  (my-leader :infix my/code-prefix
+    "a" '("Claude agents" . my/claude-agents))
+#+END_SRC
 ** Popwin
 Make pop-up windows behave correctly. This has pretty sane defaults, but I also set some other
 buffer types to be treated as pop-up windows. Those configurations are set at their respective
