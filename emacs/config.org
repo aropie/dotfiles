@@ -314,7 +314,7 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~.
     "a" '("Apropos" . info-apropos)
     "k" '("Key" . describe-key)
     "f" '("Function" . describe-function)
-    "m" '("Mode" . describe-mode)
+    "m" '("Manual" . info-display-manual)
     "s" '("Symbol" . info-lookup-symbol)
     "b" '("Bindings" . describe-bindings)
     "B" '("Personal bindings" . general-describe-keybindings)
@@ -1881,6 +1881,18 @@ Take your code for a travel through time (that is incidentally, highly dependant
   						'(:key "' <x>" :description "Goto mark")
   						'(:key "\" <x>" :description "Store in register. In normal/visual mode")
   						'(:key "C-r <x>" :description "Paste from register. In insert mode"))
+
+    (cheatsheet-add-group "Info mode"
+  						'(:key "i" :description "Index search within this manual")
+  						'(:key "I" :description "Virtual index: every match collected in one node")
+  						'(:key "s" :description "Full-text search across all nodes of the manual")
+  						'(:key "a" :description "info-apropos, across all manuals")
+  						'(:key "g," :description "Jump to next index match")
+  						'(:key "u" :description "Up to parent node")
+  						'(:key "gj / gk" :description "Next / previous sibling node")
+  						'(:key "C-j / C-k" :description "Forward / backward through the whole manual")
+  						'(:key "gt / gT" :description "Top node / table of contents")
+  						'(:key "C-o / C-i" :description "History back / forward"))
 
     (cheatsheet-add-group "Common"
   						'(:key "s" :description "snipe")
