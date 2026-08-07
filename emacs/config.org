@@ -311,10 +311,11 @@ Manage all the keybindings through ~general~ and ~hydra~ à la ~spacemacs~.
 #+BEGIN_SRC emacs-lisp
   (my-leader
     :infix my/help-prefix
-    "a" '("Apropos" . apropos-command)
+    "a" '("Apropos" . info-apropos)
     "k" '("Key" . describe-key)
     "f" '("Function" . describe-function)
     "m" '("Mode" . describe-mode)
+    "s" '("Symbol" . info-lookup-symbol)
     "b" '("Bindings" . describe-bindings)
     "B" '("Personal bindings" . general-describe-keybindings)
     "v" '("Variable" . describe-variable))
