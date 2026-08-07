@@ -100,7 +100,7 @@ I like being able to see my wallpaper, even if it's only a little bit.
 ** Disable cursors in other windows
 I find it confusing having cursors on every window, so I just remove inactive ones.
 #+BEGIN_SRC emacs-lisp
-  (setq cursor-in-non-selected-windows nil)
+  (setq-default cursor-in-non-selected-windows nil)
 #+END_SRC
 ** Help
 When opening a help window, always and move focus to it.
