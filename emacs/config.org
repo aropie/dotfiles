@@ -1122,6 +1122,8 @@ I like how Doom looks, but it's way too convoluted for my taste, so I just grab 
 #+BEGIN_SRC emacs-lisp
   (use-package doom-themes
     :config
+    ;; Remove this in the future when doom-themes doesn't conflict with Emacs 32
+    (face-spec-set 'gnus-group-news-low '((t (:weight bold))) 'face-defface-spec)
     (load-theme 'doom-one t)
     (doom-themes-org-config))
 #+END_SRC
