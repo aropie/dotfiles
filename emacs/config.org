@@ -1659,18 +1659,20 @@ Take your code for a travel through time (that is incidentally, highly dependant
 #+END_SRC
 *** Autoformat
 #+BEGIN_SRC emacs-lisp
-  ;; Add autoflake as an Apheleia formatter
-  (add-to-list 'apheleia-formatters '(autoflake . ("autoflake" "-")))
+  ;; Ruff reads pyproject.toml fine over stdin but it deliberately ignores `exclude'/`extend-exclude'
+  ;; for stdin input unless `--force-exclude' is passed, which Apheleia's stock recipes omits.
+  (setf (alist-get 'ruff apheleia-formatters)
+        '("ruff" "format" "--silent" "--force-exclude" "--stdin-filename" filepath "-"))
 
-  ;; Configure autoflake independently of it being added as a formatter
-  (setf (alist-get 'autoflake apheleia-formatters)
-        '("autoflake" "--remove-all-unused-imports" "-"))
-  (setf (alist-get 'isort apheleia-formatters)
-        '("isort" "--stdout" "-"))
+  ;; Rule I sorts imports and F401 drops unused ones
+  (setf (alist-get 'ruff-fix apheleia-formatters)
+        '("ruff" "check" "-n" "--select" "I,F401" "--fix-only"
+  		"--force-exclude" "--stdin-filename" filepath "-"))
 
-  ;; Define order of formatters execution
-  (setf (alist-get 'python-base-mode apheleia-mode-alist)
-        '(autoflake ruff-isort ruff))
+  (setf (alist-get 'python-ts-mode apheleia-mode-alist)
+        '(ruff-fix ruff))
+  (setf (alist-get 'python-mode apheleia-mode-alist)
+        '(ruff-fix ruff))
 #+END_SRC
 *** Venv management
 **** Enable Venv automatically
