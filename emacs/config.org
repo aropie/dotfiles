@@ -441,6 +441,7 @@ A mode to enbiggen font for presentations and screen sharing.
     (my-leader
       :infix "p"
       "" '(:ignore t :which-key "Project")
+  	"p" '("Switch project" . project-switch-project)
       "s" '("Search in project" . consult-ripgrep)))
 #+END_SRC
 ** Dumb-jump
@@ -969,6 +970,7 @@ for each individual project.
 #+BEGIN_SRC emacs-lisp
   (use-package perspective
     :init (persp-mode 1)
+    :custom (persp-show-modestring 'header)
     :general
     (my-leader
   	:infix "<tab>"
