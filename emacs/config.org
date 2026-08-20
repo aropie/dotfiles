@@ -1637,6 +1637,8 @@ Take your code for a travel through time (that is incidentally, highly dependant
 #+BEGIN_SRC emacs-lisp
   (use-package python
     :straight nil
+    :custom
+    (python-fill-docstring-style 'symmetric)
     :init
     (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
     :hook
