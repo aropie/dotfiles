@@ -1183,7 +1183,10 @@ Enable automativ pairing of delimiters (parenthesis, brackets, etc).
 Syntax checker and linter on the fly.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :init (global-flycheck-mode))
+    :hook ((after-init . global-flycheck-mode)
+  		 (after-init . global-flycheck-annotate-mode))
+    :config
+    (global-flycheck-eglot-mode 1))
 
 #+END_SRC
 ** Apheleia
@@ -1236,7 +1239,6 @@ Add a fun parrot to the modeline. Also, rotates words.
 My choice for auto-completion.
 #+BEGIN_SRC emacs-lisp
   (use-package company
-  	:after lsp-mode
   	:hook (prog-mode . company-mode)
   	:custom
   	(company-begin-commands '(self-insert-command))
@@ -1661,16 +1663,11 @@ Take your code for a travel through time (that is incidentally, highly dependant
     (python-fill-docstring-style 'symmetric)
     :init
     (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
+    ;; We don't want to add eglot here because we should start eglot AFTER pyvenv kicks in
     :hook
-    ;; We don't want to add lsp here because we should start lsp AFTER pyvenv kicks in
-    (inferior-python-mode . hide-mode-line-mode)
-    (python-ts-mode . treesit-fold-mode)
+    ((inferior-python-mode . hide-mode-line-mode)
+     (python-ts-mode . treesit-fold-mode))
     :config
-    (setq flycheck-flake8-maximum-line-length 88)
-    (setq lsp-clients-python-library-directories '("/usr/" "~/.local/bin/"))
-    ;; We want ruff going through flycheck, not LSP
-    (setq lsp-disabled-clients '(ruff))
-    (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\venv\\'")
     (add-hook 'python-base-mode-hook
   			(lambda ()
   			  (setq indent-tabs-mode nil)
@@ -1700,7 +1697,7 @@ Take your code for a travel through time (that is incidentally, highly dependant
   (use-package pyvenv-auto
   	:custom
   	(pyvenv-auto-venv-dirnames '("venv" ".venv"))
-  	:hook (python-base-mode . pyvenv-auto-run)
+  	:hook (python-ts-mode . pyvenv-auto-run)
   	:init
   	(add-hook 'pyvenv-post-activate-hooks 'eglot-ensure))
 #+END_SRC
