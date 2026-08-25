@@ -990,7 +990,27 @@ for each individual project.
   	(consult-customize consult-source-buffer :hidden t :default nil)
   	(add-to-list 'consult-buffer-sources persp-consult-source)))
 #+END_SRC
+** Eldoc
+#+BEGIN_SRC emacs-lisp
+  (use-package eldoc
+    :straight nil
+    :custom (eldoc-echo-area-use-multiline-p 2))
+#+END_SRC
 * Editing
+** Editorconfig mode
+From Emacs manual:
+#+BEGIN_QUOTE
+The EditorConfig standard (https://editorconfig.org/) is an alternative to the ‘.dir-locals.el’
+files, which can control only a very small number of variables, but has the advantage of being
+editor-neutral, not specific to Emacs.  Those settings are stored in files named ‘.editorconfig’,
+and affect the files in that directory and its subdirectories.
+#+END_QUOTE
+
+#+BEGIN_SRC emacs-lisp
+  (use-package editorconfig
+    :straight nil
+    :hook (prog-mode . editorconfig-mode))
+#+END_SRC
 ** Indentation
 *** Tabs
 **** Use tabs (almost) always
