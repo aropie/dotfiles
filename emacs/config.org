@@ -1343,9 +1343,27 @@ Nice replacement for default mode line.
   	(nerd-icons-install-fonts t))
     :custom
     (doom-modeline-buffer-file-name-style 'relative-to-project)
+    (doom-modeline-buffer-file-truename-function (lambda (_truename) buffer-file-name))
     :config
     (set-face-attribute 'doom-modeline-evil-normal-state nil :foreground "skyblue2")
     (set-face-attribute 'doom-modeline-evil-insert-state nil :foreground "green"))
+#+END_SRC
+
+** Breadcrumb
+Header line showing where point is inside the file: the imenu path, which Eglot
+enriches in Python buffers.  =breadcrumb-mode= would also prepend the project-relative
+file path, but the mode line already shows that, so only the imenu crumbs go in the
+header line.
+#+BEGIN_SRC emacs-lisp
+  (use-package breadcrumb
+    :hook (prog-mode . my/breadcrumb-imenu-header-line)
+    :custom (breadcrumb-imenu-max-length 0.6)
+    :config
+    ;; Defined here so the hook autoloads breadcrumb before the header line renders.
+    (defun my/breadcrumb-imenu-header-line ()
+      "Show only the imenu crumbs in the header line, no project/file path."
+      (when buffer-file-name
+        (setq-local header-line-format '((:eval (breadcrumb-imenu-crumbs)))))))
 #+END_SRC
 
 ** Cursor colors
