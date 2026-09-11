@@ -1623,7 +1623,6 @@ Git porcelain inside Emacs. Git turned into loving hugs and kisses
     ;; Don't display parent/related refs in commit buffers; they are rarely
     ;; helpful and only add to runtime costs.
     (magit-revision-insert-related-refs nil)
-    (magit-commit-show-diff nil)
     (magit-refresh-status-buffer nil)    ;; don't auto-refresh after every operation
     (magit-diff-highlight-hunk-body nil) ;; skip expensive hunk highlighting
     (magit-status-show-hashes-in-headers nil)
@@ -1638,7 +1637,9 @@ Git porcelain inside Emacs. Git turned into loving hugs and kisses
     (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-pushremote)
     (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-pushremote)
     (remove-hook 'magit-status-sections-hook 'magit-insert-unpulled-from-upstream)
-    (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent))
+    (remove-hook 'magit-status-sections-hook 'magit-insert-unpushed-to-upstream-or-recent)
+    ;; Show worktrees in status screen
+    (magit-add-section-hook 'magit-status-sections-hook #'magit-insert-worktrees nil t))
 #+END_SRC
 ** Timemachine
 Take your code for a travel through time (that is incidentally, highly dependant on your commits)
