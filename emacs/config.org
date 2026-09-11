@@ -985,6 +985,11 @@ for each individual project.
     (persp-suppress-no-prefix-key-warning t)
     (persp-sort 'access)
     :config
+    ;; `persp-rename' reads a bare string, so renaming means retyping the whole
+    ;; name.  Pre-fill the current name as initial input to tweak it or add a suffix.
+    (define-advice persp-rename (:around (orig name) my/prefill-current-name)
+      (interactive (list (read-string "New name: " (persp-current-name))))
+      (funcall orig name))
     ;; Make consult filter by perspective
     (with-eval-after-load 'consult
   	(consult-customize consult-source-buffer :hidden t :default nil)
