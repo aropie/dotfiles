@@ -1429,14 +1429,6 @@ These symbols are the basics I like enabled for all ~prog-mode~ modes.
               (push '(">=" . ?≥) prettify-symbols-alist)
               (push '("=>" . ?⇒) prettify-symbols-alist)))
 #+END_SRC
-** Nyan mode
-#+BEGIN_SRC emacs-lisp
-  (use-package nyan-mode
-    :custom (nyan-wavy-trail t)
-    :config
-    (nyan-mode)
-    (nyan-start-animation))
-#+END_SRC
 ** Visual fill column
 #+BEGIN_SRC emacs-lisp
   (use-package visual-fill-column
@@ -2022,6 +2014,20 @@ Take your code for a travel through time (that is incidentally, highly dependant
 **** Ledger Flycheck
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck-ledger)
+#+END_SRC
+* Fun & Useless
+** Nyan mode
+#+BEGIN_SRC emacs-lisp
+  (use-package nyan-mode
+    :custom (nyan-wavy-trail t)
+    :config
+    (nyan-mode)
+    (nyan-start-animation))
+#+END_SRC
+** Hackerman
+#+BEGIN_SRC emacs-lisp
+  (use-package hacker-typer
+    :custom (hacker-typer-remove-comments t))
 #+END_SRC
 * Packages to consider
 - https://cestlaz.github.io/post/using-emacs-57-dired-narrow/
