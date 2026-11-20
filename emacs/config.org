@@ -1188,8 +1188,7 @@ Enable automativ pairing of delimiters (parenthesis, brackets, etc).
 Syntax checker and linter on the fly.
 #+BEGIN_SRC emacs-lisp
   (use-package flycheck
-    :hook ((after-init . global-flycheck-mode)
-  		 (after-init . global-flycheck-annotate-mode))
+    :hook ((after-init . global-flycheck-mode))
     :config
     (global-flycheck-eglot-mode 1))
 
