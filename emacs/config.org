@@ -1906,8 +1906,80 @@ Take your code for a travel through time (that is incidentally, highly dependant
 *** Markdown
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
-  :hook (markdown-mode . olivetti-mode)
-  :custom (markdown-command "markdown_py"))
+  :hook ((markdown-mode . olivetti-mode)
+         (markdown-view-mode . my/markdown-view-show-images)
+         (gfm-view-mode . my/markdown-view-show-images))
+  :custom
+  (markdown-command "markdown_py")
+  (markdown-max-image-size '(800 . 800))
+  :init
+  (defun my/markdown-view-show-images ()
+    "Show inline images, and remove them when leaving the view mode."
+    (when (display-images-p)
+      (markdown-display-inline-images)
+      (add-hook 'change-major-mode-hook #'markdown-remove-inline-images nil t)))
+
+  (defun my/markdown-toggle-view-mode ()
+    "Toggle between the Markdown editing mode and its view mode."
+    (interactive)
+    (cond ((derived-mode-p 'gfm-view-mode) (gfm-mode))
+          ((derived-mode-p 'markdown-view-mode) (markdown-mode))
+          ((derived-mode-p 'gfm-mode) (gfm-view-mode))
+          (t (markdown-view-mode)))
+    ;; The view modes turn on `read-only-mode', and switching major mode
+    ;; doesn't turn it off again.
+    (unless (derived-mode-p 'markdown-view-mode 'gfm-view-mode)
+      (read-only-mode (if (and buffer-file-name
+                               (not (file-writable-p buffer-file-name)))
+                          1 -1))))
+
+  ;; markdown-mode can't follow in-document links
+  ;; https://github.com/jrblevin/markdown-mode/pull/900
+  (defun my/markdown-heading-slug (title)
+    "GitHub-style anchor slug for heading TITLE."
+    (let ((s title))
+      (setq s (replace-regexp-in-string "!\\[[^]]*\\]([^)]*)" "" s))
+      (setq s (replace-regexp-in-string "\\[\\([^]]*\\)\\]([^)]*)" "\\1" s))
+      (setq s (downcase (string-trim (replace-regexp-in-string "[*`]" "" s))))
+      (setq s (replace-regexp-in-string "[^[:alnum:] _-]" "" s))
+      (replace-regexp-in-string " " "-" s)))
+
+  (defun my/markdown-follow-anchor (url)
+    "Jump to the heading whose slug matches URL when it is a #fragment link."
+    (when (string-prefix-p "#" url)
+      (let ((target (url-unhex-string (substring url 1)))
+            (seen (make-hash-table :test #'equal))
+            found)
+        (save-excursion
+          (goto-char (point-min))
+          (while (and (not found)
+                      (re-search-forward
+                       "^\\(?:>[ \t]*\\)?#\\{1,6\\} \\(.+?\\)[ \t]*$" nil t))
+            (let* ((base (my/markdown-heading-slug (match-string-no-properties 1)))
+                   (slug base))
+              ;; Duplicate headings get -1, -2, ... like on GitHub.
+              (if (not (gethash base seen))
+                  (puthash base 0 seen)
+                (let ((n (1+ (gethash base seen))))
+                  (while (gethash (format "%s-%d" base n) seen)
+                    (setq n (1+ n)))
+                  (puthash base n seen)
+                  (setq slug (format "%s-%d" base n))
+                  (puthash slug 0 seen)))
+              (when (string= slug target)
+                (setq found (line-beginning-position))))))
+        (unless found
+          (user-error "No heading for anchor %s" url))
+        (when (fboundp 'evil-set-jump) (evil-set-jump))
+        (push-mark)
+        (goto-char found)
+        (recenter 0)
+        t)))
+  :config
+  (add-hook 'markdown-follow-link-functions #'my/markdown-follow-anchor)
+  (my-local-leader
+    :keymaps '(markdown-mode-map markdown-view-mode-map gfm-view-mode-map)
+    "v" '("Toggle view mode" . my/markdown-toggle-view-mode)))
 #+END_SRC
 *** Yaml
 #+BEGIN_SRC emacs-lisp
