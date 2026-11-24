@@ -1510,7 +1510,9 @@ Nice mode for writing text. I enable individual for each environment where I wan
   	(general-define-key
   	 :states 'normal
   	 :keymaps 'org-mode-map
-  	 "TAB" 'org-cycle
+  	 ;; <tab> (the Tab key in GUI frames), not TAB, which is also C-i
+  	 ;; and would shadow evil-jump-forward
+  	 "<tab>" 'org-cycle
   	 "H" 'org-up-element))
 #+END_SRC
 ** Org Roam
