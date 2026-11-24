@@ -1617,6 +1617,9 @@ Nice mode for writing text. I enable individual for each environment where I wan
 Git porcelain inside Emacs. Git turned into loving hugs and kisses
 #+BEGIN_SRC emacs-lisp
   (use-package magit
+    ;; Make SPC translate to - when creating new branches
+    :bind (:map magit-minibuffer-local-ns-map
+  			  ("SPC" . (lambda () (interactive) (insert "-"))))
     :custom
     (transient-default-level 5)
     (magit-diff-refine-hunk t "Show granular diffs in selected hunk")
