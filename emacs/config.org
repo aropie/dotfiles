@@ -79,6 +79,8 @@ MacOs has problems with paths, so we need to add them manually
 Makes Emacs scroll more smoothly.
 #+BEGIN_SRC emacs-lisp
   (setq scroll-conservatively 100)
+  ;; Pixel-wise mouse/trackpad scrolling, so tall images scroll partially
+  (pixel-scroll-precision-mode 1)
 #+END_SRC
 ** Disable ring alert
 I haven't actually experienced the ring alert, but people often say it's quite annoying, so better
@@ -1752,14 +1754,6 @@ Take your code for a travel through time (that is incidentally, highly dependant
     Set per-project via .dir-locals.el."
       (concat "django" "manage.py" "test %s'"))
   (put 'my/django-test-command 'safe-local-variable #'stringp)
-
-  (defun my/django-test--module-path ()
-      "Get the dotted module path for the current buffer."
-      (replace-regexp-in-string
-       "/" "."
-       (replace-regexp-in-string
-        "\\.py$" ""
-        (file-relative-name (buffer-file-name) (projectile-project-root)))))
 
   (defun my/django-test--enclosing-node (type)
     "Find the nearest enclosing tree-sitter node of TYPE from point."
